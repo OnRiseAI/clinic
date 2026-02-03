@@ -36,7 +36,7 @@ export function CostComparison() {
                         <p className="text-lg text-neutral-400 mb-8 leading-relaxed max-w-lg">
                             Compare prices for top procedures like dental veneers, hair transplants, and rhinoplasty across 10+ countries. Get the same quality of care for significantly less.
                         </p>
-                        <Link href="/procedures/dental-veneers">
+                        <Link href="/procedures/veneers">
                             <Button variant="accent" size="lg" className="rounded-xl px-8">
                                 Compare All Costs
                                 <ArrowRight className="h-4 w-4 ml-2" />

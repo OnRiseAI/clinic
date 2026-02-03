@@ -2,8 +2,8 @@
 // STRUCTURED DATA GENERATORS FOR SEO, GEO & AEO
 // =============================================================================
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meditravel.com'
-const SITE_NAME = 'MediTravel'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
+const SITE_NAME = 'Meet Your Clinic'
 
 // =============================================================================
 // ORGANIZATION SCHEMA
@@ -16,7 +16,7 @@ export function generateOrganizationSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    description: 'MediTravel helps patients find world-class healthcare abroad. Compare clinics, read reviews, and get personalized recommendations.',
+    description: 'Meet Your Clinic helps patients find world-class healthcare abroad. Compare clinics, read reviews, and get personalized recommendations.',
     sameAs: [
       'https://twitter.com/meditravel',
       'https://facebook.com/meditravel',

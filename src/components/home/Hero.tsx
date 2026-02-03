@@ -45,11 +45,11 @@ export function Hero() {
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                     >
                         <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-6xl mb-6">
-                            Find World-Class Healthcare. <br className="hidden sm:block" />
-                            <span className="text-primary-600">Anywhere.</span>
+                            Find Accredited Clinics <br className="hidden sm:block" />
+                            <span className="text-primary-600">Worldwide.</span>
                         </h1>
                         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600 sm:text-xl">
-                            Connect with top-rated clinics globally. Your journey to premium, affordable care starts here.
+                            Compare verified clinics and specialists across 20+ countries. Read patient reviews, check credentials, and connect directly.
                         </p>
                     </m.div>
 
@@ -102,7 +102,7 @@ export function Hero() {
                                     size="lg"
                                     className="w-full md:w-auto bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-8 h-12 md:h-12 shadow-lg shadow-primary-600/20"
                                 >
-                                    Search
+                                    Find Clinics & Prices
                                 </Button>
                             </div>
                         </form>
@@ -120,7 +120,7 @@ export function Hero() {
                             <Link
                                 key={search.label}
                                 href={search.href}
-                                className="hover:text-primary-600 transition-colors underline decoration-dotted underline-offset-4"
+                                className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 hover:bg-primary-100 transition-colors"
                             >
                                 {search.label}
                             </Link>

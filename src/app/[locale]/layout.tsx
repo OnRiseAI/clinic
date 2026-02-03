@@ -15,11 +15,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'MediTravel - Premium Healthcare, Worldwide',
-    template: '%s | MediTravel',
+    default: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
+    template: '%s | Meet Your Clinic',
   },
   description:
-    'Discover accredited clinics and experienced doctors across the globe. Compare prices, read reviews, and book your medical journey with confidence.',
+    'Compare accredited clinics and specialists across 20+ countries. Read patient reviews, verify credentials, and connect with trusted medical providers abroad.',
   keywords: [
     'medical tourism',
     'healthcare abroad',
@@ -28,21 +28,21 @@ export const metadata: Metadata = {
     'international healthcare',
     'medical travel',
   ],
-  authors: [{ name: 'MediTravel' }],
-  creator: 'MediTravel',
+  authors: [{ name: 'Meet Your Clinic' }],
+  creator: 'Meet Your Clinic',
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    siteName: 'MediTravel',
-    title: 'MediTravel - Premium Healthcare, Worldwide',
+    siteName: 'Meet Your Clinic',
+    title: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
     description:
-      'Discover accredited clinics and experienced doctors across the globe. Compare prices, read reviews, and book your medical journey with confidence.',
+      'Compare accredited clinics and specialists across 20+ countries. Read patient reviews, verify credentials, and connect with trusted medical providers abroad.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MediTravel - Premium Healthcare, Worldwide',
+    title: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
     description:
-      'Discover accredited clinics and experienced doctors across the globe. Compare prices, read reviews, and book your medical journey with confidence.',
+      'Compare accredited clinics and specialists across 20+ countries. Read patient reviews, verify credentials, and connect with trusted medical providers abroad.',
   },
   robots: {
     index: true,

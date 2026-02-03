@@ -225,12 +225,12 @@ export function DestinationPageClient({
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href={`/search?destination=${destination.slug}`}>
               <Button variant="secondary" size="lg">
-                Find Clinics
+                Browse Clinics
               </Button>
             </Link>
             <Link href="#procedures">
               <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
-                View Procedures
+                View Treatments
               </Button>
             </Link>
           </div>
@@ -462,12 +462,12 @@ export function DestinationPageClient({
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link href={`/search?destination=${destination.slug}`}>
                 <Button variant="secondary" size="lg">
-                  Find Clinics
+                  Browse Clinics
                 </Button>
               </Link>
               <Link href="/contact">
                 <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
-                  Talk to an Expert
+                  Speak to an Advisor
                 </Button>
               </Link>
             </div>

@@ -28,6 +28,22 @@ export function Footer() {
     { name: t('support'), href: '/support' },
   ]
 
+  // High-value SEO links for popular treatments
+  const popularTreatments = [
+    { name: 'Dental Veneers Turkey', href: '/procedures/veneers/turkey' },
+    { name: 'Rhinoplasty Turkey', href: '/procedures/rhinoplasty/turkey' },
+    { name: 'Dental Implants Hungary', href: '/procedures/dental-implants/hungary' },
+    { name: 'Breast Augmentation Turkey', href: '/procedures/breast-augmentation/turkey' },
+    { name: 'Liposuction Poland', href: '/procedures/liposuction/poland' },
+  ]
+
+  const topDestinations = [
+    { name: 'Turkey', href: '/destinations/turkey' },
+    { name: 'Hungary', href: '/destinations/hungary' },
+    { name: 'Poland', href: '/destinations/poland' },
+    { name: 'Spain', href: '/destinations/spain' },
+  ]
+
   const legalLinks = [
     { name: t('privacy'), href: '/privacy' },
     { name: t('terms'), href: '/terms' },
@@ -181,8 +197,42 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Popular Treatments & Destinations - SEO Links */}
         <div className="mt-12 border-t border-neutral-200 pt-8">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <h4 className="text-sm font-semibold text-neutral-900 mb-3">Popular Treatments</h4>
+              <div className="flex flex-wrap gap-2">
+                {popularTreatments.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs text-neutral-500 hover:text-primary-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-neutral-900 mb-3">Top Destinations</h4>
+              <div className="flex flex-wrap gap-4">
+                {topDestinations.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs text-neutral-500 hover:text-primary-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-8 border-t border-neutral-200 pt-8">
           <p className="text-center text-sm text-neutral-400">
             &copy; {currentYear} {tCommon('appName')}. {t('copyright')}
           </p>

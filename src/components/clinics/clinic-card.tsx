@@ -170,12 +170,14 @@ export function ClinicCard({
           {clinic.categories.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5">
               {clinic.categories.slice(0, 3).map((cat) => (
-                <span
+                <Link
                   key={cat.slug}
-                  className="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700"
+                  href={`/${cat.slug}`}
+                  className="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700 hover:bg-primary-100 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {cat.name}
-                </span>
+                </Link>
               ))}
             </div>
           )}
@@ -196,12 +198,12 @@ export function ClinicCard({
           <div className="mt-4 flex gap-2">
             <Link href={`/clinics/${clinic.slug}`} className="flex-1">
               <Button variant="outline" className="w-full" size="sm">
-                View Clinic
+                View Profile
               </Button>
             </Link>
             <Link href={`/clinics/${clinic.slug}#enquiry`} className="flex-1">
               <Button variant="primary" className="w-full" size="sm">
-                Send Enquiry
+                Enquire
               </Button>
             </Link>
           </div>
