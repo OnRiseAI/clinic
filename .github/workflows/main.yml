@@ -1,0 +1,35 @@
+name: Content Automation
+
+on:
+  schedule:
+    # Runs every hour (UTC)
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install imapflow mailparser openai dotenv
+      - name: Create .env.local
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > .env.local
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env.local
+          echo "GMAIL_USER=${{ secrets.GMAIL_USER }}" >> .env.local
+          echo "GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}" >> .env.local
+      - name: Run automation
+        run: node scripts/content-ideas/automation.js
+      - name: Log results
+        if: always()
+        run: |
+          echo "=== Content Automation Complete ==="
+          echo "Check your Supabase database for new content ideas"
