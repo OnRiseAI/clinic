@@ -1,0 +1,200 @@
+# robots.txt for MediTravel
+# Last updated: 2025
+
+# Default rules for all crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+Disallow: /_next/
+Disallow: /auth/
+
+# Sitemap location
+Sitemap: https://meditravel.com/sitemap.xml
+
+# =============================================================================
+# AI CRAWLER PERMISSIONS (GEO - Generative Engine Optimisation)
+# =============================================================================
+
+# OpenAI GPTBot (ChatGPT, GPT-4)
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# OpenAI ChatGPT-User (ChatGPT browsing)
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Google Bard / Gemini
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Common Crawl (used by many AI training datasets)
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Microsoft Bing / Copilot
+User-agent: bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Apple Applebot (Siri, Apple Intelligence)
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# You.com
+User-agent: YouBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# Neeva (now Snowflake)
+User-agent: NeevaBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# =============================================================================
+# TRADITIONAL SEARCH ENGINE CRAWLERS
+# =============================================================================
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Yandex
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /patient/
+Disallow: /clinic-portal/
+
+# =============================================================================
+# BLOCK MALICIOUS / AGGRESSIVE CRAWLERS
+# =============================================================================
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Crawl-delay for non-specified bots (optional, not widely supported)
+# Crawl-delay: 10

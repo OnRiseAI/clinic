@@ -1,0 +1,103 @@
+{
+  "common": {
+    "appName": "MediTravel",
+    "tagline": "Premium Healthcare, Worldwide",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "viewAll": "View all",
+    "learnMore": "Learn more"
+  },
+  "navigation": {
+    "home": "Home",
+    "treatments": "Treatments",
+    "destinations": "Destinations",
+    "clinics": "Clinics",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Log in",
+    "signup": "Sign up",
+    "dashboard": "Dashboard",
+    "account": "Account",
+    "logout": "Log out",
+    "savedClinics": "Saved Clinics"
+  },
+  "hero": {
+    "title": "World-Class Healthcare, Within Reach",
+    "subtitle": "Discover accredited clinics and experienced doctors across the globe. Compare prices, read reviews, and book your medical journey with confidence.",
+    "cta": "Find Your Clinic",
+    "secondaryCta": "How It Works"
+  },
+  "search": {
+    "placeholder": "Search treatments, clinics, or destinations...",
+    "treatmentLabel": "Treatment",
+    "destinationLabel": "Destination",
+    "searchButton": "Search"
+  },
+  "categories": {
+    "title": "Browse by Treatment",
+    "subtitle": "Explore our comprehensive range of medical procedures"
+  },
+  "destinations": {
+    "title": "Popular Destinations",
+    "subtitle": "Top-rated medical tourism destinations worldwide"
+  },
+  "clinics": {
+    "featured": "Featured Clinics",
+    "verified": "Verified",
+    "accredited": "Accredited",
+    "reviews": "reviews",
+    "from": "From",
+    "perProcedure": "per procedure",
+    "viewProfile": "View Profile",
+    "getQuote": "Get Quote",
+    "compare": "Compare",
+    "save": "Save"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to your account to continue",
+    "signupTitle": "Create your account",
+    "signupSubtitle": "Join thousands of patients finding better healthcare abroad",
+    "email": "Email address",
+    "password": "Password",
+    "fullName": "Full name",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "orContinueWith": "Or continue with",
+    "google": "Continue with Google",
+    "termsAgreement": "By signing up, you agree to our Terms of Service and Privacy Policy"
+  },
+  "footer": {
+    "description": "Your trusted partner in medical tourism. We connect patients with world-class healthcare providers across the globe.",
+    "quickLinks": "Quick Links",
+    "treatments": "Treatments",
+    "forClinics": "For Clinics",
+    "claimListing": "Claim your listing",
+    "advertise": "Advertise with us",
+    "partnerPortal": "Partner portal",
+    "resources": "Resources",
+    "patientGuide": "Patient guide",
+    "faq": "FAQ",
+    "support": "Support",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "copyright": "All rights reserved."
+  },
+  "trust": {
+    "jciAccredited": "JCI Accredited Clinics",
+    "verifiedDoctors": "Verified Doctors",
+    "patientReviews": "Patient Reviews",
+    "countriesServed": "Countries Served"
+  }
+}
