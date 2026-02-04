@@ -2,19 +2,23 @@ import Imap from 'imapflow'
 import { simpleParser } from 'mailparser'
 import OpenAI from 'openai'
 import { createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
+
+// Load .env file
+dotenv.config()
 
 // Read from environment variables
 const GMAIL_USER = process.env.GMAIL_USER
 const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseUrl = process.env.SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_ANON_KEY
 
 // Validate required env vars
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase credentials')
-  console.error('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl ? 'set' : 'missing')
-  console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? 'set' : 'missing')
+  console.error('SUPABASE_URL:', supabaseUrl ? 'set' : 'missing')
+  console.error('SUPABASE_ANON_KEY:', supabaseKey ? 'set' : 'missing')
   process.exit(1)
 }
 
@@ -27,6 +31,8 @@ if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
   console.error('Missing Gmail credentials')
   process.exit(1)
 }
+
+console.log('Environment loaded successfully')
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY })
