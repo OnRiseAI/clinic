@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation'
 import { getBlogPost, getRelatedPosts } from '@/lib/data/blog'
 import { BlogCard } from '@/components/blog/blog-card'
 import { TableOfContents } from '@/components/blog/table-of-contents'
-import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
+import { marked } from 'marked'
 import { generateBlogPostMetadata } from '@/lib/seo/metadata'
 import { generateBlogPostSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data'
 import { StructuredData } from '@/components/seo/structured-data-component'
@@ -15,8 +15,6 @@ import {
   Clock,
   ArrowLeft,
   Share2,
-  Copy,
-  Check,
   Twitter,
   Facebook,
   Linkedin
@@ -139,6 +137,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { name: post.title },
   ])
 
+  // Convert markdown to HTML, skipping the first H1 (shown in hero)
+  const contentLines = post.content.split('\n')
+  const firstH1Index = contentLines.findIndex((line: string) => line.trim().startsWith('# '))
+  if (firstH1Index !== -1) contentLines.splice(firstH1Index, 1)
+
+  const rawHtml = marked.parse(contentLines.join('\n')) as string
+
+  // Add IDs to headings for TOC navigation
+  const htmlContent = rawHtml.replace(
+    /<h([2-6])>(.*?)<\/h\1>/g,
+    (_match: string, level: string, text: string) => {
+      const plainText = text.replace(/<[^>]+>/g, '')
+      const id = plainText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+      return `<h${level} id="${id}">${text}</h${level}>`
+    }
+  )
+
   return (
     <>
       <StructuredData data={[blogSchema, breadcrumbSchema]} />
@@ -233,8 +248,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-16">
           {/* Article Content */}
           <article className="mx-auto max-w-3xl lg:mx-0">
-            {/* Content with Markdown Renderer */}
-            <MarkdownRenderer content={post.content} skipFirstH1 />
+            {/* Blog Content */}
+            <div className="blog-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
             {/* Share Section */}
             <div className="mt-12 pt-8 border-t border-neutral-200">
