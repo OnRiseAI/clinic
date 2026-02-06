@@ -5,18 +5,17 @@ import { cn } from '@/lib/utils'
 
 interface BreadcrumbProps {
   className?: string
+  items?: { href: string; label: string; isLast?: boolean }[]
 }
 
-export function Breadcrumb({ className }: BreadcrumbProps) {
+export function Breadcrumb({ className, items: customItems }: BreadcrumbProps) {
   const pathname = usePathname()
 
   // Don't show breadcrumb on homepage
   if (pathname === '/') return null
 
-  const segments = pathname.split('/').filter(Boolean)
-
-  // Build breadcrumb items
-  const items = segments.map((segment, index) => {
+  // Build breadcrumb items if not provided
+  const items = customItems || pathname.split('/').filter(Boolean).map((segment, index, segments) => {
     const href = '/' + segments.slice(0, index + 1).join('/')
     const label = segment
       .split('-')

@@ -1,5 +1,6 @@
 import { setRequestLocale } from 'next-intl/server'
 import { Hero } from '@/components/home/Hero'
+import { StatsBar } from '@/components/home/StatsBar'
 import { TrustBar } from '@/components/home/TrustBar'
 import { HowItWorks } from '@/components/home/HowItWorks'
 import { PopularProcedures } from '@/components/home/PopularProcedures'
@@ -41,14 +42,15 @@ export default async function HomePage({ params }: HomePageProps) {
   )
 
   return (
-    <main className="flex flex-col min-h-screen bg-background text-foreground">
+    <main className="flex flex-col min-h-screen bg-cream text-foreground">
       <StructuredData data={[generateOrganizationSchema(), generateWebsiteSchema(), howToSchema]} />
       <Hero />
+      <StatsBar />
       <TrustBar />
-      <HowItWorks />
       <PopularProcedures />
       <TopDestinations />
       <FeaturedClinics />
+      <HowItWorks />
       <CostComparison />
       <ConciergeCTA />
       <Testimonials />

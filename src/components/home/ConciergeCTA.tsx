@@ -1,71 +1,87 @@
 'use client'
 
-import { m } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Mic, Sparkles, MessageSquare } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export function ConciergeCTA() {
-    return (
-        <section className="py-24 bg-white overflow-hidden">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="relative bg-primary-900 rounded-[2.5rem] p-8 sm:p-16 overflow-hidden">
-                    {/* Decorative Circles */}
-                    <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-primary-800 rounded-full blur-3xl opacity-50" />
-                    <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-accent-600 rounded-full blur-3xl opacity-30" />
-
-                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-                        <div className="max-w-xl text-center md:text-left">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6 backdrop-blur-md border border-white/10">
-                                <Sparkles className="h-4 w-4 text-accent-400" />
-                                <span>AI-Powered Assistance</span>
-                            </div>
-                            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl mb-6">
-                                Not sure where to start? <br />
-                                Talk to our AI Concierge.
-                            </h2>
-                            <p className="text-lg text-primary-100 mb-8 leading-relaxed">
-                                Our advanced AI advisor knows every clinic, treatment, and regulation.
-                                Tell it what you need in plain language and get personalised recommendations instantly.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                <Button size="lg" className="bg-white text-primary-900 hover:bg-primary-50 border-none shadow-xl shadow-black/10 rounded-xl h-14 px-8 text-lg font-semibold group">
-                                    <Mic className="mr-2 h-5 w-5 text-accent-500 group-hover:scale-110 transition-transform" />
-                                    Speak to Advisor
-                                </Button>
-                                <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 rounded-xl h-14 px-8 text-lg">
-                                    <MessageSquare className="mr-2 h-5 w-5" />
-                                    Start Chat
-                                </Button>
-                            </div>
-                        </div>
-
-                        {/* Visual Representation */}
-                        <div className="relative">
-                            <m.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="relative w-64 h-64 sm:w-80 sm:h-80 bg-gradient-to-tr from-white/10 to-white/5 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-center"
-                            >
-                                <div className="absolute inset-4 rounded-full border border-white/10 animate-spin-slow" />
-                                <div className="absolute inset-8 rounded-full border border-white/10 animate-reverse-spin-slow" />
-                                <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-2xl shadow-primary-900/50">
-                                    <Mic className="h-12 w-12 text-primary-600" />
-                                </div>
-
-                                {/* Floating Badges */}
-                                <m.div
-                                    animate={{ x: [0, 10, 0], y: [0, -5, 0] }}
-                                    transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                                    className="absolute -top-4 -right-4 bg-white p-3 rounded-2xl shadow-lg flex items-center gap-2"
-                                >
-                                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                                    <span className="text-sm font-bold text-neutral-800">Online</span>
-                                </m.div>
-                            </m.div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <section className="py-24 sm:py-32 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
+              AI-Powered
+            </p>
+            <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+              Not sure where to start?{' '}
+              <span className="gradient-text">Talk to our AI Concierge</span>
+            </h2>
+            <p className="text-navy/40 max-w-lg leading-relaxed mb-8">
+              Our advanced AI advisor knows every clinic, treatment, and regulation.
+              Tell it what you need in plain language and get personalised
+              recommendations instantly.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                </svg>
+                Speak to Advisor
+              </button>
+              <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 border border-navy/10 text-navy text-sm font-semibold rounded-xl hover:border-navy/20 hover:bg-white transition-all duration-300 tracking-wide">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                </svg>
+                Start Chat
+              </button>
             </div>
-        </section>
-    )
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-white rounded-2xl border border-navy/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden"
+          >
+            {/* Chat header */}
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-navy/[0.04] bg-navy/[0.02]">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-navy">AI Concierge</p>
+                <p className="text-[11px] text-teal">Online</p>
+              </div>
+            </div>
+
+            {/* Chat messages */}
+            <div className="p-6 space-y-4">
+              <div className="flex justify-end">
+                <div className="bg-navy text-white text-sm px-4 py-3 rounded-2xl rounded-br-md max-w-[80%]">
+                  I need dental veneers but I&apos;m not sure which country is best for me.
+                </div>
+              </div>
+              <div className="flex justify-start">
+                <div className="bg-navy/[0.04] text-navy text-sm px-4 py-3 rounded-2xl rounded-bl-md max-w-[80%]">
+                  Based on your budget and preferences, I&apos;d recommend Turkey or Mexico. Turkey offers the best value starting at &euro;280/tooth with JCI-accredited clinics. Shall I show you top-rated options?
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <div className="bg-navy text-white text-sm px-4 py-3 rounded-2xl rounded-br-md max-w-[80%]">
+                  Yes, show me Turkey options!
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
 }
