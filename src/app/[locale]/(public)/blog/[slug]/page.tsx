@@ -1,15 +1,11 @@
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { Breadcrumb } from '@/components/navigation/breadcrumb'
 import { Link } from '@/i18n/navigation'
 import { getBlogPost, getRelatedPosts } from '@/lib/data/blog'
 import { BlogCard } from '@/components/blog/blog-card'
 import { TableOfContents } from '@/components/blog/table-of-contents'
 import { marked } from 'marked'
-import { generateBlogPostMetadata } from '@/lib/seo/metadata'
-import { generateBlogPostSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data'
-import { StructuredData } from '@/components/seo/structured-data-component'
 import {
   Calendar,
   Clock,
@@ -22,7 +18,14 @@ import {
   BookOpen,
   CheckCircle2,
   ExternalLink,
+  Lightbulb,
+  ChevronDown,
+  TrendingUp,
+  Building2,
+  Users,
+  BadgeCheck,
 } from 'lucide-react'
+import type { Metadata } from 'next'
 
 /* ═══════════════════════════════════════════════════════════════════════
    TYPES
@@ -31,10 +34,34 @@ interface BlogPostPageProps {
   params: Promise<{ locale: string; slug: string }>
 }
 
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  content: string
+  image_url: string | null
+  author_name: string | null
+  author_image?: string | null
+  published_at: string
+  updated_at: string
+  reading_time?: number | null
+  category?: string | null
+  category_slug?: string | null
+  meta_title?: string | null
+  meta_description?: string | null
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
-   METADATA
+   SITE CONFIG
    ═══════════════════════════════════════════════════════════════════════ */
-export async function generateMetadata({ params }: BlogPostPageProps) {
+const SITE_URL = 'https://meetyourclinic.com'
+const SITE_NAME = 'MeetYourClinic'
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METADATA (Dynamic per post)
+   ═══════════════════════════════════════════════════════════════════════ */
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
   const post = await getBlogPost(slug)
 
@@ -45,15 +72,182 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     }
   }
 
-  return generateBlogPostMetadata({
-    title: post.meta_title || post.title,
-    slug: post.slug,
-    excerpt: post.meta_description || post.excerpt,
-    imageUrl: post.image_url,
-    authorName: post.author_name,
-    publishedAt: post.published_at,
-    category: post.category || undefined,
-  })
+  const title = post.meta_title || post.title
+  const description = post.meta_description || post.excerpt
+  const url = `${SITE_URL}/blog/${post.slug}`
+
+  return {
+    title: title.length > 70 ? `${title.slice(0, 67)}...` : title,
+    description: description.length > 155 ? `${description.slice(0, 152)}...` : description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url,
+      siteName: SITE_NAME,
+      images: post.image_url
+        ? [{ url: post.image_url, width: 1200, height: 630, alt: post.title }]
+        : [],
+      publishedTime: post.published_at,
+      modifiedTime: post.updated_at,
+      authors: [post.author_name],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: post.image_url ? [post.image_url] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   STRUCTURED DATA GENERATORS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/** Article Schema — auto-generated for every blog post */
+function generateArticleSchema(post: BlogPost) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    headline: post.title,
+    description: post.excerpt,
+    url: `${SITE_URL}/blog/${post.slug}`,
+    image: post.image_url
+      ? {
+        '@type': 'ImageObject',
+        url: post.image_url,
+        width: 1200,
+        height: 630,
+      }
+      : undefined,
+    datePublished: post.published_at,
+    dateModified: post.updated_at,
+    author: {
+      '@type': 'Organization',
+      name: post.author_name || SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/blog/${post.slug}`,
+    },
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+    ...(post.reading_time && {
+      timeRequired: `PT${post.reading_time}M`,
+    }),
+    ...(post.category && {
+      articleSection: post.category,
+    }),
+  }
+}
+
+/** FAQ Schema — auto-extracted from markdown ## FAQ section */
+function extractAndGenerateFAQSchema(content: string) {
+  const faqPairs: { question: string; answer: string }[] = []
+
+  // Find the FAQ section (starts with ## Frequently Asked Questions)
+  const faqMatch = content.match(
+    /## Frequently Asked Questions\s*\n([\s\S]*?)(?=\n## [^#]|\n---|\n\*\*\[|$)/i
+  )
+  if (!faqMatch) return null
+
+  const faqContent = faqMatch[1]
+
+  // Extract ### question headings and their answers
+  const questionBlocks = faqContent.split(/(?=### )/)
+  for (const block of questionBlocks) {
+    const qMatch = block.match(/^### (.+?)\n([\s\S]+?)$/)
+    if (qMatch) {
+      const question = qMatch[1].trim()
+      // Clean markdown from the answer
+      const answer = qMatch[2]
+        .trim()
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links
+        .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
+        .replace(/\*([^*]+)\*/g, '$1') // Remove italic
+        .replace(/\n+/g, ' ') // Single line
+        .trim()
+
+      if (question && answer) {
+        faqPairs.push({ question, answer })
+      }
+    }
+  }
+
+  if (faqPairs.length === 0) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqPairs.map((pair) => ({
+      '@type': 'Question',
+      name: pair.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: pair.answer,
+      },
+    })),
+  }
+}
+
+/** Breadcrumb Schema */
+function generateBreadcrumbSchema(post: BlogPost) {
+  const items: { name: string; url?: string }[] = [
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: `${SITE_URL}/blog` },
+  ]
+
+  if (post.category && post.category_slug) {
+    items.push({
+      name: post.category,
+      url: `${SITE_URL}/blog?category=${post.category_slug}`,
+    })
+  }
+
+  items.push({ name: post.title })
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      ...(item.url && { item: item.url }),
+    })),
+  }
+}
+
+/** Inject all schema into the page */
+function StructuredData({ schemas }: { schemas: (object | null)[] }) {
+  const validSchemas = schemas.filter(Boolean)
+  if (validSchemas.length === 0) return null
+
+  return (
+    <>
+      {validSchemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+    </>
+  )
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -99,7 +293,7 @@ function ShareButtons({ title, url }: { title: string; url: string }) {
 /* ═══════════════════════════════════════════════════════════════════════
    TRUST BADGES STRIP
    ═══════════════════════════════════════════════════════════════════════ */
-function TrustBadges({ post }: { post: any }) {
+function TrustBadges({ post }: { post: BlogPost }) {
   const badges: { icon: any; label: string }[] = []
 
   // Count cited sources from markdown [[n]](#sources) pattern
@@ -152,8 +346,7 @@ function TrustBadges({ post }: { post: any }) {
 /* ═══════════════════════════════════════════════════════════════════════
    AUTHOR + REVIEWER CARD (E-E-A-T)
    ═══════════════════════════════════════════════════════════════════════ */
-function AuthorReviewerCard({ post }: { post: any }) {
-  // Try to extract reviewer from content disclaimer text
+function AuthorReviewerCard({ post }: { post: BlogPost }) {
   const reviewerMatch = post.content.match(
     /medically reviewed[^.]*?(?:by\s+)?(Dr\.?\s+[\w\s\-]+?)(?:,\s*(.+?))?(?:\.|for accuracy)/i
   )
@@ -172,18 +365,18 @@ function AuthorReviewerCard({ post }: { post: any }) {
             {post.author_image ? (
               <Image
                 src={post.author_image}
-                alt={post.author_name}
+                alt={post.author_name || 'Author'}
                 fill
                 className="object-cover"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-primary-600 font-bold text-sm">
-                {post.author_name.charAt(0)}
+                {(post.author_name || 'A').charAt(0)}
               </div>
             )}
           </div>
           <div>
-            <p className="text-sm font-semibold text-neutral-900">{post.author_name}</p>
+            <p className="text-sm font-semibold text-neutral-900">{post.author_name || 'Medical Team'}</p>
             <p className="text-xs text-neutral-500">Medical Tourism Research Team</p>
           </div>
         </div>
@@ -212,12 +405,9 @@ function AuthorReviewerCard({ post }: { post: any }) {
    EDITORIAL DISCLAIMER
    ═══════════════════════════════════════════════════════════════════════ */
 function EditorialDisclaimer({ content }: { content: string }) {
-  // Look for the italic disclaimer block we add to blog posts
-  // Pattern: *This article was researched...*
   const disclaimerMatch = content.match(/\*This article was researched[\s\S]*?\*/)
   if (!disclaimerMatch) return null
 
-  // Clean up the markdown formatting
   const text = disclaimerMatch[0].replace(/^\*|\*$/g, '').trim()
 
   return (
@@ -231,6 +421,151 @@ function EditorialDisclaimer({ content }: { content: string }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   KEY TAKEAWAYS SUMMARY BOX (AEO — Answer-First)
+   Auto-extracted from excerpt + first paragraph.
+   Position: immediately after editorial disclaimer, before content.
+   ═══════════════════════════════════════════════════════════════════════ */
+function KeyTakeawaysSummary({ post }: { post: BlogPost }) {
+  // Extract key facts from the excerpt
+  const excerpt = post.excerpt || ''
+  if (!excerpt || excerpt.length < 50) return null
+
+  // Try to extract bullet-worthy facts from the first few paragraphs
+  const keyFacts: string[] = []
+
+  // Cost range pattern
+  const costMatch = post.content.match(
+    /(?:costs?|prices?|pricing)[^.]*?\$[\d,]+[^.]*?\$/i
+  )
+  if (costMatch) {
+    const cleaned = costMatch[0]
+      .replace(/\[\[\d+\]\]\(#sources\)/g, '')
+      .replace(/\*\*/g, '')
+      .trim()
+    if (cleaned.length < 200) keyFacts.push(cleaned)
+  }
+
+  // Savings pattern
+  const savingsMatch = post.content.match(/sav(?:e|ings?)[^.]*?\d+[\-–]\d+%/i)
+  if (savingsMatch) {
+    const cleaned = savingsMatch[0].replace(/\[\[\d+\]\]\(#sources\)/g, '').trim()
+    if (cleaned.length < 200) keyFacts.push(cleaned)
+  }
+
+  // Success rate pattern
+  const successMatch = post.content.match(
+    /success rates?[^.]*?\d+[\s]*(?:to|–|-|%)[\s]*\d*%?/i
+  )
+  if (successMatch) {
+    const cleaned = successMatch[0].replace(/\[\[\d+\]\]\(#sources\)/g, '').trim()
+    if (cleaned.length < 200) keyFacts.push(cleaned)
+  }
+
+  // If we couldn't extract structured facts, show the excerpt as a summary
+  return (
+    <div className="rounded-xl bg-primary-50 border border-primary-200 p-5 sm:p-6 mb-10">
+      <div className="flex items-start gap-3 mb-3">
+        <Lightbulb className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
+        <h2 className="text-sm font-bold uppercase tracking-wider text-primary-700">
+          Quick Summary
+        </h2>
+      </div>
+      <p className="text-sm leading-relaxed text-primary-900 mb-0">{excerpt}</p>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   QUICK FACTS SIDEBAR CARD
+   Auto-extracts stats from content for a scannable card.
+   ═══════════════════════════════════════════════════════════════════════ */
+function QuickFactsCard({ post }: { post: BlogPost }) {
+  const facts: { icon: any; label: string; value: string }[] = []
+
+  // Savings percentage
+  const savingsMatch = post.content.match(/(\d+)[\s]*(?:–|-|to)[\s]*(\d+)%/g)
+  if (savingsMatch && savingsMatch.length > 0) {
+    facts.push({ icon: TrendingUp, label: 'Typical savings', value: savingsMatch[0] })
+  }
+
+  // JCI hospitals
+  const jciMatch = post.content.match(/(\d+)\+?\s*JCI/i)
+  if (jciMatch) {
+    facts.push({ icon: Building2, label: 'JCI hospitals', value: `${jciMatch[1]}+` })
+  }
+
+  // Annual patients
+  const patientsMatch = post.content.match(/([\d,]+)\s*(?:international )?patients/i)
+  if (patientsMatch) {
+    facts.push({ icon: Users, label: 'Annual patients', value: patientsMatch[1] })
+  }
+
+  // Success rate
+  const successMatch = post.content.match(/success rates?\s*(?:of\s*)?(\d+)\s*(?:to|–|-)\s*(\d+)%/i)
+  if (successMatch) {
+    facts.push({
+      icon: BadgeCheck,
+      label: 'Success rate',
+      value: `${successMatch[1]}–${successMatch[2]}%`,
+    })
+  }
+
+  if (facts.length === 0) return null
+
+  return (
+    <div className="bg-gradient-to-br from-primary-50 to-primary-100/50 rounded-xl p-5 border border-primary-100">
+      <h4 className="text-xs font-bold uppercase tracking-wider text-primary-700 mb-4">
+        Quick Facts
+      </h4>
+      <div className="space-y-3.5">
+        {facts.map((fact, i) => (
+          <div key={i} className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-lg bg-white/80 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <fact.icon className="w-4 h-4 text-primary-600" />
+            </div>
+            <div>
+              <p className="text-xs text-primary-600 font-medium">{fact.label}</p>
+              <p className="text-sm font-bold text-primary-900">{fact.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   READING PROGRESS BAR (Client Component wrapper needed)
+   This renders a CSS-only progress indicator using scroll-driven animations.
+   Falls back gracefully in browsers that don't support it.
+   ═══════════════════════════════════════════════════════════════════════ */
+function ReadingProgressBar() {
+  return (
+    <>
+      <div
+        className="fixed top-0 left-0 right-0 h-[3px] bg-primary-500 origin-left z-50"
+        style={{
+          transform: 'scaleX(0)',
+          // @ts-ignore — scroll-driven animation (Chrome 115+, progressive enhancement)
+          animation: 'progress-grow auto linear',
+          animationTimeline: 'scroll()',
+        }}
+      />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes progress-grow {
+              from { transform: scaleX(0); }
+              to { transform: scaleX(1); }
+            }
+          `,
+        }}
+      />
+    </>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    MID-ARTICLE CTA
    ═══════════════════════════════════════════════════════════════════════ */
 function MidArticleCta({ category }: { category?: string }) {
@@ -238,12 +573,10 @@ function MidArticleCta({ category }: { category?: string }) {
 
   return (
     <div className="my-12 relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-      {/* Subtle dot pattern */}
       <div
         className="absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
           backgroundSize: '24px 24px',
         }}
       />
@@ -252,8 +585,8 @@ function MidArticleCta({ category }: { category?: string }) {
           Ready to Compare Clinics?
         </h3>
         <p className="text-primary-200 text-sm sm:text-base max-w-lg mx-auto mb-6">
-          Get free, verified quotes from top-rated {procedureName.toLowerCase()} clinics.
-          No pressure, no obligation.
+          Get free, verified quotes from top-rated {procedureName.toLowerCase()} clinics. No
+          pressure, no obligation.
         </p>
         <Link
           href="/search"
@@ -269,11 +602,12 @@ function MidArticleCta({ category }: { category?: string }) {
 
 /* ═══════════════════════════════════════════════════════════════════════
    CONTENT PROCESSOR
-   Injects mid-article CTA after ~40% of H2 sections
-   Strips the italic disclaimer block from rendered content
-   (it's shown separately in the EditorialDisclaimer component)
+   - Strips H1 and editorial disclaimer (rendered separately)
+   - Converts FAQ section to <details>/<summary> accordion
+   - Adds IDs to headings for TOC navigation
+   - Ensures external links open in new tabs
    ═══════════════════════════════════════════════════════════════════════ */
-function processContent(rawMarkdown: string): { htmlContent: string; ctaInsertIndex: number } {
+function processContent(rawMarkdown: string) {
   const lines = rawMarkdown.split('\n')
 
   // Remove first H1 (shown in hero)
@@ -285,7 +619,6 @@ function processContent(rawMarkdown: string): { htmlContent: string; ctaInsertIn
     line.trim().startsWith('*This article was researched')
   )
   if (disclaimerStart !== -1) {
-    // Find where the italic block ends (next line starting with *)
     let disclaimerEnd = disclaimerStart
     for (let i = disclaimerStart; i < lines.length; i++) {
       if (lines[i].includes('*') && i > disclaimerStart) {
@@ -305,14 +638,12 @@ function processContent(rawMarkdown: string): { htmlContent: string; ctaInsertIn
   lines.forEach((line: string, i: number) => {
     if (line.trim().startsWith('## ')) h2Indices.push(i)
   })
-  const ctaAfterH2 = Math.max(1, Math.floor(h2Indices.length * 0.4))
-  const ctaInsertIndex = h2Indices[ctaAfterH2] || -1
 
   const markdown = lines.join('\n')
-  const rawHtml = marked.parse(markdown) as string
+  let rawHtml = marked.parse(markdown) as string
 
   // Add IDs to headings for TOC navigation
-  const htmlContent = rawHtml.replace(
+  rawHtml = rawHtml.replace(
     /<h([2-6])>(.*?)<\/h\1>/g,
     (_match: string, level: string, text: string) => {
       const plainText = text.replace(/<[^>]+>/g, '')
@@ -324,7 +655,35 @@ function processContent(rawMarkdown: string): { htmlContent: string; ctaInsertIn
     }
   )
 
-  return { htmlContent, ctaInsertIndex }
+  // Convert FAQ section H3s into <details>/<summary> accordion
+  // Pattern: find the FAQ H2, then convert each subsequent H3 + content into a details block
+  rawHtml = rawHtml.replace(
+    /(<h2[^>]*id="frequently-asked-questions"[^>]*>.*?<\/h2>)([\s\S]*?)(?=<h2|<hr|$)/i,
+    (_, faqHeading, faqContent) => {
+      // Convert each H3 + paragraph(s) into a details/summary
+      const accordionContent = faqContent.replace(
+        /<h3[^>]*>(.*?)<\/h3>([\s\S]*?)(?=<h3|$)/g,
+        (_: string, question: string, answer: string) => {
+          return `<details class="faq-item group border-b border-neutral-200 last:border-b-0">
+            <summary class="faq-question flex items-center justify-between gap-4 py-5 text-base font-semibold text-neutral-900 cursor-pointer list-none hover:text-primary-700 transition-colors [&::-webkit-details-marker]:hidden">
+              <span>${question}</span>
+              <svg class="w-5 h-5 text-neutral-400 flex-shrink-0 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-answer pb-5 text-sm leading-relaxed text-neutral-600">${answer.trim()}</div>
+          </details>`
+        }
+      )
+      return `${faqHeading}<div class="divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-white px-6 mt-4">${accordionContent}</div>`
+    }
+  )
+
+  // Make external links open in new tab
+  rawHtml = rawHtml.replace(
+    /<a\s+href="(https?:\/\/[^"]+)"/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer"'
+  )
+
+  return rawHtml
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -351,36 +710,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const formattedDate = formatDate(post.published_at)
-  const postUrl = `https://meetyourclinic.com/blog/${post.slug}`
+  const postUrl = `${SITE_URL}/blog/${post.slug}`
 
-  // Structured data
-  const blogSchema = generateBlogPostSchema({
-    title: post.title,
-    slug: post.slug,
-    excerpt: post.excerpt,
-    content: post.content,
-    imageUrl: post.image_url,
-    authorName: post.author_name,
-    authorImage: post.author_image || undefined,
-    publishedAt: post.published_at,
-    updatedAt: post.updated_at,
-    category: post.category || undefined,
-    readingTime: post.reading_time || undefined,
-  })
-
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Blog', url: '/blog' },
-    ...(post.category && post.category_slug
-      ? [{ name: post.category, url: `/blog?category=${post.category_slug}` }]
-      : []),
-    { name: post.title },
-  ])
+  // Generate all structured data
+  const articleSchema = generateArticleSchema(post)
+  const faqSchema = extractAndGenerateFAQSchema(post.content)
+  const breadcrumbSchema = generateBreadcrumbSchema(post)
 
   // Process content
-  const { htmlContent } = processContent(post.content)
+  const htmlContent = processContent(post.content)
 
   // Split HTML at mid-point H2 to inject CTA
-  // Find all H2 tags in the processed HTML
   const h2Regex = /<h2[^>]*>/g
   const h2Matches = [...htmlContent.matchAll(h2Regex)]
   const ctaPosition = Math.max(1, Math.floor(h2Matches.length * 0.4))
@@ -396,11 +736,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <StructuredData data={[blogSchema, breadcrumbSchema]} />
+      {/* ── STRUCTURED DATA (Article + FAQ + Breadcrumb) ─────── */}
+      <StructuredData schemas={[articleSchema, faqSchema, breadcrumbSchema]} />
 
-      {/* ── HERO SECTION ──────────────────────────────────────────── */}
+      {/* ── READING PROGRESS BAR ──────────────────────────────── */}
+      <ReadingProgressBar />
+
+      {/* ── HERO SECTION ──────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-neutral-900">
-        {/* Background image with dark overlay */}
         {post.image_url ? (
           <>
             <Image
@@ -418,7 +761,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <div className="relative z-10 mx-auto max-w-4xl px-4 pt-12 pb-16 sm:pt-16 sm:pb-20 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="mb-8 text-sm text-neutral-400">
+          <nav className="mb-8 text-sm text-neutral-400" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
@@ -499,12 +842,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </section>
 
-      {/* ── TRUST BADGES ──────────────────────────────────────────── */}
+      {/* ── TRUST BADGES ──────────────────────────────────────── */}
       <TrustBadges post={post} />
 
-      {/* ── MAIN CONTENT GRID ─────────────────────────────────────── */}
+      {/* ── MAIN CONTENT GRID ─────────────────────────────────── */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-[1fr_260px] lg:gap-16">
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-12">
           {/* ARTICLE COLUMN */}
           <article className="mx-auto max-w-3xl lg:mx-0 lg:max-w-none">
             {/* E-E-A-T: Author + Reviewer card */}
@@ -512,6 +855,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* E-E-A-T: Editorial disclaimer */}
             <EditorialDisclaimer content={post.content} />
+
+            {/* AEO: Answer-first summary */}
+            <KeyTakeawaysSummary post={post} />
 
             {/* Blog content — first half */}
             <div
@@ -530,22 +876,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               />
             )}
 
-            {/* ── Share Section ──────────────────────────────────── */}
+            {/* ── Share Section ──────────────────────────────── */}
             <div className="mt-12 pt-8 border-t border-neutral-200">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-neutral-700 mb-1">
-                    Share this article
-                  </p>
-                  <p className="text-sm text-neutral-500">
-                    Help others discover valuable insights
-                  </p>
+                  <p className="text-sm font-medium text-neutral-700 mb-1">Share this article</p>
+                  <p className="text-sm text-neutral-500">Help others discover valuable insights</p>
                 </div>
                 <ShareButtons title={post.title} url={postUrl} />
               </div>
             </div>
 
-            {/* ── Author Bio Card ────────────────────────────────── */}
+            {/* ── Author Bio Card ────────────────────────────── */}
             <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/50 border border-primary-100">
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <div className="relative h-16 w-16 rounded-full overflow-hidden bg-white ring-4 ring-white shadow-lg flex-shrink-0">
@@ -563,18 +905,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   )}
                 </div>
                 <div>
-                  <p className="font-semibold text-lg text-neutral-900">
-                    {post.author_name}
-                  </p>
+                  <p className="font-semibold text-lg text-neutral-900">{post.author_name || 'Medical Team'}</p>
                   <p className="text-primary-600 font-medium text-sm mb-2">
                     Medical Tourism Research Team
                   </p>
                   <p className="text-neutral-600 text-sm leading-relaxed">
-                    The MeetYourClinic editorial team researches procedures,
-                    clinics, and destinations to provide evidence-based guides
-                    for patients considering treatment abroad. Every article is
-                    fact-checked against peer-reviewed sources and verified
-                    clinic data.
+                    The MeetYourClinic editorial team researches procedures, clinics, and
+                    destinations to provide evidence-based guides for patients considering
+                    treatment abroad. Every article is fact-checked against peer-reviewed sources
+                    and verified clinic data.
                   </p>
                 </div>
               </div>
@@ -583,19 +922,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* SIDEBAR */}
           <aside className="hidden lg:block">
-            <div className="sticky top-24 space-y-8">
-              {/* Table of Contents */}
-              <div className="bg-neutral-50 rounded-xl p-6 border border-neutral-100">
+            <div className="sticky top-8 space-y-6">
+              {/* Table of Contents — with wider layout */}
+              <div className="bg-neutral-50 rounded-xl p-5 border border-neutral-100">
                 <TableOfContents content={post.content} />
               </div>
 
+              {/* Quick Facts Card */}
+              <QuickFactsCard post={post} />
+
               {/* Quick Share */}
-              <div className="bg-white rounded-xl p-6 border border-neutral-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-neutral-200 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
                   <Share2 className="w-4 h-4 text-neutral-500" />
-                  <h4 className="text-sm font-semibold text-neutral-900">
-                    Share Article
-                  </h4>
+                  <h4 className="text-sm font-semibold text-neutral-900">Share Article</h4>
                 </div>
                 <ShareButtons title={post.title} url={postUrl} />
               </div>
@@ -603,14 +943,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </aside>
         </div>
 
-        {/* ── Related Posts ────────────────────────────────────────── */}
+        {/* ── Related Posts ────────────────────────────────────── */}
         {relatedPosts.length > 0 && (
           <section className="mt-20 pt-12 border-t border-neutral-200">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-2xl font-bold text-neutral-900">
-                  Related Articles
-                </h2>
+                <h2 className="text-2xl font-bold text-neutral-900">Related Articles</h2>
                 <p className="text-neutral-600 mt-1">
                   Continue exploring medical tourism insights
                 </p>
@@ -624,14 +962,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </Link>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedPosts.map((relatedPost) => (
+              {relatedPosts.map((relatedPost: any) => (
                 <BlogCard
                   key={relatedPost.id}
                   title={relatedPost.title}
                   slug={relatedPost.slug}
                   excerpt={relatedPost.excerpt}
                   imageUrl={relatedPost.image_url}
-                  authorName={relatedPost.author_name}
+                  authorName={relatedPost.author_name || 'Medical Team'}
                   publishedAt={relatedPost.published_at}
                   readingTime={relatedPost.reading_time || undefined}
                   category={relatedPost.category || undefined}
@@ -641,7 +979,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </section>
         )}
 
-        {/* ── Bottom CTA ──────────────────────────────────────────── */}
+        {/* ── Bottom CTA ──────────────────────────────────────── */}
         <section className="mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800">
           <div
             className="absolute inset-0 opacity-10"
@@ -656,9 +994,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               Ready to Start Your Medical Journey?
             </h2>
             <p className="text-primary-100 text-lg max-w-2xl mx-auto mb-8">
-              Compare clinics, read verified reviews, and get personalised
-              quotes from top medical facilities worldwide. Save up to 70% on
-              your treatment.
+              Compare clinics, read verified reviews, and get personalised quotes from top medical
+              facilities worldwide. Save up to 70% on your treatment.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
