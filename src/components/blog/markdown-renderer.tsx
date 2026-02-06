@@ -77,9 +77,6 @@ export function MarkdownRenderer({ content, className, skipFirstH1 = false }: Ma
         <div
             className={cn(
                 'blog-content',
-                'prose prose-lg max-w-none',
-                'prose-headings:scroll-mt-24 prose-headings:font-semibold',
-                'prose-headings:text-neutral-900',
                 className
             )}
         >
