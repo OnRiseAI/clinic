@@ -10,22 +10,22 @@ export function Footer() {
 
   const quickLinks = [
     { name: tNav('home'), href: '/' },
-    { name: tNav('treatments'), href: '/treatments' },
+    { name: tNav('treatments'), href: '/procedures' },
     { name: tNav('destinations'), href: '/destinations' },
     { name: tNav('clinics'), href: '/clinics' },
     { name: tNav('blog'), href: '/blog' },
   ]
 
   const clinicLinks = [
-    { name: t('claimListing'), href: '/claim' },
-    { name: t('advertise'), href: '/advertise' },
+    { name: t('claimListing'), href: '/list-your-clinic' },
+    { name: t('advertise'), href: '/contact' },
     { name: t('partnerPortal'), href: '/login?role=clinic' },
   ]
 
   const resourceLinks = [
-    { name: t('patientGuide'), href: '/guide' },
-    { name: t('faq'), href: '/faq' },
-    { name: t('support'), href: '/support' },
+    { name: t('patientGuide'), href: '/blog' },
+    { name: t('faq'), href: '/contact' },
+    { name: t('support'), href: '/contact' },
   ]
 
   // High-value SEO links for popular treatments
@@ -34,7 +34,7 @@ export function Footer() {
     { name: 'Rhinoplasty Turkey', href: '/procedures/rhinoplasty/turkey' },
     { name: 'Dental Implants Hungary', href: '/procedures/dental-implants/hungary' },
     { name: 'Breast Augmentation Turkey', href: '/procedures/breast-augmentation/turkey' },
-    { name: 'Liposuction Poland', href: '/procedures/liposuction/poland' },
+    { name: 'Liposuction Spain', href: '/procedures/liposuction/spain' },
   ]
 
   const topDestinations = [

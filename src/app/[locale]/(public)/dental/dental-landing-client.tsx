@@ -318,44 +318,51 @@ export function DentalLandingClient({
           </p>
 
           <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {PROCEDURES.map((procedure, index) => (
-              <m.div
-                key={procedure.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Link
-                  href={`/procedures/${procedure.slug}/${procedure.topDestination}`}
-                  className="group flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all hover:border-primary-200 hover:shadow-md sm:p-6"
+            {PROCEDURES.map((procedure, index) => {
+              const hasLandingPage = ['dental-implants', 'veneers'].includes(procedure.slug)
+              const linkHref = hasLandingPage
+                ? `/procedures/${procedure.slug}/${procedure.topDestination}`
+                : `/search?procedure=${procedure.slug}&country=${procedure.topDestination}`
+
+              return (
+                <m.div
+                  key={procedure.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
                 >
-                  <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-primary-600">
-                    {procedure.name}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-neutral-600">
-                    {procedure.description}
-                  </p>
-                  <div className="mt-4 space-y-2 border-t border-neutral-100 pt-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">UK Price</span>
-                      <span className="font-medium text-neutral-900">
-                        {procedure.ukPrice}
-                      </span>
+                  <Link
+                    href={linkHref}
+                    className="group flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all hover:border-primary-200 hover:shadow-md sm:p-6"
+                  >
+                    <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-primary-600">
+                      {procedure.name}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm text-neutral-600">
+                      {procedure.description}
+                    </p>
+                    <div className="mt-4 space-y-2 border-t border-neutral-100 pt-4">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-neutral-500">UK Price</span>
+                        <span className="font-medium text-neutral-900">
+                          {procedure.ukPrice}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-neutral-500">Abroad</span>
+                        <span className="font-semibold text-green-600">
+                          {procedure.abroadPrice}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">Abroad</span>
-                      <span className="font-semibold text-green-600">
-                        {procedure.abroadPrice}
-                      </span>
-                    </div>
-                  </div>
-                  <span className="mt-4 inline-flex items-center text-sm font-medium text-primary-600">
-                    View clinics in {procedure.topDestination.charAt(0).toUpperCase() + procedure.topDestination.slice(1)} →
-                  </span>
-                </Link>
-              </m.div>
-            ))}
+                    <span className="mt-4 inline-flex items-center text-sm font-medium text-primary-600">
+                      View clinics in {procedure.topDestination.charAt(0).toUpperCase() + procedure.topDestination.slice(1)} →
+                    </span>
+                  </Link>
+                </m.div>
+              )
+            })}
           </div>
         </m.section>
 
