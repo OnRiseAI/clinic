@@ -194,11 +194,11 @@ export function generateProcedureFAQs(data: ProcedureFAQData): FAQItem[] {
     },
     {
       question: `Where is the best place to get ${data.procedureName} abroad?`,
-      answer: `Popular destinations for ${data.procedureName} include ${countries}. The best choice depends on your budget, preferred travel distance, and specific requirements. All clinics on MediTravel are accredited and verified.`,
+      answer: `Popular destinations for ${data.procedureName} include ${countries}. The best choice depends on your budget, preferred travel distance, and specific requirements. All clinics on MeetYourClinic are accredited and verified.`,
     },
     {
       question: `Is it safe to have ${data.procedureName} abroad?`,
-      answer: `Yes, when you choose an accredited clinic. MediTravel only lists clinics with international accreditations (JCI, ISO, etc.) and verified patient reviews. We recommend thoroughly researching your chosen clinic and surgeon.`,
+      answer: `Yes, when you choose an accredited clinic. MeetYourClinic only lists clinics with international accreditations (JCI, ISO, etc.) and verified patient reviews. We recommend thoroughly researching your chosen clinic and surgeon.`,
     },
     {
       question: `What is included in ${data.procedureName} packages abroad?`,
@@ -206,11 +206,11 @@ export function generateProcedureFAQs(data: ProcedureFAQData): FAQItem[] {
     },
     ...(data.recoveryTime
       ? [
-          {
-            question: `How long is recovery after ${data.procedureName}?`,
-            answer: `Recovery time for ${data.procedureName} is typically ${data.recoveryTime}. Your clinic will provide detailed aftercare instructions and many offer follow-up support remotely.`,
-          },
-        ]
+        {
+          question: `How long is recovery after ${data.procedureName}?`,
+          answer: `Recovery time for ${data.procedureName} is typically ${data.recoveryTime}. Your clinic will provide detailed aftercare instructions and many offer follow-up support remotely.`,
+        },
+      ]
       : []),
   ]
 }
@@ -238,7 +238,7 @@ export function generateClinicFAQs(data: ClinicFAQData): FAQItem[] {
     },
     {
       question: `How do I book a consultation at ${data.clinicName}?`,
-      answer: `You can request a free consultation through MediTravel. Click the "Get a Quote" button on the clinic's profile to submit your enquiry. The clinic typically responds within 24-48 hours.`,
+      answer: `You can request a free consultation through MeetYourClinic. Click the "Get a Quote" button on the clinic's profile to submit your enquiry. The clinic typically responds within 24-48 hours.`,
     },
     {
       question: `Does ${data.clinicName} offer accommodation packages?`,
@@ -264,7 +264,7 @@ export function generateDestinationFAQs(data: DestinationFAQData): FAQItem[] {
     },
     {
       question: `How many accredited clinics are in ${data.countryName}?`,
-      answer: `MediTravel lists ${data.clinicCount}+ verified and accredited clinics in ${data.countryName}. All clinics are vetted for quality and patient safety.`,
+      answer: `MeetYourClinic lists ${data.clinicCount}+ verified and accredited clinics in ${data.countryName}. All clinics are vetted for quality and patient safety.`,
     },
     {
       question: `What procedures is ${data.countryName} known for?`,

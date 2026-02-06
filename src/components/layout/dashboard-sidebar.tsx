@@ -25,7 +25,7 @@ export function DashboardSidebar() {
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-neutral-200 px-6">
           <Link href="/" className="text-xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
         </div>
 

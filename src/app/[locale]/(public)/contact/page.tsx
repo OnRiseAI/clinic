@@ -106,7 +106,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium text-neutral-500">Email</p>
-                <p className="text-neutral-900">hello@meditravel.com</p>
+                <p className="text-neutral-900">hello@meetyourclinic.com</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-neutral-500">Phone</p>
@@ -131,7 +131,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
           <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-semibold text-neutral-900">For Clinics</h3>
             <p className="mb-4 text-sm text-neutral-600">
-              Interested in listing your clinic on MediTravel? We&apos;d love to partner with you.
+              Interested in listing your clinic on MeetYourClinic? We&apos;d love to partner with you.
             </p>
             <Button variant="outline" className="w-full">
               Partnership Inquiry

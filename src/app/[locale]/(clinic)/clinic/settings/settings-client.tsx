@@ -274,7 +274,7 @@ export function SettingsClient({ user, clinic }: SettingsClientProps) {
             <div>
               <p className="font-medium text-neutral-900">Marketing updates</p>
               <p className="text-sm text-neutral-500">
-                Tips and updates from MediTravel
+                Tips and updates from MeetYourClinic
               </p>
             </div>
             <Toggle

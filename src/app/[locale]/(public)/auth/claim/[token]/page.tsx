@@ -10,8 +10,8 @@ interface ClaimPageProps {
 
 export async function generateMetadata() {
   return {
-    title: 'Claim Your Clinic - MediTravel',
-    description: 'Take ownership of your clinic profile on MediTravel',
+    title: 'Claim Your Clinic - MeetYourClinic',
+    description: 'Take ownership of your clinic profile on MeetYourClinic',
   }
 }
 
@@ -31,7 +31,7 @@ export default async function ClaimPage({ params }: ClaimPageProps) {
         <div>
           <div className="mb-8 text-center">
             <Link href="/" className="text-2xl font-bold text-primary-600">
-              MediTravel
+              MeetYourClinic
             </Link>
             <h1 className="mt-6 text-3xl font-bold text-neutral-900">Claim Your Clinic</h1>
             <p className="mt-2 text-neutral-600">
@@ -62,7 +62,7 @@ export default async function ClaimPage({ params }: ClaimPageProps) {
       ) : clinic?.claimed ? (
         <div className="w-full max-w-md text-center">
           <Link href="/" className="text-2xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <div className="mt-8 rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-3xl">
@@ -90,7 +90,7 @@ export default async function ClaimPage({ params }: ClaimPageProps) {
       ) : (
         <div className="w-full max-w-md text-center">
           <Link href="/" className="text-2xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <div className="mt-8 rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-3xl">

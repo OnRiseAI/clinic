@@ -1,4 +1,4 @@
-# robots.txt for MediTravel
+# robots.txt for MeetYourClinic
 # Last updated: 2025
 
 # Default rules for all crawlers
@@ -13,7 +13,7 @@ Disallow: /_next/
 Disallow: /auth/
 
 # Sitemap location
-Sitemap: https://meditravel.com/sitemap.xml
+Sitemap: https://meetyourclinic.com/sitemap.xml
 
 # =============================================================================
 # AI CRAWLER PERMISSIONS (GEO - Generative Engine Optimisation)

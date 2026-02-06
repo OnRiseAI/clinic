@@ -52,6 +52,6 @@ export function formatClinicNotificationSms(
   patientName: string,
   procedureInterest: string
 ): string {
-  const platformName = process.env.PLATFORM_NAME || 'MediTravel'
+  const platformName = process.env.PLATFORM_NAME || 'MeetYourClinic'
   return `New patient enquiry on ${platformName}! ${patientName} is interested in ${procedureInterest}. Check your dashboard or email for details.`
 }

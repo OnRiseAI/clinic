@@ -371,7 +371,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
             <div className="text-center">
               <h2 className="text-xl font-bold text-neutral-900">Create Your Account</h2>
               <p className="mt-2 text-neutral-600">
-                Set up your account to manage {clinic.name} on MediTravel.
+                Set up your account to manage {clinic.name} on MeetYourClinic.
               </p>
             </div>
 
@@ -484,7 +484,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
             </m.div>
             <h2 className="text-2xl font-bold text-neutral-900">Clinic Claimed!</h2>
             <p className="mt-3 text-neutral-600">
-              You now have full control of {clinic.name} on MediTravel.
+              You now have full control of {clinic.name} on MeetYourClinic.
             </p>
             <p className="mt-2 text-sm text-neutral-500">Redirecting to your dashboard...</p>
           </m.div>

@@ -65,7 +65,7 @@ export function ClinicDashboardClient({ children, showWelcome, clinicName }: Cli
               {/* Content */}
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-neutral-900">
-                  Welcome to MediTravel!
+                  Welcome to MeetYourClinic!
                 </h2>
                 <p className="mt-2 text-lg text-primary-600">{clinicName} is now live</p>
                 <p className="mt-4 text-neutral-600">

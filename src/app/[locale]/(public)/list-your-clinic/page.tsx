@@ -10,9 +10,9 @@ interface ListYourClinicPageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'List Your Clinic - Get Found by Patients Worldwide | MediTravel',
+  title: 'List Your Clinic - Get Found by Patients Worldwide | MeetYourClinic',
   description:
-    'Join thousands of clinics on MediTravel. Receive qualified patient enquiries, control your profile, and grow your international patient base. Free to list.',
+    'Join thousands of clinics on MeetYourClinic. Receive qualified patient enquiries, control your profile, and grow your international patient base. Free to list.',
 }
 
 const features = [
@@ -100,7 +100,7 @@ export default async function ListYourClinicPage({ params }: ListYourClinicPageP
               Get Found by Patients Worldwide
             </h1>
             <p className="mt-6 text-xl text-primary-100">
-              Join 1,500+ clinics already receiving qualified patient enquiries through MediTravel.
+              Join 1,500+ clinics already receiving qualified patient enquiries through MeetYourClinic.
               List your clinic for free and grow your international patient base.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -145,7 +145,7 @@ export default async function ListYourClinicPage({ params }: ListYourClinicPageP
               Everything You Need to Succeed
             </h2>
             <p className="mt-4 text-lg text-neutral-600">
-              MediTravel provides the tools and visibility you need to attract international
+              MeetYourClinic provides the tools and visibility you need to attract international
               patients.
             </p>
           </FadeIn>

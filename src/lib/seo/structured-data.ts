@@ -18,10 +18,10 @@ export function generateOrganizationSchema() {
     logo: `${SITE_URL}/logo.png`,
     description: 'Meet Your Clinic helps patients find world-class healthcare abroad. Compare clinics, read reviews, and get personalized recommendations.',
     sameAs: [
-      'https://twitter.com/meditravel',
-      'https://facebook.com/meditravel',
-      'https://instagram.com/meditravel',
-      'https://linkedin.com/company/meditravel',
+      'https://twitter.com/meetyourclinic',
+      'https://facebook.com/meetyourclinic',
+      'https://instagram.com/meetyourclinic',
+      'https://linkedin.com/company/meetyourclinic',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
@@ -143,11 +143,11 @@ export function generateClinicSchema(clinic: ClinicSchemaData) {
           priceCurrency: p.currency,
           priceSpecification: p.priceMax
             ? {
-                '@type': 'PriceSpecification',
-                minPrice: p.priceMin,
-                maxPrice: p.priceMax,
-                priceCurrency: p.currency,
-              }
+              '@type': 'PriceSpecification',
+              minPrice: p.priceMin,
+              maxPrice: p.priceMax,
+              priceCurrency: p.currency,
+            }
             : undefined,
         },
       }),

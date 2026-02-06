@@ -135,9 +135,8 @@ export function clinicNotificationTemplate({
                     </p>
                   </td>
                 </tr>
-                ${
-                  message
-                    ? `
+                ${message
+      ? `
                 <tr>
                   <td style="padding: 12px 0;">
                     <span style="color: #78716c; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Additional Message</span>
@@ -147,8 +146,8 @@ export function clinicNotificationTemplate({
                   </td>
                 </tr>
                 `
-                    : ''
-                }
+      : ''
+    }
               </table>
 
               <!-- CTA Button -->
@@ -164,7 +163,7 @@ export function clinicNotificationTemplate({
           <tr>
             <td style="background-color: #f5f5f4; padding: 24px 32px; border-radius: 0 0 16px 16px; text-align: center;">
               <p style="margin: 0 0 8px; color: #78716c; font-size: 12px;">
-                This enquiry was submitted through MediTravel.
+                This enquiry was submitted through MeetYourClinic.
               </p>
               <p style="margin: 0; color: #a8a29e; font-size: 11px;">
                 Respond promptly to increase your chances of converting this lead.

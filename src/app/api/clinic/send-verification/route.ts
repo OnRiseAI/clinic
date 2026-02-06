@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     if (method === 'email' && clinic.email) {
       await sendEmail({
         to: clinic.email,
-        subject: 'Verify Your Clinic on MediTravel',
+        subject: 'Verify Your Clinic on MeetYourClinic',
         html: `
           <!DOCTYPE html>
           <html>
@@ -74,13 +74,13 @@ export async function POST(request: Request) {
           <body style="font-family: sans-serif; padding: 20px;">
             <h2>Verify Your Clinic</h2>
             <p>Hello,</p>
-            <p>Your verification code for claiming <strong>${clinic.name}</strong> on MediTravel is:</p>
+            <p>Your verification code for claiming <strong>${clinic.name}</strong> on MeetYourClinic is:</p>
             <div style="background: #f5f5f5; padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px;">
               <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px;">${code}</span>
             </div>
             <p>This code expires in 10 minutes.</p>
             <p>If you didn't request this, please ignore this email.</p>
-            <p>Best regards,<br>MediTravel Team</p>
+            <p>Best regards,<br>MeetYourClinic Team</p>
           </body>
           </html>
         `,
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     } else if (method === 'phone' && clinic.phone) {
       await sendSms({
         to: clinic.phone,
-        message: `Your MediTravel verification code is: ${code}. This code expires in 10 minutes.`,
+        message: `Your MeetYourClinic verification code is: ${code}. This code expires in 10 minutes.`,
       })
     } else {
       return NextResponse.json({ error: 'Contact method not available' }, { status: 400 })

@@ -25,7 +25,7 @@ export function WhatsAppButton({
   className,
 }: WhatsAppButtonProps) {
   const formattedPhone = formatPhoneForWhatsApp(phone)
-  const defaultMessage = message || `Hi! I'm interested in learning more about treatments at ${clinicName}. I found you on MediTravel.`
+  const defaultMessage = message || `Hi! I'm interested in learning more about treatments at ${clinicName}. I found you on MeetYourClinic.`
   const encodedMessage = encodeURIComponent(defaultMessage)
   const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`
 
@@ -84,7 +84,7 @@ export function WhatsAppFloatingButton({
   clinicName: string
 }) {
   const formattedPhone = formatPhoneForWhatsApp(phone)
-  const message = `Hi! I'm interested in learning more about treatments at ${clinicName}. I found you on MediTravel.`
+  const message = `Hi! I'm interested in learning more about treatments at ${clinicName}. I found you on MeetYourClinic.`
   const encodedMessage = encodeURIComponent(message)
   const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`
 

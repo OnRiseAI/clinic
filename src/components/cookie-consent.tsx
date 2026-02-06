@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const CONSENT_KEY = 'meditravel-cookie-consent'
+const CONSENT_KEY = 'meetyourclinic-cookie-consent'
 
 type ConsentLevel = 'essential' | 'analytics' | 'all'
 

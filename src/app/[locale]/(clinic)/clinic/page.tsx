@@ -15,7 +15,7 @@ interface ClinicDashboardPageProps {
 
 export async function generateMetadata() {
   return {
-    title: 'Clinic Dashboard - MediTravel',
+    title: 'Clinic Dashboard - MeetYourClinic',
   }
 }
 
@@ -186,15 +186,14 @@ export default async function ClinicDashboardPage({ params, searchParams }: Clin
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
-                          enquiry.status === 'submitted'
+                        className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${enquiry.status === 'submitted'
                             ? 'bg-amber-100 text-amber-700'
                             : enquiry.status === 'viewed'
                               ? 'bg-blue-100 text-blue-700'
                               : enquiry.status === 'responded'
                                 ? 'bg-green-100 text-green-700'
                                 : 'bg-neutral-100 text-neutral-700'
-                        }`}
+                          }`}
                       >
                         {enquiry.status.charAt(0).toUpperCase() + enquiry.status.slice(1)}
                       </span>

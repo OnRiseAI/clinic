@@ -149,9 +149,8 @@ export function patientConfirmationTemplate({
                     </p>
                   </td>
                 </tr>
-                ${
-                  message
-                    ? `
+                ${message
+      ? `
                 <tr>
                   <td style="padding: 16px;">
                     <span style="color: #78716c; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Your Message</span>
@@ -161,8 +160,8 @@ export function patientConfirmationTemplate({
                   </td>
                 </tr>
                 `
-                    : ''
-                }
+      : ''
+    }
               </table>
 
               <!-- CTA Buttons -->
@@ -185,7 +184,7 @@ export function patientConfirmationTemplate({
                 Need help? Reply to this email or contact our support team.
               </p>
               <p style="margin: 0; color: #a8a29e; font-size: 11px;">
-                © MediTravel — Your trusted medical tourism companion.
+                © MeetYourClinic — Your trusted medical tourism companion.
               </p>
             </td>
           </tr>

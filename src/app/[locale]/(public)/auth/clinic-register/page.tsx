@@ -8,8 +8,8 @@ interface ClinicRegisterPageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Register Your Clinic - MediTravel',
-  description: 'Create your clinic account on MediTravel and start receiving patient enquiries.',
+  title: 'Register Your Clinic - MeetYourClinic',
+  description: 'Create your clinic account on MeetYourClinic and start receiving patient enquiries.',
 }
 
 export default async function ClinicRegisterPage({ params }: ClinicRegisterPageProps) {
@@ -21,7 +21,7 @@ export default async function ClinicRegisterPage({ params }: ClinicRegisterPageP
       <div className="w-full max-w-md">
         <div className="text-center">
           <Link href="/" className="text-2xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <h1 className="mt-6 text-3xl font-bold text-neutral-900">List Your Clinic</h1>
           <p className="mt-2 text-neutral-600">

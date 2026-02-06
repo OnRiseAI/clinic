@@ -11,7 +11,7 @@ interface SignInPageProps {
 
 export async function generateMetadata() {
   return {
-    title: 'Sign In - MediTravel',
+    title: 'Sign In - MeetYourClinic',
   }
 }
 
@@ -33,7 +33,7 @@ export default async function SignInPage({ params, searchParams }: SignInPagePro
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div className="text-center lg:text-left">
             <Link href="/" className="text-2xl font-bold text-primary-600">
-              MediTravel
+              MeetYourClinic
             </Link>
             <h1 className="mt-6 text-3xl font-bold text-neutral-900">Welcome back</h1>
             <p className="mt-2 text-neutral-600">

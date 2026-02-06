@@ -12,7 +12,7 @@ interface SetupPageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Set Up Your Clinic Profile - MediTravel',
+  title: 'Set Up Your Clinic Profile - MeetYourClinic',
   description: 'Complete your clinic profile to start receiving patient enquiries.',
 }
 

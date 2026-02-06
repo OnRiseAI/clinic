@@ -25,7 +25,7 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white lg:hidden">
       <div className="flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-xl font-bold text-primary-600">
-          MediTravel
+          MeetYourClinic
         </Link>
 
         <button

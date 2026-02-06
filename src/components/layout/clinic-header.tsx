@@ -28,7 +28,7 @@ export function ClinicHeader() {
       <div className="flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" className="text-xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <span className="rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
             Clinic

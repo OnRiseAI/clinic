@@ -10,7 +10,7 @@ interface HowItWorksPageProps {
 export async function generateMetadata() {
   return {
     title: 'How It Works - Your Medical Journey Made Simple',
-    description: 'Learn how MediTravel helps you find, compare, and book medical treatments abroad. From discovery to recovery, we guide you every step.',
+    description: 'Learn how MeetYourClinic helps you find, compare, and book medical treatments abroad. From discovery to recovery, we guide you every step.',
   }
 }
 
@@ -82,7 +82,7 @@ export default async function HowItWorksPage({ params }: HowItWorksPageProps) {
 
       {/* Benefits */}
       <section className="mb-20">
-        <h2 className="mb-8 text-center text-3xl font-bold text-neutral-900">Why Choose MediTravel?</h2>
+        <h2 className="mb-8 text-center text-3xl font-bold text-neutral-900">Why Choose MeetYourClinic?</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
             { icon: '✓', title: 'Verified Clinics', desc: 'Every clinic is vetted for quality and accreditation' },
@@ -111,7 +111,7 @@ export default async function HowItWorksPage({ params }: HowItWorksPageProps) {
       <section className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 px-8 py-16 text-center text-white">
         <h2 className="text-3xl font-bold">Ready to Start Your Journey?</h2>
         <p className="mx-auto mt-4 max-w-xl text-lg text-primary-100">
-          Join thousands of patients who have saved money and received excellent care through MediTravel.
+          Join thousands of patients who have saved money and received excellent care through MeetYourClinic.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
           <Link href="/search">

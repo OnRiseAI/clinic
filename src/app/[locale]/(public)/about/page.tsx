@@ -10,7 +10,7 @@ interface AboutPageProps {
 export async function generateMetadata() {
   return {
     title: 'About Us - Our Mission to Transform Healthcare Access',
-    description: 'Learn about MediTravel\'s mission to make quality healthcare accessible worldwide. Meet our team and discover our values.',
+    description: 'Learn about MeetYourClinic\'s mission to make quality healthcare accessible worldwide. Meet our team and discover our values.',
   }
 }
 
@@ -24,10 +24,10 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
       {/* Hero */}
       <div className="mb-16">
-        <h1 className="text-4xl font-bold text-neutral-900 sm:text-5xl">About MediTravel</h1>
+        <h1 className="text-4xl font-bold text-neutral-900 sm:text-5xl">About MeetYourClinic</h1>
         <p className="mt-6 max-w-3xl text-xl text-neutral-600">
           We believe everyone deserves access to quality healthcare, regardless of where they live.
-          MediTravel connects patients with world-class medical facilities around the globe.
+          MeetYourClinic connects patients with world-class medical facilities around the globe.
         </p>
       </div>
 

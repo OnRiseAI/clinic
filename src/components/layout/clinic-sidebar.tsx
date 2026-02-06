@@ -27,7 +27,7 @@ export function ClinicSidebar() {
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-neutral-200 px-6">
           <Link href="/" className="text-xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <span className="ml-2 rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
             Clinic

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meditravel.com'
-const SITE_NAME = 'MediTravel'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
+const SITE_NAME = 'MeetYourClinic'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.jpg`
 
 interface BaseMetadataParams {
@@ -192,7 +192,7 @@ interface BlogPostMetadataParams {
 }
 
 export function generateBlogPostMetadata(post: BlogPostMetadataParams): Metadata {
-  const title = `${post.title} | MediTravel Blog`
+  const title = `${post.title} | MeetYourClinic Blog`
 
   return {
     ...generateBaseMetadata({
@@ -248,7 +248,7 @@ export function generateCategoryMetadata(category: CategoryMetadataParams): Meta
 // =============================================================================
 
 export const homeMetadata: Metadata = generateBaseMetadata({
-  title: 'MediTravel | Compare Medical Tourism Clinics Worldwide',
+  title: 'MeetYourClinic | Compare Medical Tourism Clinics Worldwide',
   description:
     'Find world-class healthcare abroad. Compare 1,000+ accredited clinics across 50+ countries. Save up to 70% on dental, cosmetic surgery, fertility, and more.',
   path: '/',
@@ -283,29 +283,29 @@ export const blogIndexMetadata: Metadata = generateBaseMetadata({
 })
 
 export const aboutMetadata: Metadata = generateBaseMetadata({
-  title: 'About MediTravel | Your Medical Tourism Partner',
+  title: 'About MeetYourClinic | Your Medical Tourism Partner',
   description:
-    'MediTravel helps patients find world-class healthcare abroad. Learn about our mission, team, and commitment to patient safety.',
+    'MeetYourClinic helps patients find world-class healthcare abroad. Learn about our mission, team, and commitment to patient safety.',
   path: '/about',
 })
 
 export const contactMetadata: Metadata = generateBaseMetadata({
-  title: 'Contact Us | MediTravel',
+  title: 'Contact Us | MeetYourClinic',
   description:
-    'Get in touch with the MediTravel team. We\'re here to help you plan your medical travel.',
+    'Get in touch with the MeetYourClinic team. We\'re here to help you plan your medical travel.',
   path: '/contact',
 })
 
 export const privacyMetadata: Metadata = generateBaseMetadata({
-  title: 'Privacy Policy | MediTravel',
+  title: 'Privacy Policy | MeetYourClinic',
   description:
-    'Read the MediTravel privacy policy. Learn how we collect, use, and protect your personal information.',
+    'Read the MeetYourClinic privacy policy. Learn how we collect, use, and protect your personal information.',
   path: '/privacy',
 })
 
 export const termsMetadata: Metadata = generateBaseMetadata({
-  title: 'Terms of Service | MediTravel',
+  title: 'Terms of Service | MeetYourClinic',
   description:
-    'Read the MediTravel terms of service. Understand your rights and responsibilities when using our platform.',
+    'Read the MeetYourClinic terms of service. Understand your rights and responsibilities when using our platform.',
   path: '/terms',
 })

@@ -11,7 +11,7 @@ interface ClinicProfilePageProps {
 
 export async function generateMetadata() {
   return {
-    title: 'Edit Clinic Profile - MediTravel',
+    title: 'Edit Clinic Profile - MeetYourClinic',
   }
 }
 

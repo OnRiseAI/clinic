@@ -8,7 +8,7 @@ interface ForgotPasswordPageProps {
 
 export async function generateMetadata() {
   return {
-    title: 'Reset Password - MediTravel',
+    title: 'Reset Password - MeetYourClinic',
   }
 }
 
@@ -21,7 +21,7 @@ export default async function ForgotPasswordPage({ params }: ForgotPasswordPageP
       <div className="w-full max-w-md">
         <div className="text-center">
           <Link href="/" className="text-2xl font-bold text-primary-600">
-            MediTravel
+            MeetYourClinic
           </Link>
           <h1 className="mt-6 text-3xl font-bold text-neutral-900">Reset your password</h1>
           <p className="mt-2 text-neutral-600">

@@ -30,7 +30,7 @@ export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
     return null
   }
 
-  const fromEmail = from || process.env.EMAIL_FROM || 'MediTravel <noreply@meditravel.com>'
+  const fromEmail = from || process.env.EMAIL_FROM || 'MeetYourClinic <noreply@meetyourclinic.com>'
 
   try {
     const { data, error } = await client.emails.send({
