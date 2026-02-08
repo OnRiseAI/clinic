@@ -43,6 +43,7 @@ const COUNTRY_FLAGS: Record<string, string> = {
   malaysia: '🇲🇾',
   singapore: '🇸🇬',
   israel: '🇮🇱',
+  lithuania: '🇱🇹',
 }
 
 // Destination highlights
@@ -102,6 +103,39 @@ const DESTINATION_HIGHLIGHTS: Record<string, { title: string; points: string[] }
       'Many dentists speak fluent English and German',
     ],
   },
+  'czech-republic': {
+    title: 'Why Czech Republic is a Top Medical Tourism Destination',
+    points: [
+      'Prague is Central Europe\'s leading cosmetic surgery and dental hub',
+      'EU-standard healthcare with modern facilities and equipment',
+      'Excellent fertility treatment clinics with high IVF success rates',
+      'Just 2 hours from London with frequent low-cost flights',
+      'Beautiful Prague offers a wonderful recovery environment',
+      'Significantly lower costs than UK or Western Europe',
+    ],
+  },
+  lithuania: {
+    title: 'Why Lithuania is an Emerging Medical Tourism Destination',
+    points: [
+      'Some of the lowest medical prices in the EU',
+      'Modern EU-standard clinics and hospitals',
+      'Excellent LASIK and eye surgery centres',
+      'Short flights from UK with Ryanair and Wizz Air',
+      'Vilnius offers a charming old town for recovery',
+      'High English proficiency among medical staff',
+    ],
+  },
+  india: {
+    title: 'Why India is a World-Class Medical Tourism Destination',
+    points: [
+      'Home to 39 JCI-accredited hospitals — more than most countries',
+      'World-renowned orthopaedic and cardiac surgeons',
+      'Savings of 60-90% compared to UK prices',
+      'English widely spoken in medical facilities',
+      'Leading destination for complex surgical procedures',
+      'Over 2 million medical tourists visit annually',
+    ],
+  },
 }
 
 // Practical travel information
@@ -140,6 +174,27 @@ const TRAVEL_INFO: Record<string, { visa: string; currency: string; language: st
     language: 'Hungarian - English/German in dental clinics',
     timezone: 'GMT+1 (GMT+2 in summer)',
     flight: '2.5 hours from London',
+  },
+  'czech-republic': {
+    visa: 'EU/EEA citizens: No visa. UK/US: Visa-free up to 90 days',
+    currency: 'Czech Koruna (CZK) — Euro accepted in tourist areas',
+    language: 'Czech — English spoken in medical facilities',
+    timezone: 'GMT+1 (GMT+2 in summer)',
+    flight: '2 hours from London',
+  },
+  lithuania: {
+    visa: 'EU/EEA citizens: No visa. UK/US: Visa-free up to 90 days',
+    currency: 'Euro (EUR)',
+    language: 'Lithuanian — English widely spoken',
+    timezone: 'GMT+2 (GMT+3 in summer)',
+    flight: '2.5 hours from London',
+  },
+  india: {
+    visa: 'E-Visa required for UK/US citizens (easy online application)',
+    currency: 'Indian Rupee (INR)',
+    language: 'Hindi/English — English is official in the medical sector',
+    timezone: 'GMT+5:30',
+    flight: '9 hours from London',
   },
 }
 

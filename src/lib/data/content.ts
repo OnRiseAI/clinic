@@ -25,8 +25,22 @@ export interface Procedure {
   meta_title: string | null
   meta_description: string | null
   category?: Category | null
+  // Extended fields from actual schema
+  uk_private_cost_min?: number | null
+  uk_private_cost_max?: number | null
+  us_cost_min?: number | null
+  us_cost_max?: number | null
+  nhs_wait_weeks?: number | null
+  recovery_days_min?: number | null
+  recovery_days_max?: number | null
+  risk_level?: string | null
+  anesthesia_type?: string | null
+  is_cosmetic?: boolean | null
+  is_elective?: boolean | null
+  keywords?: string[] | null
 }
 
+// Legacy interface — kept for backwards compatibility with client components
 export interface Destination {
   id: string
   country_name: string
@@ -36,6 +50,56 @@ export interface Destination {
   meta_title: string | null
   meta_description: string | null
   hero_image_url: string | null
+}
+
+// Actual countries table schema
+export interface Country {
+  id: string
+  name: string
+  slug: string
+  iso_code: string
+  region: string | null
+  currency: string | null
+  currency_symbol: string | null
+  language: string | null
+  visa_required_uk: boolean | null
+  visa_required_us: boolean | null
+  flight_time_from_london_hrs: number | null
+  healthcare_rating: number | null
+  jci_hospitals_count: number | null
+  mti_ranking: number | null
+  annual_medical_tourists: number | null
+  tier: number | null
+  specialties: string[] | null
+  uk_relevant: boolean | null
+  us_relevant: boolean | null
+  description: string | null
+  meta_title: string | null
+  meta_description: string | null
+  flag_emoji: string | null
+  status: string | null
+}
+
+// Validity matrix row (destinations table in live DB)
+export interface DestinationEntry {
+  id: string
+  procedure_id: string
+  country_id: string
+  city_id: string | null
+  price_min_gbp: number | null
+  price_max_gbp: number | null
+  price_min_usd: number | null
+  price_max_usd: number | null
+  clinic_count: number
+  avg_rating: number | null
+  is_valid: boolean
+  uk_relevant: boolean
+  us_relevant: boolean
+  status: string | null
+  meta_title: string | null
+  meta_description: string | null
+  faq_json: unknown | null
+  schema_json: unknown | null
 }
 
 export interface ProcedureWithStats extends Procedure {
@@ -60,6 +124,61 @@ export interface CostComparisonData {
 }
 
 // =============================================================================
+// ADAPTER: Country → Destination (backwards compatibility)
+// =============================================================================
+
+export function countryToDestination(country: Country): Destination {
+  return {
+    id: country.id,
+    country_name: country.name,
+    country_code: country.iso_code,
+    slug: country.slug,
+    description: country.description,
+    meta_title: country.meta_title,
+    meta_description: country.meta_description,
+    hero_image_url: null,
+  }
+}
+
+// =============================================================================
+// COUNTRY DATA FETCHING
+// =============================================================================
+
+export async function getAllCountries(): Promise<Country[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('countries')
+    .select('*')
+    .eq('status', 'published')
+    .order('name')
+
+  if (error || !data) {
+    console.error('Error fetching countries:', error)
+    return []
+  }
+
+  return data as Country[]
+}
+
+export async function getCountryBySlug(slug: string): Promise<Country | null> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('countries')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (error || !data) {
+    console.error('Error fetching country:', error)
+    return null
+  }
+
+  return data as Country
+}
+
+// =============================================================================
 // CATEGORY DATA FETCHING
 // =============================================================================
 
@@ -80,33 +199,58 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
   return data
 }
 
+export async function getAllCategories(): Promise<Category[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .order('name')
+
+  if (error || !data) {
+    console.error('Error fetching categories:', error)
+    return []
+  }
+
+  return data
+}
+
 export async function getProceduresByCategory(categoryId: string): Promise<ProcedureWithStats[]> {
   const supabase = await createClient()
 
+  // Get procedures in this category
   const { data: procedures, error } = await supabase
     .from('procedures')
-    .select(`
-      *,
-      clinic_procedures(price_min, currency)
-    `)
+    .select('*')
     .eq('category_id', categoryId)
 
-  if (error) {
+  if (error || !procedures) {
     console.error('Error fetching procedures by category:', error)
     return []
   }
 
-  return procedures.map((proc) => {
-    const clinicProcs = proc.clinic_procedures || []
-    const prices = clinicProcs
-      .map((cp: { price_min: number | null }) => cp.price_min)
-      .filter((p: number | null): p is number => p !== null)
+  // Get pricing from validity matrix
+  const procIds = procedures.map((p) => p.id)
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select('procedure_id, price_min_gbp')
+    .in('procedure_id', procIds)
+    .eq('is_valid', true)
 
+  // Build price map
+  const priceMap: Record<string, number[]> = {}
+  destEntries?.forEach((d: { procedure_id: string; price_min_gbp: number | null }) => {
+    if (!priceMap[d.procedure_id]) priceMap[d.procedure_id] = []
+    if (d.price_min_gbp) priceMap[d.procedure_id].push(d.price_min_gbp)
+  })
+
+  return procedures.map((proc) => {
+    const prices = priceMap[proc.id] || []
     return {
       ...proc,
-      clinic_count: clinicProcs.length,
+      clinic_count: prices.length, // number of country offerings
       starting_price: prices.length > 0 ? Math.min(...prices) : null,
-      price_currency: clinicProcs[0]?.currency || 'EUR',
+      price_currency: 'GBP',
     }
   })
 }
@@ -147,7 +291,7 @@ export async function getClinicsByCategory(
       clinic_procedures(price_min, currency)
     `)
     .in('id', clinicIds)
-    .limit(limit * 2) // Fetch more to sort
+    .limit(limit * 2)
 
   if (error || !clinics) {
     console.error('Error fetching clinics by category:', error)
@@ -174,42 +318,48 @@ export async function getTopDestinationsForCategory(
 
   if (!category) return []
 
-  // Get clinics in this category with their countries
-  const { data: clinicCategories } = await supabase
-    .from('clinic_categories')
-    .select('clinic:clinics(country)')
+  // Get procedures in this category
+  const { data: procs } = await supabase
+    .from('procedures')
+    .select('id')
     .eq('category_id', category.id)
 
-  if (!clinicCategories) return []
+  if (!procs || procs.length === 0) return []
 
-  // Count clinics per country
-  const countryCount: Record<string, number> = {}
-  clinicCategories.forEach((cc) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const country = (cc.clinic as any)?.country
-    if (country) {
-      countryCount[country] = (countryCount[country] || 0) + 1
+  const procIds = procs.map((p) => p.id)
+
+  // Get validity matrix entries for these procedures, joined with countries
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select(`
+      country_id,
+      country:countries(*)
+    `)
+    .in('procedure_id', procIds)
+    .eq('is_valid', true)
+
+  if (!destEntries) return []
+
+  // Aggregate by country
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const countryMap: Record<string, { country: any; count: number }> = {}
+  destEntries.forEach((d: { country_id: string; country: unknown }) => {
+    if (!d.country) return
+    const cid = d.country_id
+    if (!countryMap[cid]) {
+      countryMap[cid] = { country: d.country, count: 0 }
     }
+    countryMap[cid].count++
   })
 
-  // Get destinations and enrich with counts
-  const { data: destinations } = await supabase
-    .from('destinations')
-    .select('*')
-
-  if (!destinations) return []
-
-  const enriched = destinations
-    .map((dest) => ({
-      ...dest,
-      clinic_count: countryCount[dest.country_name] || 0,
+  return Object.values(countryMap)
+    .map(({ country, count }) => ({
+      ...countryToDestination(country as Country),
+      clinic_count: count,
       top_categories: [],
     }))
-    .filter((d) => d.clinic_count > 0)
     .sort((a, b) => b.clinic_count - a.clinic_count)
     .slice(0, limit)
-
-  return enriched
 }
 
 // =============================================================================
@@ -250,7 +400,6 @@ export async function getRelatedProcedures(
       category:categories(*)
     `)
     .neq('id', currentProcedureId)
-    .eq('is_active', true)
     .limit(limit)
 
   // Prioritize same category
@@ -331,42 +480,38 @@ export async function getTopDestinationsForProcedure(
 
   if (!procedure) return []
 
-  // Get clinics offering this procedure with their countries
-  const { data: clinicProcedures } = await supabase
-    .from('clinic_procedures')
-    .select('clinic:clinics(country)')
+  // Get validity matrix entries for this procedure, joined with countries
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select(`
+      country_id, price_min_gbp,
+      country:countries(*)
+    `)
     .eq('procedure_id', procedure.id)
+    .eq('is_valid', true)
 
-  if (!clinicProcedures) return []
+  if (!destEntries) return []
 
-  // Count clinics per country
-  const countryCount: Record<string, number> = {}
-  clinicProcedures.forEach((cp) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const country = (cp.clinic as any)?.country
-    if (country) {
-      countryCount[country] = (countryCount[country] || 0) + 1
+  // Aggregate by country
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const countryMap: Record<string, { country: any; count: number }> = {}
+  destEntries.forEach((d: { country_id: string; country: unknown }) => {
+    if (!d.country) return
+    const cid = d.country_id
+    if (!countryMap[cid]) {
+      countryMap[cid] = { country: d.country, count: 0 }
     }
+    countryMap[cid].count++
   })
 
-  // Get destinations
-  const { data: destinations } = await supabase
-    .from('destinations')
-    .select('*')
-
-  if (!destinations) return []
-
-  const enriched = destinations
-    .map((dest) => ({
-      ...dest,
-      clinic_count: countryCount[dest.country_name] || 0,
+  return Object.values(countryMap)
+    .map(({ country, count }) => ({
+      ...countryToDestination(country as Country),
+      clinic_count: count,
       top_categories: [],
     }))
-    .filter((d) => d.clinic_count > 0)
     .sort((a, b) => b.clinic_count - a.clinic_count)
     .slice(0, limit)
-
-  return enriched
 }
 
 export async function getProcedureCostComparison(
@@ -374,117 +519,74 @@ export async function getProcedureCostComparison(
 ): Promise<CostComparisonData[]> {
   const supabase = await createClient()
 
-  // Get procedure with avg_costs
+  // Get procedure with UK/US cost baselines
   const { data: procedure } = await supabase
     .from('procedures')
-    .select('id, avg_costs')
+    .select('id, uk_private_cost_min, uk_private_cost_max, us_cost_min, us_cost_max')
     .eq('slug', procedureSlug)
     .single()
 
   if (!procedure) return []
 
-  // Get clinic_procedures for this procedure with country info
-  const { data: clinicProcedures } = await supabase
-    .from('clinic_procedures')
+  // Get validity matrix entries for this procedure with country info
+  const { data: destEntries } = await supabase
+    .from('destinations')
     .select(`
-      price_min, price_max, currency,
-      clinic:clinics(country)
+      price_min_gbp, price_max_gbp, clinic_count,
+      country:countries(name, iso_code)
     `)
     .eq('procedure_id', procedure.id)
+    .eq('is_valid', true)
 
-  if (!clinicProcedures) return []
+  if (!destEntries) return []
 
-  // Aggregate by country
-  const countryData: Record<string, { prices: number[]; currency: string; count: number }> = {}
+  const ukBaseline = Math.round(
+    ((procedure.uk_private_cost_min || 0) + (procedure.uk_private_cost_max || 0)) / 2
+  ) || 5000
+  const usBaseline = Math.round(
+    ((procedure.us_cost_min || 0) + (procedure.us_cost_max || 0)) / 2
+  ) || 8000
 
-  clinicProcedures.forEach((cp) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const country = (cp.clinic as any)?.country
-    if (!country) return
-
-    if (!countryData[country]) {
-      countryData[country] = { prices: [], currency: cp.currency, count: 0 }
-    }
-
-    if (cp.price_min) {
-      countryData[country].prices.push(cp.price_min)
-    }
-    countryData[country].count++
-  })
-
-  // Also use avg_costs from procedure if available
-  const avgCosts = procedure.avg_costs as Record<string, { min: number; max: number; currency: string }> | null
-  if (avgCosts) {
-    Object.entries(avgCosts).forEach(([country, data]) => {
-      if (!countryData[country]) {
-        countryData[country] = { prices: [data.min], currency: data.currency, count: 1 }
-      }
-    })
-  }
-
-  // Get destinations for country codes
-  const { data: destinations } = await supabase
-    .from('destinations')
-    .select('country_name, country_code')
-
-  const countryCodeMap: Record<string, string> = {}
-  destinations?.forEach((d) => {
-    countryCodeMap[d.country_name] = d.country_code
-  })
-
-  // Reference prices (UK and US baselines)
-  const UK_BASELINE = 4000 // Example: £4000 for veneers in UK
-  const US_BASELINE = 5000 // Example: $5000 for veneers in US
-
-  // Build comparison data
-  const comparison: CostComparisonData[] = Object.entries(countryData)
-    .map(([country, data]) => {
-      const avgCost = data.prices.length > 0
-        ? Math.round(data.prices.reduce((a, b) => a + b, 0) / data.prices.length)
-        : 0
+  return destEntries
+    .filter((d: { country: unknown; price_min_gbp: number | null }) => d.country && d.price_min_gbp)
+    .map((d: { price_min_gbp: number | null; price_max_gbp: number | null; clinic_count: number; country: unknown }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const country = d.country as any
+      const avgCost = Math.round(((d.price_min_gbp || 0) + (d.price_max_gbp || 0)) / 2)
 
       return {
-        country,
-        country_code: countryCodeMap[country] || '',
+        country: country.name,
+        country_code: country.iso_code,
         avg_cost: avgCost,
-        currency: data.currency,
-        clinic_count: data.count,
-        savings_vs_uk: avgCost > 0 ? Math.round((1 - avgCost / UK_BASELINE) * 100) : 0,
-        savings_vs_us: avgCost > 0 ? Math.round((1 - avgCost / US_BASELINE) * 100) : 0,
+        currency: 'GBP',
+        clinic_count: d.clinic_count || 0,
+        savings_vs_uk: ukBaseline > 0 ? Math.round((1 - avgCost / ukBaseline) * 100) : 0,
+        savings_vs_us: usBaseline > 0 ? Math.round((1 - avgCost / usBaseline) * 100) : 0,
       }
     })
-    .filter((d) => d.avg_cost > 0)
+    .filter((d) => d.avg_cost > 0 && d.savings_vs_uk > 0)
     .sort((a, b) => a.avg_cost - b.avg_cost)
-
-  return comparison
 }
 
 // =============================================================================
-// DESTINATION DATA FETCHING
+// DESTINATION DATA FETCHING (uses countries table via adapter)
 // =============================================================================
 
 export async function getDestinationBySlug(slug: string): Promise<Destination | null> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('destinations')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-
-  if (error) {
-    console.error('Error fetching destination:', error)
-    return null
-  }
-
-  return data
+  const country = await getCountryBySlug(slug)
+  if (!country) return null
+  return countryToDestination(country)
 }
 
 export async function getClinicsByCountry(
-  countryName: string,
+  countrySlug: string,
   limit: number = 8
 ): Promise<ClinicCardData[]> {
   const supabase = await createClient()
+
+  // Get country name for matching against clinics table
+  const country = await getCountryBySlug(countrySlug)
+  if (!country) return []
 
   const { data: clinics, error } = await supabase
     .from('clinics')
@@ -495,7 +597,7 @@ export async function getClinicsByCountry(
       clinic_categories(category:categories(name, slug)),
       clinic_procedures(price_min, currency)
     `)
-    .ilike('country', `%${countryName}%`)
+    .ilike('country', `%${country.name}%`)
     .limit(limit * 2)
 
   if (error || !clinics) {
@@ -509,124 +611,99 @@ export async function getClinicsByCountry(
 }
 
 export async function getProceduresInCountry(
-  countryName: string,
+  countrySlug: string,
   limit: number = 12
 ): Promise<ProcedureWithStats[]> {
   const supabase = await createClient()
 
-  // Get clinics in this country
-  const { data: clinics } = await supabase
-    .from('clinics')
+  // Get country ID
+  const { data: country } = await supabase
+    .from('countries')
     .select('id')
-    .ilike('country', `%${countryName}%`)
+    .eq('slug', countrySlug)
+    .single()
 
-  if (!clinics || clinics.length === 0) return []
+  if (!country) return []
 
-  const clinicIds = clinics.map((c) => c.id)
-
-  // Get procedures offered by these clinics
-  const { data: clinicProcedures } = await supabase
-    .from('clinic_procedures')
+  // Query validity matrix joined with procedures
+  const { data: destEntries, error } = await supabase
+    .from('destinations')
     .select(`
-      procedure_id, price_min, currency,
+      price_min_gbp, price_max_gbp, clinic_count,
       procedure:procedures(*)
     `)
-    .in('clinic_id', clinicIds)
+    .eq('country_id', country.id)
+    .eq('is_valid', true)
 
-  if (!clinicProcedures) return []
+  if (error || !destEntries) {
+    console.error('Error fetching procedures in country:', error)
+    return []
+  }
 
-  // Aggregate by procedure
-  const procedureMap: Record<string, { procedure: Procedure; prices: number[]; currency: string; count: number }> = {}
-
-  clinicProcedures.forEach((cp) => {
+  return destEntries
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const proc = cp.procedure as any
-    if (!proc) return
-
-    if (!procedureMap[proc.id]) {
-      procedureMap[proc.id] = { procedure: proc, prices: [], currency: cp.currency, count: 0 }
-    }
-
-    if (cp.price_min) {
-      procedureMap[proc.id].prices.push(cp.price_min)
-    }
-    procedureMap[proc.id].count++
-  })
-
-  return Object.values(procedureMap)
-    .map(({ procedure, prices, currency, count }) => ({
-      ...procedure,
-      clinic_count: count,
-      starting_price: prices.length > 0 ? Math.min(...prices) : null,
-      price_currency: currency,
+    .filter((d: any) => d.procedure)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => ({
+      ...d.procedure,
+      clinic_count: d.clinic_count || 0,
+      starting_price: d.price_min_gbp,
+      price_currency: 'GBP',
     }))
-    .sort((a, b) => b.clinic_count - a.clinic_count)
+    .sort((a: ProcedureWithStats, b: ProcedureWithStats) =>
+      (b.clinic_count || 0) - (a.clinic_count || 0)
+    )
     .slice(0, limit)
 }
 
 export async function getDestinationCostComparison(
-  countryName: string
+  countrySlug: string
 ): Promise<Array<{ procedure: string; local_cost: number; uk_cost: number; us_cost: number; savings: number }>> {
   const supabase = await createClient()
 
-  // Get clinics in this country
-  const { data: clinics } = await supabase
-    .from('clinics')
+  const { data: country } = await supabase
+    .from('countries')
     .select('id')
-    .ilike('country', `%${countryName}%`)
+    .eq('slug', countrySlug)
+    .single()
 
-  if (!clinics || clinics.length === 0) return []
+  if (!country) return []
 
-  const clinicIds = clinics.map((c) => c.id)
-
-  // Get procedures and prices
-  const { data: clinicProcedures } = await supabase
-    .from('clinic_procedures')
+  // Get validity matrix entries with procedure UK/US pricing
+  const { data: destEntries } = await supabase
+    .from('destinations')
     .select(`
-      price_min,
-      procedure:procedures(name)
+      price_min_gbp, price_max_gbp,
+      procedure:procedures(name, uk_private_cost_min, uk_private_cost_max, us_cost_min, us_cost_max)
     `)
-    .in('clinic_id', clinicIds)
+    .eq('country_id', country.id)
+    .eq('is_valid', true)
 
-  if (!clinicProcedures) return []
+  if (!destEntries) return []
 
-  // Aggregate by procedure
-  const procedurePrices: Record<string, number[]> = {}
-  clinicProcedures.forEach((cp) => {
+  return destEntries
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const name = (cp.procedure as any)?.name
-    if (!name || !cp.price_min) return
-
-    if (!procedurePrices[name]) {
-      procedurePrices[name] = []
-    }
-    procedurePrices[name].push(cp.price_min)
-  })
-
-  // Example baseline costs (would be from a config in production)
-  const baselines: Record<string, { uk: number; us: number }> = {
-    'Dental Veneers': { uk: 800, us: 1500 },
-    'Dental Implants': { uk: 2500, us: 4000 },
-    'Hair Transplant': { uk: 8000, us: 15000 },
-    'Rhinoplasty': { uk: 6000, us: 10000 },
-    'Tummy Tuck': { uk: 7000, us: 12000 },
-  }
-
-  return Object.entries(procedurePrices)
-    .map(([procedure, prices]) => {
-      const avgCost = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
-      const baseline = baselines[procedure] || { uk: avgCost * 2, us: avgCost * 2.5 }
-
+    .filter((d: any) => d.procedure && d.price_min_gbp)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => {
+      const localAvg = Math.round(((d.price_min_gbp || 0) + (d.price_max_gbp || 0)) / 2)
+      const ukAvg = Math.round(
+        ((d.procedure.uk_private_cost_min || 0) + (d.procedure.uk_private_cost_max || 0)) / 2
+      )
+      const usAvg = Math.round(
+        ((d.procedure.us_cost_min || 0) + (d.procedure.us_cost_max || 0)) / 2
+      )
       return {
-        procedure,
-        local_cost: avgCost,
-        uk_cost: baseline.uk,
-        us_cost: baseline.us,
-        savings: Math.round((1 - avgCost / baseline.uk) * 100),
+        procedure: d.procedure.name,
+        local_cost: localAvg,
+        uk_cost: ukAvg || localAvg * 2.5,
+        us_cost: usAvg || localAvg * 3,
+        savings: ukAvg > 0 ? Math.round((1 - localAvg / ukAvg) * 100) : 60,
       }
     })
+    .filter((d) => d.savings > 0)
     .sort((a, b) => b.savings - a.savings)
-    .slice(0, 6)
+    .slice(0, 8)
 }
 
 // =============================================================================
@@ -634,26 +711,25 @@ export async function getDestinationCostComparison(
 // =============================================================================
 
 export async function getClinicsByCountryAndProcedure(
-  countryName: string,
+  countrySlug: string,
   procedureSlug: string,
   limit: number = 20
 ): Promise<ClinicCardData[]> {
   const supabase = await createClient()
 
-  // Get procedure ID
-  const { data: procedure } = await supabase
-    .from('procedures')
-    .select('id')
-    .eq('slug', procedureSlug)
-    .single()
+  // Get country name and procedure ID
+  const [country, procedureData] = await Promise.all([
+    getCountryBySlug(countrySlug),
+    supabase.from('procedures').select('id').eq('slug', procedureSlug).single(),
+  ])
 
-  if (!procedure) return []
+  if (!country || !procedureData.data) return []
 
   // Get clinic IDs that offer this procedure
   const { data: clinicProcedures } = await supabase
     .from('clinic_procedures')
     .select('clinic_id')
-    .eq('procedure_id', procedure.id)
+    .eq('procedure_id', procedureData.data.id)
 
   if (!clinicProcedures || clinicProcedures.length === 0) return []
 
@@ -670,7 +746,7 @@ export async function getClinicsByCountryAndProcedure(
       clinic_procedures(price_min, currency)
     `)
     .in('id', clinicIds)
-    .ilike('country', `%${countryName}%`)
+    .ilike('country', `%${country.name}%`)
     .limit(limit)
 
   if (error || !clinics) {
@@ -684,63 +760,349 @@ export async function getClinicsByCountryAndProcedure(
 }
 
 export async function getDestinationProcedureStats(
-  countryName: string,
+  countrySlug: string,
   procedureSlug: string
 ): Promise<{ clinic_count: number; avg_cost: number; min_cost: number; max_cost: number; savings_percent: number }> {
   const supabase = await createClient()
+  const DEFAULT = { clinic_count: 0, avg_cost: 0, min_cost: 0, max_cost: 0, savings_percent: 0 }
 
-  // Get procedure ID
-  const { data: procedure } = await supabase
-    .from('procedures')
-    .select('id')
-    .eq('slug', procedureSlug)
+  const [countryResult, procedureResult] = await Promise.all([
+    supabase.from('countries').select('id').eq('slug', countrySlug).single(),
+    supabase.from('procedures').select('id, uk_private_cost_min, uk_private_cost_max').eq('slug', procedureSlug).single(),
+  ])
+
+  if (!countryResult.data || !procedureResult.data) return DEFAULT
+
+  const { data: dest } = await supabase
+    .from('destinations')
+    .select('price_min_gbp, price_max_gbp, clinic_count')
+    .eq('country_id', countryResult.data.id)
+    .eq('procedure_id', procedureResult.data.id)
+    .eq('is_valid', true)
     .single()
 
-  if (!procedure) {
-    return { clinic_count: 0, avg_cost: 0, min_cost: 0, max_cost: 0, savings_percent: 0 }
-  }
+  if (!dest) return DEFAULT
 
-  // Get clinics in this country
-  const { data: clinics } = await supabase
-    .from('clinics')
-    .select('id')
-    .ilike('country', `%${countryName}%`)
-
-  if (!clinics || clinics.length === 0) {
-    return { clinic_count: 0, avg_cost: 0, min_cost: 0, max_cost: 0, savings_percent: 0 }
-  }
-
-  const clinicIds = clinics.map((c) => c.id)
-
-  // Get procedure pricing from these clinics
-  const { data: clinicProcedures } = await supabase
-    .from('clinic_procedures')
-    .select('price_min, price_max')
-    .eq('procedure_id', procedure.id)
-    .in('clinic_id', clinicIds)
-
-  if (!clinicProcedures || clinicProcedures.length === 0) {
-    return { clinic_count: 0, avg_cost: 0, min_cost: 0, max_cost: 0, savings_percent: 0 }
-  }
-
-  const prices = clinicProcedures
-    .map((cp) => cp.price_min)
-    .filter((p): p is number => p !== null)
-
-  const avgCost = prices.length > 0 ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 0
-  const minCost = prices.length > 0 ? Math.min(...prices) : 0
-  const maxCost = prices.length > 0 ? Math.max(...prices) : 0
-
-  // Estimate savings vs UK (would come from config in production)
-  const UK_BASELINE = avgCost * 2.5
-  const savingsPercent = avgCost > 0 ? Math.round((1 - avgCost / UK_BASELINE) * 100) : 0
+  const minCost = dest.price_min_gbp || 0
+  const maxCost = dest.price_max_gbp || 0
+  const avgCost = Math.round((minCost + maxCost) / 2)
+  const ukBaseline = Math.round(
+    ((procedureResult.data.uk_private_cost_min || 0) + (procedureResult.data.uk_private_cost_max || 0)) / 2
+  )
+  const savingsPercent = ukBaseline > 0
+    ? Math.round((1 - avgCost / ukBaseline) * 100)
+    : 60
 
   return {
-    clinic_count: clinicProcedures.length,
+    clinic_count: dest.clinic_count || 0,
     avg_cost: avgCost,
     min_cost: minCost,
     max_cost: maxCost,
-    savings_percent: Math.min(savingsPercent, 80), // Cap at 80%
+    savings_percent: Math.min(Math.max(savingsPercent, 0), 90),
+  }
+}
+
+// =============================================================================
+// PROCEDURE COST GUIDE DATA
+// =============================================================================
+
+export interface ProcedureCostGuideData {
+  procedure: Procedure
+  category: Category | null
+  destinations: Array<{
+    country_name: string
+    country_code: string
+    country_slug: string
+    flag_emoji: string | null
+    price_min: number
+    price_max: number
+    price_avg: number
+    savings_vs_uk: number
+    savings_vs_us: number
+    flight_hours: number | null
+  }>
+  uk_private_cost_min: number
+  uk_private_cost_max: number
+  us_cost_min: number
+  us_cost_max: number
+}
+
+export async function getProcedureCostGuideData(procedureSlug: string): Promise<ProcedureCostGuideData | null> {
+  const supabase = await createClient()
+
+  const { data: procedure } = await supabase
+    .from('procedures')
+    .select('*, category:categories(*)')
+    .eq('slug', procedureSlug)
+    .single()
+
+  if (!procedure) return null
+
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select(`
+      price_min_gbp, price_max_gbp,
+      country:countries(name, iso_code, slug, flag_emoji, flight_time_from_london_hrs)
+    `)
+    .eq('procedure_id', procedure.id)
+    .eq('is_valid', true)
+
+  const destinations = (destEntries || [])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .filter((d: any) => d.country && d.price_min_gbp)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => {
+      const priceMin = d.price_min_gbp || 0
+      const priceMax = d.price_max_gbp || priceMin
+      const priceAvg = Math.round((priceMin + priceMax) / 2)
+      const ukAvg = Math.round(((procedure.uk_private_cost_min || 0) + (procedure.uk_private_cost_max || 0)) / 2)
+      const usAvg = Math.round(((procedure.us_cost_min || 0) + (procedure.us_cost_max || 0)) / 2)
+
+      return {
+        country_name: d.country.name,
+        country_code: d.country.iso_code,
+        country_slug: d.country.slug,
+        flag_emoji: d.country.flag_emoji,
+        price_min: priceMin,
+        price_max: priceMax,
+        price_avg: priceAvg,
+        savings_vs_uk: ukAvg > 0 ? Math.round((1 - priceAvg / ukAvg) * 100) : 60,
+        savings_vs_us: usAvg > 0 ? Math.round((1 - priceAvg / usAvg) * 100) : 70,
+        flight_hours: d.country.flight_time_from_london_hrs,
+      }
+    })
+    .sort((a: { price_avg: number }, b: { price_avg: number }) => a.price_avg - b.price_avg)
+
+  return {
+    procedure,
+    category: procedure.category || null,
+    destinations,
+    uk_private_cost_min: procedure.uk_private_cost_min || 0,
+    uk_private_cost_max: procedure.uk_private_cost_max || 0,
+    us_cost_min: procedure.us_cost_min || 0,
+    us_cost_max: procedure.us_cost_max || 0,
+  }
+}
+
+// =============================================================================
+// NHS WAIT TIME DATA
+// =============================================================================
+
+export interface NHSWaitTimeData {
+  procedure: Procedure
+  category: Category | null
+  nhs_wait_weeks: number
+  destinations: Array<{
+    country_name: string
+    country_code: string
+    country_slug: string
+    flag_emoji: string | null
+    price_min: number
+    price_max: number
+    flight_hours: number | null
+  }>
+}
+
+export async function getNHSWaitTimeData(procedureSlug: string): Promise<NHSWaitTimeData | null> {
+  const supabase = await createClient()
+
+  const { data: procedure } = await supabase
+    .from('procedures')
+    .select('*, category:categories(*)')
+    .eq('slug', procedureSlug)
+    .single()
+
+  if (!procedure || !procedure.nhs_wait_weeks) return null
+
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select(`
+      price_min_gbp, price_max_gbp,
+      country:countries(name, iso_code, slug, flag_emoji, flight_time_from_london_hrs)
+    `)
+    .eq('procedure_id', procedure.id)
+    .eq('is_valid', true)
+    .eq('uk_relevant', true)
+
+  const destinations = (destEntries || [])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .filter((d: any) => d.country && d.price_min_gbp)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => ({
+      country_name: d.country.name,
+      country_code: d.country.iso_code,
+      country_slug: d.country.slug,
+      flag_emoji: d.country.flag_emoji,
+      price_min: d.price_min_gbp,
+      price_max: d.price_max_gbp || d.price_min_gbp,
+      flight_hours: d.country.flight_time_from_london_hrs,
+    }))
+    .sort((a: { price_min: number }, b: { price_min: number }) => a.price_min - b.price_min)
+
+  return {
+    procedure,
+    category: procedure.category || null,
+    nhs_wait_weeks: procedure.nhs_wait_weeks,
+    destinations,
+  }
+}
+
+// =============================================================================
+// ALL PROCEDURES WITH NHS DATA (for listing pages)
+// =============================================================================
+
+export async function getAllProceduresWithNHSWait(): Promise<Procedure[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('procedures')
+    .select('*, category:categories(*)')
+    .not('nhs_wait_weeks', 'is', null)
+    .gt('nhs_wait_weeks', 0)
+    .order('nhs_wait_weeks', { ascending: false })
+
+  if (error || !data) return []
+  return data
+}
+
+// =============================================================================
+// COUNTRY GUIDE DATA
+// =============================================================================
+
+export interface CountryGuideData {
+  country: Country
+  procedures: Array<{
+    name: string
+    slug: string
+    category_name: string | null
+    category_slug: string | null
+    price_min: number
+    price_max: number
+    uk_cost_min: number | null
+    uk_cost_max: number | null
+    savings_percent: number
+  }>
+  stats: {
+    procedure_count: number
+    category_count: number
+    min_price: number | null
+    avg_savings: number
+  }
+}
+
+export async function getCountryGuideData(countrySlug: string): Promise<CountryGuideData | null> {
+  const country = await getCountryBySlug(countrySlug)
+  if (!country) return null
+
+  const supabase = await createClient()
+
+  const { data: destEntries } = await supabase
+    .from('destinations')
+    .select(`
+      price_min_gbp, price_max_gbp,
+      procedure:procedures(name, slug, category_id, uk_private_cost_min, uk_private_cost_max,
+        category:categories(name, slug)
+      )
+    `)
+    .eq('country_id', country.id)
+    .eq('is_valid', true)
+
+  const procedures = (destEntries || [])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .filter((d: any) => d.procedure)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => {
+      const ukAvg = Math.round(((d.procedure.uk_private_cost_min || 0) + (d.procedure.uk_private_cost_max || 0)) / 2)
+      const localAvg = Math.round(((d.price_min_gbp || 0) + (d.price_max_gbp || 0)) / 2)
+      return {
+        name: d.procedure.name,
+        slug: d.procedure.slug,
+        category_name: d.procedure.category?.name || null,
+        category_slug: d.procedure.category?.slug || null,
+        price_min: d.price_min_gbp || 0,
+        price_max: d.price_max_gbp || 0,
+        uk_cost_min: d.procedure.uk_private_cost_min,
+        uk_cost_max: d.procedure.uk_private_cost_max,
+        savings_percent: ukAvg > 0 ? Math.round((1 - localAvg / ukAvg) * 100) : 60,
+      }
+    })
+    .sort((a: { savings_percent: number }, b: { savings_percent: number }) => b.savings_percent - a.savings_percent)
+
+  const categories = new Set(procedures.map((p: { category_slug: string | null }) => p.category_slug).filter(Boolean))
+  const allPrices = procedures.map((p: { price_min: number }) => p.price_min).filter((p: number) => p > 0)
+  const allSavings = procedures.map((p: { savings_percent: number }) => p.savings_percent).filter((s: number) => s > 0)
+
+  return {
+    country,
+    procedures,
+    stats: {
+      procedure_count: procedures.length,
+      category_count: categories.size,
+      min_price: allPrices.length > 0 ? Math.min(...allPrices) : null,
+      avg_savings: allSavings.length > 0 ? Math.round(allSavings.reduce((a: number, b: number) => a + b, 0) / allSavings.length) : 60,
+    },
+  }
+}
+
+// =============================================================================
+// PROCEDURE COMPARISON DATA
+// =============================================================================
+
+export interface ProcedureComparisonData {
+  procedureA: Procedure
+  procedureB: Procedure
+  categoryA: Category | null
+  categoryB: Category | null
+  destinationsA: Array<{ country_name: string; country_slug: string; price_avg: number }>
+  destinationsB: Array<{ country_name: string; country_slug: string; price_avg: number }>
+}
+
+export async function getProcedureComparisonData(
+  slugA: string,
+  slugB: string
+): Promise<ProcedureComparisonData | null> {
+  const [procA, procB] = await Promise.all([
+    getProcedureBySlug(slugA),
+    getProcedureBySlug(slugB),
+  ])
+
+  if (!procA || !procB) return null
+
+  const supabase = await createClient()
+
+  const [destsA, destsB] = await Promise.all([
+    supabase
+      .from('destinations')
+      .select('price_min_gbp, price_max_gbp, country:countries(name, slug)')
+      .eq('procedure_id', procA.id)
+      .eq('is_valid', true),
+    supabase
+      .from('destinations')
+      .select('price_min_gbp, price_max_gbp, country:countries(name, slug)')
+      .eq('procedure_id', procB.id)
+      .eq('is_valid', true),
+  ])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapDests = (entries: any[]) =>
+    entries
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .filter((d: any) => d.country && d.price_min_gbp)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((d: any) => ({
+        country_name: d.country.name,
+        country_slug: d.country.slug,
+        price_avg: Math.round(((d.price_min_gbp || 0) + (d.price_max_gbp || 0)) / 2),
+      }))
+      .sort((a: { price_avg: number }, b: { price_avg: number }) => a.price_avg - b.price_avg)
+
+  return {
+    procedureA: procA,
+    procedureB: procB,
+    categoryA: procA.category || null,
+    categoryB: procB.category || null,
+    destinationsA: mapDests(destsA.data || []),
+    destinationsB: mapDests(destsB.data || []),
   }
 }
 

@@ -68,11 +68,6 @@ const nextConfig: NextConfig = {
         destination: '/search',
         permanent: false, // Temporary until landing page built
       },
-      {
-        source: '/destinations',
-        destination: '/search',
-        permanent: false, // Temporary until landing page built
-      },
       // Utility redirects
       {
         source: '/enquiry',

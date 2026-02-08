@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { setRequestLocale } from 'next-intl/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import {
   getDestinationBySlug,
   getProcedureBySlug,
@@ -12,6 +13,28 @@ import { DestinationProcedurePageClient } from './destination-procedure-page-cli
 
 interface DestinationProcedurePageProps {
   params: Promise<{ locale: string; country: string; procedure: string }>
+}
+
+export async function generateStaticParams() {
+  const supabase = createStaticClient()
+  const { data } = await supabase
+    .from('destinations')
+    .select(`
+      country:countries(slug),
+      procedure:procedures(slug)
+    `)
+    .eq('is_valid', true)
+
+  if (!data) return []
+
+  return data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .filter((d: any) => d.country?.slug && d.procedure?.slug)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((d: any) => ({
+      country: d.country.slug,
+      procedure: d.procedure.slug,
+    }))
 }
 
 export async function generateMetadata({ params }: DestinationProcedurePageProps): Promise<Metadata> {
@@ -53,10 +76,10 @@ export default async function DestinationProcedurePage({ params }: DestinationPr
     notFound()
   }
 
-  // Fetch remaining data
+  // Fetch remaining data (all functions now accept slugs)
   const [clinics, rawStats] = await Promise.all([
-    getClinicsByCountryAndProcedure(destination.country_name, procedureSlug, 20),
-    getDestinationProcedureStats(destination.country_name, procedureSlug),
+    getClinicsByCountryAndProcedure(countrySlug, procedureSlug, 20),
+    getDestinationProcedureStats(countrySlug, procedureSlug),
   ])
 
   // Transform stats to match client component interface

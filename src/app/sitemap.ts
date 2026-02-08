@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
   const now = new Date()
 
   // Static pages
@@ -82,7 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: countries } = await supabase
     .from('countries')
     .select('slug, updated_at')
-    .eq('is_active', true)
+    .eq('status', 'published')
 
   const destinationPages: MetadataRoute.Sitemap = (countries || []).map((country) => ({
     url: `${SITE_URL}/destinations/${country.slug}`,
@@ -107,29 +107,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch destination + procedure combinations
   const { data: destProcs } = await supabase
-    .from('clinic_procedures')
+    .from('destinations')
     .select(`
-      procedure:procedures!inner(slug, is_active),
-      clinic:clinics!inner(
-        country:countries!inner(slug, is_active)
-      )
+      country:countries!inner(slug),
+      procedure:procedures!inner(slug)
     `)
-    .limit(1000)
+    .eq('is_valid', true)
 
   const destProcSet = new Set<string>()
   const destProcPages: MetadataRoute.Sitemap = []
 
   if (destProcs) {
     for (const dp of destProcs) {
-      const proc = dp.procedure as unknown as { slug: string; is_active: boolean } | null
-      const clinic = dp.clinic as unknown as { country: { slug: string; is_active: boolean } | null } | null
-
-      if (proc?.is_active && clinic?.country?.is_active) {
-        const key = `${clinic.country.slug}/${proc.slug}`
+      const countrySlug = (dp.country as any)?.slug
+      const procSlug = (dp.procedure as any)?.slug
+      if (countrySlug && procSlug) {
+        const key = `${countrySlug}/${procSlug}`
         if (!destProcSet.has(key)) {
           destProcSet.add(key)
           destProcPages.push({
-            url: `${SITE_URL}/destinations/${clinic.country.slug}/${proc.slug}`,
+            url: `${SITE_URL}/destinations/${countrySlug}/${procSlug}`,
             lastModified: now,
             changeFrequency: 'weekly' as const,
             priority: 0.7,
@@ -154,15 +151,82 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch procedure categories
   const { data: categories } = await supabase
-    .from('procedure_categories')
+    .from('categories')
     .select('slug')
 
   const categoryPages: MetadataRoute.Sitemap = (categories || []).map((cat) => ({
-    url: `${SITE_URL}/procedures/category/${cat.slug}`,
+    url: `${SITE_URL}/${cat.slug}`,
     lastModified: now,
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
+
+  // Fetch category + procedure URLs (also used for cost-guide and nhs-wait-times)
+  const { data: categoryProcs } = await supabase
+    .from('procedures')
+    .select('slug, nhs_wait_weeks, category:categories(slug)')
+
+  const categoryProcPages: MetadataRoute.Sitemap = (categoryProcs || [])
+    .filter((p: any) => p.category?.slug)
+    .map((p: any) => ({
+      url: `${SITE_URL}/${p.category.slug}/${p.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }))
+
+  // Cost guide pages (/{category}/{procedure}/cost-guide)
+  const costGuidePages: MetadataRoute.Sitemap = (categoryProcs || [])
+    .filter((p: any) => p.category?.slug)
+    .map((p: any) => ({
+      url: `${SITE_URL}/${p.category.slug}/${p.slug}/cost-guide`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+
+  // NHS wait time pages (only for procedures with nhs_wait_weeks data)
+  const nhsWaitPages: MetadataRoute.Sitemap = (categoryProcs || [])
+    .filter((p: any) => p.category?.slug && p.nhs_wait_weeks && p.nhs_wait_weeks > 0)
+    .map((p: any) => ({
+      url: `${SITE_URL}/${p.category.slug}/${p.slug}/nhs-wait-times`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+
+  // Country guide pages (/destinations/{country}/guide)
+  const countryGuidePages: MetadataRoute.Sitemap = (countries || []).map((country) => ({
+    url: `${SITE_URL}/destinations/${country.slug}/guide`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  // Procedure comparison pages (/compare/{procedure-a}-vs-{procedure-b})
+  // Generate pairs of procedures within the same category
+  const comparisonPages: MetadataRoute.Sitemap = []
+  const procsByCategory: Record<string, string[]> = {}
+  ;(categoryProcs || []).forEach((p: any) => {
+    const catSlug = p.category?.slug
+    if (catSlug) {
+      if (!procsByCategory[catSlug]) procsByCategory[catSlug] = []
+      procsByCategory[catSlug].push(p.slug)
+    }
+  })
+  for (const slugs of Object.values(procsByCategory)) {
+    slugs.sort()
+    for (let i = 0; i < slugs.length; i++) {
+      for (let j = i + 1; j < slugs.length; j++) {
+        comparisonPages.push({
+          url: `${SITE_URL}/compare/${slugs[i]}-vs-${slugs[j]}`,
+          lastModified: now,
+          changeFrequency: 'monthly' as const,
+          priority: 0.5,
+        })
+      }
+    }
+  }
 
   return [
     ...staticPages,
@@ -172,5 +236,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...destProcPages,
     ...blogPages,
     ...categoryPages,
+    ...categoryProcPages,
+    ...costGuidePages,
+    ...nhsWaitPages,
+    ...countryGuidePages,
+    ...comparisonPages,
   ]
 }

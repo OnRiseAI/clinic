@@ -7,6 +7,7 @@ import {
   getProceduresInCountry,
   getDestinationCostComparison,
 } from '@/lib/data/content'
+import { createStaticClient } from '@/lib/supabase/static'
 import { Breadcrumb } from '@/components/navigation/breadcrumb'
 import { DestinationPageClient } from './destination-page-client'
 import { StructuredData } from '@/components/seo/structured-data-component'
@@ -41,6 +42,15 @@ export async function generateMetadata({ params }: DestinationPageProps): Promis
 
 export const revalidate = 3600
 
+export async function generateStaticParams() {
+  const supabase = createStaticClient()
+  const { data } = await supabase
+    .from('countries')
+    .select('slug')
+    .eq('status', 'published')
+  return (data || []).map((c) => ({ country: c.slug }))
+}
+
 export default async function DestinationPage({ params }: DestinationPageProps) {
   const { locale, country: countrySlug } = await params
   setRequestLocale(locale)
@@ -51,11 +61,11 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
     notFound()
   }
 
-  // Fetch all data in parallel
+  // Fetch all data in parallel (all functions now accept slug)
   const [clinics, procedures, costComparison] = await Promise.all([
-    getClinicsByCountry(destination.country_name, 8),
-    getProceduresInCountry(destination.country_name, 12),
-    getDestinationCostComparison(destination.country_name),
+    getClinicsByCountry(countrySlug, 8),
+    getProceduresInCountry(countrySlug, 12),
+    getDestinationCostComparison(countrySlug),
   ])
 
   // Calculate stats
