@@ -30,6 +30,7 @@ export function Footer() {
 
   // High-value SEO links for popular treatments
   const popularTreatments = [
+    { name: 'Dental Clinics Directory', href: '/clinics/dentistry' },
     { name: 'Dental Veneers Turkey', href: '/procedures/veneers/turkey' },
     { name: 'Rhinoplasty Turkey', href: '/procedures/rhinoplasty/turkey' },
     { name: 'Dental Implants Hungary', href: '/procedures/dental-implants/hungary' },
