@@ -15,6 +15,7 @@ export interface ConciergeClinic {
   price_range: string | null
   accreditations: string[]
   categories: string[]
+  category_slug: string | null
   profile_url: string
 }
 
@@ -102,11 +103,14 @@ export async function searchClinicsForConcierge(
         ? clinic.google_reviews[0]
         : clinic.google_reviews
 
-      const categories = (clinic.clinic_categories || [])
+      const categoryEntries = (clinic.clinic_categories || [])
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .filter((cc: any) => cc.category)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((cc: any) => cc.category.name)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const categories = categoryEntries.map((cc: any) => cc.category.name)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const firstCat = categoryEntries[0]?.category as any
+      const categorySlug: string | null = (Array.isArray(firstCat) ? firstCat[0]?.slug : firstCat?.slug) || null
 
       const procedures = clinic.clinic_procedures || []
 
@@ -151,7 +155,8 @@ export async function searchClinicsForConcierge(
         price_range: priceRange,
         accreditations: clinic.accreditations || [],
         categories,
-        profile_url: `/clinics/${clinic.slug}`,
+        category_slug: categorySlug,
+        profile_url: categorySlug ? `/clinics/${categorySlug}/${clinic.slug}` : `/clinics/dental/${clinic.slug}`,
       }
     })
     .filter((c): c is ConciergeClinic => c !== null)
@@ -209,6 +214,7 @@ export async function getClinicDetailsForConcierge(
       year_established, languages, accreditations,
       doctors(name, title, specialisation, years_experience),
       google_reviews(rating, review_count),
+      clinic_categories(category:categories(slug)),
       clinic_procedures(
         price_min, price_max, currency,
         procedure:procedures(name)
@@ -253,7 +259,12 @@ export async function getClinicDetailsForConcierge(
         price_max: cp.price_max,
         currency: cp.currency,
       })),
-      profile_url: `/clinics/${clinic.slug}`,
+      profile_url: (() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const cats = (clinic.clinic_categories || []) as any[]
+        const catSlug = cats[0]?.category?.slug || 'dental'
+        return `/clinics/${catSlug}/${clinic.slug}`
+      })(),
     },
   }
 }

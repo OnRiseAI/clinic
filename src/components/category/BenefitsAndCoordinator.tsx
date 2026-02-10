@@ -22,7 +22,7 @@ const BENEFITS = [
   {
     icon: Headphones,
     title: "Free 24/7 Patient Support",
-    desc: "Our team provides free expert guidance before, during, and after your treatment \u2014 helping resolve any issue so you\u2019re never alone on your dental journey.",
+    desc: "Our team provides free expert guidance before, during, and after your treatment \u2014 helping resolve any issue so you\u2019re never alone on your medical journey.",
     iconBg: "bg-emerald-50 text-emerald-600 border-emerald-100",
   },
 ];

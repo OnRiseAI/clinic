@@ -61,6 +61,7 @@ export function generateWebsiteSchema() {
 export interface ClinicSchemaData {
   name: string
   slug: string
+  categorySlug: string
   description: string | null
   address: string | null
   city: string | null
@@ -85,10 +86,10 @@ export function generateClinicSchema(clinic: ClinicSchemaData) {
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': ['MedicalBusiness', 'LocalBusiness'],
-    '@id': `${SITE_URL}/clinics/${clinic.slug}`,
+    '@id': `${SITE_URL}/clinics/${clinic.categorySlug}/${clinic.slug}`,
     name: clinic.name,
     description: clinic.description || `${clinic.name} is a medical clinic offering treatments abroad.`,
-    url: `${SITE_URL}/clinics/${clinic.slug}`,
+    url: `${SITE_URL}/clinics/${clinic.categorySlug}/${clinic.slug}`,
     telephone: clinic.phone,
     email: clinic.email,
   }
@@ -186,9 +187,13 @@ export interface DoctorSchemaData {
   photoUrl: string | null
   clinicName: string
   clinicSlug: string
+  clinicCategorySlug?: string
 }
 
 export function generateDoctorSchema(doctor: DoctorSchemaData) {
+  const clinicPath = doctor.clinicCategorySlug
+    ? `/clinics/${doctor.clinicCategorySlug}/${doctor.clinicSlug}`
+    : `/clinics/dental/${doctor.clinicSlug}`
   return {
     '@context': 'https://schema.org',
     '@type': 'Physician',
@@ -199,7 +204,7 @@ export function generateDoctorSchema(doctor: DoctorSchemaData) {
     worksFor: {
       '@type': 'MedicalBusiness',
       name: doctor.clinicName,
-      url: `${SITE_URL}/clinics/${doctor.clinicSlug}`,
+      url: `${SITE_URL}${clinicPath}`,
     },
     ...(doctor.yearsExperience && {
       hasOccupation: {

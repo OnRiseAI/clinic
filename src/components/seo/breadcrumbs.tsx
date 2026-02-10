@@ -76,9 +76,11 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
 export function generateClinicBreadcrumbs(
   clinicName: string,
   clinicSlug: string,
+  categorySlug?: string,
   countryName?: string,
   countrySlug?: string
 ): BreadcrumbItem[] {
+  const cat = categorySlug || 'dental'
   const items: BreadcrumbItem[] = [
     { name: 'Clinics', url: '/clinics' },
   ]
@@ -87,7 +89,7 @@ export function generateClinicBreadcrumbs(
     items.push({ name: countryName, url: `/destinations/${countrySlug}` })
   }
 
-  items.push({ name: clinicName, url: `/clinics/${clinicSlug}` })
+  items.push({ name: clinicName, url: `/clinics/${cat}/${clinicSlug}` })
 
   return items
 }

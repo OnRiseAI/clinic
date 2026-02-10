@@ -203,6 +203,7 @@ export interface SearchFilters {
   country?: string
   category?: string
   procedure?: string
+  city?: string
   minRating?: number
   minPrice?: number
   maxPrice?: number
@@ -244,6 +245,10 @@ export async function searchClinics(filters: SearchFilters): Promise<SearchResul
 
   if (filters.country) {
     query = query.ilike('country', `%${filters.country}%`)
+  }
+
+  if (filters.city) {
+    query = query.ilike('city', `%${filters.city}%`)
   }
 
   if (filters.accreditations && filters.accreditations.length > 0) {
@@ -389,9 +394,9 @@ export async function getDestinations() {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('destinations')
-    .select('id, country_name, country_code, slug')
-    .order('country_name')
+    .from('countries')
+    .select('id, country_name:name, country_code:iso_code, slug')
+    .order('name')
 
   if (error) {
     console.error('Error fetching destinations:', error)
@@ -470,4 +475,61 @@ export async function getLatestBlogPosts(limit: number = 3): Promise<BlogPost[]>
   }
 
   return data
+}
+
+// Helper to fetch readable names for metadata generation
+export async function getSearchMetadataValues(filters: SearchFilters) {
+  const supabase = await createClient()
+  const result = {
+    procedureName: null as string | null,
+    countryName: null as string | null,
+    categoryName: null as string | null,
+    cityName: null as string | null,
+  }
+
+  // 1. Procedure Name
+  if (filters.procedure) {
+    const { data } = await supabase
+      .from('procedures')
+      .select('name')
+      .eq('slug', filters.procedure)
+      .single()
+    if (data) result.procedureName = data.name
+  }
+
+  // 2. Category Name
+  if (filters.category) {
+    const { data } = await supabase
+      .from('categories')
+      .select('name')
+      .eq('slug', filters.category)
+      .single()
+    if (data) result.categoryName = data.name
+  }
+
+  // 3. Country Name
+  if (filters.country) {
+    // Try reliable lookup first
+    const { data } = await supabase
+      .from('countries')
+      .select('name')
+      .ilike('slug', filters.country) // ilike for safety
+      .maybeSingle()
+
+    if (data) {
+      result.countryName = data.name
+    } else {
+      // Fallback: capitalize
+      result.countryName =
+        filters.country.charAt(0).toUpperCase() + filters.country.slice(1)
+    }
+  }
+
+  // 4. City Name
+  if (filters.city) {
+    // We don't have a cities table yet, so simple capitalization
+    result.cityName = filters.city.charAt(0).toUpperCase() + filters.city.slice(1)
+  }
+
+  return result
 }

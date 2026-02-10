@@ -7,9 +7,15 @@ import {
   Star,
   Globe,
 } from "lucide-react";
-import { PAGE_STATS } from "@/lib/dentistry/data";
+import type { CategoryConfig } from "@/lib/categories/config";
+import type { CategoryPageStats } from "@/lib/data/category-page";
 
-export default function DentistryHero() {
+interface CategoryHeroProps {
+  config: CategoryConfig;
+  stats: CategoryPageStats;
+}
+
+export default function CategoryHero({ config, stats }: CategoryHeroProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950">
       {/* Decorative blurs */}
@@ -40,7 +46,7 @@ export default function DentistryHero() {
               /
             </li>
             <li className="text-slate-300 font-medium" aria-current="page">
-              Dental Clinics
+              {config.namePlural}
             </li>
           </ol>
         </nav>
@@ -50,17 +56,15 @@ export default function DentistryHero() {
           {/* Left — text */}
           <div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] text-white tracking-tight leading-[1.1] mb-5">
-              Discover the best{" "}
+              {config.heroTitle}{" "}
               <span className="bg-gradient-to-r from-teal-300 to-emerald-400 bg-clip-text text-transparent">
-                dental clinics
+                {config.heroHighlight}
               </span>{" "}
               worldwide
             </h1>
 
             <p className="text-lg text-slate-300/90 max-w-lg leading-relaxed mb-8">
-              Compare verified dental clinics for implants, veneers, and
-              cosmetic dentistry. Transparent pricing, real patient reviews,
-              and direct contact&mdash;no middleman fees.
+              {config.heroSubtitle}
             </p>
 
             {/* CTAs */}
@@ -103,7 +107,7 @@ export default function DentistryHero() {
               </div>
               <div className="text-sm text-slate-400">
                 <span className="text-white font-semibold">
-                  {PAGE_STATS.patientsHelped}
+                  {stats.patientsHelped}
                 </span>{" "}
                 patients connected
               </div>
@@ -114,8 +118,8 @@ export default function DentistryHero() {
           <div className="hidden lg:block relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
               <Image
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=700&h=500&fit=crop&auto=format"
-                alt="Modern dental clinic interior"
+                src={config.heroImage}
+                alt={`Modern ${config.name.toLowerCase()} clinic interior`}
                 width={700}
                 height={500}
                 className="object-cover"
@@ -129,22 +133,22 @@ export default function DentistryHero() {
                   {[
                     {
                       icon: Building2,
-                      val: PAGE_STATS.clinicCount.toLocaleString(),
+                      val: stats.clinicCount > 0 ? stats.clinicCount.toLocaleString() : '741',
                       label: "Clinics",
                     },
                     {
                       icon: Users,
-                      val: PAGE_STATS.patientsHelped,
+                      val: stats.patientsHelped,
                       label: "Patients",
                     },
                     {
                       icon: Star,
-                      val: PAGE_STATS.avgRating.toString(),
+                      val: stats.avgRating > 0 ? stats.avgRating.toString() : '4.8',
                       label: "Avg rating",
                     },
                     {
                       icon: Globe,
-                      val: PAGE_STATS.countries.toString(),
+                      val: stats.countries > 0 ? stats.countries.toString() : '23',
                       label: "Countries",
                     },
                   ].map((s) => {

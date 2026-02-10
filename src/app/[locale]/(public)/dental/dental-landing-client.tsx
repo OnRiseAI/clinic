@@ -210,7 +210,7 @@ export function DentalLandingClient({
               Real prices. Real reviews. No middlemen.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
-              <Link href="/clinics/dentistry">
+              <Link href="/clinics/dental">
                 <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                   Browse Dental Clinic Directory
                 </Button>

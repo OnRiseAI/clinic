@@ -68,6 +68,7 @@ export function generateBaseMetadata({
 interface ClinicMetadataParams {
   name: string
   slug: string
+  categorySlug?: string
   description: string | null
   city: string | null
   country: string | null
@@ -88,10 +89,14 @@ export function generateClinicMetadata(clinic: ClinicMetadataParams): Metadata {
     clinic.description?.slice(0, 155) ||
     `${clinic.name} in ${location} specialises in ${specialtiesText || 'medical treatments'}. Read reviews, compare prices, and book your consultation.${reviewText}`
 
+  const clinicPath = clinic.categorySlug
+    ? `/clinics/${clinic.categorySlug}/${clinic.slug}`
+    : `/clinics/dental/${clinic.slug}`
+
   return generateBaseMetadata({
     title,
     description,
-    path: `/clinics/${clinic.slug}`,
+    path: clinicPath,
     ogImage: clinic.imageUrl || DEFAULT_OG_IMAGE,
   })
 }

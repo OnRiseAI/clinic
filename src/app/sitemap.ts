@@ -91,19 +91,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // Fetch all clinics
+  // Fetch all clinics with their primary category
   const { data: clinics } = await supabase
     .from('clinics')
-    .select('slug, updated_at')
+    .select('slug, updated_at, clinic_categories(category:categories(slug))')
     .eq('is_active', true)
     .eq('is_verified', true)
 
-  const clinicPages: MetadataRoute.Sitemap = (clinics || []).map((clinic) => ({
-    url: `${SITE_URL}/clinics/${clinic.slug}`,
-    lastModified: clinic.updated_at ? new Date(clinic.updated_at) : now,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }))
+  const clinicPages: MetadataRoute.Sitemap = (clinics || []).map((clinic) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const cats = (clinic.clinic_categories || []) as any[]
+    const categorySlug = cats[0]?.category?.slug || 'dental'
+    return {
+      url: `${SITE_URL}/clinics/${categorySlug}/${clinic.slug}`,
+      lastModified: clinic.updated_at ? new Date(clinic.updated_at) : now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }
+  })
 
   // Fetch destination + procedure combinations
   const { data: destProcs } = await supabase

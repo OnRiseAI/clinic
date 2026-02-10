@@ -31,7 +31,7 @@ interface Message {
   role: 'user' | 'assistant'
   content: string
   timestamp: Date
-  clinicLinks?: Array<{ name: string; slug: string }>
+  clinicLinks?: Array<{ name: string; slug: string; category?: string }>
 }
 
 interface ConciergeWidgetProps {
@@ -344,7 +344,7 @@ function useTextChat() {
 async function generateResponse(
   userMessage: string,
   _history: Message[]
-): Promise<{ content: string; clinicLinks?: Array<{ name: string; slug: string }> }> {
+): Promise<{ content: string; clinicLinks?: Array<{ name: string; slug: string; category?: string }> }> {
   const lower = userMessage.toLowerCase()
 
   // Check for procedure keywords
@@ -385,7 +385,7 @@ async function generateResponse(
 
         return {
           content: `${intro}\n\nHere are my top recommendations:\n\n${clinicList}\n\nWould you like more details about any of these, or shall I help you send an enquiry?`,
-          clinicLinks: data.clinics.map((c: { name: string; slug: string }) => ({ name: c.name, slug: c.slug })),
+          clinicLinks: data.clinics.map((c: { name: string; slug: string; category_slug?: string }) => ({ name: c.name, slug: c.slug, category: c.category_slug || 'dental' })),
         }
       }
     } catch (error) {
@@ -758,7 +758,7 @@ export function ConciergeWidget({ agentId }: ConciergeWidgetProps) {
                                 {message.clinicLinks.map((clinic) => (
                                   <Link
                                     key={clinic.slug}
-                                    href={`/clinics/${clinic.slug}`}
+                                    href={`/clinics/${clinic.category || 'dental'}/${clinic.slug}`}
                                     className="flex items-center gap-1 text-xs font-medium text-primary-700 hover:text-primary-800"
                                   >
                                     View {clinic.name} →

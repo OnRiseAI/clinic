@@ -308,7 +308,8 @@ export function ProfileClient({ clinic, categories, procedures }: ProfileClientP
   }
 
   const handlePreview = () => {
-    window.open(`/clinics/${clinic.slug}`, '_blank')
+    const primaryCategory = clinic.clinic_categories?.[0]?.category?.slug || 'dental'
+    window.open(`/clinics/${primaryCategory}/${clinic.slug}`, '_blank')
   }
 
   // Get available procedures for selected categories

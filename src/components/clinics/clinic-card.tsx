@@ -81,7 +81,7 @@ export function ClinicCard({
       )}
     >
       {/* Image */}
-      <Link href={`/clinics/${clinic.slug}`} className="block">
+      <Link href={`/clinics/${clinic.categories[0]?.slug || 'dental'}/${clinic.slug}`} className="block">
         <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100">
           {clinic.first_photo ? (
             <img
@@ -139,7 +139,7 @@ export function ClinicCard({
 
       {/* Content */}
       <div className="p-4">
-        <Link href={`/clinics/${clinic.slug}`} className="block">
+        <Link href={`/clinics/${clinic.categories[0]?.slug || 'dental'}/${clinic.slug}`} className="block">
           <h3 className="font-semibold text-neutral-900 transition-colors group-hover:text-primary-600">
             {clinic.name}
           </h3>
@@ -196,12 +196,12 @@ export function ClinicCard({
         {/* CTA */}
         {showEnquiryButton && (
           <div className="mt-4 flex gap-2">
-            <Link href={`/clinics/${clinic.slug}`} className="flex-1">
+            <Link href={`/clinics/${clinic.categories[0]?.slug || 'dental'}/${clinic.slug}`} className="flex-1">
               <Button variant="outline" className="w-full" size="sm">
                 View Profile
               </Button>
             </Link>
-            <Link href={`/clinics/${clinic.slug}#enquiry`} className="flex-1">
+            <Link href={`/clinics/${clinic.categories[0]?.slug || 'dental'}/${clinic.slug}#clinic-funnel`} className="flex-1">
               <Button variant="primary" className="w-full" size="sm">
                 Enquire
               </Button>
@@ -222,7 +222,7 @@ export function ClinicCardCompact({ clinic, className }: Omit<ClinicCardProps, '
       className={cn('group', className)}
     >
       <Link
-        href={`/clinics/${clinic.slug}`}
+        href={`/clinics/${clinic.categories[0]?.slug || 'dental'}/${clinic.slug}`}
         className="flex gap-4 rounded-lg border border-neutral-200 bg-white p-3 transition-shadow hover:shadow-md"
       >
         {/* Thumbnail */}

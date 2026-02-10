@@ -22,6 +22,7 @@ interface PatientEnquiry {
   clinic_id: string
   clinic_name: string
   clinic_slug: string
+  clinic_category_slug: string
   clinic_city: string | null
   clinic_country: string | null
   procedure_interest: string
@@ -316,7 +317,7 @@ export function EnquiriesClient({
 
                           {/* Actions */}
                           <div className="mt-6 flex flex-wrap gap-3 border-t border-neutral-200 pt-6">
-                            <Link href={`/clinics/${enquiry.clinic_slug}`}>
+                            <Link href={`/clinics/${enquiry.clinic_category_slug}/${enquiry.clinic_slug}`}>
                               <Button variant="outline" size="sm">
                                 <ExternalLink className="mr-2 h-4 w-4" />
                                 View Clinic

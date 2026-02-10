@@ -11,6 +11,7 @@ export interface PatientEnquiry {
   clinic_id: string
   clinic_name: string
   clinic_slug: string
+  clinic_category_slug: string
   clinic_city: string | null
   clinic_country: string | null
   procedure_interest: string
@@ -98,7 +99,7 @@ export async function getPatientEnquiries(
       status,
       created_at,
       updated_at,
-      clinic:clinics(id, name, slug, city, country)
+      clinic:clinics(id, name, slug, city, country, clinic_categories(category:categories(slug)))
     `,
       { count: 'exact' }
     )
@@ -128,13 +129,17 @@ export async function getPatientEnquiries(
       slug: string
       city: string | null
       country: string | null
+      clinic_categories?: Array<{ category: { slug: string } | null }>
     } | null
+
+    const categorySlug = clinic?.clinic_categories?.[0]?.category?.slug || 'dental'
 
     return {
       id: eq.id,
       clinic_id: eq.clinic_id,
       clinic_name: clinic?.name || 'Unknown Clinic',
       clinic_slug: clinic?.slug || '',
+      clinic_category_slug: categorySlug,
       clinic_city: clinic?.city || null,
       clinic_country: clinic?.country || null,
       procedure_interest: eq.procedure_interest,

@@ -5,32 +5,36 @@ import {
   Globe,
   ShieldCheck,
 } from "lucide-react";
-import { PAGE_STATS } from "@/lib/dentistry/data";
+import type { CategoryPageStats } from "@/lib/data/category-page";
 
-const STATS = [
-  {
-    icon: Users,
-    value: PAGE_STATS.patientsHelped,
-    label: "patients assisted since 2005",
-  },
-  {
-    icon: Globe,
-    value: `${PAGE_STATS.countries}`,
-    label: "countries",
-  },
-  {
-    icon: Building2,
-    value: `${PAGE_STATS.clinicCount.toLocaleString()}+`,
-    label: "verified clinics",
-  },
-  {
-    icon: Star,
-    value: `${PAGE_STATS.avgRating}`,
-    label: "avg rating",
-  },
-];
+interface TrustBarProps {
+  stats: CategoryPageStats;
+}
 
-export default function TrustBar() {
+export default function TrustBar({ stats }: TrustBarProps) {
+  const STATS = [
+    {
+      icon: Users,
+      value: stats.patientsHelped,
+      label: "patients assisted since 2005",
+    },
+    {
+      icon: Globe,
+      value: `${stats.countries > 0 ? stats.countries : 23}`,
+      label: "countries",
+    },
+    {
+      icon: Building2,
+      value: `${stats.clinicCount > 0 ? stats.clinicCount.toLocaleString() : '741'}+`,
+      label: "verified clinics",
+    },
+    {
+      icon: Star,
+      value: `${stats.avgRating > 0 ? stats.avgRating : 4.8}`,
+      label: "avg rating",
+    },
+  ];
+
   return (
     <section
       aria-label="Platform statistics"

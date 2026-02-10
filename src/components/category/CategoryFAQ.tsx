@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
-import type { DentistryFaqItem } from "@/lib/dentistry/data";
+import type { CategoryFaq } from "@/lib/categories/config";
 
-interface DentistryFAQProps {
-  faqs: DentistryFaqItem[];
+interface CategoryFAQProps {
+  faqs: CategoryFaq[];
+  faqIntro?: string;
 }
 
-export default function DentistryFAQ({ faqs }: DentistryFAQProps) {
+export default function CategoryFAQ({ faqs, faqIntro }: CategoryFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  if (faqs.length === 0) return null;
 
   return (
     <section
@@ -18,7 +21,7 @@ export default function DentistryFAQ({ faqs }: DentistryFAQProps) {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-[1fr_1.5fr] gap-12 lg:gap-16">
-          {/* Left column — header + CTA */}
+          {/* Left column */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <p className="text-sm font-semibold text-teal-600 mb-3 uppercase tracking-wider">
               Got questions?
@@ -30,9 +33,7 @@ export default function DentistryFAQ({ faqs }: DentistryFAQProps) {
               Frequently asked questions
             </h2>
             <p className="text-base text-slate-500 leading-relaxed mb-8">
-              Everything you need to know about getting dental treatment abroad.
-              Can&rsquo;t find the answer you&rsquo;re looking for? Contact us
-              directly.
+              {faqIntro || "Everything you need to know about getting treatment abroad. Can\u2019t find the answer you\u2019re looking for? Contact us directly."}
             </p>
             <a
               href="#lead-funnel-section"

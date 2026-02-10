@@ -1,19 +1,42 @@
 import Image from "next/image";
-import { ShieldCheck, Award, ArrowRight } from "lucide-react";
-import { DENTAL_CLINICS } from "@/lib/dentistry/data";
+import { ShieldCheck, Award, ArrowRight, Users } from "lucide-react";
+import type { CategoryClinicCard } from "@/lib/data/category-page";
 
-const FEATURED_DOCTORS = DENTAL_CLINICS.filter((c) => c.verified).map((c) => ({
-  name: c.doctor.name,
-  photoUrl: c.doctor.photoUrl,
-  specialty: c.doctor.specialty,
-  yearsExperience: c.doctor.yearsExperience,
-  clinic: c.name,
-  location: c.location,
-  flag: c.countryFlag,
-  slug: c.slug,
-}));
+interface DoctorCard {
+  name: string;
+  photoUrl: string | null;
+  specialty: string;
+  yearsExperience: number;
+  clinic: string;
+  location: string;
+  flag: string;
+  slug: string;
+}
 
-export default function TrustedDoctors() {
+interface TrustedDoctorsProps {
+  doctors: DoctorCard[];
+  categorySlug: string;
+}
+
+export function deriveDoctors(clinics: CategoryClinicCard[]): DoctorCard[] {
+  return clinics
+    .filter((c) => c.verified && c.doctor)
+    .map((c) => ({
+      name: c.doctor!.name,
+      photoUrl: c.doctor!.photoUrl,
+      specialty: c.doctor!.specialty,
+      yearsExperience: c.doctor!.yearsExperience,
+      clinic: c.name,
+      location: c.location,
+      flag: c.countryFlag,
+      slug: c.slug,
+    }))
+    .slice(0, 6);
+}
+
+export default function TrustedDoctors({ doctors, categorySlug }: TrustedDoctorsProps) {
+  if (doctors.length === 0) return null;
+
   return (
     <section
       aria-labelledby="doctors-heading"
@@ -47,7 +70,7 @@ export default function TrustedDoctors() {
 
         {/* Doctor grid */}
         <div className="grid gap-5 sm:grid-cols-2">
-          {FEATURED_DOCTORS.map((doc) => (
+          {doctors.map((doc) => (
             <div
               key={doc.name}
               className="group relative flex gap-5 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 transition-all hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5"
@@ -55,13 +78,19 @@ export default function TrustedDoctors() {
               {/* Doctor photo */}
               <div className="relative flex-shrink-0">
                 <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-xl overflow-hidden">
-                  <Image
-                    src={doc.photoUrl}
-                    alt={doc.name}
-                    fill
-                    className="object-cover"
-                    sizes="128px"
-                  />
+                  {doc.photoUrl ? (
+                    <Image
+                      src={doc.photoUrl}
+                      alt={doc.name}
+                      fill
+                      className="object-cover"
+                      sizes="128px"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                      <Users className="h-8 w-8 text-slate-300" />
+                    </div>
+                  )}
                 </div>
                 {/* Verified badge */}
                 <div className="absolute -bottom-2 -right-2 flex items-center gap-1 rounded-full bg-emerald-500 px-2.5 py-1 shadow-md">
@@ -96,14 +125,14 @@ export default function TrustedDoctors() {
 
                 <div className="mt-auto flex items-center gap-2.5">
                   <a
-                    href={`/clinics/dentistry/${doc.slug}`}
+                    href={`/clinics/${categorySlug}/${doc.slug}`}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-teal-500 active:scale-[0.98]"
                   >
                     Get a free consultation
                     <ArrowRight className="h-3.5 w-3.5" />
                   </a>
                   <a
-                    href={`/clinics/dentistry/${doc.slug}`}
+                    href={`/clinics/${categorySlug}/${doc.slug}`}
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-teal-600 transition-colors"
                   >
                     View profile

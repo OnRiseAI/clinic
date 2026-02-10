@@ -7,6 +7,7 @@ const featuredClinics = [
   {
     name: 'Istanbul Smile Center',
     slug: 'istanbul-smile-center',
+    category: 'dental',
     location: 'Istanbul, Turkey',
     rating: 4.9,
     reviews: 432,
@@ -17,6 +18,7 @@ const featuredClinics = [
   {
     name: 'Budapest Dental Clinic',
     slug: 'budapest-dental-clinic',
+    category: 'dental',
     location: 'Budapest, Hungary',
     rating: 4.8,
     reviews: 287,
@@ -27,6 +29,7 @@ const featuredClinics = [
   {
     name: 'Estethica Medical Group',
     slug: 'estethica-medical-group',
+    category: 'cosmetic-surgery',
     location: 'Istanbul, Turkey',
     rating: 4.9,
     reviews: 561,
@@ -37,6 +40,7 @@ const featuredClinics = [
   {
     name: 'Barcelona IVF Center',
     slug: 'barcelona-ivf-center',
+    category: 'fertility',
     location: 'Barcelona, Spain',
     rating: 4.7,
     reviews: 198,
@@ -93,7 +97,7 @@ export function FeaturedClinics() {
               }}
             >
               <Link
-                href={`/clinics/${clinic.slug}`}
+                href={`/clinics/${clinic.category}/${clinic.slug}`}
                 className="group block bg-white rounded-2xl overflow-hidden border border-navy/[0.04] card-premium"
               >
                 <div className="relative h-40 overflow-hidden">
