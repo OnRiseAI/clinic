@@ -109,21 +109,20 @@ export interface ClinicCardData {
 export async function getClinicBySlug(slug: string): Promise<ClinicWithRelations | null> {
   const supabase = await createClient()
 
+  // Main query: only join tables with FK relationships to clinics
   const { data: clinic, error } = await supabase
     .from('clinics')
     .select(`
       *,
-      photos:clinic_photos(id, url, alt_text, sort_order),
-      doctors(id, name, title, specialisation, qualifications, years_experience, languages, photo_url, bio),
+      country_rel:countries(name, iso_code, slug, flag_emoji),
+      city_rel:cities(name),
+      doctors:clinic_doctors(id, name, title, specialty, credentials, years_experience, languages, photo_url, bio, is_lead_surgeon),
       clinic_procedures(
-        id, price_min, price_max, currency,
+        id, price_min, price_max, price_currency_original,
         procedure:procedures(id, name, slug, category_id)
       ),
-      clinic_categories(
-        id,
-        category:categories(id, name, slug, icon)
-      ),
-      google_reviews(id, rating, review_count, reviews, last_fetched)
+      clinic_accreditations(accreditation_name),
+      clinic_reviews_summary(platform, rating, review_count)
     `)
     .eq('slug', slug)
     .single()
@@ -133,19 +132,75 @@ export async function getClinicBySlug(slug: string): Promise<ClinicWithRelations
     return null
   }
 
-  // Sort photos by sort_order
-  if (clinic.photos) {
-    clinic.photos.sort((a: ClinicPhoto, b: ClinicPhoto) => a.sort_order - b.sort_order)
-  }
+  // Fetch tables without FK to clinics separately (parallel)
+  const [
+    { data: photos },
+    { data: categories },
+    { data: googleReviewsData },
+  ] = await Promise.all([
+    supabase
+      .from('clinic_photos')
+      .select('id, url, alt_text, sort_order')
+      .eq('clinic_id', clinic.id)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('clinic_categories')
+      .select('id, category:categories(id, name, slug, icon)')
+      .eq('clinic_id', clinic.id),
+    supabase
+      .from('google_reviews')
+      .select('id, rating, review_count, reviews, last_fetched')
+      .eq('clinic_id', clinic.id),
+  ])
+  clinic.photos = photos || []
+  clinic.clinic_categories = (categories || []).filter((cc: { category: unknown }) => cc.category)
+  const rawGoogleReviews = googleReviewsData || []
 
-  // google_reviews comes as an array from the query, take first item
-  const googleReviews = Array.isArray(clinic.google_reviews)
-    ? clinic.google_reviews[0] || null
-    : clinic.google_reviews
+  // google_reviews: take first item
+  const googleReviews = rawGoogleReviews[0] || null
+
+  // Map real schema fields to legacy interface shape
+  const countryName = clinic.country_rel?.name || null
+  const cityName = clinic.city_rel?.name || null
+  const accreditations = (clinic.clinic_accreditations || []).map((a: { accreditation_name: string }) => a.accreditation_name)
+
+  // Map doctors: specialty -> specialisation for legacy interface, credentials -> qualifications
+  const doctors = (clinic.doctors || []).map((d: Record<string, unknown>) => ({
+    ...d,
+    specialisation: d.specialty || d.specialisation || null,
+    qualifications: d.credentials || d.qualifications || [],
+    languages: d.languages || [],
+  }))
+
+  // Map clinic_procedures: price_currency_original -> currency
+  const procedures = (clinic.clinic_procedures || []).map((cp: Record<string, unknown>) => ({
+    ...cp,
+    currency: cp.price_currency_original || cp.currency || 'EUR',
+  }))
+
+  // Fallback rating from clinic_reviews_summary if google_reviews has no data
+  const reviewSummary = Array.isArray(clinic.clinic_reviews_summary) ? clinic.clinic_reviews_summary[0] : null
+  const effectiveGoogleReviews = googleReviews || (reviewSummary ? {
+    id: 'summary',
+    rating: reviewSummary.rating,
+    review_count: reviewSummary.review_count,
+    reviews: [],
+    last_fetched: null,
+  } : null)
 
   return {
     ...clinic,
-    google_reviews: googleReviews,
+    country: countryName,
+    city: cityName,
+    website: clinic.website_url || clinic.website || null,
+    year_established: clinic.year_founded || clinic.year_established || null,
+    claimed: clinic.is_claimed || clinic.claimed || false,
+    featured: clinic.is_featured || clinic.featured || false,
+    accreditations,
+    languages: clinic.languages_spoken || clinic.languages || [],
+    doctors,
+    clinic_procedures: procedures,
+    google_reviews: effectiveGoogleReviews,
   } as ClinicWithRelations
 }
 
@@ -172,20 +227,33 @@ export async function getSimilarClinics(
 ): Promise<ClinicCardData[]> {
   const supabase = await createClient()
 
+  // First, if we have a country name, resolve it to country_id
+  let countryId: string | null = null
+  if (country) {
+    const { data: countryRow } = await supabase
+      .from('countries')
+      .select('id')
+      .eq('name', country)
+      .single()
+    countryId = countryRow?.id || null
+  }
+
   let query = supabase
     .from('clinics')
     .select(`
-      id, name, slug, city, country, claimed, featured, accreditations,
-      photos:clinic_photos(url, sort_order),
-      google_reviews(rating, review_count),
-      clinic_categories(category:categories(name, slug)),
-      clinic_procedures(price_min, currency)
+      id, name, slug, is_claimed, is_featured,
+      country_rel:countries(name, iso_code, flag_emoji),
+      city_rel:cities(name),
+      clinic_reviews_summary(rating, review_count),
+      clinic_procedures(price_min, price_currency_original),
+      clinic_accreditations(accreditation_name)
     `)
     .neq('id', clinicId)
+    .eq('is_active', true)
     .limit(limit)
 
-  if (country) {
-    query = query.eq('country', country)
+  if (countryId) {
+    query = query.eq('country_id', countryId)
   }
 
   const { data, error } = await query
@@ -195,7 +263,41 @@ export async function getSimilarClinics(
     return []
   }
 
-  return data.map(transformClinicToCardData)
+  if (!data || data.length === 0) return []
+
+  // Fetch clinic_categories separately (no FK to clinics)
+  const clinicIds = data.map((c: { id: string }) => c.id)
+  const [{ data: allCategories }, { data: allGoogleReviews }] = await Promise.all([
+    supabase
+      .from('clinic_categories')
+      .select('clinic_id, category:categories(name, slug)')
+      .in('clinic_id', clinicIds),
+    supabase
+      .from('google_reviews')
+      .select('clinic_id, rating, review_count')
+      .in('clinic_id', clinicIds),
+  ])
+
+  // Build lookup maps
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const catMap: Record<string, any[]> = {}
+  for (const cc of (allCategories || []) as Array<{ clinic_id: string; category: unknown }>) {
+    if (!catMap[cc.clinic_id]) catMap[cc.clinic_id] = []
+    catMap[cc.clinic_id].push(cc)
+  }
+  const grMap: Record<string, { rating: number; review_count: number }> = {}
+  for (const gr of (allGoogleReviews || [])) {
+    grMap[gr.clinic_id] = gr
+  }
+
+  return data.map((c: Record<string, unknown>) => {
+    const enriched = {
+      ...c,
+      clinic_categories: catMap[(c as { id: string }).id] || [],
+      google_reviews: grMap[(c as { id: string }).id] ? [grMap[(c as { id: string }).id]] : [],
+    }
+    return transformClinicToCardData(enriched)
+  })
 }
 
 export interface SearchFilters {
@@ -339,6 +441,11 @@ function transformClinicToCardData(clinic: any): ClinicCardData {
     ? clinic.google_reviews[0]
     : clinic.google_reviews
 
+  // Fallback to clinic_reviews_summary
+  const reviewSummary = Array.isArray(clinic.clinic_reviews_summary) ? clinic.clinic_reviews_summary[0] : null
+  const effectiveRating = googleReviews?.rating || reviewSummary?.rating || null
+  const effectiveCount = googleReviews?.review_count || reviewSummary?.review_count || null
+
   const categories = (clinic.clinic_categories || [])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .filter((cc: any) => cc.category)
@@ -354,20 +461,25 @@ function transformClinicToCardData(clinic: any): ClinicCardData {
     .map((cp: any) => cp.price_min)
     .filter((p: number | null) => p !== null) as number[]
   const startingPrice = prices.length > 0 ? Math.min(...prices) : null
-  const currency = procedures[0]?.currency || 'EUR'
+  const currency = procedures[0]?.price_currency_original || procedures[0]?.currency || 'EUR'
+
+  // Support both old (inline text) and new (FK join) schema
+  const accreditations = clinic.clinic_accreditations
+    ? clinic.clinic_accreditations.map((a: { accreditation_name: string }) => a.accreditation_name)
+    : clinic.accreditations || []
 
   return {
     id: clinic.id,
     name: clinic.name,
     slug: clinic.slug,
-    city: clinic.city,
-    country: clinic.country,
-    claimed: clinic.claimed,
-    featured: clinic.featured,
-    accreditations: clinic.accreditations || [],
+    city: clinic.city_rel?.name || clinic.city || null,
+    country: clinic.country_rel?.name || clinic.country || null,
+    claimed: clinic.is_claimed ?? clinic.claimed ?? false,
+    featured: clinic.is_featured ?? clinic.featured ?? false,
+    accreditations,
     first_photo: firstPhoto,
-    google_rating: googleReviews?.rating || null,
-    google_review_count: googleReviews?.review_count || null,
+    google_rating: effectiveRating,
+    google_review_count: effectiveCount,
     categories,
     starting_price: startingPrice,
     price_currency: currency,

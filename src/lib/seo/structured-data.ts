@@ -47,7 +47,7 @@ export function generateWebsiteSchema() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+        urlTemplate: `${SITE_URL}/clinics?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

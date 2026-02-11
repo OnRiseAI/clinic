@@ -165,8 +165,8 @@ export function Footer() {
                   {t('resources')}
                 </h3>
                 <ul className="mt-4 space-y-3">
-                  {resourceLinks.map((link) => (
-                    <li key={link.href}>
+                  {resourceLinks.map((link, idx) => (
+                    <li key={`${link.href}-${idx}`}>
                       <Link
                         href={link.href}
                         className="text-sm text-neutral-500 transition-colors hover:text-primary-600"

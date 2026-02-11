@@ -6,10 +6,10 @@ import { motion } from 'framer-motion'
 import { Link } from '@/i18n/navigation'
 
 const POPULAR_SEARCHES = [
-  { label: 'Dental Veneers in Turkey', href: '/search?procedure=veneers&country=turkey' },
-  { label: 'Hair Transplant in Istanbul', href: '/search?procedure=hair-transplant&city=istanbul' },
-  { label: 'IVF in Spain', href: '/search?procedure=ivf&country=spain' },
-  { label: 'Rhinoplasty in Mexico', href: '/search?procedure=rhinoplasty&country=mexico' },
+  { label: 'Dental Veneers in Turkey', href: '/clinics?procedure=veneers&country=turkey' },
+  { label: 'Hair Transplant in Istanbul', href: '/clinics?procedure=hair-transplant&city=istanbul' },
+  { label: 'IVF in Spain', href: '/clinics?procedure=ivf&country=spain' },
+  { label: 'Rhinoplasty in Mexico', href: '/clinics?procedure=rhinoplasty&country=mexico' },
 ]
 
 const heroImages = [
@@ -45,7 +45,7 @@ export function Hero() {
     const searchParams = new URLSearchParams()
     if (treatment) searchParams.set('query', treatment)
     if (destination) searchParams.set('country', destination)
-    router.push(`/search?${searchParams.toString()}`)
+    router.push(`/clinics?${searchParams.toString()}`)
   }
 
   return (

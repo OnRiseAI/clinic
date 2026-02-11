@@ -190,7 +190,7 @@ export function PopularProcedures() {
 
         <div className="text-center mt-12">
           <Link
-            href="/search"
+            href="/clinics"
             className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide"
           >
             Browse All Treatments

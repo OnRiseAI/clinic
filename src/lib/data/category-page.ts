@@ -36,6 +36,7 @@ export interface CategoryClinicCard {
   } | null
   treatments: Array<{ name: string; priceMin: number | null; currency: string }>
   tags: string[]
+  primaryCategorySlug: string
   contactConfig: ClinicContactConfig
 }
 
@@ -164,11 +165,13 @@ export async function getClinicsForCategory(
     }))
 
     // Tags from categories
-    const tags = (clinic.clinic_categories || [])
+    const catEntries = (clinic.clinic_categories || [])
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .filter((cc: any) => cc.category)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .map((cc: any) => cc.category.name)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tags = catEntries.map((cc: any) => cc.category.name)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const primaryCategorySlug = catEntries[0]?.category?.slug || 'dental'
 
     const location = [clinic.city, clinic.country].filter(Boolean).join(', ')
     const flag = getCountryFlag(clinic.country)
@@ -205,6 +208,7 @@ export async function getClinicsForCategory(
         : null,
       treatments,
       tags,
+      primaryCategorySlug,
       contactConfig: {
         whatsappNumber: clinic.phone || undefined,
         smsUsePlatformReply: false,

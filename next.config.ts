@@ -67,10 +67,11 @@ const nextConfig: NextConfig = {
         destination: '/procedures',
         permanent: true,
       },
+      // /search now redirects to new /clinics hub page
       {
-        source: '/clinics',
-        destination: '/search',
-        permanent: false, // Temporary until landing page built
+        source: '/search',
+        destination: '/clinics',
+        permanent: true,
       },
       // Utility redirects
       {

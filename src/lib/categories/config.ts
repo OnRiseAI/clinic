@@ -235,9 +235,12 @@ function createTemplateConfig(
 export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   dental: dentalConfig,
   'hair-transplant': createTemplateConfig('hair-transplant', 'Hair Transplant', 'Hair Transplant Clinics'),
+  'hair-restoration': createTemplateConfig('hair-restoration', 'Hair Restoration', 'Hair Restoration Clinics'),
   'cosmetic-surgery': createTemplateConfig('cosmetic-surgery', 'Cosmetic Surgery', 'Cosmetic Surgery Clinics'),
   bariatric: createTemplateConfig('bariatric', 'Bariatric', 'Bariatric Surgery Clinics'),
+  'bariatric-surgery': createTemplateConfig('bariatric-surgery', 'Bariatric Surgery', 'Bariatric Surgery Clinics'),
   orthopedic: createTemplateConfig('orthopedic', 'Orthopedic', 'Orthopedic Clinics'),
+  'orthopaedic-surgery': createTemplateConfig('orthopaedic-surgery', 'Orthopaedic Surgery', 'Orthopaedic Surgery Clinics'),
   'eye-surgery': createTemplateConfig('eye-surgery', 'Eye Surgery', 'Eye Surgery Clinics'),
   fertility: createTemplateConfig('fertility', 'Fertility', 'Fertility Clinics'),
   cardiology: createTemplateConfig('cardiology', 'Cardiology', 'Cardiology Clinics'),
@@ -245,6 +248,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   oncology: createTemplateConfig('oncology', 'Oncology', 'Oncology Clinics'),
   'stem-cell': createTemplateConfig('stem-cell', 'Stem Cell', 'Stem Cell Clinics'),
   wellness: createTemplateConfig('wellness', 'Wellness', 'Wellness & Longevity Clinics'),
+  'other-treatments': createTemplateConfig('other-treatments', 'Other Treatments', 'Medical Clinics'),
 }
 
 // =============================================================================
