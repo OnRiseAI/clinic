@@ -6,6 +6,7 @@ import type { CategoryConfig } from "@/lib/categories/config";
 import { LeadFunnel } from "@/components/lead-funnel";
 import ClinicCard from "./ClinicCard";
 import HowItWorks from "./HowItWorks";
+import Flag from "@/components/ui/Flag";
 
 interface ClinicDirectoryProps {
   clinics: CategoryClinicCard[];
@@ -39,7 +40,12 @@ export default function ClinicDirectory({ clinics, categorySlug, countryFilters,
   const locationFilters = [
     { label: "All locations", value: "all" },
     ...countryFilters.map((f) => ({
-      label: `${f.flag} ${f.name}`,
+      label: (
+        <span className="flex items-center gap-2">
+          <Flag code={f.flag} className="w-4 h-4 rounded-sm shadow-sm" />
+          {f.name}
+        </span>
+      ),
       value: f.name,
     })),
   ];
@@ -79,10 +85,9 @@ export default function ClinicDirectory({ clinics, categorySlug, countryFilters,
                     type="button"
                     onClick={() => setLocationFilter(f.value)}
                     className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-all
-                      ${
-                        locationFilter === f.value
-                          ? "bg-teal-600 text-white shadow-sm"
-                          : "bg-white border border-slate-200 text-slate-600 hover:border-teal-300 hover:text-teal-700"
+                      ${locationFilter === f.value
+                        ? "bg-teal-600 text-white shadow-sm"
+                        : "bg-white border border-slate-200 text-slate-600 hover:border-teal-300 hover:text-teal-700"
                       }
                     `}
                   >
@@ -133,7 +138,7 @@ export default function ClinicDirectory({ clinics, categorySlug, countryFilters,
                 {config.relatedTreatments.map((treatment) => (
                   <a
                     key={treatment.slug}
-                    href={`/treatments/${treatment.slug}`}
+                    href={`/procedures/${treatment.slug}`}
                     className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:border-teal-200 hover:text-teal-700 hover:bg-teal-50"
                   >
                     {treatment.name}

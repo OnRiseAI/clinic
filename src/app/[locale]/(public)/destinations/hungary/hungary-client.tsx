@@ -25,6 +25,7 @@ import {
   Award,
   Heart,
 } from 'lucide-react'
+import { HU, TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -376,7 +377,9 @@ export function HungaryDestinationClient({ faqs }: HungaryDestinationClientProps
         <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <div className="flex items-start gap-4 sm:items-center">
-            <span className="text-5xl sm:text-6xl">🇭🇺</span>
+            <div className="w-16 overflow-hidden rounded-md shadow-lg border-2 border-white/20">
+              <HU title="Hungary" />
+            </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
                 Medical Tourism in Hungary: Europe's Dental Capital
@@ -699,8 +702,22 @@ export function HungaryDestinationClient({ faqs }: HungaryDestinationClientProps
               <thead>
                 <tr className="border-b border-neutral-200 bg-neutral-50">
                   <th className="px-4 py-3 text-left font-semibold text-neutral-900">Factor</th>
-                  <th className="px-4 py-3 text-left font-semibold text-emerald-700">🇭🇺 Hungary</th>
-                  <th className="px-4 py-3 text-left font-semibold text-teal-700">🇹🇷 Turkey</th>
+                  <th className="px-4 py-3 text-left font-semibold text-emerald-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <HU title="Hungary" />
+                      </div>
+                      Hungary
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-teal-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <TR title="Turkey" />
+                      </div>
+                      Turkey
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -943,7 +960,9 @@ export function HungaryDestinationClient({ faqs }: HungaryDestinationClientProps
         <m.section {...fadeInUp}>
           <div className="rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-800 p-6 text-white sm:p-8 lg:p-12">
             <div className="mx-auto max-w-2xl text-center">
-              <span className="text-5xl">🇭🇺</span>
+              <div className="mx-auto mb-6 w-16 overflow-hidden rounded-md shadow-xl border-2 border-white/20">
+                <HU title="Hungary" />
+              </div>
               <h2 className="mt-4 text-2xl font-bold sm:text-3xl">
                 Ready to Explore Dental Treatment in Hungary?
               </h2>

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Link } from '@/i18n/navigation'
 
@@ -74,7 +75,7 @@ export function TopDestinations() {
             Top Medical Tourism{' '}
             <span className="gradient-text">Destinations</span>
           </h2>
-          <p className="text-navy/40 max-w-lg mx-auto leading-relaxed">
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
             World-class healthcare at a fraction of the cost. Choose from
             accredited clinics in these popular destinations.
           </p>
@@ -123,11 +124,12 @@ function DestinationCard({ dest, index }: { dest: (typeof destinations)[number];
         href={`/destinations/${dest.slug}`}
         className="group block relative rounded-2xl overflow-hidden h-72 card-premium"
       >
-        <img
+        <Image
           src={dest.image}
           alt={`${dest.country} - ${dest.city}`}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/30 to-transparent" />
 

@@ -2,6 +2,7 @@
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
+import { ES, GB, HU, PL, TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -49,12 +50,25 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
             variants={staggerContainer}
             className="text-center"
           >
-            <m.h1
-              variants={fadeInUp}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
-            >
-              Rhinoplasty Abroad: Compare Prices, Techniques & Top Surgeons
-            </m.h1>
+            <m.div variants={fadeInUp} className="flex flex-col items-center justify-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <TR title="Turkey" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <ES title="Spain" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <HU title="Hungary" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <PL title="Poland" />
+                </div>
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Rhinoplasty Abroad
+              </h1>
+            </m.div>
             <m.p
               variants={fadeInUp}
               className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
@@ -576,7 +590,12 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
                   <tbody className="divide-y divide-slate-200">
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        🇹🇷 Turkey
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <TR title="Turkey" />
+                          </div>
+                          Turkey
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
                         £2,450–£4,000
@@ -593,7 +612,12 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        🇭🇺 Hungary
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <HU title="Hungary" />
+                          </div>
+                          Hungary
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
                         £2,200–£3,500
@@ -610,7 +634,12 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
                     </tr>
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        🇵🇱 Poland
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <PL title="Poland" />
+                          </div>
+                          Poland
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
                         £2,900–£4,500
@@ -627,7 +656,12 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        🇪🇸 Spain
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <ES title="Spain" />
+                          </div>
+                          Spain
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
                         £4,500–£7,500
@@ -644,7 +678,12 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
                     </tr>
                     <tr className="bg-rose-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-bold text-slate-900 sm:px-6">
-                        🇬🇧 UK (Baseline)
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <GB title="UK" />
+                          </div>
+                          UK (Baseline)
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-bold text-slate-600 sm:px-6">
                         £6,500–£9,500
@@ -762,8 +801,11 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">
-                      Turkey 🇹🇷
+                    <h3 className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+                      Turkey
+                      <div className="w-6 overflow-hidden rounded-sm">
+                        <TR title="Turkey" />
+                      </div>
                     </h3>
                     <p className="mt-1 text-rose-600">£2,450–£5,000</p>
                   </div>
@@ -801,8 +843,11 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">
-                      Spain 🇪🇸
+                    <h3 className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+                      Spain
+                      <div className="w-6 overflow-hidden rounded-sm">
+                        <ES title="Spain" />
+                      </div>
                     </h3>
                     <p className="mt-1 text-rose-600">£4,500–£9,000</p>
                   </div>
@@ -840,8 +885,11 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">
-                      Hungary 🇭🇺
+                    <h3 className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+                      Hungary
+                      <div className="w-6 overflow-hidden rounded-sm">
+                        <HU title="Hungary" />
+                      </div>
                     </h3>
                     <p className="mt-1 text-rose-600">£2,200–£5,000</p>
                   </div>
@@ -878,8 +926,11 @@ export function RhinoplastyClient({ faqs }: RhinoplastyClientProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">
-                      Poland 🇵🇱
+                    <h3 className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+                      Poland
+                      <div className="w-6 overflow-hidden rounded-sm">
+                        <PL title="Poland" />
+                      </div>
                     </h3>
                     <p className="mt-1 text-rose-600">£2,900–£6,000</p>
                   </div>

@@ -8,6 +8,29 @@ import { DestinationCostTable } from '@/components/content/cost-comparison-widge
 import { FAQAccordion, DESTINATION_FAQS } from '@/components/content/faq-accordion'
 import type { Destination, ProcedureWithStats } from '@/lib/data/content'
 import type { ClinicCardData } from '@/lib/data/clinics'
+import {
+  TR,
+  ES,
+  MX,
+  TH,
+  HU,
+  PL,
+  CZ,
+  BR,
+  IN,
+  KR,
+  DE,
+  PT,
+  GR,
+  HR,
+  AE,
+  CO,
+  CR,
+  MY,
+  SG,
+  IL,
+  LT,
+} from 'country-flag-icons/react/3x2'
 
 interface DestinationPageClientProps {
   destination: Destination
@@ -22,28 +45,28 @@ interface DestinationPageClientProps {
 }
 
 // Country flags by slug
-const COUNTRY_FLAGS: Record<string, string> = {
-  turkey: '🇹🇷',
-  spain: '🇪🇸',
-  mexico: '🇲🇽',
-  thailand: '🇹🇭',
-  hungary: '🇭🇺',
-  poland: '🇵🇱',
-  'czech-republic': '🇨🇿',
-  brazil: '🇧🇷',
-  india: '🇮🇳',
-  'south-korea': '🇰🇷',
-  germany: '🇩🇪',
-  portugal: '🇵🇹',
-  greece: '🇬🇷',
-  croatia: '🇭🇷',
-  'united-arab-emirates': '🇦🇪',
-  colombia: '🇨🇴',
-  'costa-rica': '🇨🇷',
-  malaysia: '🇲🇾',
-  singapore: '🇸🇬',
-  israel: '🇮🇱',
-  lithuania: '🇱🇹',
+const COUNTRY_FLAGS: Record<string, any> = {
+  turkey: TR,
+  spain: ES,
+  mexico: MX,
+  thailand: TH,
+  hungary: HU,
+  poland: PL,
+  'czech-republic': CZ,
+  brazil: BR,
+  india: IN,
+  'south-korea': KR,
+  germany: DE,
+  portugal: PT,
+  greece: GR,
+  croatia: HR,
+  'united-arab-emirates': AE,
+  colombia: CO,
+  'costa-rica': CR,
+  malaysia: MY,
+  singapore: SG,
+  israel: IL,
+  lithuania: LT,
 }
 
 // Destination highlights
@@ -265,7 +288,12 @@ export function DestinationPageClient({
         )}
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="flex items-center gap-4">
-            <span className="text-6xl">{flag}</span>
+            <div className="w-16 overflow-hidden rounded-md shadow-lg border-2 border-white/20">
+              {(() => {
+                const Flag = COUNTRY_FLAGS[destination.slug]
+                return Flag ? <Flag title={destination.country_name} /> : <span>🌍</span>
+              })()}
+            </div>
             <div>
               <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
                 Medical Tourism in {destination.country_name}
@@ -506,7 +534,12 @@ export function DestinationPageClient({
         {/* CTA Section */}
         <m.section {...fadeInUp}>
           <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 p-8 text-center text-white sm:p-12">
-            <div className="mb-4 text-5xl">{flag}</div>
+            <div className="mx-auto mb-6 w-16 overflow-hidden rounded-md shadow-xl border-2 border-white/20">
+              {(() => {
+                const Flag = COUNTRY_FLAGS[destination.slug]
+                return Flag ? <Flag title={destination.country_name} /> : <span>🌍</span>
+              })()}
+            </div>
             <h2 className="text-2xl font-bold sm:text-3xl">
               Start Your Medical Journey to {destination.country_name}
             </h2>

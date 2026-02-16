@@ -19,17 +19,19 @@ export function Newsletter() {
           <h2 className="heading-serif text-3xl sm:text-4xl text-navy mb-5">
             Stay Updated on <span className="gradient-text">Medical Travel</span>
           </h2>
-          <p className="text-navy/40 leading-relaxed mb-10">
+          <p className="text-navy/60 leading-relaxed mb-10">
             Get the latest insights, destination guides, and exclusive offers
             delivered to your inbox.
           </p>
 
           <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
             <input
+              id="newsletter-email"
               type="email"
               required
               placeholder="Enter your email"
-              className="flex-1 px-5 py-3.5 bg-white rounded-xl text-navy text-sm border border-navy/[0.06] placeholder:text-navy/25 outline-none focus:border-gold/30 transition-colors"
+              className="flex-1 px-5 py-3.5 bg-white rounded-xl text-navy text-sm border border-navy/[0.06] placeholder:text-navy/60 outline-none focus:border-gold/30 transition-colors"
             />
             <button
               type="submit"
@@ -39,7 +41,7 @@ export function Newsletter() {
             </button>
           </form>
 
-          <p className="mt-4 text-xs text-navy/25">
+          <p className="mt-4 text-xs text-navy/60">
             We respect your privacy. Unsubscribe anytime.
           </p>
         </motion.div>

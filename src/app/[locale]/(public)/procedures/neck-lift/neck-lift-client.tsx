@@ -3,6 +3,7 @@
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
 import { CheckCircle, Shield, Clock, Globe, Sparkles, User } from 'lucide-react'
+import { TR, PL, HU, ES } from 'country-flag-icons/react/3x2'
 
 interface FAQ {
   question: string
@@ -26,7 +27,7 @@ const staggerContainer = {
 const DESTINATIONS = [
   {
     country: 'Turkey',
-    flag: '🇹🇷',
+    flag: TR,
     price: '£2,500–£4,000',
     savings: '60–70%',
     highlight: 'Best value',
@@ -34,7 +35,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Poland',
-    flag: '🇵🇱',
+    flag: PL,
     price: '£3,000–£4,500',
     savings: '50–60%',
     highlight: 'EU standards',
@@ -42,7 +43,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Hungary',
-    flag: '🇭🇺',
+    flag: HU,
     price: '£3,200–£4,800',
     savings: '50–55%',
     highlight: 'Quality focus',
@@ -50,7 +51,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Spain',
-    flag: '🇪🇸',
+    flag: ES,
     price: '£4,000–£5,500',
     savings: '40–50%',
     highlight: 'Premium',
@@ -179,7 +180,9 @@ export function NeckLiftClient({ faqs }: NeckLiftClientProps) {
                   className="group rounded-xl border border-cyan-100 bg-white p-5 transition-all hover:shadow-lg"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-3xl">{dest.flag}</span>
+                    <div className="w-8 h-6 rounded overflow-hidden shadow-sm relative">
+                      <dest.flag className="w-full h-full object-cover" />
+                    </div>
                     <span className="rounded-full bg-cyan-100 px-2 py-1 text-xs font-medium text-cyan-700">
                       {dest.highlight}
                     </span>

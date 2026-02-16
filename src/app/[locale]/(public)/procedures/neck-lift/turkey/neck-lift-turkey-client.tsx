@@ -4,6 +4,8 @@ import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
 import { CheckCircle, Shield, Clock, MapPin, Package, User } from 'lucide-react'
 
+import { TR } from 'country-flag-icons/react/3x2'
+
 interface FAQ {
   question: string
   answer: string
@@ -52,7 +54,9 @@ export function NeckLiftTurkeyClient({ faqs }: NeckLiftTurkeyClientProps) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <m.div initial="hidden" animate="visible" variants={staggerContainer} className="text-center">
             <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
-              <span className="text-5xl">🇹🇷</span>
+              <div className="w-12 overflow-hidden rounded shadow-sm">
+                <TR title="Turkey" />
+              </div>
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 Neck Lift in Turkey
               </h1>

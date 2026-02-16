@@ -25,6 +25,7 @@ import {
   Trophy,
   Users,
 } from 'lucide-react'
+import { ES, TR, PL } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -371,7 +372,9 @@ export function SpainDestinationClient({ faqs }: SpainDestinationClientProps) {
         <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <div className="flex items-start gap-4 sm:items-center">
-            <span className="text-5xl sm:text-6xl">🇪🇸</span>
+            <div className="w-16 overflow-hidden rounded-md shadow-lg border-2 border-white/20">
+              <ES title="Spain" />
+            </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
                 Medical Tourism in Spain: World-Class Healthcare in the Sun
@@ -515,11 +518,10 @@ export function SpainDestinationClient({ faqs }: SpainDestinationClientProps) {
               >
                 <Link
                   href={proc.link}
-                  className={`group block h-full rounded-xl border bg-white p-5 transition-all hover:shadow-md ${
-                    proc.highlight
+                  className={`group block h-full rounded-xl border bg-white p-5 transition-all hover:shadow-md ${proc.highlight
                       ? 'border-amber-300 ring-2 ring-amber-100'
                       : 'border-neutral-200 hover:border-amber-200'
-                  }`}
+                    }`}
                 >
                   {proc.highlight && (
                     <span className="mb-3 inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">
@@ -778,9 +780,30 @@ export function SpainDestinationClient({ faqs }: SpainDestinationClientProps) {
               <thead>
                 <tr className="border-b border-neutral-200 bg-neutral-50">
                   <th className="px-4 py-3 text-left font-semibold text-neutral-900">Factor</th>
-                  <th className="px-4 py-3 text-left font-semibold text-amber-700">🇪🇸 Spain</th>
-                  <th className="px-4 py-3 text-left font-semibold text-teal-700">🇹🇷 Turkey</th>
-                  <th className="px-4 py-3 text-left font-semibold text-blue-700">🇵🇱 Poland</th>
+                  <th className="px-4 py-3 text-left font-semibold text-amber-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <ES title="Spain" />
+                      </div>
+                      Spain
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-teal-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <TR title="Turkey" />
+                      </div>
+                      Turkey
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-blue-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <PL title="Poland" />
+                      </div>
+                      Poland
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -1006,7 +1029,9 @@ export function SpainDestinationClient({ faqs }: SpainDestinationClientProps) {
         <m.section {...fadeInUp}>
           <div className="rounded-2xl bg-gradient-to-r from-amber-600 to-orange-700 p-6 text-white sm:p-8 lg:p-12">
             <div className="mx-auto max-w-2xl text-center">
-              <span className="text-5xl">🇪🇸</span>
+              <div className="mx-auto mb-6 w-16 overflow-hidden rounded-md shadow-xl border-2 border-white/20">
+                <ES title="Spain" />
+              </div>
               <h2 className="mt-4 text-2xl font-bold sm:text-3xl">
                 Ready to Explore Treatment in Spain?
               </h2>

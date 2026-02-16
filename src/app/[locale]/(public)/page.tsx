@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { Hero } from '@/components/home/Hero'
 import { StatsBar } from '@/components/home/StatsBar'
@@ -12,6 +13,22 @@ import { Testimonials } from '@/components/home/Testimonials'
 import { Newsletter } from '@/components/home/Newsletter'
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { generateHowToSchema, generateOrganizationSchema, generateWebsiteSchema } from '@/lib/seo/structured-data'
+
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Meet Your Clinic | Save Up to 80% on World-Class Healthcare Abroad',
+  },
+  description:
+    'Compare 1,000+ accredited dental, cosmetic surgery, hair transplant and fertility clinics across 20+ countries. Verified reviews, transparent pricing, direct booking.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Meet Your Clinic | Save Up to 80% on World-Class Healthcare Abroad',
+    description:
+      'Compare 1,000+ accredited dental, cosmetic surgery, hair transplant and fertility clinics across 20+ countries. Verified reviews, transparent pricing, direct booking.',
+  },
+}
 
 interface HomePageProps {
   params: Promise<{ locale: string }>

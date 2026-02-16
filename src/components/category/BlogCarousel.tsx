@@ -6,46 +6,39 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 const ARTICLES = [
   {
-    title: "Plan a Top-Notch Dental Vacation in Mexico: Quality Care at a Fraction of the Cost",
-    slug: "dental-vacation-mexico",
+    title: "Dental Implants in Turkey: The Complete 2026 Guide",
+    slug: "dental-implants-turkey-2026-guide",
     imageUrl:
       "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
+    author: "Meet Your Clinic",
   },
   {
-    title: "Best Countries for Dental Work Abroad in 2025",
-    slug: "best-countries-dental-work",
-    imageUrl:
-      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
-  },
-  {
-    title: "Dental Implants Cost Guide: Top Destinations for Affordable Treatment",
-    slug: "dental-implants-cost-guide",
-    imageUrl:
-      "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
-  },
-  {
-    title: "Veneers Abroad: Everything You Need to Know Before You Go",
-    slug: "veneers-abroad-guide",
+    title: "Veneers in Turkey: The Complete 2026 Guide",
+    slug: "veneers-turkey-2026-guide",
     imageUrl:
       "https://images.unsplash.com/photo-1606265752439-1f18756aa5fc?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
+    author: "Meet Your Clinic",
   },
   {
-    title: "All-on-4 Dental Implants: A Complete Patient Guide",
-    slug: "all-on-4-guide",
+    title: "Hair Transplant in Turkey: The Complete 2026 Guide",
+    slug: "hair-transplant-turkey-2026-guide",
     imageUrl:
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
+      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=240&fit=crop&auto=format",
+    author: "Meet Your Clinic",
   },
   {
-    title: "How to Choose a Dental Clinic Abroad: 7 Things to Check",
-    slug: "how-to-choose-clinic-abroad",
+    title: "Medical Tourism in 2026: Where People Are Going",
+    slug: "medical-tourism-costa-del-sol-2026",
     imageUrl:
-      "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=240&fit=crop&auto=format",
-    author: "WestDent Editorial",
+      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=240&fit=crop&auto=format",
+    author: "Meet Your Clinic",
+  },
+  {
+    title: "Guide to Dental Implants in Turkey 2025",
+    slug: "complete-guide-to-dental-implants-in-turkey-2025",
+    imageUrl:
+      "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=400&h=240&fit=crop&auto=format",
+    author: "Meet Your Clinic",
   },
 ];
 

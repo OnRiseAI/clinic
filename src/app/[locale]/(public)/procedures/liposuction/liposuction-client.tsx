@@ -2,6 +2,7 @@
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
+import { ES, HU, PL, TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -395,12 +396,17 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                   <tbody className="divide-y divide-slate-200">
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/liposuction/turkey"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Turkey
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <TR title="Turkey" />
+                          </div>
+                          <Link
+                            href="/procedures/liposuction/turkey"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Turkey
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £1,500–£3,800
@@ -414,12 +420,17 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/liposuction/hungary"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Hungary
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <HU title="Hungary" />
+                          </div>
+                          <Link
+                            href="/procedures/liposuction/hungary"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Hungary
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £1,165–£1,775
@@ -433,12 +444,17 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                     </tr>
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/liposuction/poland"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Poland
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <PL title="Poland" />
+                          </div>
+                          <Link
+                            href="/procedures/liposuction/poland"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Poland
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £500–£3,800
@@ -452,12 +468,17 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/liposuction/spain"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Spain
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <ES title="Spain" />
+                          </div>
+                          <Link
+                            href="/procedures/liposuction/spain"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Spain
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £2,400–£5,300
@@ -580,7 +601,9 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                     </h3>
                     <p className="text-sm text-slate-500">Istanbul (primary hub)</p>
                   </div>
-                  <span className="text-2xl">🇹🇷</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <TR title="Turkey" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £1,500–£4,600 per area
@@ -619,7 +642,9 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                     </h3>
                     <p className="text-sm text-slate-500">Budapest</p>
                   </div>
-                  <span className="text-2xl">🇭🇺</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <HU title="Hungary" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £1,165–£2,500 per area
@@ -658,7 +683,9 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                       Warsaw, Kraków & Wrocław
                     </p>
                   </div>
-                  <span className="text-2xl">🇵🇱</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <PL title="Poland" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £500–£3,800 per area
@@ -698,7 +725,9 @@ export function LiposuctionClient({ faqs }: LiposuctionClientProps) {
                       Madrid, Barcelona & Marbella
                     </p>
                   </div>
-                  <span className="text-2xl">🇪🇸</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <ES title="Spain" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £2,400–£5,500 per area

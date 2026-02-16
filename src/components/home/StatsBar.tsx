@@ -55,7 +55,7 @@ export function StatsBar() {
               <div className="text-2xl sm:text-3xl font-bold text-navy">
                 <AnimatedNumber value={stat.value} suffix={stat.suffix} />
               </div>
-              <p className="text-xs text-navy/35 mt-1 uppercase tracking-wider font-medium">
+              <p className="text-xs text-navy/60 mt-1 uppercase tracking-wider font-medium">
                 {stat.label}
               </p>
             </div>

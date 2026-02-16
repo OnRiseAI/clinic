@@ -3,6 +3,8 @@
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
 
+import { TR } from 'country-flag-icons/react/3x2'
+
 // =============================================================================
 // TYPES
 // =============================================================================
@@ -49,12 +51,14 @@ export function LiposuctionTurkeyClient({ faqs }: LiposuctionTurkeyClientProps) 
             variants={staggerContainer}
             className="text-center"
           >
-            <m.h1
-              variants={fadeInUp}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
-            >
-              Liposuction in Turkey: Compare Prices, Techniques & Top Clinics
-            </m.h1>
+            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
+              <div className="w-12 overflow-hidden rounded shadow-sm">
+                <TR title="Turkey" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Liposuction in Turkey
+              </h1>
+            </m.div>
             <m.p
               variants={fadeInUp}
               className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"

@@ -71,7 +71,7 @@ export function TrustBar() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-navy">{acc.name}</p>
-                <p className="text-[11px] text-navy/35">{acc.description}</p>
+                <p className="text-[11px] text-navy/60">{acc.description}</p>
               </div>
             </div>
           ))}
@@ -85,7 +85,7 @@ export function TrustBar() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-center"
         >
-          <p className="text-[11px] text-navy/25 uppercase tracking-[0.2em] mb-6">
+          <p className="text-[11px] text-navy/60 uppercase tracking-[0.2em] mb-6">
             As Featured In
           </p>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">

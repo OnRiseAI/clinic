@@ -2,6 +2,7 @@
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
+import { ES, GB } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -49,13 +50,14 @@ export function RhinoplastySpainClient({ faqs }: RhinoplastySpainClientProps) {
             variants={staggerContainer}
             className="text-center"
           >
-            <m.h1
-              variants={fadeInUp}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
-            >
-              Rhinoplasty in Spain: Complete UK Patient Guide to Premium
-              European Nose Surgery
-            </m.h1>
+            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
+              <div className="w-12 overflow-hidden rounded shadow-sm">
+                <ES title="Spain" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Rhinoplasty in Spain
+              </h1>
+            </m.div>
             <m.p
               variants={fadeInUp}
               className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
@@ -254,14 +256,29 @@ export function RhinoplastySpainClient({ faqs }: RhinoplastySpainClientProps) {
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
                         Procedure Type
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Spain
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-rose-600 sm:px-6">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                            <ES title="Spain" />
+                          </div>
+                          <span>Spain</span>
+                        </div>
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        UK (Surgery Only)
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                            <GB title="UK" />
+                          </div>
+                          <span>UK (Surgery Only)</span>
+                        </div>
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        UK (Total Est.)
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                            <GB title="UK" />
+                          </div>
+                          <span>UK (Total Est.)</span>
+                        </div>
                       </th>
                     </tr>
                   </thead>

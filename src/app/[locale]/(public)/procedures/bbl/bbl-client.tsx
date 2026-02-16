@@ -3,6 +3,7 @@
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
 import { AlertTriangle, CheckCircle, Shield, Clock, Syringe } from 'lucide-react'
+import { TR, PL, HU, ES } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -42,7 +43,7 @@ const DESTINATIONS = [
   {
     country: 'Turkey',
     slug: 'turkey',
-    flag: '🇹🇷',
+    flag: TR,
     priceRange: '£2,800–£5,000',
     hospitals: '50+ clinics',
     highlight: 'Highest volume, lowest prices',
@@ -51,7 +52,7 @@ const DESTINATIONS = [
   {
     country: 'Poland',
     slug: 'poland',
-    flag: '🇵🇱',
+    flag: PL,
     priceRange: '£3,500–£5,500',
     hospitals: '20+ clinics',
     highlight: 'EU standards, natural results',
@@ -60,7 +61,7 @@ const DESTINATIONS = [
   {
     country: 'Spain',
     slug: 'spain',
-    flag: '🇪🇸',
+    flag: ES,
     priceRange: '£4,500–£6,500',
     hospitals: '30+ clinics',
     highlight: 'Premium quality',
@@ -69,7 +70,7 @@ const DESTINATIONS = [
   {
     country: 'Hungary',
     slug: 'hungary',
-    flag: '🇭🇺',
+    flag: HU,
     priceRange: '£3,200–£5,000',
     hospitals: '15+ clinics',
     highlight: 'EU quality, good value',
@@ -345,7 +346,9 @@ export function BBLClient({ faqs }: BBLClientProps) {
                   className="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-fuchsia-200 hover:shadow-md"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{dest.flag}</span>
+                    <div className="w-8 h-6 rounded overflow-hidden shadow-sm relative">
+                      <dest.flag className="w-full h-full object-cover" />
+                    </div>
                     <div>
                       <h3 className="font-semibold text-slate-900 group-hover:text-fuchsia-600">
                         {dest.country}

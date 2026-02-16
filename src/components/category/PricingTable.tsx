@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { PricingRow } from "@/lib/data/category-page";
+import Flag from "@/components/ui/Flag";
 
 interface PricingTableProps {
   procedures: PricingRow[];
@@ -63,7 +64,7 @@ export default function PricingTable({ procedures, categoryName }: PricingTableP
                       key={c.name}
                       className="text-center font-semibold px-4 py-4 min-w-[130px]"
                     >
-                      <span className="mr-1.5">{c.flag}</span>
+                      <Flag code={c.flag} className="w-5 h-5 rounded-sm shadow-sm mr-2 inline-block align-middle" />
                       {c.name}
                     </th>
                   ))}
@@ -73,9 +74,8 @@ export default function PricingTable({ procedures, categoryName }: PricingTableP
                 {procedures.map((t, i) => (
                   <tr
                     key={t.procedureName}
-                    className={`border-t border-slate-100 transition-colors hover:bg-slate-50/80 ${
-                      i % 2 === 0 ? "bg-white" : "bg-slate-50/40"
-                    }`}
+                    className={`border-t border-slate-100 transition-colors hover:bg-slate-50/80 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/40"
+                      }`}
                   >
                     <td className="px-5 py-3.5 font-medium text-slate-900">
                       {t.procedureName}

@@ -2,6 +2,7 @@
 
 import { m } from 'framer-motion'
 import { Link } from '@/i18n/navigation'
+import { HU, TR } from 'country-flag-icons/react/3x2'
 import { Button } from '@/components/ui/button'
 import { FAQSection } from '@/components/seo/faq-section'
 import {
@@ -614,13 +615,12 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
                 <div className="flex items-start justify-between">
                   <h4 className="font-semibold text-neutral-900">{brand.name}</h4>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                      brand.tier === 'Premium'
-                        ? 'bg-green-50 text-green-700'
-                        : brand.tier === 'Mid-premium'
-                          ? 'bg-blue-50 text-blue-700'
-                          : 'bg-neutral-100 text-neutral-600'
-                    }`}
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${brand.tier === 'Premium'
+                      ? 'bg-green-50 text-green-700'
+                      : brand.tier === 'Mid-premium'
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'bg-neutral-100 text-neutral-600'
+                      }`}
                   >
                     {brand.tier}
                   </span>
@@ -925,9 +925,21 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
                 <tr className="border-b border-neutral-200 bg-neutral-50">
                   <th className="px-4 py-3 text-left font-semibold text-neutral-900">Factor</th>
                   <th className="px-4 py-3 text-left font-semibold text-primary-700">
-                    🇭🇺 Hungary
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <HU title="Hungary" />
+                      </div>
+                      Hungary
+                    </div>
                   </th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-700">🇹🇷 Turkey</th>
+                  <th className="px-4 py-3 text-left font-semibold text-neutral-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <TR title="Turkey" />
+                      </div>
+                      Turkey
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
+import { createClient } from '@/lib/supabase/server'
 import {
   Star,
   MapPin,
@@ -89,7 +90,22 @@ export default async function ClinicDetailPage({ params }: PageProps) {
   if (!config) notFound();
 
   const clinic = await getClinicBySlug(slug);
-  if (!clinic) notFound();
+  if (!clinic) {
+    // Check if slug is a country (legacy route compatibility)
+    const supabase = await createClient();
+    const { data: country } = await supabase
+      .from('countries')
+      .select('slug')
+      .eq('slug', slug)
+      .single();
+
+    if (country) {
+      // It's a country, redirect to search with category & country filters
+      redirect(`/search?procedure=${category}&country=${slug}`);
+    }
+
+    notFound();
+  }
 
   const location = [clinic.city, clinic.country].filter(Boolean).join(", ");
   const leadDoctor = clinic.doctors[0] || null;
@@ -382,11 +398,10 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${
-                          i < topReview.rating
-                            ? "fill-amber-400 text-amber-400"
-                            : "text-slate-200"
-                        }`}
+                        className={`h-4 w-4 ${i < topReview.rating
+                          ? "fill-amber-400 text-amber-400"
+                          : "text-slate-200"
+                          }`}
                       />
                     ))}
                   </div>

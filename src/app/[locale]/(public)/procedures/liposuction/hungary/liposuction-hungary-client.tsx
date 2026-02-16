@@ -3,6 +3,8 @@
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
 
+import { HU, TR, PL, ES } from 'country-flag-icons/react/3x2'
+
 // =============================================================================
 // TYPES
 // =============================================================================
@@ -710,16 +712,36 @@ export function LiposuctionHungaryClient({ faqs }: LiposuctionHungaryClientProps
                         Factor
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Hungary 🇭🇺
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <HU title="Hungary" />
+                          </div>
+                          Hungary
+                        </div>
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Turkey 🇹🇷
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <TR title="Turkey" />
+                          </div>
+                          Turkey
+                        </div>
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Poland 🇵🇱
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <PL title="Poland" />
+                          </div>
+                          Poland
+                        </div>
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Spain 🇪🇸
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm">
+                            <ES title="Spain" />
+                          </div>
+                          Spain
+                        </div>
                       </th>
                     </tr>
                   </thead>

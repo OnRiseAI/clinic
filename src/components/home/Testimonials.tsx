@@ -52,7 +52,7 @@ export function Testimonials() {
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
             Patient <span className="gradient-text">Stories</span>
           </h2>
-          <p className="text-navy/40 max-w-lg mx-auto leading-relaxed">
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
             Real experiences from patients who found world-class care abroad.
           </p>
         </motion.div>
@@ -82,12 +82,12 @@ export function Testimonials() {
                 &ldquo;{review.text}&rdquo;
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-navy/[0.06] flex items-center justify-center text-sm font-bold text-navy/40">
+                <div className="w-10 h-10 rounded-full bg-navy/[0.06] flex items-center justify-center text-sm font-bold text-navy/60">
                   {review.author[0]}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-navy">{review.author}</p>
-                  <p className="text-xs text-navy/35">{review.treatment}</p>
+                  <p className="text-xs text-navy/60">{review.treatment}</p>
                 </div>
               </div>
             </motion.div>
@@ -120,12 +120,12 @@ export function Testimonials() {
                 &ldquo;{review.text}&rdquo;
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-navy/[0.06] flex items-center justify-center text-sm font-bold text-navy/40">
+                <div className="w-10 h-10 rounded-full bg-navy/[0.06] flex items-center justify-center text-sm font-bold text-navy/60">
                   {review.author[0]}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-navy">{review.author}</p>
-                  <p className="text-xs text-navy/35">{review.treatment}</p>
+                  <p className="text-xs text-navy/60">{review.treatment}</p>
                 </div>
               </div>
             </motion.div>

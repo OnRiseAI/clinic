@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { createClient } from "@/lib/supabase/server";
 import { getCategoryConfig } from "@/lib/categories/config";
 import {
   getClinicsForCategory,
@@ -102,7 +103,35 @@ export default async function CategoryDirectoryPage({ params }: PageProps) {
   setRequestLocale(locale);
 
   const config = getCategoryConfig(category);
-  if (!config) notFound();
+  if (!config) {
+    // Fallback: Check if this "category" is actually a clinic slug or a country slug
+    const supabase = await createClient();
+
+    // Check for clinic
+    const { data: clinic } = await supabase
+      .from('clinics')
+      .select('slug, clinic_categories(category:categories(slug))')
+      .eq('slug', category)
+      .single();
+
+    if (clinic) {
+      const actualCategory = (clinic as any).clinic_categories?.[0]?.category?.slug || 'dental';
+      redirect(`/clinics/${actualCategory}/${category}`);
+    }
+
+    // Check for country
+    const { data: country } = await supabase
+      .from('countries')
+      .select('slug')
+      .eq('slug', category)
+      .single();
+
+    if (country) {
+      redirect(`/search?country=${category}`);
+    }
+
+    notFound();
+  }
 
   // Parallel data fetching
   const [clinics, stats, countryFilters, procedures] = await Promise.all([

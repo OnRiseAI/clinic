@@ -8,7 +8,9 @@ import {
   generateWebsiteSchema,
 } from '@/lib/seo/structured-data'
 import { StructuredData } from '@/components/seo/structured-data-component'
-import { Breadcrumbs } from '@/components/seo/breadcrumbs'
+import CategoryHero from '@/components/category/CategoryHero'
+import type { CategoryConfig } from '@/lib/categories/config'
+import type { CategoryPageStats } from '@/lib/data/category-page'
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
 
@@ -130,6 +132,42 @@ const medicalWebPageSchema = {
 }
 
 // =============================================================================
+// PAGE CONFIGURATION (ADAPTER)
+// =============================================================================
+
+const veneersConfig: CategoryConfig = {
+  slug: 'veneers',
+  name: 'Veneers',
+  namePlural: 'Veneer Clinics',
+  heroTitle: 'Transform your smile with',
+  heroHighlight: 'dental veneers',
+  heroSubtitle:
+    'Compare verified dental clinics for porcelain and composite veneers. Save 40–70% in Turkey, Hungary, and Spain with all-inclusive packages.',
+  heroImage:
+    'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1974&auto=format&fit=crop',
+  metaTitle: '',
+  metaDescription: '',
+  metaKeywords: '',
+  faqs: [],
+  seoBlocks: [],
+  relatedTreatments: [],
+  countryLinks: [],
+  pricingHeading: '',
+  pricingCta: '',
+  faqIntro: '',
+  blogSubtitle: '',
+  countryLinksHeading: '',
+  specialtiesHeading: '',
+}
+
+const veneersStats: CategoryPageStats = {
+  clinicCount: 42,
+  countries: 5,
+  avgRating: 4.9,
+  patientsHelped: '3,000+',
+}
+
+// =============================================================================
 // PAGE COMPONENT
 // =============================================================================
 
@@ -152,7 +190,7 @@ export default async function VeneersPage({ params }: VeneersPageProps) {
   const faqSchema = generateFAQSchema(VENEERS_ABROAD_FAQS)
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       <StructuredData
         data={[
           generateOrganizationSchema(),
@@ -163,14 +201,7 @@ export default async function VeneersPage({ params }: VeneersPageProps) {
         ]}
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <Breadcrumbs
-          items={[
-            { name: 'Dental', url: '/dental' },
-            { name: 'Veneers' },
-          ]}
-        />
-      </div>
+      <CategoryHero config={veneersConfig} stats={veneersStats} />
 
       <VeneersClient faqs={VENEERS_ABROAD_FAQS} />
     </div>

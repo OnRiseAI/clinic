@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import type { CategoryClinicCard } from "@/lib/data/category-page";
+import Flag from "@/components/ui/Flag";
 
 interface ClinicCardProps {
   clinic: CategoryClinicCard;
@@ -66,7 +67,7 @@ export default function ClinicCard({ clinic, categorySlug, onContact }: ClinicCa
             {/* Country flag + location */}
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
               <div className="flex items-center gap-1.5 rounded-lg bg-black/50 backdrop-blur-sm px-2.5 py-1.5">
-                <span className="text-sm">{clinic.countryFlag}</span>
+                <Flag code={clinic.countryFlag} className="w-4 h-4 rounded-sm shadow-sm" />
                 <span className="text-xs font-medium text-white">
                   {clinic.location}
                 </span>

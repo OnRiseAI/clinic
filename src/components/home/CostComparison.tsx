@@ -31,7 +31,7 @@ export function CostComparison() {
               Premium Healthcare,{' '}
               <span className="gradient-text">Fraction of the Cost</span>
             </h2>
-            <p className="text-navy/40 max-w-lg leading-relaxed mb-8">
+            <p className="text-navy/60 max-w-lg leading-relaxed mb-8">
               Compare prices for top procedures like dental veneers, hair
               transplants, and rhinoplasty across 10+ countries. Same accredited
               clinics, world-class doctors.
@@ -90,11 +90,11 @@ export function CostComparison() {
                 <p className="text-sm font-semibold text-navy">
                   You save up to <span className="text-teal">80%</span>
                 </p>
-                <p className="text-xs text-navy/40">Same accredited clinics, world-class doctors</p>
+                <p className="text-xs text-navy/60">Same accredited clinics, world-class doctors</p>
               </div>
             </div>
 
-            <p className="mt-4 text-[11px] text-navy/25 text-center">
+            <p className="mt-4 text-[11px] text-navy/60 text-center">
               *Estimated average costs for comparison purposes only.
             </p>
           </motion.div>

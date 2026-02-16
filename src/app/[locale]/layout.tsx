@@ -21,6 +21,9 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
+  ),
   title: {
     default: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
     template: '%s | Meet Your Clinic',
@@ -44,12 +47,21 @@ export const metadata: Metadata = {
     title: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
     description:
       'Compare accredited clinics and specialists across 20+ countries. Read patient reviews, verify credentials, and connect with trusted medical providers abroad.',
+    images: [
+      {
+        url: '/og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Meet Your Clinic — Find Accredited Clinics Worldwide',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Meet Your Clinic | Find Accredited Clinics Worldwide',
     description:
       'Compare accredited clinics and specialists across 20+ countries. Read patient reviews, verify credentials, and connect with trusted medical providers abroad.',
+    images: ['/og-default.jpg'],
   },
   robots: {
     index: true,

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { m, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { TR, MX, TH, ES, PL, HU, CR, IN } from 'country-flag-icons/react/3x2'
 
 const categories = [
   { name: 'Dental', slug: 'dental', icon: '🦷' },
@@ -19,14 +20,14 @@ const categories = [
 ]
 
 const destinations = [
-  { name: 'Turkey', slug: 'turkey', flag: '🇹🇷' },
-  { name: 'Mexico', slug: 'mexico', flag: '🇲🇽' },
-  { name: 'Thailand', slug: 'thailand', flag: '🇹🇭' },
-  { name: 'Spain', slug: 'spain', flag: '🇪🇸' },
-  { name: 'Poland', slug: 'poland', flag: '🇵🇱' },
-  { name: 'Hungary', slug: 'hungary', flag: '🇭🇺' },
-  { name: 'Costa Rica', slug: 'costa-rica', flag: '🇨🇷' },
-  { name: 'India', slug: 'india', flag: '🇮🇳' },
+  { name: 'Turkey', slug: 'turkey', flag: TR },
+  { name: 'Mexico', slug: 'mexico', flag: MX },
+  { name: 'Thailand', slug: 'thailand', flag: TH },
+  { name: 'Spain', slug: 'spain', flag: ES },
+  { name: 'Poland', slug: 'poland', flag: PL },
+  { name: 'Hungary', slug: 'hungary', flag: HU },
+  { name: 'Costa Rica', slug: 'costa-rica', flag: CR },
+  { name: 'India', slug: 'india', flag: IN },
 ]
 
 interface PublicHeaderProps {
@@ -148,7 +149,9 @@ export function PublicHeader({ user }: PublicHeaderProps) {
                       className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
                       onClick={() => setDestinationsOpen(false)}
                     >
-                      <span>{destination.flag}</span>
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        <destination.flag title={destination.name} />
+                      </div>
                       <span>{destination.name}</span>
                     </Link>
                   ))}
@@ -257,7 +260,9 @@ export function PublicHeader({ user }: PublicHeaderProps) {
                     className="flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium text-neutral-600 hover:bg-neutral-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <span>{destination.flag}</span>
+                    <div className="w-5 overflow-hidden rounded-sm">
+                      <destination.flag title={destination.name} />
+                    </div>
                     <span>{destination.name}</span>
                   </Link>
                 ))}

@@ -22,7 +22,7 @@ export interface RelatedTreatment {
 
 export interface CountryLink {
   name: string
-  flag: string
+  flag: string // ISO code (e.g., 'TR')
   slug: string
 }
 
@@ -139,29 +139,29 @@ const dentalConfig: CategoryConfig = {
     { name: 'Full Mouth Restoration', slug: 'full-mouth-restoration' },
   ],
   countryLinks: [
-    { name: 'Turkey', flag: '\uD83C\uDDF9\uD83C\uDDF7', slug: 'turkey' },
-    { name: 'Mexico', flag: '\uD83C\uDDF2\uD83C\uDDFD', slug: 'mexico' },
-    { name: 'Hungary', flag: '\uD83C\uDDED\uD83C\uDDFA', slug: 'hungary' },
-    { name: 'Thailand', flag: '\uD83C\uDDF9\uD83C\uDDED', slug: 'thailand' },
-    { name: 'Poland', flag: '\uD83C\uDDF5\uD83C\uDDF1', slug: 'poland' },
-    { name: 'Costa Rica', flag: '\uD83C\uDDE8\uD83C\uDDF7', slug: 'costa-rica' },
-    { name: 'Colombia', flag: '\uD83C\uDDE8\uD83C\uDDF4', slug: 'colombia' },
-    { name: 'Croatia', flag: '\uD83C\uDDED\uD83C\uDDF7', slug: 'croatia' },
-    { name: 'Spain', flag: '\uD83C\uDDEA\uD83C\uDDF8', slug: 'spain' },
-    { name: 'India', flag: '\uD83C\uDDEE\uD83C\uDDF3', slug: 'india' },
-    { name: 'Germany', flag: '\uD83C\uDDE9\uD83C\uDDEA', slug: 'germany' },
-    { name: 'Brazil', flag: '\uD83C\uDDE7\uD83C\uDDF7', slug: 'brazil' },
-    { name: 'Czech Republic', flag: '\uD83C\uDDE8\uD83C\uDDFF', slug: 'czech-republic' },
-    { name: 'Romania', flag: '\uD83C\uDDF7\uD83C\uDDF4', slug: 'romania' },
-    { name: 'Portugal', flag: '\uD83C\uDDF5\uD83C\uDDF9', slug: 'portugal' },
-    { name: 'United Arab Emirates', flag: '\uD83C\uDDE6\uD83C\uDDEA', slug: 'uae' },
-    { name: 'South Korea', flag: '\uD83C\uDDF0\uD83C\uDDF7', slug: 'south-korea' },
-    { name: 'Dominican Republic', flag: '\uD83C\uDDE9\uD83C\uDDF4', slug: 'dominican-republic' },
-    { name: 'Egypt', flag: '\uD83C\uDDEA\uD83C\uDDEC', slug: 'egypt' },
-    { name: 'United Kingdom', flag: '\uD83C\uDDEC\uD83C\uDDE7', slug: 'united-kingdom' },
-    { name: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', slug: 'united-states' },
-    { name: 'Italy', flag: '\uD83C\uDDEE\uD83C\uDDF9', slug: 'italy' },
-    { name: 'Greece', flag: '\uD83C\uDDEC\uD83C\uDDF7', slug: 'greece' },
+    { name: 'Turkey', flag: 'TR', slug: 'turkey' },
+    { name: 'Mexico', flag: 'MX', slug: 'mexico' },
+    { name: 'Hungary', flag: 'HU', slug: 'hungary' },
+    { name: 'Thailand', flag: 'TH', slug: 'thailand' },
+    { name: 'Poland', flag: 'PL', slug: 'poland' },
+    { name: 'Costa Rica', flag: 'CR', slug: 'costa-rica' },
+    { name: 'Colombia', flag: 'CO', slug: 'colombia' },
+    { name: 'Croatia', flag: 'HR', slug: 'croatia' },
+    { name: 'Spain', flag: 'ES', slug: 'spain' },
+    { name: 'India', flag: 'IN', slug: 'india' },
+    { name: 'Germany', flag: 'DE', slug: 'germany' },
+    { name: 'Brazil', flag: 'BR', slug: 'brazil' },
+    { name: 'Czech Republic', flag: 'CZ', slug: 'czech-republic' },
+    { name: 'Romania', flag: 'RO', slug: 'romania' },
+    { name: 'Portugal', flag: 'PT', slug: 'portugal' },
+    { name: 'United Arab Emirates', flag: 'AE', slug: 'uae' },
+    { name: 'South Korea', flag: 'KR', slug: 'south-korea' },
+    { name: 'Dominican Republic', flag: 'DO', slug: 'dominican-republic' },
+    { name: 'Egypt', flag: 'EG', slug: 'egypt' },
+    { name: 'United Kingdom', flag: 'GB', slug: 'united-kingdom' },
+    { name: 'United States', flag: 'US', slug: 'united-states' },
+    { name: 'Italy', flag: 'IT', slug: 'italy' },
+    { name: 'Greece', flag: 'GR', slug: 'greece' },
   ],
 }
 

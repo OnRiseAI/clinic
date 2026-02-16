@@ -1,4 +1,5 @@
 import type { CountryLink, RelatedTreatment } from "@/lib/categories/config";
+import Flag from "@/components/ui/Flag";
 
 interface CountryLinksProps {
   countries: CountryLink[];
@@ -29,10 +30,10 @@ export default function CountryLinks({ countries, procedures, categorySlug, cate
               {countries.map((c) => (
                 <a
                   key={c.slug}
-                  href={`/clinics/${categorySlug}/${c.slug}`}
+                  href={`/search?procedure=${categorySlug}&country=${c.slug}`}
                   className="flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 transition-colors py-1"
                 >
-                  <span className="text-base">{c.flag}</span>
+                  <Flag code={c.flag} className="w-5 h-5 rounded-sm shadow-sm" />
                   <span>{categoryName} Treatment in {c.name}</span>
                 </a>
               ))}
@@ -50,7 +51,7 @@ export default function CountryLinks({ countries, procedures, categorySlug, cate
               {procedures.map((s) => (
                 <a
                   key={s.slug}
-                  href={`/treatments/${s.slug}`}
+                  href={`/procedures/${s.slug}`}
                   className="text-sm text-slate-600 hover:text-teal-700 transition-colors py-1"
                 >
                   {s.name}

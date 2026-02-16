@@ -52,7 +52,7 @@ export function HowItWorks() {
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
             Your Journey to <span className="gradient-text">Better Health</span>
           </h2>
-          <p className="text-navy/40 max-w-lg mx-auto leading-relaxed">
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
             We simplify medical travel. Find, compare, and book trusted care abroad in three simple steps.
           </p>
         </motion.div>
@@ -80,7 +80,7 @@ export function HowItWorks() {
               <h3 className="text-lg font-semibold text-navy mb-3 tracking-tight">
                 {step.title}
               </h3>
-              <p className="text-sm text-navy/40 leading-relaxed">
+              <p className="text-sm text-navy/60 leading-relaxed">
                 {step.description}
               </p>
             </motion.div>

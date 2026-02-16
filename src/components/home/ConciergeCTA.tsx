@@ -20,7 +20,7 @@ export function ConciergeCTA() {
               Not sure where to start?{' '}
               <span className="gradient-text">Talk to our AI Concierge</span>
             </h2>
-            <p className="text-navy/40 max-w-lg leading-relaxed mb-8">
+            <p className="text-navy/60 max-w-lg leading-relaxed mb-8">
               Our advanced AI advisor knows every clinic, treatment, and regulation.
               Tell it what you need in plain language and get personalised
               recommendations instantly.

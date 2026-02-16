@@ -8,6 +8,10 @@ import { FAQAccordion, generateProcedureDestinationFAQs } from '@/components/con
 import type { Destination, Procedure } from '@/lib/data/content'
 import type { ClinicCardData } from '@/lib/data/clinics'
 
+import {
+  TR, ES, MX, TH, HU, PL, CZ, BR, IN, KR, DE, PT, GR, HR, AE, CO, CR, MY, SG, IL
+} from 'country-flag-icons/react/3x2'
+
 interface DestinationProcedureStats {
   clinicCount: number
   avgPrice: number | null
@@ -22,28 +26,28 @@ interface DestinationProcedurePageClientProps {
   stats: DestinationProcedureStats
 }
 
-// Country flags
-const COUNTRY_FLAGS: Record<string, string> = {
-  turkey: '🇹🇷',
-  spain: '🇪🇸',
-  mexico: '🇲🇽',
-  thailand: '🇹🇭',
-  hungary: '🇭🇺',
-  poland: '🇵🇱',
-  'czech-republic': '🇨🇿',
-  brazil: '🇧🇷',
-  india: '🇮🇳',
-  'south-korea': '🇰🇷',
-  germany: '🇩🇪',
-  portugal: '🇵🇹',
-  greece: '🇬🇷',
-  croatia: '🇭🇷',
-  'united-arab-emirates': '🇦🇪',
-  colombia: '🇨🇴',
-  'costa-rica': '🇨🇷',
-  malaysia: '🇲🇾',
-  singapore: '🇸🇬',
-  israel: '🇮🇱',
+// Country flags mapping to components
+const COUNTRY_FLAGS: Record<string, any> = {
+  turkey: TR,
+  spain: ES,
+  mexico: MX,
+  thailand: TH,
+  hungary: HU,
+  poland: PL,
+  'czech-republic': CZ,
+  brazil: BR,
+  india: IN,
+  'south-korea': KR,
+  germany: DE,
+  portugal: PT,
+  greece: GR,
+  croatia: HR,
+  'united-arab-emirates': AE,
+  colombia: CO,
+  'costa-rica': CR,
+  malaysia: MY,
+  singapore: SG,
+  israel: IL,
 }
 
 // Estimated UK/US prices for comparison (in EUR)
@@ -132,7 +136,7 @@ export function DestinationProcedurePageClient({
   clinics,
   stats,
 }: DestinationProcedurePageClientProps) {
-  const flag = COUNTRY_FLAGS[destination.slug] || '🌍'
+  const FlagComponent = COUNTRY_FLAGS[destination.slug]
   const ukUsPrice = UK_US_PRICES[procedure.slug]
   const savings = ukUsPrice ? calculateSavings(stats.avgPrice, ukUsPrice.uk) : null
   const faqs = generateProcedureDestinationFAQs(procedure.name, destination.country_name)
@@ -150,7 +154,13 @@ export function DestinationProcedurePageClient({
             {/* Main Content */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-2 text-sm text-primary-600">
-                <span className="text-xl">{flag}</span>
+                <div className="w-6 overflow-hidden rounded-sm shadow-sm transition-transform hover:scale-110">
+                  {FlagComponent ? (
+                    <FlagComponent title={destination.country_name} />
+                  ) : (
+                    <span className="text-xl">🌍</span>
+                  )}
+                </div>
                 <Link href={`/destinations/${destination.slug}`} className="hover:underline">
                   {destination.country_name}
                 </Link>
@@ -404,7 +414,15 @@ export function DestinationProcedurePageClient({
         {/* CTA Section */}
         <m.section {...fadeInUp}>
           <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 p-8 text-center text-white sm:p-12">
-            <div className="mb-4 text-5xl">{flag}</div>
+            <div className="mb-4 flex justify-center">
+              <div className="w-16 overflow-hidden rounded-md shadow-xl transition-all hover:scale-110">
+                {FlagComponent ? (
+                  <FlagComponent title={destination.country_name} />
+                ) : (
+                  <span className="text-5xl">🌍</span>
+                )}
+              </div>
+            </div>
             <h2 className="text-2xl font-bold sm:text-3xl">
               Ready for Your {procedure.name} in {destination.country_name}?
             </h2>

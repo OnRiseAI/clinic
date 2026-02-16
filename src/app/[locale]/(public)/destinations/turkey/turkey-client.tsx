@@ -29,6 +29,7 @@ import {
   MessageCircle,
   Award,
 } from 'lucide-react'
+import { TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -358,7 +359,9 @@ export function TurkeyDestinationClient({ faqs }: TurkeyDestinationClientProps) 
         <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <div className="flex items-start gap-4 sm:items-center">
-            <span className="text-5xl sm:text-6xl">🇹🇷</span>
+            <div className="w-16 overflow-hidden rounded-md shadow-lg border-2 border-white/20">
+              <TR title="Turkey" />
+            </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
                 Medical Tourism in Turkey: The Complete 2025 Guide
@@ -871,7 +874,9 @@ export function TurkeyDestinationClient({ faqs }: TurkeyDestinationClientProps) 
         <m.section {...fadeInUp}>
           <div className="rounded-2xl bg-gradient-to-r from-teal-600 to-teal-800 p-6 text-white sm:p-8 lg:p-12">
             <div className="mx-auto max-w-2xl text-center">
-              <span className="text-5xl">🇹🇷</span>
+              <div className="mx-auto mb-6 w-16 overflow-hidden rounded-md shadow-xl border-2 border-white/20">
+                <TR title="Turkey" />
+              </div>
               <h2 className="mt-4 text-2xl font-bold sm:text-3xl">
                 Ready to Explore Treatment in Turkey?
               </h2>

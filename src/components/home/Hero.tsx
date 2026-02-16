@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Link } from '@/i18n/navigation'
 
@@ -68,7 +69,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-gold/20 bg-gold/[0.04] text-[13px] font-medium text-navy/60 mb-8 tracking-wide"
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-gold/20 bg-gold/[0.04] text-[13px] font-medium text-navy/70 mb-8 tracking-wide"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
               Trusted by 50,000+ patients worldwide
@@ -88,7 +89,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg text-navy/45 max-w-xl mb-10 leading-relaxed"
+              className="text-lg text-navy/60 max-w-xl mb-10 leading-relaxed"
             >
               Compare accredited dental clinics, cosmetic surgeons, hair transplant
               specialists and more across 20+ countries. Verified reviews,
@@ -104,23 +105,27 @@ export function Hero() {
             >
               <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-1 relative">
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <label htmlFor="hero-treatment" className="sr-only">Treatment or procedure</label>
+                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   <input
+                    id="hero-treatment"
                     type="text"
                     placeholder="Dental veneers, hair transplant..."
                     value={treatment}
                     onChange={(e) => setTreatment(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-cream/60 rounded-xl text-navy text-sm placeholder:text-navy/25 outline-none focus:bg-cream transition-colors"
+                    className="w-full pl-11 pr-4 py-3.5 bg-cream/60 rounded-xl text-navy text-sm placeholder:text-navy/40 outline-none focus:bg-cream transition-colors"
                   />
                 </div>
                 <div className="flex-1 relative">
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <label htmlFor="hero-destination" className="sr-only">Destination country</label>
+                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <select
+                    id="hero-destination"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     className="w-full pl-11 pr-4 py-3.5 bg-cream/60 rounded-xl text-navy text-sm appearance-none outline-none focus:bg-cream transition-colors cursor-pointer"
@@ -150,13 +155,13 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-wrap items-center gap-2 mt-6"
             >
-              <span className="text-xs text-navy/25 font-medium uppercase tracking-widest">Popular</span>
-              <span className="text-navy/10 mx-1">|</span>
+              <span className="text-xs text-navy/60 font-medium uppercase tracking-widest">Popular</span>
+              <span className="text-navy/20 mx-1">|</span>
               {POPULAR_SEARCHES.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="px-3.5 py-1.5 text-xs text-navy/40 border border-navy/[0.06] rounded-full hover:border-gold/30 hover:text-gold-dark transition-all duration-300"
+                  className="px-3.5 py-1.5 text-xs text-navy/60 border border-navy/10 rounded-full hover:border-gold/30 hover:text-gold-dark transition-all duration-300"
                 >
                   {item.label}
                 </Link>
@@ -183,11 +188,13 @@ export function Hero() {
                   }`}
                 >
                   <div className="absolute inset-0 bg-navy/20" />
-                  <img
+                  <Image
                     src={img.src}
                     alt={img.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading={i < 2 ? 'eager' : 'lazy'}
+                    fill
+                    sizes="(max-width: 1024px) 0px, 200px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    priority={i < 2}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
                   <div className="absolute bottom-3 left-3 right-3">
@@ -213,7 +220,7 @@ export function Hero() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-navy">100% Verified</p>
-                <p className="text-[11px] text-navy/40">All clinics accreditation-checked</p>
+                <p className="text-[11px] text-navy/60">All clinics accreditation-checked</p>
               </div>
             </motion.div>
           </motion.div>

@@ -25,7 +25,6 @@ export function generateOrganizationSchema() {
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+44-XXX-XXX-XXXX',
       contactType: 'customer service',
       availableLanguage: ['English'],
     },

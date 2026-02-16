@@ -2,6 +2,7 @@
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
+import { ES, HU, PL, TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -49,12 +50,25 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
             variants={staggerContainer}
             className="text-center"
           >
-            <m.h1
-              variants={fadeInUp}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
-            >
-              Tummy Tuck Abroad: Compare Prices, Destinations & Surgeons
-            </m.h1>
+            <m.div variants={fadeInUp} className="flex flex-col items-center justify-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <TR title="Turkey" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <HU title="Hungary" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <PL title="Poland" />
+                </div>
+                <div className="w-8 overflow-hidden rounded-sm shadow-sm">
+                  <ES title="Spain" />
+                </div>
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Tummy Tuck Abroad
+              </h1>
+            </m.div>
             <m.p
               variants={fadeInUp}
               className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
@@ -216,12 +230,17 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                   <tbody className="divide-y divide-slate-200">
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/tummy-tuck/turkey"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Turkey
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <TR title="Turkey" />
+                          </div>
+                          <Link
+                            href="/procedures/tummy-tuck/turkey"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Turkey
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £2,900–£4,200
@@ -235,12 +254,17 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/tummy-tuck/hungary"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Hungary
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <HU title="Hungary" />
+                          </div>
+                          <Link
+                            href="/procedures/tummy-tuck/hungary"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Hungary
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £1,750–£3,600
@@ -254,12 +278,17 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                     </tr>
                     <tr>
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/tummy-tuck/poland"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Poland
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <PL title="Poland" />
+                          </div>
+                          <Link
+                            href="/procedures/tummy-tuck/poland"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Poland
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £2,370–£4,500
@@ -273,12 +302,17 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                     </tr>
                     <tr className="bg-slate-50">
                       <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        <Link
-                          href="/procedures/tummy-tuck/spain"
-                          className="text-rose-600 hover:underline"
-                        >
-                          Spain
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                            <ES title="Spain" />
+                          </div>
+                          <Link
+                            href="/procedures/tummy-tuck/spain"
+                            className="text-rose-600 hover:underline"
+                          >
+                            Spain
+                          </Link>
+                        </div>
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
                         £3,000–£7,000
@@ -413,7 +447,9 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                       Istanbul & Antalya
                     </p>
                   </div>
-                  <span className="text-2xl">🇹🇷</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <TR title="Turkey" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £2,900–£4,200
@@ -450,7 +486,9 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                     </h3>
                     <p className="text-sm text-slate-500">Budapest</p>
                   </div>
-                  <span className="text-2xl">🇭🇺</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <HU title="Hungary" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £1,750–£3,600
@@ -488,7 +526,9 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                       Warsaw, Kraków & Wrocław
                     </p>
                   </div>
-                  <span className="text-2xl">🇵🇱</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <PL title="Poland" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £2,370–£4,500
@@ -525,7 +565,9 @@ export function TummyTuckClient({ faqs }: TummyTuckClientProps) {
                       Madrid, Barcelona & Marbella
                     </p>
                   </div>
-                  <span className="text-2xl">🇪🇸</span>
+                  <div className="w-8 overflow-hidden rounded-sm">
+                    <ES title="Spain" />
+                  </div>
                 </div>
                 <p className="mt-2 text-lg font-medium text-rose-600">
                   £3,000–£7,000

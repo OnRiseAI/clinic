@@ -2,6 +2,7 @@
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import Link from 'next/link'
+import { TR, ES, HU, PL } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -49,12 +50,14 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
             variants={staggerContainer}
             className="text-center"
           >
-            <m.h1
-              variants={fadeInUp}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
-            >
-              Tummy Tuck in Turkey: Compare Prices, Clinics & Packages
-            </m.h1>
+            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
+              <div className="w-12 overflow-hidden rounded shadow-sm">
+                <TR title="Turkey" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Tummy Tuck in Turkey
+              </h1>
+            </m.div>
             <m.p
               variants={fadeInUp}
               className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
@@ -1027,16 +1030,36 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                       Factor
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-rose-600 sm:px-6">
-                      Turkey
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                          <TR title="Turkey" />
+                        </div>
+                        <span>Turkey</span>
+                      </div>
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                      Hungary
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                          <HU title="Hungary" />
+                        </div>
+                        <span>Hungary</span>
+                      </div>
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                      Poland
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                          <PL title="Poland" />
+                        </div>
+                        <span>Poland</span>
+                      </div>
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                      Spain
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 overflow-hidden rounded-sm shadow-sm">
+                          <ES title="Spain" />
+                        </div>
+                        <span>Spain</span>
+                      </div>
                     </th>
                   </tr>
                 </thead>

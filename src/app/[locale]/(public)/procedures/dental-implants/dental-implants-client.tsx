@@ -16,9 +16,10 @@ import {
   AlertTriangle,
   Globe,
   BadgeCheck,
-  Search,
   Calendar,
+  Search,
 } from 'lucide-react'
+import { TR, HU, PL, ES, GB } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -35,7 +36,7 @@ interface DentalImplantsClientProps {
 const COUNTRY_PRICES = [
   {
     country: 'Turkey',
-    flag: '🇹🇷',
+    flag: TR,
     single: '£300–£500',
     allOn4: '£2,500–£4,000',
     allOn6: '£3,500–£5,500',
@@ -45,7 +46,7 @@ const COUNTRY_PRICES = [
   },
   {
     country: 'Hungary',
-    flag: '🇭🇺',
+    flag: HU,
     single: '£500–£800',
     allOn4: '£4,000–£6,000',
     allOn6: '£5,000–£7,500',
@@ -54,7 +55,7 @@ const COUNTRY_PRICES = [
   },
   {
     country: 'Poland',
-    flag: '🇵🇱',
+    flag: PL,
     single: '£400–£700',
     allOn4: '£3,500–£5,500',
     allOn6: '£4,500–£7,000',
@@ -63,7 +64,7 @@ const COUNTRY_PRICES = [
   },
   {
     country: 'Spain',
-    flag: '🇪🇸',
+    flag: ES,
     single: '£600–£900',
     allOn4: '£5,000–£7,000',
     allOn6: '£6,000–£9,000',
@@ -72,7 +73,7 @@ const COUNTRY_PRICES = [
   },
   {
     country: 'UK',
-    flag: '🇬🇧',
+    flag: GB,
     single: '£2,000–£2,500',
     allOn4: '£8,000–£15,000',
     allOn6: '£12,000–£20,000',
@@ -198,7 +199,7 @@ const IMPLANT_BRANDS = [
 const DESTINATIONS = [
   {
     country: 'Turkey',
-    flag: '🇹🇷',
+    flag: TR,
     slug: '/procedures/dental-implants/turkey',
     why: 'Lowest prices, largest dental tourism industry, all-inclusive packages standard. Istanbul and Antalya have hundreds of clinics serving international patients.',
     bestFor: 'Maximum savings, all-inclusive packages, high volume clinics',
@@ -208,7 +209,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Hungary',
-    flag: '🇭🇺',
+    flag: HU,
     slug: '/procedures/dental-implants/hungary',
     why: 'EU-regulated, 30+ year dental tourism heritage, Budapest is the "dental capital of Europe". Quality-first positioning with competitive pricing.',
     bestFor: 'EU standards, established reputation, premium brands',
@@ -218,7 +219,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Poland',
-    flag: '🇵🇱',
+    flag: PL,
     slug: '/procedures/dental-implants/poland',
     why: 'EU member, competitive pricing, proximity to UK, strong dental training tradition. Krakow and Warsaw have growing dental tourism sectors.',
     bestFor: 'EU protections, short flights, German dental standards',
@@ -228,7 +229,7 @@ const DESTINATIONS = [
   },
   {
     country: 'Spain',
-    flag: '🇪🇸',
+    flag: ES,
     slug: '/procedures/dental-implants/spain',
     why: 'EU member, familiar culture, easy follow-up trips, growing dental tourism sector. Barcelona and Alicante popular for UK patients.',
     bestFor: 'EU protections, holiday destination, easy return visits',
@@ -474,7 +475,10 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
                     className={`${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'} ${row.highlight ? 'bg-green-50' : ''}`}
                   >
                     <td className="border-b border-neutral-100 px-4 py-3 font-medium text-neutral-900">
-                      {row.flag} {row.country}
+                      <div className="flex items-center gap-2">
+                        <row.flag className="w-5 h-5 rounded-sm shadow-sm" />
+                        {row.country}
+                      </div>
                     </td>
                     <td className="border-b border-neutral-100 px-4 py-3 text-neutral-700">
                       {row.single}
@@ -506,9 +510,24 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
               <thead>
                 <tr className="border-b border-neutral-200 bg-neutral-50">
                   <th className="px-4 py-3 text-left font-semibold text-neutral-900">Package</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">🇹🇷 Turkey</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">🇭🇺 Hungary</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">🇬🇧 UK</th>
+                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">
+                    <div className="flex items-center gap-2">
+                      <TR className="w-5 h-5 rounded-sm shadow-sm" />
+                      Turkey
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">
+                    <div className="flex items-center gap-2">
+                      <HU className="w-5 h-5 rounded-sm shadow-sm" />
+                      Hungary
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">
+                    <div className="flex items-center gap-2">
+                      <GB className="w-5 h-5 rounded-sm shadow-sm" />
+                      UK
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -626,11 +645,10 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
               >
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-neutral-900">{brand.brand}</h3>
-                  <span className={`rounded-full px-2 py-1 text-xs font-medium ${
-                    brand.tier === 'Premium'
-                      ? 'bg-amber-50 text-amber-700'
-                      : 'bg-sky-50 text-sky-700'
-                  }`}>
+                  <span className={`rounded-full px-2 py-1 text-xs font-medium ${brand.tier === 'Premium'
+                    ? 'bg-amber-50 text-amber-700'
+                    : 'bg-sky-50 text-sky-700'
+                    }`}>
                     {brand.tier}
                   </span>
                 </div>
@@ -677,7 +695,9 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{dest.flag}</span>
+                    <div className="w-8 h-6 rounded overflow-hidden shadow-sm relative">
+                      <dest.flag className="w-full h-full object-cover" />
+                    </div>
                     <h3 className="text-xl font-bold text-neutral-900">{dest.country}</h3>
                   </div>
                   <span className="rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">

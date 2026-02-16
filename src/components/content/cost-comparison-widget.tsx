@@ -6,6 +6,26 @@ import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { CostComparisonData } from '@/lib/data/content'
+import {
+  TR,
+  ES,
+  TH,
+  MX,
+  HU,
+  PL,
+  CZ,
+  IN,
+  BR,
+  CO,
+  CR,
+  MY,
+  AE,
+  GB,
+  US,
+  DE,
+  PT,
+  GR,
+} from 'country-flag-icons/react/3x2'
 
 interface CostComparisonWidgetProps {
   data: CostComparisonData[]
@@ -17,25 +37,25 @@ interface CostComparisonWidgetProps {
 type SortKey = 'country' | 'avg_cost' | 'savings_vs_uk' | 'savings_vs_us' | 'clinic_count'
 type ViewMode = 'table' | 'chart'
 
-const COUNTRY_FLAGS: Record<string, string> = {
-  TR: '🇹🇷',
-  ES: '🇪🇸',
-  TH: '🇹🇭',
-  MX: '🇲🇽',
-  HU: '🇭🇺',
-  PL: '🇵🇱',
-  CZ: '🇨🇿',
-  IN: '🇮🇳',
-  BR: '🇧🇷',
-  CO: '🇨🇴',
-  CR: '🇨🇷',
-  MY: '🇲🇾',
-  AE: '🇦🇪',
-  GB: '🇬🇧',
-  US: '🇺🇸',
-  DE: '🇩🇪',
-  PT: '🇵🇹',
-  GR: '🇬🇷',
+const COUNTRY_FLAGS: Record<string, any> = {
+  TR: TR,
+  ES: ES,
+  TH: TH,
+  MX: MX,
+  HU: HU,
+  PL: PL,
+  CZ: CZ,
+  IN: IN,
+  BR: BR,
+  CO: CO,
+  CR: CR,
+  MY: MY,
+  AE: AE,
+  GB: GB,
+  US: US,
+  DE: DE,
+  PT: PT,
+  GR: GR,
 }
 
 function formatCurrency(amount: number, currency: string = 'EUR'): string {
@@ -221,7 +241,18 @@ export function CostComparisonWidget({
                   >
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{COUNTRY_FLAGS[row.country_code] || '🌍'}</span>
+                        <div className="w-5 overflow-hidden rounded-sm">
+                          {COUNTRY_FLAGS[row.country_code] ? (
+                            <div className="flex items-center">
+                              {(() => {
+                                const Flag = COUNTRY_FLAGS[row.country_code]
+                                return <Flag title={row.country} />
+                              })()}
+                            </div>
+                          ) : (
+                            <span className="text-xl">🌍</span>
+                          )}
+                        </div>
                         <span className="font-medium text-neutral-900">{row.country}</span>
                       </div>
                     </td>
@@ -282,7 +313,18 @@ export function CostComparisonWidget({
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">{COUNTRY_FLAGS[row.country_code] || '🌍'}</span>
+                      <div className="w-5 overflow-hidden rounded-sm">
+                        {COUNTRY_FLAGS[row.country_code] ? (
+                          <div className="flex items-center">
+                            {(() => {
+                              const Flag = COUNTRY_FLAGS[row.country_code]
+                              return <Flag title={row.country} />
+                            })()}
+                          </div>
+                        ) : (
+                          <span className="text-xl">🌍</span>
+                        )}
+                      </div>
                       <span className="font-medium text-neutral-900">{row.country}</span>
                     </div>
                     <div className="flex items-center gap-3">

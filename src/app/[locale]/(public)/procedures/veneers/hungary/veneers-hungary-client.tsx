@@ -20,6 +20,7 @@ import {
   ArrowRight,
   BadgeCheck,
 } from 'lucide-react'
+import { HU, TR } from 'country-flag-icons/react/3x2'
 
 // =============================================================================
 // TYPES
@@ -693,8 +694,22 @@ export function VeneersHungaryClient({ faqs }: VeneersHungaryClientProps) {
               <thead>
                 <tr className="border-b border-neutral-200 bg-neutral-50">
                   <th className="px-4 py-3 text-left font-semibold text-neutral-900">Factor</th>
-                  <th className="px-4 py-3 text-left font-semibold text-primary-700">🇭🇺 Hungary</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-700">🇹🇷 Turkey</th>
+                  <th className="px-4 py-3 text-left font-semibold text-primary-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                        <HU title="Hungary" />
+                      </div>
+                      Hungary
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-neutral-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 overflow-hidden rounded-sm shadow-sm">
+                        <TR title="Turkey" />
+                      </div>
+                      Turkey
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
