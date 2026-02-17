@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Inter, Playfair_Display, Source_Serif_4, DM_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -18,6 +18,18 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-serif',
+})
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-blog-serif',
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-blog-sans',
 })
 
 export const metadata: Metadata = {
@@ -103,7 +115,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${playfair.variable} ${sourceSerif.variable} ${dmSans.variable}`}>
       <head>
         {/* Ahrefs Analytics */}
         <Script

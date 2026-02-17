@@ -89,6 +89,36 @@ const nextConfig: NextConfig = {
         destination: '/list-your-clinic',
         permanent: true,
       },
+
+      // ── Legacy locale route cleanup (Ahrefs 404 remediation) ──
+      // Specific known indexed /uk pages
+      {
+        source: '/uk',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/uk/about-visquanta',
+        destination: '/about',
+        permanent: true,
+      },
+      // Catch-all for any remaining /uk/* paths
+      {
+        source: '/uk/:path*',
+        destination: '/:path*',
+        permanent: true,
+      },
+      // Catch-all for any /ca/* paths (not an active locale)
+      {
+        source: '/ca',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/ca/:path*',
+        destination: '/:path*',
+        permanent: true,
+      },
     ]
   },
 }
