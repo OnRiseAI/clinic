@@ -1,11 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect, type ReactNode } from "react";
+// Ensure you have access to clsx or just use template literals if preferred
+import { clsx } from "clsx";
 
 interface BlogSectionProps {
   children: ReactNode;
   delay?: number;
-  className?: string;
+  className?: string; // Allow custom spacing helpers
 }
 
 export default function BlogSection({
@@ -14,47 +16,37 @@ export default function BlogSection({
   className = "",
 }: BlogSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  // Start visible so SSR and initial client render match
-  const [animReady, setAnimReady] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    // Reset to hidden, then let IntersectionObserver reveal
-    setVisible(false);
-    setAnimReady(true);
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
+          setIsVisible(true);
+          observer.disconnect();
         }
       },
-      { threshold: 0.05, rootMargin: "50px" }
+      { threshold: 0.1, rootMargin: "-20px" } // Deliberate trigger
     );
 
-    observer.observe(el);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div
+    <section
       ref={ref}
-      className={className}
-      style={
-        animReady
-          ? {
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(18px)",
-              transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
-            }
-          : undefined
-      }
+      className={clsx(
+        "mb-section-sm lg:mb-section-md transition-all duration-1000 ease-[cubic-bezier(0.2,1,0.4,1)]",
+        className
+      )}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(16px)", // Reduced movement distance for subtlety
+        transitionDelay: `${delay}s`,
+      }}
     >
       {children}
-    </div>
+    </section>
   );
 }

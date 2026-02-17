@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import type { BlogCtaProps } from "./types";
 
 export default function BlogCta({
@@ -10,60 +11,60 @@ export default function BlogCta({
   buttonText,
   buttonHref = "#",
 }: BlogCtaProps) {
+
+  // Dark Variant - "Premium Service Card"
   if (variant === "dark") {
     return (
-      <div className="relative overflow-hidden rounded-[18px] p-[36px_32px] my-[52px] text-center bg-gradient-to-br from-blog-navy to-[#1e3a5f]">
-        <div className="absolute -top-[30px] -right-[30px] w-[140px] h-[140px] rounded-full bg-blog-teal/[0.12]" />
-        {subheadline && (
-          <p className="text-xs font-bold tracking-[0.1em] uppercase text-teal-300 mb-[10px]">
-            {subheadline}
-          </p>
-        )}
-        <p className="font-blog-serif text-[clamp(22px,3vw,26px)] font-bold text-white mb-[10px] leading-[1.3]">
-          {headline}
-        </p>
-        <p className="text-[14.5px] text-white/65 max-w-[440px] mx-auto mb-[22px] leading-[1.6]">
-          {description}
-        </p>
-        <a
-          href={buttonHref}
-          className="inline-flex items-center gap-2 bg-blog-teal text-white py-[14px] px-8 rounded-xl text-[15px] font-semibold no-underline hover:-translate-y-px hover:shadow-lg hover:shadow-blog-teal/25 transition-all"
-        >
-          {buttonText}{" "}
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
-        </a>
+      <div className="relative my-section-sm rounded-md overflow-hidden bg-blog-navy text-white shadow-elevation-low isolation-auto">
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 bg-[image:var(--bg-noise)] opacity-20 pointer-events-none mix-blend-overlay" />
+
+        <div className="relative z-10 p-card-p lg:p-card-p-lg flex flex-col md:flex-row md:items-center gap-8">
+          <div className="flex-1">
+            {subheadline && (
+              <div className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-blog-teal-light mb-4">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                {subheadline}
+              </div>
+            )}
+            <h3 className="font-blog-serif text-2xl md:text-3xl font-medium mb-3 tracking-tight text-white">
+              {headline}
+            </h3>
+            <p className="text-neutral-400 leading-relaxed max-w-lg text-sm md:text-base">
+              {description}
+            </p>
+          </div>
+
+          <div className="flex-shrink-0">
+            <a
+              href={buttonHref}
+              className="inline-flex items-center justify-center gap-2 bg-blog-teal hover:bg-blog-teal-light text-white px-6 py-3.5 rounded-sm text-sm font-semibold transition-all hover:translate-y-px shadow-card hover:shadow-elevation-low w-full md:w-auto min-w-[160px]"
+            >
+              {buttonText}
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
       </div>
     );
   }
 
-  // Light variant
+  // Light Variant - "Next Steps Panel"
   return (
-    <div className="rounded-[18px] border border-blog-green-border p-[44px_32px] my-14 text-center bg-gradient-to-br from-blog-green-bg to-emerald-50">
-      <p className="font-blog-serif text-[clamp(24px,3.5vw,28px)] font-bold text-blog-navy mb-[10px]">
+    <div className="my-section-md p-card-p lg:p-card-p-lg rounded-md bg-white border border-neutral-200 text-center shadow-subtle">
+      <h3 className="font-blog-serif text-2xl md:text-3xl text-blog-navy font-medium mb-4 tracking-tight">
         {headline}
-      </p>
-      <p className="text-[15px] text-blog-text-body max-w-[500px] mx-auto mb-6 leading-[1.6]">
+      </h3>
+      <p className="text-neutral-500 leading-relaxed max-w-[540px] mx-auto mb-8 text-sm md:text-base">
         {description}
       </p>
-      <div className="flex flex-wrap gap-[10px] justify-center">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
           href={buttonHref}
-          className="inline-flex items-center gap-[7px] bg-blog-teal text-white py-[14px] px-7 rounded-xl text-[15px] font-semibold no-underline hover:-translate-y-px hover:shadow-lg hover:shadow-blog-teal/25 transition-all"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blog-navy hover:bg-blog-navy-light text-white px-8 py-3.5 rounded-sm text-sm font-semibold transition-all shadow-subtle hover:shadow-card min-w-[180px]"
         >
-          {buttonText}{" "}
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
-        </a>
-        <a
-          href="#"
-          className="inline-flex items-center gap-[7px] bg-white text-blog-navy py-[14px] px-7 rounded-xl text-[15px] font-semibold no-underline border border-blog-warm-border hover:-translate-y-px hover:shadow-sm transition-all"
-        >
-          How It Works
+          {buttonText}
+          <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </div>

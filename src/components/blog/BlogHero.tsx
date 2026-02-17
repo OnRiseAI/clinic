@@ -1,5 +1,6 @@
 "use client";
 
+import { Calendar, Clock, ShieldCheck, ChevronRight } from "lucide-react";
 import type { BlogHeroProps } from "./types";
 
 export default function BlogHero({
@@ -12,116 +13,68 @@ export default function BlogHero({
 }: BlogHeroProps) {
   const formattedDate = new Date(updatedAt).toLocaleDateString("en-GB", {
     day: "numeric",
-    month: "short",
+    month: "long",
     year: "numeric",
   });
 
   return (
-    <section className="relative min-h-[82vh] flex items-end overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blog-navy via-[#163040] via-[#0f5e56] to-blog-teal bg-[length:400%_400%] animate-blog-hero-grad" />
+    <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 bg-blog-navy border-b border-blog-navy-light">
+      <div className="w-full max-w-[780px] mx-auto px-5">
 
-      {/* Decorative elements */}
-      <div className="absolute -top-[15%] -right-[8%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full bg-blog-teal/10 blur-[80px]" />
-      <div className="absolute -bottom-[20%] -left-[12%] w-[35vw] h-[35vw] max-w-[400px] max-h-[400px] rounded-full bg-white/[0.03] blur-[50px]" />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div className="absolute right-[8%] top-[18%] opacity-5 text-[220px] font-black text-white leading-none pointer-events-none select-none">
-        ✦
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-[780px] mx-auto px-5 pb-14">
-        {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 mb-5 flex-wrap">
+        {/* Breadcrumbs: Technical, Uppercase, Precise */}
+        <nav className="flex items-center gap-2 mb-8 flex-wrap">
           {breadcrumbs.map((crumb, i) => (
-            <span key={i} className="flex items-center gap-2">
-              <a
-                href={crumb.href || "#"}
-                className="text-white/65 text-[13px] font-medium no-underline hover:text-white/90 transition-colors"
-              >
+            <div key={i} className="flex items-center text-[10px] sm:text-[11px] font-bold tracking-[0.15em] uppercase text-white/40">
+              <a href={crumb.href || "#"} className="hover:text-white transition-colors duration-300">
                 {crumb.label}
               </a>
               {i < breadcrumbs.length - 1 && (
-                <span className="text-white/35 text-xs">/</span>
+                <ChevronRight className="w-3 h-3 mx-2 text-white/20" />
               )}
-            </span>
+            </div>
           ))}
         </nav>
 
-        <h1 className="font-blog-serif text-[clamp(30px,5vw,50px)] font-bold text-white leading-[1.12] mb-[18px] max-w-[680px]">
+        {/* Title: Serif, Tight Tracking, Dominant */}
+        <h1 className="font-blog-serif text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.1] font-medium text-white mb-6 tracking-tight text-balance">
           {title}
         </h1>
 
-        <p className="text-white/[0.78] text-[clamp(16px,2vw,18px)] leading-[1.6] mb-[26px] max-w-[580px]">
+        {/* Excerpt: Sans-serif, High Readability, Controlled Measure */}
+        <p className="font-blog-sans text-lg sm:text-[1.1875rem] text-neutral-300/90 leading-relaxed mb-10 max-w-[680px] text-balance">
           {excerpt}
         </p>
 
-        {/* Meta row */}
-        <div className="flex flex-wrap gap-4 items-center mb-[26px]">
-          <span className="flex items-center gap-[6px] text-white/65 text-[13px]">
-            <CalendarIcon /> {formattedDate}
-          </span>
-          <span className="flex items-center gap-[6px] text-white/65 text-[13px]">
-            <ClockIcon /> {readingTime} min read
-          </span>
-          <span className="inline-flex items-center gap-[5px] bg-blog-teal/20 border border-blog-teal/35 rounded-full px-[13px] py-[3px] text-teal-300 text-xs font-semibold">
-            <ShieldIcon /> Verified Guide
-          </span>
-        </div>
+        {/* Meta Data: Grid System, Institutional Feel */}
+        <div className="flex flex-wrap items-center gap-y-4 gap-x-8 pt-8 border-t border-white/10">
+          <div className="flex items-center gap-3 text-white/70">
+            <div className="p-1.5 rounded-sm bg-white/5 ring-1 ring-white/5">
+              <Calendar className="w-3.5 h-3.5 text-white/60" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase tracking-wider font-bold text-white/40">Updated</span>
+              <span className="text-sm font-medium">{formattedDate}</span>
+            </div>
+          </div>
 
-        <a
-          href="#"
-          className="inline-flex items-center gap-[9px] bg-blog-teal text-white px-[30px] py-[15px] rounded-xl text-[15px] font-semibold no-underline hover:-translate-y-px hover:shadow-lg hover:shadow-blog-teal/25 transition-all"
-        >
-          Compare Clinics & Prices <ArrowIcon />
-        </a>
+          <div className="flex items-center gap-3 text-white/70">
+            <div className="p-1.5 rounded-sm bg-white/5 ring-1 ring-white/5">
+              <Clock className="w-3.5 h-3.5 text-white/60" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase tracking-wider font-bold text-white/40">Read Time</span>
+              <span className="text-sm font-medium">{readingTime} min</span>
+            </div>
+          </div>
+
+          <div className="ml-auto pl-6 border-l border-white/10 hidden sm:block">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-900/40 border border-teal-700/50 text-teal-200 text-xs font-semibold tracking-wide shadow-sm">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Medically Reviewed
+            </span>
+          </div>
+        </div>
       </div>
     </section>
-  );
-}
-
-// Inline SVG icons
-function CalendarIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="M9 12l2 2 4-4" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
-    </svg>
   );
 }
