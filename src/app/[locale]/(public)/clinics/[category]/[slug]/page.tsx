@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
-import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import {
   Star,
   MapPin,
@@ -92,7 +92,7 @@ export default async function ClinicDetailPage({ params }: PageProps) {
   const clinic = await getClinicBySlug(slug);
   if (!clinic) {
     // Check if slug is a country (legacy route compatibility)
-    const supabase = await createClient();
+    const supabase = createStaticClient();
     const { data: country } = await supabase
       .from('countries')
       .select('slug')

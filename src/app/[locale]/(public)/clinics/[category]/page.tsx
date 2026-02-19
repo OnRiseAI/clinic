@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createStaticClient } from '@/lib/supabase/static'
 import { getCategoryConfig } from "@/lib/categories/config";
 import {
   getClinicsForCategory,
@@ -105,7 +105,7 @@ export default async function CategoryDirectoryPage({ params }: PageProps) {
   const config = getCategoryConfig(category);
   if (!config) {
     // Fallback: Check if this "category" is actually a clinic slug or a country slug
-    const supabase = await createClient();
+    const supabase = createStaticClient();
 
     // Check for clinic
     const { data: clinic } = await supabase
