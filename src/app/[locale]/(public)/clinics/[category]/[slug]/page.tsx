@@ -458,40 +458,39 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                   </p>
                 </div>
               </div>
-            </div>
 
-            {/* Lead funnel */}
-            <div
-              id="clinic-funnel"
-              className="rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5 p-5 sm:p-6"
-            >
-              <LeadFunnel
-                clinicId={clinic.id}
-                clinicSlug={clinic.slug}
-                clinicName={clinic.name}
-                pageContext={`${clinic.name} — ${location}`}
-                clinicContactConfig={contactConfig}
-              />
-            </div>
+              {/* Lead funnel */}
+              <div
+                id="clinic-funnel"
+                className="rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5 p-5 sm:p-6"
+              >
+                <LeadFunnel
+                  clinicId={clinic.id}
+                  clinicSlug={clinic.slug}
+                  clinicName={clinic.name}
+                  pageContext={`${clinic.name} — ${location}`}
+                  clinicContactConfig={contactConfig}
+                />
+              </div>
 
-            {/* Trust signals */}
-            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-400 font-light">
-              <span className="flex items-center gap-1.5">
-                <Shield className="h-3 w-3 text-slate-300" />
-                Verified details
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3 w-3 text-slate-300" />
-                Secure inquiry
-              </span>
+              {/* Trust signals */}
+              <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-400 font-light">
+                <span className="flex items-center gap-1.5">
+                  <Shield className="h-3 w-3 text-slate-300" />
+                  Verified details
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3 w-3 text-slate-300" />
+                  Secure inquiry
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section >
+      </section>
 
-      {/* ── Back to directory ────────────────────────────────────────────── */ }
-      < div className = "bg-white border-t border-slate-100 py-8" >
+      {/* ── Back to directory ────────────────────────────────────────────── */}
+      <div className="bg-white border-t border-slate-100 py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
           <Link
             href={`/clinics/${category}`}
@@ -500,7 +499,8 @@ export default async function ClinicDetailPage({ params }: PageProps) {
             &larr; Back to all {config.namePlural.toLowerCase()}
           </Link>
         </div>
-      </div >
+      </div>
     </>
   );
+
 }

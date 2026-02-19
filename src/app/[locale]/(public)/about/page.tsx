@@ -116,7 +116,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
         </p>
         <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
           <Link href="/search">
-            <Button variant="default" size="lg" className="bg-navy hover:bg-navy/90 text-white min-w-[160px]">
+            <Button variant="primary" size="lg" className="bg-navy hover:bg-navy/90 text-white min-w-[160px]">
               Find a Clinic
             </Button>
           </Link>
