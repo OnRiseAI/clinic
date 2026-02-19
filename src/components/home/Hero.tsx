@@ -1,229 +1,252 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
+import { ArrowRight, CheckCircle2, Globe2, MapPin } from 'lucide-react'
 
-const POPULAR_SEARCHES = [
-  { label: 'Dental Veneers in Turkey', href: '/clinics?procedure=veneers&country=turkey' },
-  { label: 'Hair Transplant in Istanbul', href: '/clinics?procedure=hair-transplant&city=istanbul' },
-  { label: 'IVF in Spain', href: '/clinics?procedure=ivf&country=spain' },
-  { label: 'Rhinoplasty in Mexico', href: '/clinics?procedure=rhinoplasty&country=mexico' },
-]
+// Variants for restrained, premium motion
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' as const } }
+}
 
-const heroImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&h=300&fit=crop&auto=format&q=80',
-    alt: 'Modern dental clinic',
-    label: 'Dental Clinic',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=300&fit=crop&auto=format&q=80',
-    alt: 'Medical consultation',
-    label: 'Expert Consultation',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=300&fit=crop&auto=format&q=80',
-    alt: 'Modern hospital corridor',
-    label: 'World-Class Facilities',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=300&fit=crop&auto=format&q=80',
-    alt: 'Dental treatment',
-    label: 'Dental Veneers',
-  },
-]
+const mapLineVariant = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: { pathLength: 1, opacity: 0.35, transition: { duration: 2, ease: 'easeInOut' as const, delay: 0.5 } }
+}
+
+const nodeVariant = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: { scale: 1, opacity: 1, transition: { duration: 0.8, ease: 'easeOut' as const } }
+}
 
 export function Hero() {
-  const router = useRouter()
-  const [treatment, setTreatment] = useState('')
-  const [destination, setDestination] = useState('')
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const searchParams = new URLSearchParams()
-    if (treatment) searchParams.set('query', treatment)
-    if (destination) searchParams.set('country', destination)
-    router.push(`/clinics?${searchParams.toString()}`)
-  }
-
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-cream via-cream-warm to-cream" />
-        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-gradient-to-bl from-gold/[0.04] via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-gradient-to-tr from-teal/[0.03] via-transparent to-transparent" />
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-navy text-white selection:bg-gold/30 selection:text-white">
+      {/* 
+        BACKGROUND SYSTEM 
+        - Deep Navy Base
+        - Architectural Grid
+        - Faint World Map 
+      */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Base Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy via-[#0F1B2D] to-[#0A121E]" />
+
+        {/* Architectural Grid */}
+        <div className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }}
+        />
+
+        {/* Ambient Glows - Highly Restrained */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-teal/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 opacity-30 mix-blend-screen" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 opacity-20 mix-blend-screen" />
       </div>
 
-      <div className="absolute top-32 right-[12%] w-80 h-80 bg-gold/[0.04] animate-blob" />
-      <div className="absolute bottom-24 left-[8%] w-64 h-64 bg-teal/[0.04] animate-blob animation-delay-2000" />
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-32 lg:py-44">
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-8 items-center">
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-16 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left - Text + Search */}
-          <div>
+          {/* LEFT COLUMN: Messaging Hierarchy */}
+          <div className="lg:col-span-7 flex flex-col items-start max-w-2xl">
+
+            {/* Headline */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-gold/20 bg-gold/[0.04] text-[13px] font-medium text-navy/70 mb-8 tracking-wide"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
-              Trusted by 50,000+ patients worldwide
+              <h1 className="font-serif text-[3rem] sm:text-[3.5rem] md:text-[4.5rem] leading-[1.0] tracking-tight text-white mb-6">
+                Make Confident <br />
+                <span className="text-white relative inline-block pb-1">
+                  Medical Decisions
+                  {/* Subtle Underline */}
+                  <span className="absolute bottom-1.5 left-0 w-full h-[1px] bg-gradient-to-r from-gold/30 to-transparent opacity-40" />
+                </span>
+              </h1>
+              <p className="text-white/30 font-serif text-3xl md:text-4xl mt-0 mb-10 tracking-tight">
+                Globally.
+              </p>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="heading-serif text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] text-navy leading-[1.08] tracking-tight mb-6"
-            >
-              Save Up to 80% on{' '}
-              <span className="gradient-text">World-Class Healthcare</span>
-            </motion.h1>
-
+            {/* Subheadline */}
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg text-navy/60 max-w-xl mb-10 leading-relaxed"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.1 }}
+              className="text-lg text-cream/70 leading-relaxed font-light max-w-lg mb-12 pl-6 border-l border-white/10"
             >
-              Compare accredited dental clinics, cosmetic surgeons, hair transplant
-              specialists and more across 20+ countries. Verified reviews,
-              transparent pricing, direct booking.
+              We connect you with leading international clinics, verified standards, and transparent comparisons — structured in one place.
             </motion.p>
 
-            {/* Search bar */}
+            {/* CTA Group */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white rounded-2xl p-2 shadow-[0_2px_8px_rgba(0,0,0,0.04),0_16px_64px_rgba(0,0,0,0.06)] border border-navy/[0.04]"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.2 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 w-full sm:w-auto mb-20"
             >
-              <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
-                <div className="flex-1 relative">
-                  <label htmlFor="hero-treatment" className="sr-only">Treatment or procedure</label>
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <input
-                    id="hero-treatment"
-                    type="text"
-                    placeholder="Dental veneers, hair transplant..."
-                    value={treatment}
-                    onChange={(e) => setTreatment(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-cream/60 rounded-xl text-navy text-sm placeholder:text-navy/40 outline-none focus:bg-cream transition-colors"
-                  />
-                </div>
-                <div className="flex-1 relative">
-                  <label htmlFor="hero-destination" className="sr-only">Destination country</label>
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <select
-                    id="hero-destination"
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-cream/60 rounded-xl text-navy text-sm appearance-none outline-none focus:bg-cream transition-colors cursor-pointer"
-                  >
-                    <option value="">Any Destination</option>
-                    <option value="turkey">Turkey</option>
-                    <option value="spain">Spain</option>
-                    <option value="mexico">Mexico</option>
-                    <option value="thailand">Thailand</option>
-                    <option value="hungary">Hungary</option>
-                    <option value="poland">Poland</option>
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  className="px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 whitespace-nowrap tracking-wide"
-                >
-                  Search Clinics
-                </button>
-              </form>
+              <Link
+                href="/clinics"
+                className="group relative px-8 py-3.5 bg-gold hover:bg-gold-dark text-navy font-bold text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden shadow-lg shadow-gold/5 rounded-sm"
+              >
+                <span>EXPLORE VERIFIED CLINICS</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+
+              <Link
+                href="/how-it-works"
+                className="group px-6 py-3 bg-transparent text-white/60 hover:text-white font-medium text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                How It Works
+              </Link>
             </motion.div>
 
-            {/* Popular searches */}
+            {/* Trust Indicators - Architectural Layout */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap items-center gap-2 mt-6"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.3 }}
+              className="pt-10 border-t border-white/10 w-full flex items-center gap-10 md:gap-14"
             >
-              <span className="text-xs text-navy/60 font-medium uppercase tracking-widest">Popular</span>
-              <span className="text-navy/20 mx-1">|</span>
-              {POPULAR_SEARCHES.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="px-3.5 py-1.5 text-xs text-navy/60 border border-navy/10 rounded-full hover:border-gold/30 hover:text-gold-dark transition-all duration-300"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <div className="flex items-center gap-4">
+                <Globe2 className="w-5 h-5 text-teal/40" />
+                <div className="flex flex-col">
+                  <span className="text-white font-serif text-xl leading-none">20+</span>
+                  <span className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1.5 font-bold">Global Markets</span>
+                </div>
+              </div>
+
+              <div className="w-px h-10 bg-white/15" />
+
+              <div className="flex items-center gap-4">
+                <CheckCircle2 className="w-5 h-5 text-gold/40" />
+                <div className="flex flex-col">
+                  <span className="text-white font-serif text-xl leading-none">100%</span>
+                  <span className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1.5 font-bold">Verified Network</span>
+                </div>
+              </div>
             </motion.div>
           </div>
 
-          {/* Right - Medical Image Grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:block"
-          >
-            <div className="grid grid-cols-2 gap-4">
-              {heroImages.map((img, i) => (
-                <motion.div
-                  key={img.alt}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-                  className={`relative rounded-2xl overflow-hidden group ${
-                    i === 0 ? 'row-span-2 h-full min-h-[320px]' : 'h-40'
-                  }`}
-                >
-                  <div className="absolute inset-0 bg-navy/20" />
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 1024px) 0px, 200px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    priority={i < 2}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <span className="text-white text-xs font-semibold tracking-wide bg-navy/40 backdrop-blur-sm px-2.5 py-1 rounded-lg">
-                      {img.label}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          {/* RIGHT COLUMN: Global Network Visual */}
+          <div className="lg:col-span-5 relative h-[650px] w-full hidden lg:block perspective-[2500px]">
+            <div className="relative w-full h-full transform-style-3d rotate-y-[-6deg] rotate-x-[3deg]">
 
-            {/* Floating trust badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className="absolute -bottom-4 -left-4 bg-white rounded-xl px-4 py-3 shadow-lg border border-navy/[0.04] flex items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-full bg-teal flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              {/* World Map Hint - Increased Presence */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] pointer-events-none translate-z-[-60px]">
+                <svg width="130%" height="130%" viewBox="0 0 1000 500">
+                  <path d="M150,200 Q250,150 400,200 T700,180 T900,250" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="M100,300 Q300,350 500,300 T800,320" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="M200,100 T500,120 M700,400 T900,350" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="6 6" />
                 </svg>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-navy">100% Verified</p>
-                <p className="text-[11px] text-navy/60">All clinics accreditation-checked</p>
-              </div>
-            </motion.div>
-          </motion.div>
+
+              {/* SVG Connections Overlay - Sharper Definition */}
+              <svg className="absolute inset-0 z-0 pointer-events-none w-full h-full text-white/40 overflow-visible">
+                <motion.path
+                  d="M120,130 Q250,200 350,280"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="0.75"
+                  variants={mapLineVariant}
+                  initial="hidden"
+                  animate="visible"
+                />
+                <motion.path
+                  d="M350,280 Q250,400 180,480"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="0.75"
+                  variants={mapLineVariant}
+                  initial="hidden"
+                  animate="visible"
+                />
+              </svg>
+
+              {/* NODE 1: ISTANBUL */}
+              <motion.div
+                variants={nodeVariant}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.5 }}
+                className="absolute top-[5%] left-[0%] w-56 aspect-[4/5] bg-navy-light rounded-sm overflow-hidden shadow-2xl border border-white/[0.04] group hover:z-30 transition-all duration-500"
+                style={{ transform: 'translateZ(30px)' }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent z-10" />
+                <Image
+                  src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&h=500&fit=crop&q=80"
+                  alt="Istanbul Clinic"
+                  fill
+                  className="object-cover opacity-40 group-hover:opacity-70 transition-opacity duration-700 grayscale-[40%]"
+                />
+                <div className="absolute bottom-5 left-5 z-20">
+                  <div className="flex items-center gap-2 mb-2 opacity-60">
+                    <MapPin className="w-3 h-3 text-gold" />
+                    <p className="text-[9px] text-white tracking-[0.2em] font-bold uppercase">Istanbul</p>
+                  </div>
+                  <p className="text-sm text-white/80 font-serif leading-tight">Advanced Dental<br />Center</p>
+                </div>
+              </motion.div>
+
+              {/* NODE 2: BARCELONA - Refined Dominance */}
+              <motion.div
+                variants={nodeVariant}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.7 }}
+                className="absolute top-[20%] right-[-5%] w-72 aspect-[3/4] bg-navy-light rounded-sm overflow-hidden shadow-2xl shadow-black/50 border border-white/[0.04] z-20 group hover:scale-[1.01] transition-transform duration-500"
+                style={{ transform: 'translateZ(60px)' }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent z-10" />
+                <Image
+                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=500&h=700&fit=crop&q=80"
+                  alt="Barcelona Institute"
+                  fill
+                  className="object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-700 grayscale-[25%]"
+                />
+                <div className="absolute bottom-8 left-8 z-20">
+                  <div className="flex items-center gap-2 mb-2.5 opacity-70">
+                    <MapPin className="w-3.5 h-3.5 text-teal" />
+                    <p className="text-[10px] text-white tracking-[0.25em] font-bold uppercase">Barcelona</p>
+                  </div>
+                  <p className="text-2xl text-white font-serif leading-tight">Fertility<br />Specialists</p>
+                  <div className="w-8 h-px bg-gold/30 mt-4" />
+                </div>
+              </motion.div>
+
+              {/* NODE 3: MEXICO CITY */}
+              <motion.div
+                variants={nodeVariant}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.9 }}
+                className="absolute bottom-[5%] left-[15%] w-52 aspect-square bg-navy-light rounded-sm overflow-hidden shadow-2xl border border-white/[0.04] group transition-all duration-500"
+                style={{ transform: 'translateZ(40px)' }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent z-10" />
+                <Image
+                  src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=400&fit=crop&q=80"
+                  alt="Facility Room"
+                  fill
+                  className="object-cover opacity-40 group-hover:opacity-70 transition-opacity duration-700 grayscale-[40%]"
+                />
+                <div className="absolute bottom-5 left-5 z-20">
+                  <div className="flex items-center gap-2 mb-1.5 opacity-60">
+                    <MapPin className="w-3 h-3 text-white/40" />
+                    <p className="text-[9px] text-white tracking-[0.2em] font-bold uppercase">Mexico City</p>
+                  </div>
+                  <p className="text-xs text-white/70 font-serif">Regenerative<br />Surgery Unit</p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

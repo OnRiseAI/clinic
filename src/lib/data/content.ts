@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { ClinicCardData } from './clinics'
 
 // =============================================================================
@@ -145,7 +145,7 @@ export function countryToDestination(country: Country): Destination {
 // =============================================================================
 
 export async function getAllCountries(): Promise<Country[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('countries')
@@ -162,7 +162,7 @@ export async function getAllCountries(): Promise<Country[]> {
 }
 
 export async function getCountryBySlug(slug: string): Promise<Country | null> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('countries')
@@ -183,7 +183,7 @@ export async function getCountryBySlug(slug: string): Promise<Country | null> {
 // =============================================================================
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('categories')
@@ -200,7 +200,7 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 }
 
 export async function getAllCategories(): Promise<Category[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('categories')
@@ -216,7 +216,7 @@ export async function getAllCategories(): Promise<Category[]> {
 }
 
 export async function getProceduresByCategory(categoryId: string): Promise<ProcedureWithStats[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get procedures in this category
   const { data: procedures, error } = await supabase
@@ -259,7 +259,7 @@ export async function getClinicsByCategory(
   categorySlug: string,
   limit: number = 8
 ): Promise<ClinicCardData[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // First get the category ID
   const { data: category } = await supabase
@@ -307,7 +307,7 @@ export async function getTopDestinationsForCategory(
   categorySlug: string,
   limit: number = 6
 ): Promise<DestinationWithStats[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get category ID
   const { data: category } = await supabase
@@ -367,7 +367,7 @@ export async function getTopDestinationsForCategory(
 // =============================================================================
 
 export async function getProcedureBySlug(slug: string): Promise<Procedure | null> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('procedures')
@@ -391,7 +391,7 @@ export async function getRelatedProcedures(
   categoryId: string | null,
   limit: number = 6
 ): Promise<Procedure[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   let query = supabase
     .from('procedures')
@@ -421,7 +421,7 @@ export async function getClinicsByProcedure(
   procedureSlug: string,
   limit: number = 8
 ): Promise<ClinicCardData[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get procedure ID
   const { data: procedure } = await supabase
@@ -469,7 +469,7 @@ export async function getTopDestinationsForProcedure(
   procedureSlug: string,
   limit: number = 6
 ): Promise<DestinationWithStats[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get procedure ID
   const { data: procedure } = await supabase
@@ -517,7 +517,7 @@ export async function getTopDestinationsForProcedure(
 export async function getProcedureCostComparison(
   procedureSlug: string
 ): Promise<CostComparisonData[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get procedure with UK/US cost baselines
   const { data: procedure } = await supabase
@@ -582,7 +582,7 @@ export async function getClinicsByCountry(
   countrySlug: string,
   limit: number = 8
 ): Promise<ClinicCardData[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get country name for matching against clinics table
   const country = await getCountryBySlug(countrySlug)
@@ -614,7 +614,7 @@ export async function getProceduresInCountry(
   countrySlug: string,
   limit: number = 12
 ): Promise<ProcedureWithStats[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get country ID
   const { data: country } = await supabase
@@ -659,7 +659,7 @@ export async function getProceduresInCountry(
 export async function getDestinationCostComparison(
   countrySlug: string
 ): Promise<Array<{ procedure: string; local_cost: number; uk_cost: number; us_cost: number; savings: number }>> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data: country } = await supabase
     .from('countries')
@@ -715,7 +715,7 @@ export async function getClinicsByCountryAndProcedure(
   procedureSlug: string,
   limit: number = 20
 ): Promise<ClinicCardData[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   // Get country name and procedure ID
   const [country, procedureData] = await Promise.all([
@@ -763,7 +763,7 @@ export async function getDestinationProcedureStats(
   countrySlug: string,
   procedureSlug: string
 ): Promise<{ clinic_count: number; avg_cost: number; min_cost: number; max_cost: number; savings_percent: number }> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
   const DEFAULT = { clinic_count: 0, avg_cost: 0, min_cost: 0, max_cost: 0, savings_percent: 0 }
 
   const [countryResult, procedureResult] = await Promise.all([
@@ -828,7 +828,7 @@ export interface ProcedureCostGuideData {
 }
 
 export async function getProcedureCostGuideData(procedureSlug: string): Promise<ProcedureCostGuideData | null> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data: procedure } = await supabase
     .from('procedures')
@@ -903,13 +903,13 @@ export interface NHSWaitTimeData {
   }>
 }
 
-export async function getNHSWaitTimeData(procedureSlug: string): Promise<NHSWaitTimeData | null> {
-  const supabase = await createClient()
+export async function getNHSWaitTimeData(procedure_slug: string): Promise<NHSWaitTimeData | null> {
+  const supabase = createStaticClient()
 
   const { data: procedure } = await supabase
     .from('procedures')
     .select('*, category:categories(*)')
-    .eq('slug', procedureSlug)
+    .eq('slug', procedure_slug)
     .single()
 
   if (!procedure || !procedure.nhs_wait_weeks) return null
@@ -952,7 +952,7 @@ export async function getNHSWaitTimeData(procedureSlug: string): Promise<NHSWait
 // =============================================================================
 
 export async function getAllProceduresWithNHSWait(): Promise<Procedure[]> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('procedures')
@@ -994,7 +994,7 @@ export async function getCountryGuideData(countrySlug: string): Promise<CountryG
   const country = await getCountryBySlug(countrySlug)
   if (!country) return null
 
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data: destEntries } = await supabase
     .from('destinations')
@@ -1068,7 +1068,7 @@ export async function getProcedureComparisonData(
 
   if (!procA || !procB) return null
 
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const [destsA, destsB] = await Promise.all([
     supabase
