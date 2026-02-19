@@ -46,14 +46,14 @@ export function Testimonials() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-            Testimonials
+          <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+            Feedback
           </p>
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
-            Patient <span className="gradient-text">Stories</span>
+            Patient <span className="text-teal-600">Experiences</span>
           </h2>
-          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
-            Real experiences from patients who found world-class care abroad.
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
+            Insights from patients who have used our directory to find care.
           </p>
         </motion.div>
 

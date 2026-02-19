@@ -107,15 +107,14 @@ export function PopularProcedures() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-            Browse Treatments
+          <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+            Treatment Directory
           </p>
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
-            Popular <span className="gradient-text">Procedures</span>
+            Common <span className="text-teal-600">Procedures</span>
           </h2>
-          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
-            Explore the most sought-after treatments. Compare prices across
-            clinics and destinations worldwide.
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
+            Compare accredited providers by treatment type and destination.
           </p>
         </motion.div>
 
@@ -149,7 +148,7 @@ export function PopularProcedures() {
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/40 via-transparent to-transparent" />
 
                   {proc.tag && (
-                    <div className="absolute top-3 left-3 px-3 py-1 bg-gold text-navy text-[11px] font-bold rounded-full uppercase tracking-wider">
+                    <div className="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-navy text-[11px] font-semibold rounded-sm uppercase tracking-wider border border-navy/5">
                       {proc.tag}
                     </div>
                   )}
@@ -169,11 +168,11 @@ export function PopularProcedures() {
 
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-navy/[0.04]">
                     <div>
-                      <p className="text-[11px] text-navy/60 uppercase tracking-wider">From</p>
-                      <p className="text-xl font-bold text-teal">{proc.startingPrice}</p>
+                      <p className="text-[10px] text-navy/40 uppercase tracking-wider mb-0.5">Guide Price From</p>
+                      <p className="text-lg font-bold text-teal-700">{proc.startingPrice}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[11px] text-navy/60 uppercase tracking-wider">Clinics</p>
+                      <p className="text-[10px] text-navy/40 uppercase tracking-wider mb-0.5">Providers</p>
                       <p className="text-sm font-semibold text-navy">{proc.clinics}+</p>
                     </div>
                   </div>

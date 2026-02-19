@@ -63,14 +63,14 @@ export function FeaturedClinics() {
           className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6"
         >
           <div>
-            <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-              Highly Rated
+            <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+              Verified Listings
             </p>
             <h2 className="heading-serif text-3xl sm:text-4xl text-navy mb-3">
-              Featured <span className="gradient-text">Clinics</span>
+              Selected <span className="text-teal-600">Providers</span>
             </h2>
-            <p className="text-navy/60 max-w-lg leading-relaxed">
-              Hand-picked for excellence in care, patient satisfaction, and medical standards.
+            <p className="text-navy/60 max-w-lg leading-relaxed font-light">
+              Verified for accreditation, medical standards, and patient safety protocols.
             </p>
           </div>
           <Link
@@ -109,7 +109,7 @@ export function FeaturedClinics() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 bg-teal text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-navy text-[10px] font-semibold rounded-sm uppercase tracking-wider border border-navy/5">
                     {clinic.badge}
                   </div>
                 </div>

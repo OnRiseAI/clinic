@@ -13,30 +13,29 @@ export function ConciergeCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-              AI-Powered
+            <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+              Personalized Service
             </p>
             <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
               Not sure where to start?{' '}
-              <span className="gradient-text">Talk to our AI Concierge</span>
+              <span className="text-teal-600">Use our Guided Clinic Matching.</span>
             </h2>
-            <p className="text-navy/60 max-w-lg leading-relaxed mb-8">
-              Our advanced AI advisor knows every clinic, treatment, and regulation.
-              Tell it what you need in plain language and get personalised
-              recommendations instantly.
+            <p className="text-navy/60 max-w-lg leading-relaxed font-light mb-8">
+              Our advanced system matches your specific treatment requirements with accredited providers.
+              Describe your needs to receive tailored recommendations.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
                 </svg>
-                Speak to Advisor
+                Request Assistance
               </button>
               <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 border border-navy/10 text-navy text-sm font-semibold rounded-xl hover:border-navy/20 hover:bg-white transition-all duration-300 tracking-wide">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
                 </svg>
-                Start Chat
+                Start Guided Search
               </button>
             </div>
           </motion.div>
@@ -50,14 +49,14 @@ export function ConciergeCTA() {
           >
             {/* Chat header */}
             <div className="flex items-center gap-3 px-6 py-4 border-b border-navy/[0.04] bg-navy/[0.02]">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center">
+                <svg className="w-5 h-5 text-navy/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-navy">AI Concierge</p>
-                <p className="text-[11px] text-teal">Online</p>
+                <p className="text-sm font-semibold text-navy">Care Coordinator</p>
+                <p className="text-[11px] text-teal-600">Available</p>
               </div>
             </div>
 
@@ -69,13 +68,13 @@ export function ConciergeCTA() {
                 </div>
               </div>
               <div className="flex justify-start">
-                <div className="bg-navy/[0.04] text-navy text-sm px-4 py-3 rounded-2xl rounded-bl-md max-w-[80%]">
-                  Based on your budget and preferences, I&apos;d recommend Turkey or Mexico. Turkey offers the best value starting at &euro;280/tooth with JCI-accredited clinics. Shall I show you top-rated options?
+                <div className="bg-navy/[0.04] text-navy text-sm px-4 py-3 rounded-2xl rounded-bl-md max-w-[80%] font-light">
+                  There are accredited clinics in Turkey and Mexico that meet your criteria. Turkey offers a range of JCI-accredited options. Shall I filter for certification type?
                 </div>
               </div>
               <div className="flex justify-end">
                 <div className="bg-navy text-white text-sm px-4 py-3 rounded-2xl rounded-br-md max-w-[80%]">
-                  Yes, show me Turkey options!
+                  Yes, filter by JCI accreditation please.
                 </div>
               </div>
             </div>
