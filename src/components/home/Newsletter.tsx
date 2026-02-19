@@ -13,15 +13,15 @@ export function Newsletter() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl mx-auto text-center"
         >
-          <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-            Stay Informed
+          <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+            Updates
           </p>
           <h2 className="heading-serif text-3xl sm:text-4xl text-navy mb-5">
-            Stay Updated on <span className="gradient-text">Medical Travel</span>
+            Medical Travel <span className="text-teal-600">Insights</span>
           </h2>
-          <p className="text-navy/60 leading-relaxed mb-10">
-            Get the latest insights, destination guides, and exclusive offers
-            delivered to your inbox.
+          <p className="text-navy/60 leading-relaxed mb-10 font-light">
+            Receive destination guides, industry updates, and clinic spotlights
+            directly to your inbox.
           </p>
 
           <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">

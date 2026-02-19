@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion'
 
-const accreditations = [
+const standards = [
   {
     name: 'JCI Accredited',
-    description: 'Joint Commission International',
+    description: 'International Hospital Standard',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
@@ -22,7 +22,7 @@ const accreditations = [
     ),
   },
   {
-    name: 'GDPR Ready',
+    name: 'GDPR Compliant',
     description: 'Data Protection',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -31,7 +31,7 @@ const accreditations = [
     ),
   },
   {
-    name: 'Verified Doctors',
+    name: 'Verified Profiles',
     description: 'Credential Checked',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -41,61 +41,34 @@ const accreditations = [
   },
 ]
 
-const mediaLogos = [
-  'Forbes',
-  'The Guardian',
-  'BBC Health',
-  'Medical Tourism Magazine',
-  'Healthline',
-]
-
 export function TrustBar() {
   return (
     <section className="py-16 relative border-y border-navy/[0.04]">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Accreditation badges */}
+        {/* Accreditation standards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
         >
-          {accreditations.map((acc) => (
-            <div
-              key={acc.name}
-              className="flex items-center gap-3 p-4 rounded-xl bg-white border border-navy/[0.04]"
-            >
-              <div className="w-11 h-11 rounded-xl bg-teal/10 flex items-center justify-center text-teal shrink-0">
-                {acc.icon}
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-navy">{acc.name}</p>
-                <p className="text-[11px] text-navy/60">{acc.description}</p>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Media mentions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-center"
-        >
-          <p className="text-[11px] text-navy/60 uppercase tracking-[0.2em] mb-6">
-            As Featured In
+          <p className="text-[11px] text-navy/40 uppercase tracking-[0.2em] mb-6 text-center font-bold">
+            Accreditation Standards We Recognise
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {mediaLogos.map((logo) => (
-              <span
-                key={logo}
-                className="text-lg md:text-xl font-bold text-navy/[0.12] tracking-tight"
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {standards.map((std) => (
+              <div
+                key={std.name}
+                className="flex items-center gap-3 p-4 rounded-xl bg-white border border-navy/[0.04]"
               >
-                {logo}
-              </span>
+                <div className="w-11 h-11 rounded-xl bg-navy/[0.03] flex items-center justify-center text-navy/50 shrink-0">
+                  {std.icon}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-navy">{std.name}</p>
+                  <p className="text-[11px] text-navy/40">{std.description}</p>
+                </div>
+              </div>
             ))}
           </div>
         </motion.div>

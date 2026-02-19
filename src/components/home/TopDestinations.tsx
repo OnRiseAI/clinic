@@ -68,16 +68,15 @@ export function TopDestinations() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-            Explore Destinations
+          <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+            Global Coverage
           </p>
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
-            Top Medical Tourism{' '}
-            <span className="gradient-text">Destinations</span>
+            Medical Travel{' '}
+            <span className="text-teal-600">Destinations</span>
           </h2>
-          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed">
-            World-class healthcare at a fraction of the cost. Choose from
-            accredited clinics in these popular destinations.
+          <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
+            Browse accredited clinics across established medical destinations.
           </p>
         </motion.div>
 
@@ -156,9 +155,9 @@ function DestinationCard({ dest, index }: { dest: (typeof destinations)[number];
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 7.5h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
               </svg>
-              <span>{dest.clinics} clinics</span>
+              <span>{dest.clinics} providers</span>
             </div>
-            <span className="text-gold font-semibold text-sm">from {dest.startingPrice}</span>
+            <span className="text-white/70 font-medium text-sm">from {dest.startingPrice}</span>
             <svg className="w-5 h-5 text-white/50 group-hover:text-gold group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>

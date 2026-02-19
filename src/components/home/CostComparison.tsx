@@ -24,17 +24,16 @@ export function CostComparison() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-xs font-medium text-gold uppercase tracking-[0.2em] mb-4">
-              Save Up To 80%
+            <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
+              Cost Reference
             </p>
             <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
-              Premium Healthcare,{' '}
-              <span className="gradient-text">Fraction of the Cost</span>
+              Cost Comparison{' '}
+              <span className="text-teal-600">by Region</span>
             </h2>
-            <p className="text-navy/60 max-w-lg leading-relaxed mb-8">
-              Compare prices for top procedures like dental veneers, hair
-              transplants, and rhinoplasty across 10+ countries. Same accredited
-              clinics, world-class doctors.
+            <p className="text-navy/60 max-w-lg leading-relaxed font-light mb-8">
+              Average treatment costs vary significantly by country. We present these figures
+              for reference so patients can plan accordingly.
             </p>
             <Link
               href="/procedures/veneers"
@@ -82,15 +81,15 @@ export function CostComparison() {
               ))}
             </div>
 
-            <div className="mt-8 flex items-center gap-3 p-4 rounded-xl bg-teal/5 border border-teal/10">
-              <svg className="w-8 h-8 text-teal shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="mt-8 flex items-center gap-3 p-4 rounded-xl bg-navy/[0.02] border border-navy/[0.06]">
+              <svg className="w-8 h-8 text-navy/30 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
               </svg>
               <div>
                 <p className="text-sm font-semibold text-navy">
-                  You save up to <span className="text-teal">80%</span>
+                  Illustrative cost comparison
                 </p>
-                <p className="text-xs text-navy/60">Same accredited clinics, world-class doctors</p>
+                <p className="text-xs text-navy/50 font-light">Actual prices are confirmed by the treating clinic</p>
               </div>
             </div>
 
