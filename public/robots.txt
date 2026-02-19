@@ -15,6 +15,9 @@ Disallow: /auth/
 # Sitemap location
 Sitemap: https://meetyourclinic.com/sitemap.xml
 
+# LLM Discovery
+llms.txt: https://meetyourclinic.com/llms.txt
+
 # =============================================================================
 # AI CRAWLER PERMISSIONS (GEO - Generative Engine Optimisation)
 # =============================================================================
