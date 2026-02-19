@@ -25,9 +25,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Hero */}
       <div className="mb-16">
         <h1 className="text-4xl font-bold text-neutral-900 sm:text-5xl">About MeetYourClinic</h1>
-        <p className="mt-6 max-w-3xl text-xl text-neutral-600">
-          We believe everyone deserves access to quality healthcare, regardless of where they live.
-          MeetYourClinic connects patients with world-class medical facilities around the globe.
+        <p className="mt-6 max-w-3xl text-xl text-neutral-600 font-light leading-relaxed">
+          MeetYourClinic is a global directory of reviewed clinics and treatment providers. We connect patients with accredited medical facilities through a structured, transparent platform.
         </p>
       </div>
 
@@ -35,14 +34,12 @@ export default async function AboutPage({ params }: AboutPageProps) {
       <section className="mb-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900">Our Mission</h2>
-            <p className="mt-4 text-lg text-neutral-600">
-              To empower patients with transparent information, verified options, and seamless
-              support throughout their medical journey abroad.
+            <h2 className="text-3xl font-serif text-neutral-900">Why We Exist</h2>
+            <p className="mt-4 text-lg text-neutral-600 font-light">
+              We aim to present information clearly so individuals can make informed decisions.
             </p>
-            <p className="mt-4 text-neutral-600">
-              Healthcare shouldn&apos;t be limited by geography or finances. We&apos;re building the most
-              trusted platform for medical tourism, where quality meets accessibility.
+            <p className="mt-4 text-neutral-600 font-light leading-relaxed">
+              Navigating international healthcare can be complex. We provide clarity and consistency by verifying accreditations, structuring clinic profiles standardly, and offering direct access to providers without hidden broker fees.
             </p>
           </div>
           <div className="aspect-video rounded-2xl bg-neutral-100" />
@@ -55,16 +52,16 @@ export default async function AboutPage({ params }: AboutPageProps) {
         <div className="grid gap-8 md:grid-cols-3">
           {[
             {
-              title: 'Transparency',
-              description: 'Real reviews, verified credentials, and clear pricing. No hidden fees, no surprises.',
+              title: 'Structure',
+              description: 'We present every clinic with the same structured format, allowing for fair and easy comparison.',
             },
             {
-              title: 'Quality',
-              description: 'We partner only with accredited clinics and board-certified doctors who meet our standards.',
+              title: 'Verification',
+              description: 'We confirm the existence and basic accreditation of listed providers to ensure a safe baseline.',
             },
             {
-              title: 'Support',
-              description: 'From your first search to post-treatment follow-up, our team is here to help 24/7.',
+              title: 'Neutrality',
+              description: 'We function as a directory, not a sales agency. We do not offer medical advice or steer decisions.',
             },
           ].map((value) => (
             <div
@@ -79,17 +76,17 @@ export default async function AboutPage({ params }: AboutPageProps) {
       </section>
 
       {/* Stats */}
-      <section className="mb-20 rounded-2xl bg-neutral-50 px-8 py-12 sm:px-12">
+      <section className="mb-20 rounded-2xl bg-neutral-50 border border-neutral-100 px-8 py-12 sm:px-12">
         <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { number: '500+', label: 'Verified Clinics' },
-            { number: '30+', label: 'Countries' },
-            { number: '50K+', label: 'Happy Patients' },
-            { number: '100+', label: 'Procedures' },
+            { number: '500+', label: 'Verified Listings' },
+            { number: '30+', label: 'Destinations' },
+            { number: '50K+', label: 'Patient Inquiries' },
+            { number: '100+', label: 'Treatment Types' },
           ].map((stat) => (
             <div key={stat.label}>
-              <p className="text-4xl font-bold text-primary-600">{stat.number}</p>
-              <p className="mt-2 text-neutral-600">{stat.label}</p>
+              <p className="text-4xl font-serif text-navy">{stat.number}</p>
+              <p className="mt-2 text-sm uppercase tracking-wide text-neutral-500">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -112,21 +109,20 @@ export default async function AboutPage({ params }: AboutPageProps) {
       </section>
 
       {/* CTA */}
-      <section className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 px-8 py-16 text-center text-white">
-        <h2 className="text-3xl font-bold">Join Our Mission</h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-primary-100">
-          Whether you&apos;re a patient seeking care or a clinic looking to expand your reach,
-          we&apos;d love to hear from you.
+      <section className="rounded-2xl border border-neutral-200 bg-white px-8 py-16 text-center">
+        <h2 className="text-3xl font-serif text-neutral-900">Explore the Directory</h2>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-neutral-500 font-light">
+          Browse verified clinics by treatment or destination.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
           <Link href="/search">
-            <Button variant="secondary" size="lg">
-              Find Care
+            <Button variant="default" size="lg" className="bg-navy hover:bg-navy/90 text-white min-w-[160px]">
+              Find a Clinic
             </Button>
           </Link>
           <Link href="/contact">
-            <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
-              Partner With Us
+            <Button variant="outline" size="lg" className="min-w-[160px]">
+              For Clinics
             </Button>
           </Link>
         </div>

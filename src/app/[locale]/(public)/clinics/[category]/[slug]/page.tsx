@@ -225,8 +225,8 @@ export default async function ClinicDetailPage({ params }: PageProps) {
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 {clinic.claimed && (
-                  <span className="inline-flex items-center gap-1 rounded-lg bg-teal-500 px-2.5 py-1 text-xs font-bold text-white uppercase tracking-wide">
-                    <BadgeCheck className="h-3.5 w-3.5" /> Verified
+                  <span className="inline-flex items-center gap-1 rounded-md border border-teal-100 bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-800 tracking-wide uppercase">
+                    <BadgeCheck className="h-3.5 w-3.5 text-teal-600" /> Verified Listing
                   </span>
                 )}
                 {clinic.accreditations.map((acc) => (
@@ -367,7 +367,7 @@ export default async function ClinicDetailPage({ params }: PageProps) {
               {clinic.clinic_procedures.length > 0 && (
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
                   <h2 className="text-lg font-bold text-slate-900 mb-5">
-                    Treatment prices
+                    Treatment Information
                   </h2>
                   <div className="divide-y divide-slate-100">
                     {clinic.clinic_procedures.map((cp) => (
@@ -383,7 +383,7 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                     ))}
                   </div>
                   <p className="text-xs text-slate-400 mt-4">
-                    Prices are approximate. Contact the clinic for an exact quote.
+                    Guide prices only. Final treatment plans are determined by the medical team.
                   </p>
                 </div>
               )}
@@ -436,80 +436,62 @@ export default async function ClinicDetailPage({ params }: PageProps) {
             {/* ── Right column — sticky CTA + funnel ──────────────────── */}
             <div className="lg:sticky lg:top-6 lg:self-start space-y-5">
               {/* Quick contact card */}
-              <div className="rounded-2xl border border-teal-200 bg-teal-50/60 p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-xl bg-teal-100 flex items-center justify-center">
-                    <Phone className="h-5 w-5 text-teal-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">
-                      Get in touch
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      Free &amp; no obligation
-                    </p>
-                  </div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="mb-6">
+                  <h3 className="text-lg font-serif text-slate-900 mb-2">
+                    Contact the Clinic Directly
+                  </h3>
+                  <p className="text-sm text-slate-500 leading-relaxed font-light">
+                    Reach out to request information or discuss treatment options.
+                  </p>
                 </div>
-                <ul className="space-y-2 mb-5">
-                  {[
-                    "Free consultation with the clinic",
-                    "Personalized treatment plan",
-                    "Transparent pricing — no hidden fees",
-                  ].map((point) => (
-                    <li
-                      key={point}
-                      className="flex items-start gap-2 text-sm text-slate-600"
-                    >
-                      <CheckCircle2 className="h-4 w-4 text-teal-500 flex-shrink-0 mt-0.5" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
+
                 <a
                   href="#clinic-funnel"
-                  className="flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-teal-500 active:scale-[0.98] w-full"
+                  className="flex items-center justify-center gap-2 rounded-sm bg-navy px-5 py-3.5 text-sm font-medium text-white transition-all hover:bg-navy/90 w-full mb-4"
                 >
-                  Get a free quote
-                  <ArrowRight className="h-4 w-4" />
+                  Request Information
                 </a>
+                <div className="text-center">
+                  <p className="text-xs text-slate-400 font-light">
+                    Direct to clinical team • No obligation
+                  </p>
+                </div>
               </div>
+            </div>
 
-              {/* Lead funnel */}
-              <div
-                id="clinic-funnel"
-                className="rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5 p-5 sm:p-6"
-              >
-                <LeadFunnel
-                  clinicId={clinic.id}
-                  clinicSlug={clinic.slug}
-                  clinicName={clinic.name}
-                  pageContext={`${clinic.name} — ${location}`}
-                  clinicContactConfig={contactConfig}
-                />
-              </div>
+            {/* Lead funnel */}
+            <div
+              id="clinic-funnel"
+              className="rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5 p-5 sm:p-6"
+            >
+              <LeadFunnel
+                clinicId={clinic.id}
+                clinicSlug={clinic.slug}
+                clinicName={clinic.name}
+                pageContext={`${clinic.name} — ${location}`}
+                clinicContactConfig={contactConfig}
+              />
+            </div>
 
-              {/* Trust signals */}
-              <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  SMS verified
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  No spam
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  Data stays private
-                </span>
-              </div>
+            {/* Trust signals */}
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-400 font-light">
+              <span className="flex items-center gap-1.5">
+                <Shield className="h-3 w-3 text-slate-300" />
+                Verified details
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3 w-3 text-slate-300" />
+                Secure inquiry
+              </span>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section >
 
-      {/* ── Back to directory ────────────────────────────────────────────── */}
-      <div className="bg-white border-t border-slate-100 py-8">
+      {/* ── Back to directory ────────────────────────────────────────────── */ }
+      < div className = "bg-white border-t border-slate-100 py-8" >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
           <Link
             href={`/clinics/${category}`}
@@ -518,7 +500,7 @@ export default async function ClinicDetailPage({ params }: PageProps) {
             &larr; Back to all {config.namePlural.toLowerCase()}
           </Link>
         </div>
-      </div>
+      </div >
     </>
   );
 }
