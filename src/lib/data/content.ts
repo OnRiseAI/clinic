@@ -171,7 +171,10 @@ export async function getCountryBySlug(slug: string): Promise<Country | null> {
     .single()
 
   if (error || !data) {
-    console.error('Error fetching country:', error)
+    // PGRST116 = "0 rows" — expected for coming-soon destinations, not an error
+    if (error?.code !== 'PGRST116') {
+      console.error('Error fetching country:', error)
+    }
     return null
   }
 

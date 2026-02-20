@@ -21,13 +21,13 @@ const categories = [
 
 const destinations = [
   { name: 'Turkey', slug: 'turkey', flag: TR },
-  { name: 'Mexico', slug: 'mexico', flag: MX },
-  { name: 'Thailand', slug: 'thailand', flag: TH },
+  // { name: 'Mexico', slug: 'mexico', flag: MX },
+  // { name: 'Thailand', slug: 'thailand', flag: TH },
   { name: 'Spain', slug: 'spain', flag: ES },
   { name: 'Poland', slug: 'poland', flag: PL },
   { name: 'Hungary', slug: 'hungary', flag: HU },
-  { name: 'Costa Rica', slug: 'costa-rica', flag: CR },
-  { name: 'India', slug: 'india', flag: IN },
+  // { name: 'Costa Rica', slug: 'costa-rica', flag: CR },
+  // { name: 'India', slug: 'india', flag: IN },
 ]
 
 interface PublicHeaderProps {

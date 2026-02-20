@@ -10,6 +10,7 @@ import {
 import { createStaticClient } from '@/lib/supabase/static'
 import { Breadcrumb } from '@/components/navigation/breadcrumb'
 import { DestinationPageClient } from './destination-page-client'
+import { ComingSoonView } from './coming-soon-view'
 import { StructuredData } from '@/components/seo/structured-data-component'
 import {
   generateDestinationSchema,
@@ -23,7 +24,12 @@ interface DestinationPageProps {
 
 export async function generateMetadata({ params }: DestinationPageProps): Promise<Metadata> {
   const { country: countrySlug } = await params
-  const destination = await getDestinationBySlug(countrySlug)
+  let destination = null
+  try {
+    destination = await getDestinationBySlug(countrySlug)
+  } catch (err) {
+    console.warn('Error fetching destination metadata:', err)
+  }
 
   if (!destination) {
     // Fallback for destinations not yet in database
@@ -43,22 +49,37 @@ export async function generateMetadata({ params }: DestinationPageProps): Promis
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-  const supabase = createStaticClient()
-  const { data } = await supabase
-    .from('countries')
-    .select('slug')
-    .eq('status', 'published')
-  return (data || []).map((c) => ({ country: c.slug }))
+  try {
+    const supabase = createStaticClient()
+    const { data } = await supabase
+      .from('countries')
+      .select('slug')
+      .eq('status', 'published')
+    return (data || []).map((c) => ({ country: c.slug }))
+  } catch (error) {
+    console.warn('Failed to generate static params for destinations:', error)
+    return []
+  }
 }
 
 export default async function DestinationPage({ params }: DestinationPageProps) {
   const { locale, country: countrySlug } = await params
   setRequestLocale(locale)
 
-  const destination = await getDestinationBySlug(countrySlug)
+  let destination = null
+  try {
+    destination = await getDestinationBySlug(countrySlug)
+  } catch (err) {
+    console.warn('Error fetching destination data:', err)
+  }
 
   if (!destination) {
-    notFound()
+    const countryName = countrySlug
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+
+    return <ComingSoonView countryName={countryName} countrySlug={countrySlug} />
   }
 
   // Fetch all data in parallel (all functions now accept slug)
