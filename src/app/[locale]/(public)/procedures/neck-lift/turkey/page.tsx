@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Neck Lift in Turkey — From £2,500 All-Inclusive | medit',
+  title: 'Neck Lift in Turkey — From £2,500 All-Inclusive | MeetYourClinic',
   description:
     'Compare neck lift prices in Turkey from £2,500. Experienced facial surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Neck Lift in Turkey — From £2,500 All-Inclusive',
     description: 'Compare neck lift prices in Turkey from £2,500. JCI hospitals, experienced surgeons.',
     url: `${SITE_URL}/procedures/neck-lift/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Neck Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface NeckLiftTurkeyPageProps {

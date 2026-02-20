@@ -222,9 +222,9 @@ const CLINIC_CHECKLIST = [
   },
   {
     icon: Users,
-    title: 'medit advantage',
+    title: 'MeetYourClinic advantage',
     description:
-      'All clinics on medit are pre-vetted for EU compliance, verified pricing, and genuine patient reviews. We do the due diligence so you can focus on your treatment.',
+      'All clinics on MeetYourClinic are pre-vetted for EU compliance, verified pricing, and genuine patient reviews. We do the due diligence so you can focus on your treatment.',
   },
 ]
 
@@ -261,7 +261,7 @@ const RISKS = [
     risk: 'Choosing the wrong clinic',
     rate: 'Risk varies significantly',
     mitigation:
-      'Avoid clinics that use unnamed implant brands, lack accreditations, or offer prices significantly below market rate. Use medit to compare pre-vetted, accredited clinics.',
+      'Avoid clinics that use unnamed implant brands, lack accreditations, or offer prices significantly below market rate. Use MeetYourClinic to compare pre-vetted, accredited clinics.',
   },
   {
     risk: 'Managing expectations',
@@ -320,7 +320,7 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
               Hungary — and Budapest in particular — has earned its reputation as the "dental capital of
               Europe," with UK patients saving 50–70% compared to private treatment at home. With
               EU-regulated clinics, internationally trained dentists, and just a 2.5-hour flight from
-              London, Budapest combines premium dental care with genuine value. medit helps you compare
+              London, Budapest combines premium dental care with genuine value. MeetYourClinic helps you compare
               accredited clinics, understand what's included, and make an informed decision.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
@@ -898,7 +898,7 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
                 <h3 className="font-semibold text-primary-900">Why this matters</h3>
                 <p className="mt-2 text-sm text-primary-800 leading-relaxed">
                   Most dental implant clinics in Hungary deliver excellent results. The key is doing
-                  your research and choosing wisely. medit only lists clinics with verified EU
+                  your research and choosing wisely. MeetYourClinic only lists clinics with verified EU
                   compliance, accreditations, and genuine patient reviews — we've done the initial due
                   diligence so you can focus on finding the right fit for your needs.
                 </p>
@@ -1003,7 +1003,7 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
                 Ready to Compare Dental Implant Clinics in Budapest?
               </h2>
               <p className="mt-3 text-primary-100 sm:mt-4 sm:text-lg">
-                Use medit to compare verified Budapest clinics, see real prices, and read honest
+                Use MeetYourClinic to compare verified Budapest clinics, see real prices, and read honest
                 patient reviews. Get free, personalised quotes from EU-regulated clinics — with no
                 obligation and no booking fees.
               </p>
@@ -1024,7 +1024,7 @@ export function DentalImplantsHungaryClient({ faqs }: DentalImplantsHungaryClien
                 </Link>
               </div>
               <p className="mt-6 text-sm text-primary-200">
-                All clinics on medit are EU-regulated · Prices verified quarterly · No booking fees
+                All clinics on MeetYourClinic are EU-regulated · Prices verified quarterly · No booking fees
               </p>
             </div>
           </div>

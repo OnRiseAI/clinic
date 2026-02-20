@@ -12,14 +12,14 @@ import CategoryHero from '@/components/category/CategoryHero'
 import type { CategoryConfig } from '@/lib/categories/config'
 import type { CategoryPageStats } from '@/lib/data/category-page'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Veneers Abroad — Compare Prices by Country, Material & Clinic | medit',
+  title: 'Veneers Abroad — Compare Prices by Country, Material & Clinic | MeetYourClinic',
   description:
     'Compare dental veneer prices abroad from £105/tooth. Turkey, Hungary, Spain — see real prices by material type, browse verified clinics, and get free quotes from top-rated destinations.',
   alternates: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental veneer prices abroad from £105/tooth. Turkey, Hungary, Spain — see real prices by material type, browse verified clinics, and get free quotes.',
     url: `${SITE_URL}/procedures/veneers`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

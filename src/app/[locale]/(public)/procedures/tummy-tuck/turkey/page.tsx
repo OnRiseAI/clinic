@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Tummy Tuck in Turkey — Prices from £2,900, Top Clinics & Packages | medit',
+  title: 'Tummy Tuck in Turkey — Prices from £2,900, Top Clinics & Packages | MeetYourClinic',
   description:
     'Compare tummy tuck prices in Turkey from £2,900 all-inclusive. Browse JCI-accredited Istanbul and Antalya clinics, real before/after results, recovery timelines, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare tummy tuck prices in Turkey from £2,900 all-inclusive. Browse JCI-accredited Istanbul and Antalya clinics, real before/after results.',
     url: `${SITE_URL}/procedures/tummy-tuck/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

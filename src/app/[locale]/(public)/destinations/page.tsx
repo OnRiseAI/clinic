@@ -159,19 +159,27 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
       </div>
 
       {/* Hero Section */}
-      <section className="mx-auto max-w-7xl px-4 pb-12 pt-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-neutral-900 sm:text-5xl">
-          Medical Tourism Destinations
-        </h1>
-        <p className="mt-4 max-w-3xl text-lg text-neutral-600">
-          Compare world-class healthcare destinations with transparent pricing, verified clinics,
-          and savings of up to 70% compared to UK private costs. Choose the right country for
-          your treatment abroad.
-        </p>
+      <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-16 pb-20 sm:pt-24 sm:pb-32">
+        {/* Abstract Premium Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/40 via-[#0A1A2F] to-primary-950/80" />
+        <div className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]" />
+        <div className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
+        <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5 mix-blend-overlay" />
+        
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+            Medical Tourism Destinations
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 sm:text-xl lg:text-2xl leading-relaxed font-light">
+            Compare world-class healthcare destinations with transparent pricing, verified clinics,
+            and savings of up to 70% compared to UK private costs. Choose the right country for
+            your treatment abroad.
+          </p>
+        </div>
       </section>
 
       {/* Country Cards Grid */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {countries.map((country) => {
             const stats = countryStats[country.id]
@@ -189,37 +197,41 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
               <Link
                 key={country.id}
                 href={`/${locale}/destinations/${country.slug}`}
-                className="group rounded-xl border border-neutral-200 bg-white p-6 shadow-sm transition-all hover:border-primary-300 hover:shadow-md"
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/60 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-900/5"
               >
+                <div className="absolute top-0 right-0 -mr-8 -mt-8 h-32 w-32 rounded-full bg-gradient-to-br from-primary-50 to-primary-100/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-2xl" />
+
                 {/* Flag & Name */}
-                <div className="flex items-center gap-3">
-                  <span className="text-4xl" role="img" aria-label={`${country.name} flag`}>
+                <div className="relative z-10 flex items-center gap-3">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-50 border border-neutral-100 text-3xl shadow-sm">
                     {country.flag_emoji || '🌍'}
                   </span>
-                  <h2 className="text-xl font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors">
+                  <h2 className="text-xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
                     {country.name}
                   </h2>
                 </div>
 
                 {/* Description Snippet */}
-                <p className="mt-3 text-sm text-neutral-600 line-clamp-3">
-                  {snippet}
-                </p>
+                <div className="relative z-10 mt-4 flex-1">
+                  <p className="text-sm text-neutral-600 line-clamp-3 leading-relaxed">
+                    {snippet}
+                  </p>
+                </div>
 
                 {/* Stats Row */}
-                <div className="mt-4 flex items-center gap-4 border-t border-neutral-100 pt-4">
+                <div className="relative z-10 mt-6 space-y-3 rounded-xl bg-neutral-50 p-4 border border-neutral-100">
                   {procedureCount > 0 && (
-                    <div className="text-sm">
-                      <span className="font-semibold text-neutral-900">{procedureCount}</span>
-                      <span className="ml-1 text-neutral-500">
-                        {procedureCount === 1 ? 'procedure' : 'procedures'}
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="font-medium text-neutral-500">Treatments</span>
+                      <span className="font-semibold text-neutral-900">
+                        {procedureCount} available
                       </span>
                     </div>
                   )}
                   {minPrice !== null && (
-                    <div className="text-sm">
-                      <span className="text-neutral-500">From </span>
-                      <span className="font-semibold text-primary-600">
+                    <div className="flex justify-between items-center text-sm border-t border-neutral-200/60 pt-3">
+                      <span className="font-medium text-neutral-500">Starting from</span>
+                      <span className="text-base font-bold text-green-600">
                         £{minPrice.toLocaleString('en-GB')}
                       </span>
                     </div>
@@ -228,17 +240,17 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
 
                 {/* Specialties Tags */}
                 {country.specialties && country.specialties.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
+                  <div className="relative z-10 mt-6 flex flex-wrap gap-2">
                     {country.specialties.slice(0, 3).map((specialty) => (
                       <span
                         key={specialty}
-                        className="inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700"
+                        className="inline-block rounded-lg bg-primary-50/50 border border-primary-100 px-2.5 py-1 text-xs font-medium text-primary-700"
                       >
                         {specialty}
                       </span>
                     ))}
                     {country.specialties.length > 3 && (
-                      <span className="inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-500">
+                      <span className="inline-block rounded-lg bg-neutral-50 border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600">
                         +{country.specialties.length - 3} more
                       </span>
                     )}
@@ -246,21 +258,9 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
                 )}
 
                 {/* Arrow indicator */}
-                <div className="mt-4 flex items-center text-sm font-medium text-primary-600 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="relative z-10 mt-6 inline-flex items-center text-sm font-semibold text-primary-600 transition-colors group-hover:text-primary-800">
                   Explore {country.name}
-                  <svg
-                    className="ml-1 h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>
               </Link>
             )
@@ -270,34 +270,42 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
 
       {/* Bottom CTA Section */}
       <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div className="rounded-2xl bg-white border border-neutral-200 px-8 py-12 text-center shadow-sm">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Not sure which destination is right for you?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-neutral-600">
-            Tell us the procedure you need and we will help you compare prices, clinics,
-            and destinations to find the best fit.
-          </p>
-          <div className="mt-8">
-            <Link
-              href={`/${locale}/search`}
-              className="inline-flex items-center rounded-lg bg-primary-600 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-primary-700 transition-colors"
-            >
-              Find Your Clinic
-              <svg
-                className="ml-2 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <div className="relative overflow-hidden rounded-3xl bg-[#0A1A2F] p-8 text-white sm:p-12 lg:p-20 shadow-2xl text-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-transparent to-blue-600/20" />
+          <div className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" />
+          <div className="absolute -bottom-1/4 -right-1/4 h-full w-full rounded-full bg-blue-500/10 blur-[120px]" />
+          <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5 mix-blend-overlay" />
+          
+          <div className="relative z-10 mx-auto max-w-3xl">
+            <span className="text-sm font-bold tracking-widest text-primary-200/80 uppercase mb-4 block">Take the next step</span>
+            <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl tracking-tight">
+              Not sure which destination is right for you?
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 sm:text-xl font-light leading-relaxed">
+              Tell us the procedure you need and we will help you compare prices, clinics,
+              and destinations to find the best fit.
+            </p>
+            <div className="mt-10 flex justify-center">
+              <Link
+                href={`/${locale}/search`}
+                className="inline-flex items-center rounded-full bg-white px-8 py-3.5 text-base font-semibold text-primary-900 shadow-xl shadow-white/10 hover:bg-neutral-100 hover:scale-105 transition-all duration-300"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </Link>
+                Find Your Clinic
+                <svg
+                  className="ml-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

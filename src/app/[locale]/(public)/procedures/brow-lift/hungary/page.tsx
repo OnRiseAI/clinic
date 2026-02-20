@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Brow Lift in Hungary — From £2,800 Quality Focus | medit',
+  title: 'Brow Lift in Hungary — From £2,800 Quality Focus | MeetYourClinic',
   description:
     'Compare brow lift prices in Hungary from £2,800. EU-standard clinics, quality-focused surgeons, comprehensive packages. Save 50-55% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Brow Lift in Hungary — From £2,800 Quality Focus',
     description: 'Compare brow lift prices in Hungary from £2,800. EU standards, quality-focused surgeons.',
     url: `${SITE_URL}/procedures/brow-lift/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brow Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BrowLiftHungaryPageProps {

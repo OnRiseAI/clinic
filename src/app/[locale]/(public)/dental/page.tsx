@@ -15,14 +15,14 @@ import {
   getCategoryBySlug,
 } from '@/lib/data/content'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Work Abroad — Compare Clinics, Prices & Destinations | medit',
+  title: 'Dental Work Abroad — Compare Clinics, Prices & Destinations | MeetYourClinic',
   description:
     'Explore dental treatment abroad from the UK. Compare verified clinics, real prices and patient reviews for implants, veneers and crowns in Turkey, Hungary, Poland and Spain.',
   alternates: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description:
       'Explore dental treatment abroad from the UK. Compare verified clinics, real prices and patient reviews for implants, veneers and crowns in Turkey, Hungary, Poland and Spain.',
     url: `${SITE_URL}/dental`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Medical Tourism Turkey 2025: Costs, Safety & Top Clinics | medit',
+  title: 'Medical Tourism Turkey 2026: Costs, Safety & Top Clinics | MeetYourClinic',
   description:
     'Complete guide to medical tourism in Turkey. Compare costs (50-70% savings), find JCI-accredited hospitals, and discover why 1.5M patients choose Turkey annually.',
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Medical Tourism in Turkey: The Complete 2025 Guide',
+    title: 'Medical Tourism in Turkey: The Complete 2026 Guide',
     description:
       '1.5 million patients. 50+ JCI hospitals. 50-70% cost savings. Everything you need to know about medical treatment in Turkey.',
     url: `${SITE_URL}/destinations/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Medical Tourism Turkey 2025: Costs, Safety & Top Clinics',
+    title: 'Medical Tourism Turkey 2026: Costs, Safety & Top Clinics',
     description:
       'Complete guide to medical tourism in Turkey. Compare costs (50-70% savings), find JCI-accredited hospitals.',
   },
@@ -115,7 +115,7 @@ const TURKEY_MEDICAL_TOURISM_FAQS = [
 const medicalWebPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'MedicalWebPage',
-  name: 'Medical Tourism in Turkey: Complete 2025 Guide',
+  name: 'Medical Tourism in Turkey: Complete 2026 Guide',
   description:
     'Comprehensive guide to medical tourism in Turkey covering procedures, costs, safety, accreditation, and practical information for UK patients.',
   url: `${SITE_URL}/destinations/turkey`,
@@ -136,7 +136,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
   mainContentOfPage: {
     '@type': 'WebPageElement',
     cssSelector: 'main',

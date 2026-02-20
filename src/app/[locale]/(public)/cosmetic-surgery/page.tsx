@@ -15,14 +15,14 @@ import {
   getCategoryBySlug,
 } from '@/lib/data/content'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Cosmetic Surgery Abroad — Compare Clinics, Prices & Destinations | medit',
+  title: 'Cosmetic Surgery Abroad — Compare Clinics, Prices & Destinations | MeetYourClinic',
   description:
     'Explore cosmetic surgery abroad from the UK. Compare verified clinics, real prices and patient reviews for rhinoplasty, liposuction, tummy tuck and more in Turkey, Poland, Spain and Hungary.',
   alternates: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description:
       'Explore cosmetic surgery abroad from the UK. Compare verified clinics, real prices and patient reviews for rhinoplasty, liposuction, tummy tuck and more.',
     url: `${SITE_URL}/cosmetic-surgery`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

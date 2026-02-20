@@ -33,7 +33,7 @@ import { StructuredData } from "@/components/seo/structured-data-component";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://medit.com";
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://meetyourclinic.com";
 
 interface PageProps {
   params: Promise<{ locale: string; category: string; slug: string }>;
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const location = [clinic.city, clinic.country].filter(Boolean).join(", ");
 
   return {
-    title: `${clinic.name} — ${location} | Verified ${config.name} Clinic | medit`,
+    title: `${clinic.name} — ${location} | Verified ${config.name} Clinic | MeetYourClinic`,
     description: clinic.description || `${clinic.name} in ${location}. Verified ${config.name.toLowerCase()} clinic.`,
     openGraph: {
       title: `${clinic.name} — ${location}`,

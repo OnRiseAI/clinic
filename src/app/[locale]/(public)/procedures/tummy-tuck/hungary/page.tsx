@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Tummy Tuck in Hungary — Prices from £1,750, Budapest Clinics & Packages | medit',
+  title: 'Tummy Tuck in Hungary — Prices from £1,750, Budapest Clinics & Packages | MeetYourClinic',
   description:
     'Compare tummy tuck prices in Hungary from £1,750 — the lowest in Europe. Browse verified Budapest clinics, EU-regulated surgeons, all-inclusive packages, and get free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare tummy tuck prices in Hungary from £1,750 — the lowest in Europe. Browse verified Budapest clinics, EU-regulated surgeons.',
     url: `${SITE_URL}/procedures/tummy-tuck/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -84,7 +84,7 @@ const TUMMY_TUCK_HUNGARY_FAQS = [
   {
     question: 'Do Budapest surgeons speak English?',
     answer:
-      'At clinics treating international patients, yes. Most surgeons speak English or consult through English-speaking coordinators. All recommended clinics on medit have English-speaking teams to support UK patients throughout their stay.',
+      'At clinics treating international patients, yes. Most surgeons speak English or consult through English-speaking coordinators. All recommended clinics on MeetYourClinic have English-speaking teams to support UK patients throughout their stay.',
   },
   {
     question: 'What qualifications should I look for in a Hungarian plastic surgeon?',

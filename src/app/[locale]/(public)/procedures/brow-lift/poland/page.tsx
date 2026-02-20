@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Brow Lift in Poland — From £2,500 EU Quality | medit',
+  title: 'Brow Lift in Poland — From £2,500 EU Quality | MeetYourClinic',
   description:
     'Compare brow lift prices in Poland from £2,500. EU-standard clinics, experienced facial surgeons, comprehensive packages. Save 50-60% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Brow Lift in Poland — From £2,500 EU Quality',
     description: 'Compare brow lift prices in Poland from £2,500. EU standards, experienced surgeons.',
     url: `${SITE_URL}/procedures/brow-lift/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brow Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BrowLiftPolandPageProps {

@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Facelift in Hungary — EU Quality from £4,500 | medit',
+  title: 'Facelift in Hungary — EU Quality from £4,500 | MeetYourClinic',
   description:
     'Compare facelift prices in Hungary from £4,500. EU healthcare standards, Budapest medical tourism expertise, thermal spa recovery options. Save 45-55% vs UK.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Facelift in Hungary — EU Quality from £4,500',
     description: 'Compare facelift prices in Hungary from £4,500. EU standards, experienced surgeons.',
     url: `${SITE_URL}/procedures/facelift/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Facelift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface FaceliftHungaryPageProps {

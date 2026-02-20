@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Liposuction in Hungary — Prices from £1,165, Budapest Clinics & EU Quality | medit',
+  title: 'Liposuction in Hungary — Prices from £1,165, Budapest Clinics & EU Quality | MeetYourClinic',
   description:
     'Compare liposuction prices in Hungary from £1,165 per area — the lowest in the EU. Budapest clinics with ISO 9001 accreditation, EU-regulated surgeons, and full aftercare. Free quotes.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare liposuction prices in Hungary from £1,165 per area — the lowest in the EU. Budapest clinics with ISO 9001 accreditation.',
     url: `${SITE_URL}/procedures/liposuction/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Implants in Poland — Prices, Clinics & Packages from £550 | medit',
+  title: 'Dental Implants in Poland — Prices, Clinics & Packages from £550 | MeetYourClinic',
   description:
     'Compare dental implant prices in Poland from £550 per tooth. Browse verified clinics in Kraków & Warsaw, All-on-4 packages from £4,000, Nobel Biocare & Straumann brands, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental implant prices in Poland from £550 per tooth. Browse verified clinics in Kraków & Warsaw, All-on-4 packages from £4,000, Nobel Biocare & Straumann brands.',
     url: `${SITE_URL}/procedures/dental-implants/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

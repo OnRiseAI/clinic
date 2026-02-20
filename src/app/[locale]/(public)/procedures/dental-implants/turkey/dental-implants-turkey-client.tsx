@@ -191,9 +191,9 @@ const CLINIC_CHECKLIST = [
   },
   {
     icon: Users,
-    title: 'medit advantage',
+    title: 'MeetYourClinic advantage',
     description:
-      'All clinics on medit are pre-vetted for accreditation, verified pricing, and genuine patient reviews. We do the due diligence so you can focus on your treatment.',
+      'All clinics on MeetYourClinic are pre-vetted for accreditation, verified pricing, and genuine patient reviews. We do the due diligence so you can focus on your treatment.',
   },
 ]
 
@@ -293,7 +293,7 @@ export function DentalImplantsTurkeyClient({ faqs }: DentalImplantsTurkeyClientP
             <p className="mt-4 text-primary-200 leading-relaxed">
               Turkey is the world's most popular destination for dental implants abroad, with UK
               patients saving 60–70% compared to private treatment at home. But not all clinics are
-              equal. medit helps you compare accredited options, understand what's included, and make
+              equal. MeetYourClinic helps you compare accredited options, understand what's included, and make
               an informed decision.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
@@ -782,7 +782,7 @@ export function DentalImplantsTurkeyClient({ faqs }: DentalImplantsTurkeyClientP
                 <h3 className="font-semibold text-primary-900">Why this matters</h3>
                 <p className="mt-2 text-sm text-primary-800 leading-relaxed">
                   Most dental implant clinics in Turkey deliver excellent results. The key is
-                  doing your research and choosing wisely. medit only lists clinics with verified
+                  doing your research and choosing wisely. MeetYourClinic only lists clinics with verified
                   accreditations and genuine patient reviews — we've done the initial due diligence
                   so you can focus on finding the right fit for your needs.
                 </p>
@@ -812,7 +812,7 @@ export function DentalImplantsTurkeyClient({ faqs }: DentalImplantsTurkeyClientP
                 Ready to Compare Dental Implant Clinics in Turkey?
               </h2>
               <p className="mt-3 text-primary-100 sm:mt-4 sm:text-lg">
-                Use medit to compare verified clinics, see real prices, and read honest patient
+                Use MeetYourClinic to compare verified clinics, see real prices, and read honest patient
                 reviews. Get free, personalised quotes from accredited clinics in Antalya,
                 Istanbul, or Izmir — with no obligation.
               </p>
@@ -833,7 +833,7 @@ export function DentalImplantsTurkeyClient({ faqs }: DentalImplantsTurkeyClientP
                 </Link>
               </div>
               <p className="mt-6 text-sm text-primary-200">
-                All clinics on medit are independently accredited · Prices verified quarterly · No
+                All clinics on MeetYourClinic are independently accredited · Prices verified quarterly · No
                 booking fees
               </p>
             </div>

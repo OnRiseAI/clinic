@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Neck Lift in Poland — EU Standards from £3,000 | medit',
+  title: 'Neck Lift in Poland — EU Standards from £3,000 | MeetYourClinic',
   description:
     'Compare neck lift prices in Poland from £3,000. EU healthcare standards, short flights from UK, natural results focus. Save 50-60% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Neck Lift in Poland — EU Standards from £3,000',
     description: 'Compare neck lift prices in Poland from £3,000. EU standards, experienced surgeons.',
     url: `${SITE_URL}/procedures/neck-lift/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Neck Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface NeckLiftPolandPageProps {

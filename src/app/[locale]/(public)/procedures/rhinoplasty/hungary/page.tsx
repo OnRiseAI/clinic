@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Rhinoplasty Hungary 2025: €2,200-€3,500 | Budapest Surgeons | medit',
+  title: 'Rhinoplasty Hungary 2026: €2,200-€3,500 | Budapest Surgeons | MeetYourClinic',
   description:
     'Rhinoplasty in Hungary from €2,200. EU-standard care, internationally trained surgeons, thermal spa recovery. Compare Budapest clinics and save 40-60% vs UK.',
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Rhinoplasty Hungary 2025: €2,200-€3,500 | Budapest Surgeons',
+    title: 'Rhinoplasty Hungary 2026: €2,200-€3,500 | Budapest Surgeons',
     description:
       'Rhinoplasty in Hungary from €2,200. EU-standard care, internationally trained surgeons, thermal spa recovery. Compare Budapest clinics.',
     url: `${SITE_URL}/procedures/rhinoplasty/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rhinoplasty Hungary 2025: €2,200-€3,500 | Budapest Surgeons',
+    title: 'Rhinoplasty Hungary 2026: €2,200-€3,500 | Budapest Surgeons',
     description:
       'Rhinoplasty in Hungary from €2,200. EU-standard care, internationally trained surgeons, thermal spa recovery.',
   },
@@ -147,7 +147,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

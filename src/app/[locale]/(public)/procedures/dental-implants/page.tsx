@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Implants Abroad — Compare Prices by Country & Clinic | medit',
+  title: 'Dental Implants Abroad — Compare Prices by Country & Clinic | MeetYourClinic',
   description:
     'Compare dental implant prices abroad from £300 per implant. Turkey, Hungary, Poland, Spain — see real prices, browse verified clinics, and get free quotes from top-rated destinations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental implant prices abroad from £300 per implant. Turkey, Hungary, Poland, Spain — see real prices, browse verified clinics, and get free quotes.',
     url: `${SITE_URL}/procedures/dental-implants`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -127,7 +127,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

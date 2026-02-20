@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Breast Reduction in Poland — From £3,500 EU Standards | medit',
+  title: 'Breast Reduction in Poland — From £3,500 EU Standards | MeetYourClinic',
   description:
     'Compare breast reduction prices in Poland from £3,500. EU-regulated clinics, experienced surgeons, quality care. Save 50-60% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Breast Reduction in Poland — From £3,500 EU Standards',
     description: 'Compare breast reduction in Poland from £3,500. EU-regulated clinics, experienced surgeons.',
     url: `${SITE_URL}/procedures/breast-reduction/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Breast Reduction',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BreastReductionPolandPageProps {

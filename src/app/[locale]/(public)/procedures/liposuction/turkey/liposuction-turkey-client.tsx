@@ -1,9 +1,187 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 
 import { TR } from 'country-flag-icons/react/3x2'
+import { 
+  CheckCircle, 
+  Star, 
+  MapPin, 
+  ArrowRight, 
+  Shield, 
+  Zap, 
+  Clock, 
+  Activity, 
+  Heart,
+  Sparkles,
+  Award,
+  Palette,
+  Eye,
+  Plane,
+  Hotel,
+  Stethoscope,
+  Utensils,
+  Car,
+  Phone,
+  AlertTriangle,
+  GraduationCap
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { FAQSection } from '@/components/seo/faq-section'
+
+// =============================================================================
+// CONSTANTS
+// =============================================================================
+
+const TECHNIQUES = [
+  {
+    name: 'Traditional/Tumescent',
+    price: 'From £1,500/area',
+    description: 'Tumescent fluid (saline + lidocaine + epinephrine) is injected first, then a cannula breaks up and suctions out fat. The gold standard technique with the longest track record.',
+    bestFor: 'Larger-volume removal, multiple areas, budget-conscious patients',
+    recovery: '7–14 days off work, more bruising than VASER',
+    icon: Activity
+  },
+  {
+    name: 'VASER Liposuction',
+    price: 'From £2,300/area',
+    description: 'Ultrasound waves at 36,000 Hz liquefy fat before removal. Preserves blood vessels, nerves, and connective tissue. Most popular technique for international patients.',
+    bestFor: 'HD sculpting, precise contouring, faster recovery, BBL combinations',
+    recovery: '5–10 days off work, less bruising, better skin tightening',
+    icon: Zap
+  },
+  {
+    name: 'Laser (SmartLipo)',
+    price: 'From £2,700/area',
+    description: 'Laser energy melts fat cells before extraction. Promotes skin tightening through collagen stimulation. Requires an experienced laser-certified specialist.',
+    bestFor: 'Smaller areas (chin, neck, arms), skin tightening',
+    recovery: '5–10 days off work',
+    icon: Sparkles
+  },
+  {
+    name: 'Lipo 360',
+    price: 'From £1,900',
+    description: 'Treats the full torso circumference — abdomen, flanks, and lower back — in one session. Available in all techniques (VASER 360 is most popular).',
+    bestFor: 'Balanced, proportional torso contouring',
+    recovery: '£3,000 (VASER 360 from £3,500)',
+    icon: Activity
+  },
+  {
+    name: 'HD Lipo',
+    price: 'From £2,500',
+    description: 'Advanced technique that sculpts around muscle groups to create visible definition (six-pack, obliques). Requires a highly skilled surgeon.',
+    bestFor: 'Athletic patients wanting visible muscle definition',
+    recovery: 'Premium tier: £2,500–£5,000',
+    icon: Award
+  }
+]
+
+const CLINICS = [
+  {
+    name: 'Carely Clinic',
+    location: 'Istanbul',
+    rating: '4.9',
+    reviews: '2,500+',
+    highlight: '2,500+ procedures per year',
+    specialties: '0.5% complication rate, 0.3% infection rate. JCI-accredited hospital partners.',
+    price: 'From £2,050'
+  },
+  {
+    name: 'Dr. MED Clinic',
+    location: 'Istanbul',
+    rating: '4.8',
+    reviews: '4,500+',
+    highlight: '99.5% success rate',
+    specialties: 'Specialises in VASER and HD liposuction. JCI-accredited.',
+    price: 'Custom Quote'
+  },
+  {
+    name: 'International Clinics Istanbul',
+    location: 'Istanbul',
+    rating: '4.7',
+    reviews: '1,800+',
+    highlight: 'Full-service all-inclusive',
+    specialties: 'Multi-discipline cosmetic surgery centre. Focus on UK and European patients.',
+    price: 'Custom Quote'
+  },
+  {
+    name: 'Db\'est Clinic',
+    location: 'Istanbul',
+    rating: '4.9',
+    reviews: '950+',
+    highlight: 'Double board-certified',
+    specialties: 'VASER and HD lipo specialists. English-speaking team.',
+    price: 'Custom Quote'
+  }
+]
+
+const RECOVERY_STEPS = [
+  {
+    day: 'Day 0',
+    title: 'Surgery Day',
+    description: 'Procedure takes 1–3 hours. Rest at hospital or hotel. Compression garment fitted. Light walking encouraged same day.'
+  },
+  {
+    day: 'Day 1',
+    title: 'Initial Recovery',
+    description: 'Mild to moderate soreness. Continue wearing compression garment 24/7. Light walking. Pain managed with medication.'
+  },
+  {
+    day: 'Days 2–3',
+    title: 'First Follow-up',
+    description: 'Dressings checked. Bruising begins to appear. Gentle walking around hotel area.'
+  },
+  {
+    day: 'Days 5–7',
+    title: 'Fit-to-Fly',
+    description: 'Second follow-up. Fit-to-fly assessment. Most patients cleared to fly home.'
+  },
+  {
+    day: 'Week 2',
+    title: 'Return to Work',
+    description: 'Return to desk work (most patients). Bruising begins to fade. Swelling still present.'
+  }
+]
+
+const PRACTICAL_INFO = [
+  {
+    title: 'Recommended Stay',
+    content: '7–10 days (most common: 7-day package)',
+    icon: Clock
+  },
+  {
+    title: 'Best Time to Visit',
+    content: 'Spring (April–May) and autumn (September–October) for comfortable recovery temperatures.',
+    icon: Sparkles
+  },
+  {
+    title: 'Flying Home',
+    content: 'Wear compression garment and flight socks. Stay hydrated. Walk in the aisle every hour.',
+    icon: Plane
+  }
+]
+
+const COMBINATIONS = [
+  {
+    name: 'Lipo + Tummy Tuck',
+    price: '£3,500–£6,500',
+    recovery: '10–14 days',
+    notes: 'Most popular combination ("mummy makeover"). Lipo contours flanks/waist, tummy tuck removes loose skin.'
+  },
+  {
+    name: 'Lipo + BBL',
+    price: '£3,000–£6,000',
+    recovery: '10–14 days',
+    notes: 'Fat harvested via lipo, purified, then transferred to buttocks. VASER provides best fat graft viability.'
+  },
+  {
+    name: 'Lipo 360 + Breast Aug',
+    price: '£4,000–£7,000',
+    recovery: '7–10 days',
+    notes: 'Full body contouring in one trip.'
+  }
+]
 
 // =============================================================================
 // TYPES
@@ -19,20 +197,14 @@ interface LiposuctionTurkeyClientProps {
 }
 
 // =============================================================================
-// ANIMATION VARIANTS
+// ANIMATION HELPERS
 // =============================================================================
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 },
 }
 
 // =============================================================================
@@ -41,1230 +213,611 @@ const staggerContainer = {
 
 export function LiposuctionTurkeyClient({ faqs }: LiposuctionTurkeyClientProps) {
   return (
-    <LazyMotion features={domAnimation}>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-rose-50 to-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
-              <div className="w-12 overflow-hidden rounded shadow-sm">
-                <TR title="Turkey" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Liposuction in Turkey
-              </h1>
+    <div className="bg-neutral-50">
+        {/* =====================================================================
+            SECTION A: HERO
+            ===================================================================== */}
+        <section className="relative overflow-hidden bg-[#0A1A2F] py-28 sm:py-36 lg:py-48">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-transparent to-rose-600/20" />
+          <m.div 
+            animate={{ scale: [1, 1.15, 1], x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-primary-500/10 blur-[100px]" 
+          />
+          <m.div 
+            animate={{ scale: [1, 1.2, 1], x: [0, -30, 0] }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -right-32 bottom-1/4 h-96 w-96 rounded-full bg-rose-500/10 blur-[100px]" 
+          />
+          <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+            <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase">Premium Cosmetic Surgery</span>
             </m.div>
+
+            <m.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-8xl leading-[0.95]"
+            >
+              Liposuction in{' '}
+              <span className="bg-gradient-to-r from-primary-300 to-rose-300 bg-clip-text text-transparent">Turkey</span>
+            </m.h1>
+
             <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mx-auto mt-8 max-w-3xl text-xl text-neutral-300 font-light leading-relaxed sm:text-2xl"
             >
               Save 60–70% on liposuction at JCI-accredited hospitals in Istanbul
               and Antalya. VASER, laser, and 360 lipo — all-inclusive packages
-              from £1,500 with verified surgeons and recovery support.
+              from £1,500.
             </m.p>
 
-            <m.div variants={fadeInUp} className="mt-8 flex justify-center">
-              <Link
-                href="/clinics?procedure=liposuction&country=turkey"
-                className="rounded-lg bg-rose-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-rose-700 hover:shadow-xl"
-              >
-                Compare Liposuction Clinics in Turkey →
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row"
+            >
+              <Link href="/search?procedure=liposuction&country=turkey" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-7 text-lg font-bold shadow-xl shadow-white/10">
+                  Compare Clinics
+                </Button>
+              </Link>
+              <Link href="/contact?procedure=liposuction&country=turkey" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-7 text-lg font-bold backdrop-blur-md">
+                  Get Free Quote
+                </Button>
               </Link>
             </m.div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-sm text-slate-500">
-              45,000+ procedures annually • JCI-accredited hospitals •
-              All-inclusive packages • Free consultation matching
-            </m.p>
-
-            {/* Hero Stats */}
             <m.div
-              variants={fadeInUp}
-              className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto"
             >
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">From £1,500</p>
-                <p className="mt-1 text-slate-600">Per area, all-inclusive</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">60–70%</p>
-                <p className="mt-1 text-slate-600">Savings vs UK</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">425+ Clinics</p>
-                <p className="mt-1 text-slate-600">45,000+ procedures/year</p>
-              </div>
+              {[
+                { label: 'From', value: '£1,500', sub: 'per area' },
+                { label: 'Save', value: '60–70%', sub: 'vs UK prices' },
+                { label: 'Clinics', value: '425+', sub: 'JCI-accredited' },
+                { label: 'Annual', value: '45,000+', sub: 'procedures' }
+              ].map((stat, i) => (
+                <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 text-center">
+                  <p className="text-xs text-neutral-400 uppercase tracking-widest">{stat.label}</p>
+                  <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
+                  <p className="text-xs text-neutral-500 mt-1">{stat.sub}</p>
+                </div>
+              ))}
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Why Turkey Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Why Turkey Is the #1 Destination for Liposuction Abroad
-            </m.h2>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-6 space-y-4 text-slate-600"
-              data-aeo="liposuction-turkey-benefits"
-            >
-              <p>
-                Turkey performs 45,000+ liposuction procedures annually, making
-                it the world&apos;s busiest destination for cosmetic liposuction
-                tourism. This exceptional volume means Turkish surgeons have
-                unmatched experience, and competitive pricing is driven by market
-                scale rather than corner-cutting. Over 1.2 million medical
-                tourists visited Turkey in 2022, with cosmetic surgery being the
-                fastest-growing segment.
-              </p>
-
-              <p>
-                Turkish clinics offer every major liposuction technique —
-                traditional tumescent, VASER, laser (SmartLipo), power-assisted
-                (PAL), lipo 360, and HD lipo sculpting — whereas many UK clinics
-                only offer one or two options. This technique range means you
-                can find the right approach for your specific goals, whether
-                that&apos;s budget-friendly traditional lipo, precise VASER
-                contouring, or athletic HD sculpting.
-              </p>
-
-              <p>
-                Turkey has more JCI-accredited hospitals than any country outside
-                the United States. JCI (Joint Commission International) is the
-                gold standard in international hospital accreditation — the same
-                standard that accredits top US hospitals like Mayo Clinic and
-                Cleveland Clinic. When you choose a JCI-accredited facility in
-                Istanbul, you&apos;re receiving care that meets internationally
-                recognised safety standards.
-              </p>
-
-              <p>
-                Turkish clinics pioneered the all-inclusive medical tourism
-                package. A typical liposuction package includes surgery, hospital
-                stay, 4–7 nights at a 4–5 star hotel, airport transfers,
-                compression garment, pre-op tests, post-op medications, and a
-                personal English-speaking patient coordinator — all for less than
-                the surgery alone would cost in the UK. Complication rates at top
-                Turkish clinics are comparable to UK private hospitals: Carely
-                Clinic reports a 0.5% complication rate and 0.3% infection rate
-                across 2,500+ annual procedures.
-              </p>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Cost Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              How Much Does Liposuction Cost in Turkey?
-            </m.h2>
-
-            {/* Cost by Technique */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="liposuction-turkey-cost"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Cost by Technique
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Technique
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Turkey Price
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        UK Equivalent
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Savings
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Traditional/Tumescent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,500–£3,800/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £3,000–£6,000/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        50–60%
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        VASER
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,300–£4,600/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £4,700–£11,200/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        55–70%
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Laser (SmartLipo)
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,700–£5,000/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £3,500–£8,000/area
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        40–55%
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo 360
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,900–£4,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £5,000–£9,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        55–65%
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        HD Lipo
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,500–£5,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £5,500–£12,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        55–65%
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            {/* Cost by Body Area */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Cost by Body Area
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Body Area
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Price Range (Turkey)
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Notes
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Abdomen
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,800–£3,800
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Most popular area
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Abdomen + Flanks
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,900–£3,800
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Combined pricing common
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Thighs (inner or outer)
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,500–£3,500
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Per pair
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Arms
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,500–£3,500
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Per pair
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Chin/Neck
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,150–£2,300
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Smaller area, lower cost
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Back
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,500–£3,000
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Often combined with flanks
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo 360 (abdomen + flanks + back)
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £1,900–£4,000
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Best value for full torso
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            {/* Package Inclusions */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                All-Inclusive Package Inclusions (Standard)
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Surgery</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Surgeon&apos;s fee + operating theatre
+        {/* =====================================================================
+            SECTION B: WHY TURKEY
+            ===================================================================== */}
+        <section className="py-28 sm:py-36">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-12 gap-16">
+              <div className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
+                <m.div {...fadeInUp}>
+                  <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Why Turkey</span>
+                  <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                    The #1 Destination for Liposuction
+                  </h2>
+                  <p className="mt-6 text-lg text-neutral-500 font-light leading-relaxed">
+                    45,000+ procedures annually, JCI-accredited hospitals, and all-inclusive packages 
+                    that set the global standard for cosmetic surgery tourism.
                   </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Hospital Stay</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    1–2 nights for multi-area or VASER; day-case for smaller
-                    procedures
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Anaesthesia</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    General or local anaesthesia
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Pre-op Tests</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Blood tests and ECG
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Compression Garment
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Post-operative compression garment included
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Hotel</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    4–7 nights 4–5 star (Hilton, Marriott, or equivalent)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Transfers</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Airport-to-hotel-to-clinic transfers
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Medications</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Post-operative medications included
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Follow-ups</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Appointments on days 2–3 and 5–7
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Patient Coordinator
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Personal English-speaking coordinator
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">24/7 Support</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    24/7 support line throughout your stay
-                  </p>
-                </div>
-              </div>
-            </m.div>
-
-            <m.div variants={fadeInUp} className="mt-8 space-y-4 text-slate-600">
-              <p>
-                <strong>Not typically included:</strong> International flights,
-                travel insurance, additional hotel nights beyond the package,
-                tips. Istanbul offers the most competitive pricing due to clinic
-                density and competition; Antalya is slightly cheaper but has
-                fewer specialist options for techniques like HD lipo or VASER
-                360.
-              </p>
-
-              <p className="text-sm italic">
-                Prices based on published rates from Carely Clinic, Dr. MED
-                Clinic, International Clinics Istanbul, Bookimed, and Qunomedical
-                (2024–2025). Final pricing depends on technique, number of areas,
-                and individual assessment. Request a personalised quote for
-                accurate pricing.
-              </p>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Top Clinics Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Top Liposuction Clinics and Surgeons in Turkey
-            </m.h2>
-
-            {/* Clinic Cards */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2"
-            >
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Carely Clinic
-                  </h3>
-                  <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
-                    Istanbul
-                  </span>
-                </div>
-                <ul className="mt-3 space-y-1 text-sm text-slate-600">
-                  <li>• 2,500+ liposuction procedures per year</li>
-                  <li>• 0.5% complication rate, 0.3% infection rate</li>
-                  <li>• JCI-accredited hospital partners</li>
-                  <li>• From €2,400 (≈£2,050)</li>
-                  <li>• All techniques: VASER, traditional, laser, 360, HD</li>
-                </ul>
+                  <div className="mt-10 p-6 bg-primary-50 rounded-2xl border border-primary-100">
+                    <div className="flex items-center gap-3 mb-3">
+                      <Shield className="h-5 w-5 text-primary-600" />
+                      <span className="font-bold text-primary-900 text-sm">JCI-Accredited</span>
+                    </div>
+                    <p className="text-sm text-primary-700/80 font-light">
+                      More JCI-accredited hospitals than any country outside the US — 
+                      the same standard that accredits Mayo Clinic and Cleveland Clinic.
+                    </p>
+                  </div>
+                </m.div>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Dr. MED Clinic
-                  </h3>
-                  <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
-                    Istanbul
-                  </span>
-                </div>
-                <ul className="mt-3 space-y-1 text-sm text-slate-600">
-                  <li>• 99.5% success rate (clinic-reported)</li>
-                  <li>• 4,500+ patients annually across all procedures</li>
-                  <li>• JCI-accredited</li>
-                  <li>• Specialises in VASER and HD liposuction</li>
-                </ul>
-              </div>
-
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    International Clinics Istanbul
-                  </h3>
-                  <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
-                    Istanbul
-                  </span>
-                </div>
-                <ul className="mt-3 space-y-1 text-sm text-slate-600">
-                  <li>• Multi-discipline cosmetic surgery centre</li>
-                  <li>• JCI-accredited</li>
-                  <li>• Full-service all-inclusive packages</li>
-                  <li>• Focus on UK and European patients</li>
-                </ul>
-              </div>
-
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Db&apos;est Clinic
-                  </h3>
-                  <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
-                    Istanbul
-                  </span>
-                </div>
-                <ul className="mt-3 space-y-1 text-sm text-slate-600">
-                  <li>• Double board-certified surgeons</li>
-                  <li>• VASER and HD lipo specialists</li>
-                  <li>• English-speaking team</li>
-                  <li>• Comprehensive aftercare programme</li>
-                </ul>
-              </div>
-            </m.div>
-
-            {/* Featured Surgeons */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Featured Surgeons
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">Dr. Ergin Er</p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• 31 years of experience</li>
-                    <li>• 1,100+ VASER liposuction procedures</li>
-                    <li>• 4 national awards in plastic surgery</li>
-                    <li>• ISAPS member</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">
-                    Dr. Halil Ibrahim Canter
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• 29 years of experience</li>
-                    <li>• Specialist in body contouring</li>
-                    <li>• Multiple board certifications</li>
-                    <li>• International patient focus</li>
-                  </ul>
-                </div>
-              </div>
-            </m.div>
-
-            {/* Hospital Infrastructure */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Hospital Infrastructure
-              </h3>
-              <p className="text-slate-600">
-                Liposuction in Turkey is performed at major hospital groups with
-                international accreditation:{' '}
-                <strong>Acıbadem Healthcare Group</strong> (21 hospitals),{' '}
-                <strong>Memorial Healthcare Group</strong>,{' '}
-                <strong>Medicana International</strong>, and{' '}
-                <strong>Liv Hospital Vadistanbul</strong>. These institutions
-                provide a higher level of clinical infrastructure than standalone
-                clinics and meet JCI accreditation standards for patient safety.
-              </p>
-            </m.div>
-
-            <m.p
-              variants={fadeInUp}
-              className="mt-6 text-sm italic text-slate-500"
-            >
-              Surgeons listed are frequently recommended by international patient
-              coordinators. This is not an endorsement — always verify
-              credentials and conduct your own due diligence.
-            </m.p>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Techniques Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Liposuction Techniques Available in Turkey
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Turkey offers the widest range of liposuction techniques of any
-              medical tourism destination. Here&apos;s what each technique
-              involves and who it&apos;s best suited for.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Traditional/Tumescent
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £1,500/area</p>
-                <p className="mt-3 text-sm text-slate-600">
-                  Tumescent fluid (saline + lidocaine + epinephrine) is injected
-                  first, then a cannula breaks up and suctions out fat. The gold
-                  standard technique with the longest track record.
-                </p>
-                <div className="mt-4 border-t border-slate-100 pt-4">
-                  <p className="text-xs font-medium text-slate-500">BEST FOR</p>
-                  <p className="text-sm text-slate-700">
-                    Larger-volume removal, multiple areas, budget-conscious
-                    patients
-                  </p>
-                  <p className="mt-2 text-xs font-medium text-slate-500">
-                    RECOVERY
-                  </p>
-                  <p className="text-sm text-slate-700">
-                    7–14 days off work, more bruising than VASER
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  VASER Liposuction
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £2,300/area</p>
-                <p className="mt-3 text-sm text-slate-600">
-                  Ultrasound waves at 36,000 Hz liquefy fat before removal.
-                  Preserves blood vessels, nerves, and connective tissue. Most
-                  popular technique for international patients.
-                </p>
-                <div className="mt-4 border-t border-slate-100 pt-4">
-                  <p className="text-xs font-medium text-slate-500">BEST FOR</p>
-                  <p className="text-sm text-slate-700">
-                    HD sculpting, precise contouring, faster recovery, BBL
-                    combinations
-                  </p>
-                  <p className="mt-2 text-xs font-medium text-slate-500">
-                    RECOVERY
-                  </p>
-                  <p className="text-sm text-slate-700">
-                    5–10 days off work, less bruising, better skin tightening
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Laser (SmartLipo)
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £2,700/area</p>
-                <p className="mt-3 text-sm text-slate-600">
-                  Laser energy melts fat cells before extraction. Promotes skin
-                  tightening through collagen stimulation. Requires an
-                  experienced laser-certified specialist.
-                </p>
-                <div className="mt-4 border-t border-slate-100 pt-4">
-                  <p className="text-xs font-medium text-slate-500">BEST FOR</p>
-                  <p className="text-sm text-slate-700">
-                    Smaller areas (chin, neck, arms), skin tightening
-                  </p>
-                  <p className="mt-2 text-xs font-medium text-slate-500">
-                    RECOVERY
-                  </p>
-                  <p className="text-sm text-slate-700">5–10 days off work</p>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">Lipo 360</h3>
-                <p className="mt-1 text-sm text-rose-600">From £1,900</p>
-                <p className="mt-3 text-sm text-slate-600">
-                  Treats the full torso circumference — abdomen, flanks, and
-                  lower back — in one session. Available in all techniques (VASER
-                  360 is most popular). Better value than treating areas
-                  separately.
-                </p>
-                <div className="mt-4 border-t border-slate-100 pt-4">
-                  <p className="text-xs font-medium text-slate-500">BEST FOR</p>
-                  <p className="text-sm text-slate-700">
-                    Balanced, proportional torso contouring
-                  </p>
-                  <p className="mt-2 text-xs font-medium text-slate-500">
-                    AVERAGE COST
-                  </p>
-                  <p className="text-sm text-slate-700">
-                    £3,000 (VASER 360 from £3,500)
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">HD Lipo</h3>
-                <p className="mt-1 text-sm text-rose-600">From £2,500</p>
-                <p className="mt-3 text-sm text-slate-600">
-                  Advanced technique that sculpts around muscle groups to create
-                  visible definition (six-pack, obliques). Requires a highly
-                  skilled surgeon — not all clinics offer this.
-                </p>
-                <div className="mt-4 border-t border-slate-100 pt-4">
-                  <p className="text-xs font-medium text-slate-500">BEST FOR</p>
-                  <p className="text-sm text-slate-700">
-                    Athletic patients wanting visible muscle definition
-                  </p>
-                  <p className="mt-2 text-xs font-medium text-slate-500">
-                    PRICING
-                  </p>
-                  <p className="text-sm text-slate-700">
-                    Premium tier: £2,500–£5,000
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-100 p-6">
-                <div className="text-center">
-                  <p className="font-medium text-slate-700">
-                    Not sure which technique?
-                  </p>
-                  <p className="mt-2 text-sm text-slate-500">
-                    Request a free consultation. Surgeons will assess your body
-                    and goals to recommend the right technique.
-                  </p>
-                  <Link
-                    href="/enquiry?procedure=liposuction&country=turkey"
-                    className="mt-4 inline-block text-rose-600 hover:underline"
+              <div className="lg:col-span-8 space-y-6">
+                {[
+                  {
+                    title: 'Unmatched Surgical Volume',
+                    text: 'Turkey performs 45,000+ liposuction procedures annually, making it the world\'s busiest destination. This exceptional volume means Turkish surgeons have unmatched experience, with pricing driven by market scale rather than corner-cutting.'
+                  },
+                  {
+                    title: 'Every Technique Available',
+                    text: 'Turkish clinics offer every major technique — traditional tumescent, VASER, laser (SmartLipo), power-assisted (PAL), lipo 360, and HD sculpting — whereas many UK clinics only offer one or two options.'
+                  },
+                  {
+                    title: 'All-Inclusive Packages',
+                    text: 'A typical package includes surgery, hospital stay, 4–7 nights at a 4–5 star hotel, airport transfers, compression garment, pre-op tests, post-op medications, and a personal English-speaking patient coordinator.'
+                  },
+                  {
+                    title: 'Proven Safety Record',
+                    text: 'Complication rates at top Turkish clinics are comparable to UK private hospitals. Carely Clinic reports a 0.5% complication rate and 0.3% infection rate across 2,500+ annual procedures.'
+                  }
+                ].map((point, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="p-8 rounded-[2rem] border border-neutral-100 bg-white hover:border-primary-100 transition-colors"
                   >
-                    Get Expert Advice →
+                    <div className="flex items-start gap-5">
+                      <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                        <CheckCircle className="h-5 w-5 text-primary-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-neutral-900">{point.title}</h3>
+                        <p className="mt-3 text-neutral-500 font-light leading-relaxed">{point.text}</p>
+                      </div>
+                    </div>
+                  </m.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            SECTION C: PRICING
+            ===================================================================== */}
+        <m.section {...fadeInUp} className="py-28 sm:py-36">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="bg-neutral-900 rounded-[3rem] p-8 sm:p-16 lg:p-20 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-transparent to-rose-600/10" />
+              <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-primary-500/5 blur-[80px]" />
+
+              <div className="relative z-10">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-400 uppercase">2026 Price Guide</span>
+                <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl tracking-tight leading-[1.1]">
+                  Liposuction Cost in Turkey
+                </h2>
+                <p className="mt-4 text-lg text-neutral-400 font-light max-w-2xl">
+                  All-inclusive pricing. Save 60–70% compared to equivalent UK procedures.
+                </p>
+
+                <div className="mt-12 bg-white rounded-3xl p-2 shadow-2xl">
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="text-left">
+                          <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">Technique</th>
+                          <th className="p-6 text-sm font-bold text-primary-600 uppercase tracking-widest">Turkey</th>
+                          <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">UK</th>
+                          <th className="p-6 text-sm font-bold text-green-600 uppercase tracking-widest">Savings</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-neutral-100">
+                        {[
+                          ['Traditional/Tumescent', '£1,500–£3,800/area', '£3,000–£6,000/area', '50–60%'],
+                          ['VASER', '£2,300–£4,600/area', '£4,700–£11,200/area', '55–70%'],
+                          ['Laser (SmartLipo)', '£2,700–£5,000/area', '£3,500–£8,000/area', '40–55%'],
+                          ['Lipo 360', '£1,900–£4,000', '£5,000–£9,000', '55–65%'],
+                          ['HD Lipo', '£2,500–£5,000', '£5,500–£12,000', '55–65%']
+                        ].map(([tech, turkey, uk, savings], i) => (
+                          <tr key={i} className="hover:bg-neutral-50 transition-colors">
+                            <td className="p-6 font-bold text-neutral-900">{tech}</td>
+                            <td className="p-6 text-primary-600 font-bold">{turkey}</td>
+                            <td className="p-6 text-neutral-400 font-light line-through">{uk}</td>
+                            <td className="p-6"><span className="text-green-600 bg-green-50 font-bold px-3 py-1 rounded-full text-sm">{savings}</span></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="mt-12 grid sm:grid-cols-2 gap-6">
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                    <h3 className="text-lg font-bold text-white mb-4">What&apos;s Included</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {['Surgery', 'Hospital Stay', 'Anaesthesia', 'Pre-op Tests', 'Compression Garment', 'Hotel (4–7 nights)', 'Airport Transfers', 'Medications', 'Follow-ups', 'Patient Coordinator'].map((item, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-neutral-300">
+                          <CheckCircle className="h-4 w-4 text-primary-400 flex-shrink-0" />
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 flex flex-col justify-center items-center text-center">
+                    <h3 className="text-xl font-bold text-white mb-3">Need a custom quote?</h3>
+                    <p className="text-primary-100 text-sm font-light mb-6">Get personalised pricing based on your goals and body assessment.</p>
+                    <Link href="/contact?procedure=liposuction&country=turkey">
+                      <Button className="bg-white text-primary-700 hover:bg-primary-50 rounded-full px-8 py-6 font-bold">
+                        Request a Quote
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </m.section>
+
+        {/* =====================================================================
+            SECTION D: TECHNIQUES
+            ===================================================================== */}
+        <section className="py-28 sm:py-36">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Methods</span>
+              <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Techniques Available
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Turkey offers the widest range of liposuction techniques of any medical tourism destination.
+              </p>
+            </m.div>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {TECHNIQUES.map((tech, i) => (
+                <m.div
+                  key={tech.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="group relative rounded-[2.5rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-200 hover:shadow-2xl hover:shadow-primary-900/5 overflow-hidden"
+                >
+                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary-100/30 transition-all duration-700 group-hover:scale-150 group-hover:bg-primary-100/40" />
+                  <div className="relative z-10">
+                    <div className="h-14 w-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 mb-6">
+                      <tech.icon className="h-7 w-7" />
+                    </div>
+                    <h3 className="text-xl font-bold text-neutral-900">{tech.name}</h3>
+                    <p className="text-primary-600 font-bold text-sm mt-1">{tech.price}</p>
+                    <p className="mt-4 text-neutral-500 font-light leading-relaxed text-sm">{tech.description}</p>
+                    <div className="mt-6 pt-6 border-t border-neutral-100 space-y-3">
+                      <div>
+                        <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Best For</p>
+                        <p className="text-sm text-neutral-600 mt-1">{tech.bestFor}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Recovery</p>
+                        <p className="text-sm text-neutral-600 mt-1">{tech.recovery}</p>
+                      </div>
+                    </div>
+                  </div>
+                </m.div>
+              ))}
+
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center justify-center rounded-[2.5rem] border-2 border-dashed border-neutral-200 bg-neutral-50/50 p-8"
+              >
+                <div className="text-center">
+                  <Sparkles className="h-8 w-8 text-primary-400 mx-auto mb-4" />
+                  <p className="font-bold text-neutral-700">Not sure which technique?</p>
+                  <p className="mt-2 text-sm text-neutral-500 font-light">
+                    Get a free consultation from board-certified surgeons.
+                  </p>
+                  <Link href="/contact?procedure=liposuction&country=turkey">
+                    <Button variant="outline" className="mt-6 rounded-full border-primary-200 text-primary-600 hover:bg-primary-50">
+                      Get Expert Advice <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </m.div>
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            SECTION E: TOP CLINICS
+            ===================================================================== */}
+        <section className="py-28 sm:py-36 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+              <div className="max-w-2xl">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Providers</span>
+                <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  Top Liposuction Clinics
+                </h2>
+                <p className="mt-4 text-lg text-neutral-600 font-light">
+                  JCI-accredited hospitals vetted for international quality standards.
+                </p>
+              </div>
+              <Link href="/search?procedure=liposuction&country=turkey">
+                <Button variant="outline" className="group rounded-full border-neutral-200 px-8 py-6 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 transition-all duration-300">
+                  View All Clinics <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </m.div>
+
+            <div className="grid gap-8 lg:grid-cols-2">
+              {CLINICS.map((clinic, i) => (
+                <m.div
+                  key={clinic.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="group relative flex flex-col rounded-[2.5rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
+                >
+                  <div className="flex items-start justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold text-neutral-900 mb-2">{clinic.name}</h3>
+                      <div className="flex items-center gap-2 text-primary-600 font-medium">
+                        <MapPin className="h-4 w-4" />
+                        {clinic.location}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-green-50 text-green-700">
+                      <Star className="h-4 w-4 fill-green-500 text-green-500" />
+                      <span className="text-sm font-bold">{clinic.rating}</span>
+                    </div>
+                  </div>
+
+                  <div className="mb-8">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest mb-4">
+                      {clinic.highlight}
+                    </div>
+                    <p className="text-neutral-500 text-sm font-light leading-relaxed">{clinic.specialties}</p>
+                  </div>
+
+                  <div className="mt-auto pt-6 border-t border-neutral-100 flex items-center justify-between">
+                    <span className="text-neutral-400 text-sm font-medium">{clinic.reviews} Reviews</span>
+                    <span className="text-sm font-bold text-primary-600 group-hover:text-primary-700 transition-colors flex items-center gap-2">
+                      View Profile <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </m.div>
+              ))}
+            </div>
+
+            <m.div 
+              {...fadeInUp}
+              className="mt-16 p-10 rounded-[3rem] bg-gradient-to-br from-primary-50 to-white border border-primary-100 relative overflow-hidden"
+            >
+              <div className="absolute right-0 bottom-0 -mb-10 -mr-10 h-40 w-40 rounded-full bg-primary-200/20 blur-3xl" />
+              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+                <div className="flex-shrink-0">
+                  <div className="h-20 w-20 rounded-3xl bg-primary-600 flex items-center justify-center shadow-xl shadow-primary-200">
+                    <Shield className="h-10 w-10 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-primary-900 mb-4">The MeetYourClinic Advantage</h3>
+                  <p className="text-lg text-primary-800/80 font-light leading-relaxed">
+                    Every clinic on our platform undergoes a rigorous 50-point vetting process. 
+                    We verify JCI accreditation, surgeon credentials, and genuine patient 
+                    outcomes so you can book with absolute confidence.
+                  </p>
+                </div>
+                <div className="flex-shrink-0 w-full md:w-auto">
+                  <Link href="/search?procedure=liposuction&country=turkey">
+                    <Button className="w-full md:w-auto bg-primary-600 hover:bg-primary-700 text-white rounded-2xl px-8 py-6 font-bold shadow-lg shadow-primary-200">
+                      Browse Vetted Clinics
+                    </Button>
                   </Link>
                 </div>
               </div>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Recovery Timeline Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Liposuction Recovery in Turkey: Your Day-by-Day Guide
-            </m.h2>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="liposuction-turkey-recovery"
-            >
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Day
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        What to Expect
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 0 (Surgery)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Procedure takes 1–3 hours. Rest at hospital or hotel.
-                        Compression garment fitted. Light walking encouraged same
-                        day.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 1
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Mild to moderate soreness. Continue wearing compression
-                        garment 24/7. Light walking. Pain managed with prescribed
-                        medication.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Days 2–3
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        First follow-up appointment. Dressings checked. Bruising
-                        begins to appear (peaks days 5–7). Gentle walking around
-                        hotel area.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Days 4–5
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Swelling noticeable but manageable. Many patients feel
-                        well enough for light sightseeing. Continue compression
-                        garment.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Days 5–7
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        <strong>Second follow-up. Fit-to-fly assessment.</strong>{' '}
-                        Most patients cleared to fly home on day 5–7.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Week 2
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Return to desk work (most patients). Bruising begins to
-                        fade. Swelling still present but improving.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Weeks 3–4
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Light exercise resumes. Continue compression garment (4–6
-                        weeks total).
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Weeks 8–12
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Swelling largely resolved. Results becoming visible.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Month 3–6
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Final results visible. Skin retracts and contours settle.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Travel Planning Notes
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">Recommended Stay</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    7–10 days (most common: 7-day package)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">Best Time to Visit</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Spring (April–May) and autumn (September–October) for
-                    comfortable recovery temperatures. Avoid July–August peak
-                    heat for multi-area procedures.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">Flying Home</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Wear compression garment and flight socks. Stay hydrated.
-                    Walk in the aisle every hour. Aisle seat recommended.
-                    Short-haul (3.5–4 hours to London) is well-tolerated by day
-                    5–7.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="font-medium text-slate-900">Companion</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Not essential but recommended, especially for multi-area
-                    procedures. Most clinics provide a patient coordinator who
-                    serves as an escort for transfers and appointments.
-                  </p>
-                </div>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Combination Procedures Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Combining Liposuction with Other Procedures in Turkey
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Many patients combine liposuction with other procedures to achieve
-              comprehensive results in a single trip. Combining procedures
-              typically saves 20–30% compared to separate surgeries and means one
-              recovery period instead of two.
-            </m.p>
-
-            <m.div variants={fadeInUp} className="mt-8">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Combination
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Typical Cost (Turkey)
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Recovery
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Notes
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo + Tummy Tuck
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,500–£6,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        10–14 days
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Most popular combination (&ldquo;mummy makeover&rdquo;).
-                        Lipo contours flanks/waist, tummy tuck removes loose skin
-                        and tightens muscles.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo + BBL
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,000–£6,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        10–14 days
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Fat harvested via lipo, purified, then transferred to
-                        buttocks. VASER provides best fat graft viability.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo 360 + Breast Aug
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £4,000–£7,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        7–10 days
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Full body contouring in one trip.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Lipo + Skin Tightening
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,500–£5,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        7–10 days
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        For patients with mild skin laxity not requiring full
-                        tummy tuck.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-rose-200 bg-rose-50 p-6"
-            >
-              <p className="font-medium text-slate-900">
-                Considering a combination procedure?
+        {/* =====================================================================
+            SECTION F: RECOVERY TIMELINE
+            ===================================================================== */}
+        <section className="py-28 sm:py-36">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Recovery</span>
+              <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Your Day-by-Day Guide
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                What to expect during your recovery in Turkey and after returning home.
               </p>
-              <div className="mt-3 flex flex-wrap gap-4">
-                <Link
-                  href="/procedures/tummy-tuck/turkey"
-                  className="inline-flex items-center text-rose-600 hover:underline"
-                >
-                  Tummy Tuck in Turkey →
-                </Link>
-              </div>
             </m.div>
-          </m.div>
-        </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Frequently Asked Questions About Liposuction in Turkey
-            </m.h2>
+            <div className="relative">
+              <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary-200 via-primary-300 to-transparent hidden lg:block" />
+              <div className="space-y-8">
+                {RECOVERY_STEPS.map((step, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="relative lg:pl-24"
+                  >
+                    <div className="hidden lg:flex absolute left-0 top-8 h-16 w-16 rounded-2xl bg-primary-600 text-white items-center justify-center text-sm font-bold shadow-lg shadow-primary-200">
+                      {i + 1}
+                    </div>
+                    <div className="p-8 rounded-[2rem] border border-neutral-100 bg-white hover:border-primary-100 transition-colors">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-xs font-bold text-primary-600 uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full">{step.day}</span>
+                        <h3 className="text-lg font-bold text-neutral-900">{step.title}</h3>
+                      </div>
+                      <p className="text-neutral-500 font-light leading-relaxed">{step.description}</p>
+                    </div>
+                  </m.div>
+                ))}
+              </div>
+            </div>
 
-            <m.div variants={fadeInUp} className="mt-8 space-y-4">
-              {faqs.map((faq, index) => (
-                <details
-                  key={index}
-                  className="group rounded-lg bg-slate-50 shadow-sm"
-                >
-                  <summary className="flex cursor-pointer items-center justify-between p-6 font-medium text-slate-900">
-                    {faq.question}
-                    <span className="ml-4 flex-shrink-0 text-rose-600 transition-transform group-open:rotate-180">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-                  <div className="border-t border-slate-200 px-6 pb-6 pt-4 text-slate-600">
-                    {faq.answer}
+            <m.div {...fadeInUp} className="mt-16 grid gap-6 sm:grid-cols-3">
+              {PRACTICAL_INFO.map((info, i) => (
+                <div key={i} className="p-8 rounded-[2rem] border border-neutral-100 bg-white">
+                  <div className="h-12 w-12 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600 mb-6">
+                    <info.icon className="h-6 w-6" />
                   </div>
-                </details>
+                  <h3 className="text-lg font-bold text-neutral-900 mb-4">{info.title}</h3>
+                  <p className="text-sm text-neutral-500 font-light leading-relaxed">{info.content}</p>
+                </div>
               ))}
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Destination Comparison Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Comparing Liposuction Destinations
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Turkey offers the most comprehensive packages and widest technique
-              range, but other destinations have their own strengths.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-3"
-            >
-              <Link
-                href="/procedures/liposuction/hungary"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">Hungary</p>
-                <p className="mt-1 text-sm text-rose-600">From £1,165/area</p>
-                <p className="mt-2 text-sm text-slate-600">
-                  Lowest prices in Europe, EU-regulated, 2.5hr flight
-                </p>
-              </Link>
-              <Link
-                href="/procedures/liposuction/poland"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">Poland</p>
-                <p className="mt-1 text-sm text-rose-600">From £500/area</p>
-                <p className="mt-2 text-sm text-slate-600">
-                  EU-regulated, N.I.L. technology, 2hr flight
-                </p>
-              </Link>
-              <Link
-                href="/procedures/liposuction/spain"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">Spain</p>
-                <p className="mt-1 text-sm text-rose-600">From £2,400/area</p>
-                <p className="mt-2 text-sm text-slate-600">
-                  Premium quality, #1 healthcare ranking, 2hr flight
-                </p>
-              </Link>
+        {/* =====================================================================
+            SECTION G: COMBINATION PROCEDURES
+            ===================================================================== */}
+        <section className="py-28 sm:py-36 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Packages</span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Combination Procedures
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Save 20–30% by combining procedures in a single trip — one recovery, maximum results.
+              </p>
             </m.div>
 
-            <m.div variants={fadeInUp} className="mt-6 text-center">
-              <Link
-                href="/procedures/liposuction"
-                className="inline-flex items-center text-rose-600 hover:underline"
-              >
-                ← Compare all liposuction destinations
-              </Link>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            <div className="grid gap-8 sm:grid-cols-3">
+              {COMBINATIONS.map((combo, i) => (
+                <m.div
+                  key={combo.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="p-8 rounded-[2.5rem] border border-neutral-200/60 bg-white hover:border-primary-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                  <h3 className="text-xl font-bold text-neutral-900">{combo.name}</h3>
+                  <p className="text-primary-600 font-bold text-lg mt-2">{combo.price}</p>
+                  <div className="flex items-center gap-2 mt-3 text-sm text-neutral-400">
+                    <Clock className="h-4 w-4" />
+                    {combo.recovery} recovery
+                  </div>
+                  <p className="mt-6 text-neutral-500 font-light leading-relaxed text-sm">{combo.notes}</p>
+                </m.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="bg-rose-600 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-white sm:text-3xl"
-            >
-              Get Your Free Liposuction Quote for Turkey
-            </m.h2>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-4 max-w-2xl text-rose-100"
-            >
-              Compare prices from JCI-accredited clinics in Istanbul and Antalya.
-              Receive personalised treatment plans from board-certified surgeons
-              — no obligation.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            >
-              <Link
-                href="/clinics?procedure=liposuction&country=turkey"
-                className="w-full rounded-lg bg-white px-8 py-4 text-lg font-semibold text-rose-600 shadow-lg transition-all hover:bg-rose-50 sm:w-auto"
-              >
-                Compare Liposuction Clinics in Turkey
-              </Link>
-              <Link
-                href="/enquiry?procedure=liposuction&country=turkey"
-                className="w-full rounded-lg border-2 border-white px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-rose-700 sm:w-auto"
-              >
-                Get Free Clinic Recommendations
-              </Link>
+        {/* =====================================================================
+            SECTION H: DESTINATION COMPARISON
+            ===================================================================== */}
+        <section className="py-28 sm:py-36">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Alternatives</span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Compare Destinations
+              </h2>
             </m.div>
-          </m.div>
-        </div>
-      </section>
-    </LazyMotion>
+
+            <div className="grid gap-8 sm:grid-cols-3">
+              {[
+                { name: 'Hungary', price: 'From £1,165/area', desc: 'Lowest prices in Europe, EU-regulated, 2.5hr flight', href: '/procedures/liposuction/hungary' },
+                { name: 'Poland', price: 'From £500/area', desc: 'EU-regulated, N.I.L. technology, 2hr flight', href: '/procedures/liposuction/poland' },
+                { name: 'Spain', price: 'From £2,400/area', desc: 'Premium quality, #1 healthcare ranking, 2hr flight', href: '/procedures/liposuction/spain' }
+              ].map((dest, i) => (
+                <m.div
+                  key={dest.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link href={dest.href} className="group block p-8 rounded-[2.5rem] border border-neutral-200/60 bg-white hover:border-primary-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
+                    <h3 className="text-2xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">{dest.name}</h3>
+                    <p className="text-primary-600 font-bold mt-2">{dest.price}</p>
+                    <p className="mt-4 text-neutral-500 font-light text-sm">{dest.desc}</p>
+                    <div className="mt-6 flex items-center gap-2 text-sm font-bold text-primary-600">
+                      View Guide <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                </m.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            SECTION I: FAQ
+            ===================================================================== */}
+        <section className="py-28 sm:py-36 bg-white">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="text-center mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Common Questions</span>
+              <h2 className="text-4xl font-bold text-neutral-900 tracking-tight sm:text-5xl">
+                Liposuction Turkey FAQs
+              </h2>
+            </m.div>
+            <m.div {...fadeInUp} className="bg-white rounded-[2.5rem] border border-neutral-200/60 p-4 sm:p-10 shadow-xl shadow-neutral-100">
+              <FAQSection faqs={faqs} title="" className="faq-section-custom" />
+            </m.div>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            SECTION J: CTA
+            ===================================================================== */}
+        <m.section {...fadeInUp} className="pb-12 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] p-12 text-white sm:p-20 lg:p-32 shadow-2xl text-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-600/30 via-transparent to-rose-600/30" />
+              <m.div 
+                animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
+              />
+              <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+              
+              <div className="relative z-10 mx-auto max-w-4xl">
+                <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">Ready to begin?</span>
+                <h2 className="text-4xl font-bold sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-8">
+                  Your Transformation <br/>Starts in <span className="text-primary-400">Turkey</span>
+                </h2>
+                <p className="mx-auto mt-8 max-w-2xl text-xl text-neutral-300 font-light leading-relaxed">
+                  Compare prices from JCI-accredited clinics in Istanbul and Antalya. 
+                  Receive personalised treatment plans — no obligation.
+                </p>
+                
+                <div className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
+                  <Link href="/search?procedure=liposuction&country=turkey" className="w-full sm:w-auto">
+                    <Button size="lg" className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold shadow-xl shadow-white/10">
+                      Get My Free Quote
+                    </Button>
+                  </Link>
+                  <Link href="/contact" className="w-full sm:w-auto">
+                    <Button size="lg" className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold backdrop-blur-md">
+                      Speak to an Advisor
+                    </Button>
+                  </Link>
+                </div>
+                
+                <div className="mt-16 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm font-medium text-neutral-400">
+                  <div className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-primary-400" /> JCI-Accredited</div>
+                  <div className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-primary-400" /> Verified Pricing</div>
+                  <div className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-primary-400" /> 24/7 Support</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </m.section>
+
+        {/* INTERNAL LINKS */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl border-t border-neutral-100 pt-12">
+            <div className="flex flex-wrap gap-x-8 gap-y-4 items-center justify-center text-sm font-medium">
+              <span className="text-neutral-400 uppercase tracking-widest text-xs">Related Guides:</span>
+              <Link href="/cosmetic-surgery" className="text-neutral-600 hover:text-primary-600 transition-colors">Cosmetic Surgery Abroad</Link>
+              <Link href="/procedures/liposuction/hungary" className="text-neutral-600 hover:text-primary-600 transition-colors">Liposuction in Hungary</Link>
+              <Link href="/procedures/liposuction/poland" className="text-neutral-600 hover:text-primary-600 transition-colors">Liposuction in Poland</Link>
+              <Link href="/destinations/turkey" className="text-neutral-600 hover:text-primary-600 transition-colors">Medical Tourism Turkey</Link>
+            </div>
+          </div>
+        </section>
+      </div>
   )
 }

@@ -1,8 +1,11 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { HU, GB } from 'country-flag-icons/react/3x2'
+import { CheckCircle, Star, MapPin, ArrowRight, Shield, Zap, Clock, Activity, Heart, Sparkles, Award, Plane } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { FAQSection } from '@/components/seo/faq-section'
 
 // =============================================================================
 // TYPES
@@ -18,21 +21,347 @@ interface RhinoplastyHungaryClientProps {
 }
 
 // =============================================================================
-// ANIMATION VARIANTS
+// ANIMATION
 // =============================================================================
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 },
 }
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
+// =============================================================================
+// DATA CONSTANTS
+// =============================================================================
+
+const HERO_STATS = [
+  { value: '€2,200–€3,500', label: 'All-inclusive packages' },
+  { value: '40–60%', label: 'Savings vs UK' },
+  { value: '2.5 hrs', label: 'Flight from London' },
+]
+
+const TRUST_BADGES = [
+  'ISO-certified clinics',
+  'Internationally trained surgeons',
+  'Thermal spa recovery',
+  'EU patient protections',
+]
+
+const KEY_ADVANTAGES = [
+  { icon: Shield, title: 'EU Standards', desc: 'Full EU healthcare regulation and patient protections' },
+  { icon: Award, title: 'Brazilian Training', desc: 'Surgeons trained at Prof. Pitanguy Institute' },
+  { icon: Heart, title: 'Thermal Recovery', desc: '1,500+ thermal springs for post-recovery relaxation' },
+  { icon: Plane, title: 'Accessibility', desc: '2.5 hours from London, multiple daily flights' },
+]
+
+const PRICE_COMPARISON = [
+  { type: 'Primary Rhinoplasty', hungary: '€2,200–€3,500', ukSurgery: '£5,000–£7,000', ukTotal: '£6,500–£9,500' },
+  { type: 'Revision Rhinoplasty', hungary: '€4,000–€5,500', ukSurgery: '£8,000–£12,000', ukTotal: '£10,000–£16,000' },
+  { type: 'Ultrasonic Rhinoplasty', hungary: '€2,870–€4,000', ukSurgery: '£6,000–£8,500', ukTotal: '£8,000–£11,000' },
+  { type: 'Septorhinoplasty', hungary: '€2,800–€4,200', ukSurgery: '£6,000–£8,000', ukTotal: '£8,000–£11,000' },
+  { type: 'Tip Rhinoplasty', hungary: '€1,800–€2,800', ukSurgery: '£3,500–£5,000', ukTotal: '£4,500–£6,500' },
+]
+
+const PACKAGE_INCLUSIONS = [
+  { title: 'Pre-operative', desc: 'Virtual + in-person consultation, blood tests, ECG' },
+  { title: 'Surgery', desc: 'Surgeon fee, anaesthesiologist, operating theatre' },
+  { title: 'Anaesthesia', desc: 'General or local anaesthesia with sedation' },
+  { title: 'Post-operative', desc: 'Medications, nasal splint, dressings' },
+  { title: 'Accommodation', desc: '2-4 nights in 3-4 star hotel' },
+  { title: 'Transfers', desc: 'Airport pickup and clinic transfers' },
+  { title: 'Follow-up', desc: '2-3 post-operative appointments' },
+  { title: 'Coordinator', desc: 'English-speaking patient coordinator' },
+  { title: 'Emergency Line', desc: '24/7 emergency contact during stay' },
+]
+
+const PREMIUM_ADDONS = [
+  { title: '5-star Hotel', desc: 'Upgraded accommodation' },
+  { title: 'Thermal Spa Access', desc: 'For post-recovery use' },
+  { title: 'Extended Stay', desc: '7+ nights accommodation' },
+  { title: 'Private Nursing', desc: 'Dedicated nursing care' },
+]
+
+const NOT_INCLUDED = [
+  { item: 'Return flights (UK to Budapest)', cost: '£50–£150' },
+  { item: 'Travel insurance (with medical cover)', cost: '£30–£60' },
+  { item: 'Thermal spa treatments', cost: '€20–€50 per session' },
+  { item: 'Extra hotel nights', cost: '€50–€100/night' },
+]
+
+const RHINOPLASTY_TYPES = [
+  {
+    title: 'Open Rhinoplasty',
+    description: 'The most common approach in Hungarian clinics, influenced by Brazilian technique training via the Prof. Pitanguy school. External columella incision provides full visibility for complex reshaping and revision cases.',
+    details: [
+      { label: 'Best for', value: 'Complex reshaping, dorsal hump, revision cases' },
+      { label: 'Recovery', value: '7-10 days visible swelling, 2-3 weeks cast removal' },
+    ],
+    highlighted: false,
   },
-}
+  {
+    title: 'Closed Rhinoplasty',
+    description: 'Internal incisions only, no visible scarring. Shorter procedure time and faster initial recovery. Requires experienced surgeon for optimal results due to limited visibility.',
+    details: [
+      { label: 'Best for', value: 'Minor adjustments, tip refinement' },
+      { label: 'Recovery', value: 'Faster initial recovery than open technique' },
+    ],
+    highlighted: false,
+  },
+  {
+    title: 'Ultrasonic Rhinoplasty',
+    description: 'Available at select premium clinics from €2,870. Piezotome technology for precise bone work with reduced bruising and faster recovery. Not universally available — confirm with specific surgeons.',
+    details: [
+      { label: 'Benefits', value: 'Reduced bruising, faster recovery, more predictable results' },
+      { label: 'Price', value: '€2,870–€4,000' },
+    ],
+    highlighted: true,
+  },
+  {
+    title: 'Revision Rhinoplasty',
+    description: 'Higher complexity requiring experienced specialists. Hungarian surgeons trained in reconstruction techniques offer revision at €4,000–€5,500 — still significant savings vs UK. Thorough pre-operative assessment essential.',
+    details: [
+      { label: 'Best for', value: 'Correcting previous rhinoplasty results' },
+      { label: 'Recovery', value: 'Longer than primary rhinoplasty' },
+    ],
+    highlighted: false,
+  },
+  {
+    title: 'Septorhinoplasty',
+    description: 'Combines cosmetic reshaping with functional correction for deviated septum and breathing issues. Popular among patients with both aesthetic and functional concerns.',
+    details: [
+      { label: 'Best for', value: 'Aesthetic + breathing improvement' },
+      { label: 'Price', value: '€2,800–€4,200' },
+    ],
+    highlighted: false,
+  },
+]
+
+const CREDENTIALS = [
+  { title: 'Hungarian Medical Chamber Registration', desc: 'Mandatory for all practising physicians' },
+  { title: 'Specialist Certification in Plastic Surgery', desc: 'Issued by Hungarian authorities' },
+  { title: 'MPHST Membership', desc: 'Magyar Plasztikai, Helyreállító és Esztétikai Sebészeti Társaság (Hungarian Plastic Surgery Society)' },
+  { title: 'International Memberships', desc: 'ISAPS, EBOPRAS, or equivalent' },
+  { title: 'Ministry of Health Clinic Licence', desc: 'Confirms facility meets national standards' },
+]
+
+const CONSULTATION_QUESTIONS = [
+  'Where did you complete your plastic surgery training?',
+  'How many rhinoplasties do you perform annually?',
+  'Do you have before/after photos of patients with similar nose types to mine?',
+  'What technique do you recommend for my goals, and why?',
+  'What is your revision rate?',
+  'How do you handle complications if they arise after I return to the UK?',
+  'Do you offer video consultations for pre-operative planning?',
+  'What follow-up care is included?',
+]
+
+const RED_FLAGS = [
+  'Reluctance to provide credentials or training history',
+  'Pressure to book immediately without proper consultation',
+  'Unrealistic outcome promises',
+  'No mention of potential complications',
+  'Clinic without Ministry of Health certification',
+  'Poor communication or language barriers during consultation',
+]
+
+const EXPERIENCE_BENCHMARKS = [
+  { value: '100+', label: 'Minimum', color: 'text-neutral-400' },
+  { value: '500+', label: 'Experienced', color: 'text-primary-600' },
+  { value: '1,000+', label: 'Expert', color: 'text-primary-700' },
+  { value: 'Piezotome', label: 'Specific training for ultrasonic', color: 'text-primary-600', small: true },
+]
+
+const SURGEONS = [
+  {
+    name: 'Dr. Miklós Molnár',
+    price: '€2,800–€4,000',
+    rating: 4.9,
+    highlight: 'Pitanguy Institute Trained',
+    details: [
+      { label: 'Experience', value: '20+ years in plastic surgery' },
+      { label: 'Training', value: 'University of Debrecen Medical School (1994), Prof. Ivo Pitanguy Institute in Rio de Janeiro (3-year postgraduate programme, 2,200+ surgeries during training)' },
+      { label: 'Current Practice', value: 'Dr. Molnar Clinic, Budapest; Perfect Age Body and Facial Aesthetics Centre' },
+      { label: 'Previous Roles', value: 'Chief of Plastic Surgery at Dr Rose Private Hospital (2008-2012)' },
+      { label: 'Languages', value: 'English, Portuguese, Italian, Spanish, German, Hungarian' },
+      { label: 'Memberships', value: 'MPHST, Hungarian Medical Board (MOK), Association of Students of Professor Ivo Pitanguy' },
+    ],
+  },
+  {
+    name: 'Dr. Csaba Molnár',
+    price: '€2,500–€3,500',
+    rating: 4.8,
+    highlight: 'ISAPS Representative',
+    details: [
+      { label: 'Experience', value: '25+ years in plastic and aesthetic surgery' },
+      { label: 'Position', value: 'Founder and Owner, Elite Clinic (opened 2015, Debrecen)' },
+      { label: 'Leadership', value: 'Former President and General Secretary of Hungarian Society for Plastic, Reconstructive and Aesthetic Surgery' },
+      { label: 'International Role', value: 'National Secretary and Representative of Hungary, ISAPS' },
+      { label: 'Location', value: 'Debrecen (Eastern Hungary, accessible from Budapest)' },
+      { label: 'Notable', value: 'Multiple publications, congress presentations, professional course instruction' },
+    ],
+  },
+  {
+    name: 'Dr. Tamás Karvász',
+    price: '€2,400–€3,200',
+    rating: 4.8,
+    highlight: 'Top-10 Ranked',
+    details: [
+      { label: 'Clinic', value: 'Art Real Plastic Surgery (established 2003)' },
+      { label: 'Recognition', value: 'Listed in Top-10 plastic surgeons in Hungary; clinic ranked in top 10 plastic surgeries in Central Europe' },
+      { label: 'Experience', value: '20+ years' },
+      { label: 'Specialisation', value: 'Range of aesthetic procedures including rhinoplasty' },
+      { label: 'Location', value: 'Budapest' },
+    ],
+  },
+  {
+    name: 'Dr. Zsombor Varga',
+    price: '€2,600–€3,500',
+    rating: 4.7,
+    highlight: 'Premium Facilities',
+    details: [
+      { label: 'Associated Clinics', value: 'Works with multiple premium Budapest facilities' },
+      { label: 'Patient Reviews', value: 'Highly rated, known for personalised approach' },
+      { label: 'Specialisation', value: 'Aesthetic surgery including rhinoplasty' },
+      { label: 'Location', value: 'Budapest' },
+    ],
+  },
+]
+
+const JOURNEY_PHASES = [
+  {
+    phase: 1,
+    title: 'Research & Selection (4–8 weeks before travel)',
+    items: [
+      'Research surgeons and clinics',
+      'Request quotes and virtual consultations',
+      'Review before/after photos',
+      'Check credentials and reviews',
+      'Select surgeon and clinic',
+      'Pay deposit (typically 20-30%)',
+      'Book flights (London to Budapest: 2.5 hours)',
+      'Arrange travel insurance with medical coverage',
+    ],
+  },
+  {
+    phase: 2,
+    title: 'Pre-Travel Preparation (2–4 weeks before)',
+    items: [
+      'Complete medical questionnaire',
+      'Share photos for surgical planning',
+      'Receive pre-operative instructions',
+      'Arrange time off work (10-14 days minimum)',
+      'Organise post-operative supplies',
+      'Confirm all travel and accommodation details',
+    ],
+  },
+]
+
+const BUDAPEST_STAY = [
+  { day: 'Day 1 — Arrival', desc: 'Airport pickup, hotel check-in, rest', highlighted: false },
+  { day: 'Day 2 — Pre-Op', desc: 'Consultation, medical tests, planning', highlighted: false },
+  { day: 'Day 3 — Surgery', desc: 'Procedure (1.5-3 hours), recovery room', highlighted: true },
+  { day: 'Days 4-6 — Recovery', desc: 'Rest at hotel, follow-up visits, light walking', highlighted: false },
+  { day: 'Days 7-10 — Pre-Departure', desc: 'Splint removal, final assessment, flight clearance', highlighted: false },
+]
+
+const UK_RECOVERY = [
+  { period: 'Week 2-3', desc: 'Most visible bruising fades' },
+  { period: 'Week 4-6', desc: 'Return to desk work, gentle exercise' },
+  { period: 'Week 6-8', desc: 'Resume most normal activities' },
+  { period: 'Month 3', desc: '80% swelling resolved' },
+  { period: 'Month 6-12', desc: 'Final results emerging' },
+  { period: '12+ months', desc: 'Complete healing', highlighted: true },
+]
+
+const HUNGARY_CONSIDERATIONS = [
+  { label: 'Winter visits', desc: 'Budapest can be cold (Nov-Feb), but lower tourist traffic' },
+  { label: 'Summer visits', desc: 'Warmer recovery, but busier city' },
+  { label: 'Thermal spas', desc: 'Generally safe after 4-6 weeks (confirm with surgeon)' },
+  { label: 'Direct flights', desc: 'Wizz Air, Ryanair, BA from multiple UK airports' },
+]
+
+const RECOVERY_PHASES = [
+  { phase: 'Immediate Post-Op', timeframe: 'Days 1-7', expect: 'Nasal packing removed 24-48 hours. External splint worn. Bruising peaks Day 2-3. Sleep elevated.' },
+  { phase: 'Short-Term', timeframe: 'Weeks 2-4', expect: 'Splint removal reveals initial result (still swollen). Bruising fading. Light work possible Week 2. Avoid glasses.' },
+  { phase: 'Medium-Term', timeframe: 'Months 1-6', expect: 'Tip remains swollen longest. Subtle refinement continues. Resume exercise gradually (Month 2). Numbness resolving.' },
+  { phase: 'Long-Term', timeframe: '6-18 months', expect: 'Final shape emerges. Internal scarring matures. Skin re-drapes. Sensation fully returns. Final assessment possible.', highlighted: true },
+]
+
+const UK_FOLLOWUP_ITEMS = [
+  'Detailed written aftercare instructions',
+  'Photo-based remote consultations via email/WhatsApp',
+  'Emergency contact protocols',
+  'Medical records for UK healthcare providers',
+  'Coordination with UK GP if needed',
+]
+
+const GENERAL_RISKS = [
+  { title: 'Bleeding', desc: '1-2% requiring intervention' },
+  { title: 'Infection', desc: 'Rare with proper protocols (<1%)' },
+  { title: 'Asymmetry', desc: 'Minor common; significant uncommon' },
+  { title: 'Breathing Difficulties', desc: 'Temporary swelling vs structural' },
+  { title: 'Numbness', desc: 'Usually temporary, resolves within months' },
+  { title: 'Dissatisfaction', desc: '5-15% seek revision' },
+]
+
+const SAFETY_ADVANTAGES = [
+  'EU healthcare regulations apply',
+  'Ministry of Health oversight',
+  'Mandatory malpractice insurance for all surgeons',
+  'ISO-certified facilities available',
+  'Clear patient rights under EU law',
+  'Hungarian Medical Chamber registration required',
+]
+
+const SAFETY_CONSIDERATIONS = [
+  'Limited JCI-accredited hospitals (1 in Hungary)',
+  'Most cosmetic surgery in private clinics, not hospitals',
+  'Malpractice compensation standards differ from UK',
+  'Follow-up care coordination requires planning',
+  'Language barriers possible (though English widely spoken)',
+]
+
+const INAPPROPRIATE_FOR = [
+  'Complex revision cases (may require UK specialist)',
+  'Patients with significant medical comorbidities',
+  'Those unable to travel for follow-up if needed',
+  'Patients uncomfortable with remote post-operative care',
+]
+
+const PATIENT_CONCERNS = [
+  {
+    question: '\u201cIs healthcare quality comparable to the UK?\u201d',
+    answer: 'Hungary\u2019s medical education system is among Europe\u2019s oldest and most respected. Many surgeons have additional international training. Private clinics serving medical tourists invest heavily in modern equipment and facilities. EU healthcare directives apply, providing baseline standards. However, patients should verify individual clinic accreditations rather than assuming uniformity.',
+  },
+  {
+    question: '\u201cWhat if something goes wrong after I return home?\u201d',
+    answer: 'This is a legitimate concern.',
+    mitigations: [
+      'Staying 7-10 days minimum to catch early complications',
+      'Choosing surgeons who offer telemedicine follow-up',
+      'Purchasing travel insurance with medical repatriation coverage',
+      'Identifying UK plastic surgeons for emergency follow-up',
+      'Keeping detailed medical records from Hungarian procedure',
+    ],
+  },
+  {
+    question: '\u201cAre Hungarian surgeons properly trained?\u201d',
+    answer: 'Hungarian plastic surgery training is rigorous and EU-compliant. Many leading surgeons have additional international credentials. The key is individual verification: check Hungarian Medical Chamber registration, verify specialist plastic surgery certification, look for MPHST, ISAPS, or EBOPRAS membership, and research training background (Brazilian school connections are a positive indicator).',
+  },
+  {
+    question: '\u201cWhy is it cheaper than the UK?\u201d',
+    answer: 'Lower cost does not mean lower quality. Factors include: lower operating costs (rent, staff salaries, utilities), favourable exchange rates, competitive medical tourism market, and efficient clinic models designed for international patients.',
+  },
+]
+
+const RELATED_LINKS = [
+  { href: '/procedures/rhinoplasty', label: 'Rhinoplasty Abroad' },
+  { href: '/procedures/rhinoplasty/turkey', label: 'Rhinoplasty Turkey' },
+  { href: '/procedures/rhinoplasty/poland', label: 'Rhinoplasty Poland' },
+  { href: '/procedures/rhinoplasty/spain', label: 'Rhinoplasty Spain' },
+  { href: '/destinations/hungary', label: 'Hungary Medical Tourism' },
+]
 
 // =============================================================================
 // MAIN COMPONENT
@@ -40,206 +369,180 @@ const staggerContainer = {
 
 export function RhinoplastyHungaryClient({ faqs }: RhinoplastyHungaryClientProps) {
   return (
-    <LazyMotion features={domAnimation}>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-emerald-50 to-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="bg-neutral-50">
+
+        {/* ============================================================= */}
+        {/* HERO SECTION */}
+        {/* ============================================================= */}
+        <section className="relative overflow-hidden bg-[#0A1A2F] py-20 sm:py-28 lg:py-36">
           <m.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
-              <div className="w-12 overflow-hidden rounded shadow-sm">
-                <HU title="Hungary" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Rhinoplasty in Hungary
-              </h1>
-            </m.div>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
-            >
-              European healthcare standards, Hungarian expertise. Save 40-60% vs UK
-              prices with EU patient protections, internationally trained surgeons,
-              and unique thermal spa recovery options.
-            </m.p>
-
-            <m.div variants={fadeInUp} className="mt-8 flex justify-center">
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=hungary"
-                className="rounded-lg bg-emerald-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-emerald-700 hover:shadow-xl"
-              >
-                Compare Budapest Surgeons
-              </Link>
-            </m.div>
-
-            <m.p variants={fadeInUp} className="mt-4 text-sm text-slate-500">
-              ISO-certified clinics &bull; Internationally trained surgeons &bull;
-              Thermal spa recovery &bull; EU patient protections
-            </m.p>
-
-            {/* Hero Stats */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
-            >
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-emerald-600">€2,200-€3,500</p>
-                <p className="mt-1 text-slate-600">All-inclusive packages</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-emerald-600">40-60%</p>
-                <p className="mt-1 text-slate-600">Savings vs UK</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-emerald-600">2.5 hrs</p>
-                <p className="mt-1 text-slate-600">Flight from London</p>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Why Hungary Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            className="absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-primary-600/20 blur-[120px]"
+            animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          />
           <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Why UK Patients Choose Hungary for Rhinoplasty
-            </m.h2>
+            className="absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-emerald-500/15 blur-[100px]"
+            animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          />
 
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <m.div
-              variants={fadeInUp}
-              className="mt-6 space-y-4 text-slate-600"
-              data-aeo="rhinoplasty-hungary-benefits"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
             >
-              <p>
-                Hungary has transformed into a leading European medical tourism
-                destination, built on a foundation of world-class medical education
-                and the unique combination of EU standards with competitive pricing.
-                For UK patients seeking rhinoplasty abroad, Hungary offers a
-                sophisticated European alternative that prioritises quality over
-                rock-bottom prices.
+              <div className="flex items-center justify-center gap-4">
+                <div className="w-14 overflow-hidden rounded-lg shadow-lg shadow-white/10">
+                  <HU title="Hungary" />
+                </div>
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                  Rhinoplasty in{' '}
+                  <span className="bg-gradient-to-r from-emerald-400 via-primary-400 to-emerald-300 bg-clip-text text-transparent">
+                    Hungary
+                  </span>
+                </h1>
+              </div>
+
+              <p className="mx-auto mt-6 max-w-3xl text-lg font-light text-white/70 sm:text-xl">
+                European healthcare standards, Hungarian expertise. Save 40-60% vs UK
+                prices with EU patient protections, internationally trained surgeons,
+                and unique thermal spa recovery options.
               </p>
 
-              <p>
-                <strong>EU Healthcare Framework:</strong> Hungary operates within EU
-                medical regulations, offering UK patients familiar standards, clear
-                patient rights, and regulatory oversight that provides reassurance.
-                The Hungarian Ministry of Health maintains strict oversight of all
-                medical facilities, and EU cross-border healthcare directives apply.
-              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Link
+                  href="/clinics?procedure=rhinoplasty&country=hungary"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#0A1A2F] shadow-lg transition-all hover:bg-neutral-100 hover:shadow-xl"
+                >
+                  Compare Budapest Surgeons
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </div>
 
-              <p>
-                <strong>Medical Education Heritage:</strong> Hungarian medical
-                universities rank among Europe&apos;s oldest and most prestigious.
-                Many Hungarian surgeons have additional international training,
-                particularly from the renowned Prof. Ivo Pitanguy school in Brazil
-                — considered the birthplace of modern cosmetic surgery. This
-                training lineage brings refined techniques and aesthetic
-                sensibilities to Budapest clinics.
-              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                {TRUST_BADGES.map((badge) => (
+                  <span key={badge} className="flex items-center gap-1.5 text-sm text-white/50">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/70" />
+                    {badge}
+                  </span>
+                ))}
+              </div>
 
-              <p>
-                <strong>Cost-Quality Balance:</strong> Hungary offers 40-60% savings
-                vs UK prices — less aggressive than Turkey&apos;s discounts, but with
-                higher baseline quality standards and EU regulatory compliance. This
-                positions Hungary as the premium European choice for patients who
-                prioritise regulatory standards over maximum savings.
-              </p>
+              <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+                {HERO_STATS.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="rounded-2xl bg-white/5 p-6 backdrop-blur-md border border-white/10"
+                  >
+                    <p className="text-3xl font-bold text-white">{stat.value}</p>
+                    <p className="mt-1 text-sm uppercase tracking-widest text-white/50">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </m.div>
+          </div>
+        </section>
 
-              <p>
-                <strong>Thermal Spa Culture:</strong> Hungary has 1,500+ thermal
-                springs, including famous Budapest baths like Széchenyi, Gellért,
-                and Rudas. Post-operative relaxation in mineral-rich waters (after
-                surgeon approval, typically 4-6 weeks post-op) offers a unique
-                recovery experience unavailable elsewhere.
+        {/* ============================================================= */}
+        {/* WHY HUNGARY SECTION */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Why Hungary</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Why UK Patients Choose Hungary for Rhinoplasty
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                World-class medical education, EU standards, and unique thermal spa recovery — all at 40-60% savings.
               </p>
             </m.div>
 
-            {/* Key Advantages Grid */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            >
-              <div className="rounded-lg bg-emerald-50 p-4">
-                <p className="font-semibold text-slate-900">EU Standards</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Full EU healthcare regulation and patient protections
+            <m.div {...fadeInUp} className="mt-10 space-y-6" data-aeo="rhinoplasty-hungary-benefits">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8">
+                <p className="text-neutral-700 leading-relaxed">
+                  Hungary has transformed into a leading European medical tourism
+                  destination, built on a foundation of world-class medical education
+                  and the unique combination of EU standards with competitive pricing.
+                  For UK patients seeking rhinoplasty abroad, Hungary offers a
+                  sophisticated European alternative that prioritises quality over
+                  rock-bottom prices.
                 </p>
               </div>
-              <div className="rounded-lg bg-emerald-50 p-4">
-                <p className="font-semibold text-slate-900">Brazilian Training</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Surgeons trained at Prof. Pitanguy Institute
-                </p>
-              </div>
-              <div className="rounded-lg bg-emerald-50 p-4">
-                <p className="font-semibold text-slate-900">Thermal Recovery</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  1,500+ thermal springs for post-recovery relaxation
-                </p>
-              </div>
-              <div className="rounded-lg bg-emerald-50 p-4">
-                <p className="font-semibold text-slate-900">Accessibility</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  2.5 hours from London, multiple daily flights
-                </p>
-              </div>
+
+              {[
+                {
+                  title: 'EU Healthcare Framework',
+                  text: 'Hungary operates within EU medical regulations, offering UK patients familiar standards, clear patient rights, and regulatory oversight that provides reassurance. The Hungarian Ministry of Health maintains strict oversight of all medical facilities, and EU cross-border healthcare directives apply.',
+                },
+                {
+                  title: 'Medical Education Heritage',
+                  text: "Hungarian medical universities rank among Europe\u2019s oldest and most prestigious. Many Hungarian surgeons have additional international training, particularly from the renowned Prof. Ivo Pitanguy school in Brazil \u2014 considered the birthplace of modern cosmetic surgery. This training lineage brings refined techniques and aesthetic sensibilities to Budapest clinics.",
+                },
+                {
+                  title: 'Cost-Quality Balance',
+                  text: "Hungary offers 40-60% savings vs UK prices \u2014 less aggressive than Turkey\u2019s discounts, but with higher baseline quality standards and EU regulatory compliance. This positions Hungary as the premium European choice for patients who prioritise regulatory standards over maximum savings.",
+                },
+                {
+                  title: 'Thermal Spa Culture',
+                  text: "Hungary has 1,500+ thermal springs, including famous Budapest baths like Sz\u00e9chenyi, Gell\u00e9rt, and Rudas. Post-operative relaxation in mineral-rich waters (after surgeon approval, typically 4-6 weeks post-op) offers a unique recovery experience unavailable elsewhere.",
+                },
+              ].map((item) => (
+                <div key={item.title} className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                  <h3 className="text-lg font-semibold text-neutral-900">{item.title}</h3>
+                  <p className="mt-3 text-neutral-600 leading-relaxed">{item.text}</p>
+                </div>
+              ))}
             </m.div>
-          </m.div>
-        </div>
-      </section>
 
-      {/* Cost Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Rhinoplasty Cost in Hungary vs UK: 2025 Price Comparison
-            </m.h2>
+            <m.div {...fadeInUp} className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {KEY_ADVANTAGES.map((adv) => (
+                <div
+                  key={adv.title}
+                  className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                >
+                  <adv.icon className="h-8 w-8 text-primary-600" />
+                  <p className="mt-4 font-semibold text-neutral-900">{adv.title}</p>
+                  <p className="mt-2 text-sm text-neutral-600">{adv.desc}</p>
+                </div>
+              ))}
+            </m.div>
+          </div>
+        </section>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Hungary offers excellent value for EU-standard care — not the cheapest
-              option, but transparent pricing with regulatory protections.
-            </m.p>
+        {/* ============================================================= */}
+        {/* PRICING SECTION */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Pricing</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Rhinoplasty Cost in Hungary vs UK: 2026 Price Comparison
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                Hungary offers excellent value for EU-standard care — not the cheapest
+                option, but transparent pricing with regulatory protections.
+              </p>
+            </m.div>
 
-            {/* Main Price Comparison */}
             <m.div
-              variants={fadeInUp}
-              className="mt-8"
+              {...fadeInUp}
+              className="mt-12 rounded-[3rem] bg-neutral-900 p-6 sm:p-10"
               data-aeo="rhinoplasty-hungary-cost"
             >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Procedure Cost Comparison
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 to-transparent rounded-[3rem] pointer-events-none" />
+              <h3 className="mb-6 text-xl font-semibold text-white">Procedure Cost Comparison</h3>
+              <div className="overflow-x-auto rounded-3xl bg-white">
+                <table className="min-w-full divide-y divide-neutral-100">
+                  <thead>
+                    <tr className="bg-neutral-50">
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-neutral-900 sm:px-6">
                         Procedure Type
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-emerald-600 sm:px-6">
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-primary-600 sm:px-6">
                         <div className="flex items-center gap-2">
                           <div className="w-6 overflow-hidden rounded-sm shadow-sm">
                             <HU title="Hungary" />
@@ -247,7 +550,7 @@ export function RhinoplastyHungaryClient({ faqs }: RhinoplastyHungaryClientProps
                           <span>Hungary (All-Inclusive)</span>
                         </div>
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-neutral-900 sm:px-6">
                         <div className="flex items-center gap-2">
                           <div className="w-6 overflow-hidden rounded-sm shadow-sm">
                             <GB title="UK" />
@@ -255,7 +558,7 @@ export function RhinoplastyHungaryClient({ faqs }: RhinoplastyHungaryClientProps
                           <span>UK (Surgery Only)</span>
                         </div>
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-neutral-900 sm:px-6">
                         <div className="flex items-center gap-2">
                           <div className="w-6 overflow-hidden rounded-sm shadow-sm">
                             <GB title="UK" />
@@ -265,1028 +568,457 @@ export function RhinoplastyHungaryClient({ faqs }: RhinoplastyHungaryClientProps
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Primary Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        €2,200-€3,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £5,000-£7,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,500-£9,500
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Revision Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        €4,000-€5,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000-£12,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £10,000-£16,000
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Ultrasonic Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        €2,870-€4,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,000-£8,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000-£11,000
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Septorhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        €2,800-€4,200
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,000-£8,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000-£11,000
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Tip Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        €1,800-€2,800
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £3,500-£5,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £4,500-£6,500
-                      </td>
-                    </tr>
+                  <tbody className="divide-y divide-neutral-100">
+                    {PRICE_COMPARISON.map((row, i) => (
+                      <tr key={row.type} className={i % 2 === 1 ? 'bg-neutral-50/50' : ''}>
+                        <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-neutral-900 sm:px-6">
+                          {row.type}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-4 sm:px-6">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700">
+                            {row.hungary}
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-4 text-sm text-neutral-500 sm:px-6">
+                          {row.ukSurgery}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-4 text-sm text-neutral-500 sm:px-6">
+                          {row.ukTotal}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              <p className="mt-2 text-sm text-slate-500">
+              <p className="mt-4 text-sm text-white/50">
                 Hungarian prices in Euros. 1 EUR ≈ £0.85 (verify current rate).
               </p>
             </m.div>
 
             {/* Package Inclusions */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Standard All-Inclusive Package (€2,200-€3,500)
+            <m.div {...fadeInUp} className="mt-16">
+              <h3 className="text-2xl font-bold text-neutral-900">
+                Standard All-Inclusive Package (€2,200–€3,500)
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Pre-operative</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Virtual + in-person consultation, blood tests, ECG
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Surgery</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Surgeon fee, anaesthesiologist, operating theatre
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Anaesthesia</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    General or local anaesthesia with sedation
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Post-operative</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Medications, nasal splint, dressings
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Accommodation</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    2-4 nights in 3-4 star hotel
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Transfers</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Airport pickup and clinic transfers
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Follow-up</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    2-3 post-operative appointments
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Coordinator</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    English-speaking patient coordinator
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Emergency Line</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    24/7 emergency contact during stay
-                  </p>
-                </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {PACKAGE_INCLUSIONS.map((pkg) => (
+                  <div
+                    key={pkg.title}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                  >
+                    <CheckCircle className="h-6 w-6 text-primary-600" />
+                    <p className="mt-3 font-semibold text-neutral-900">{pkg.title}</p>
+                    <p className="mt-1 text-sm text-neutral-600">{pkg.desc}</p>
+                  </div>
+                ))}
               </div>
             </m.div>
 
             {/* Premium Add-ons */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Premium Package Add-ons (€3,500-€5,000)
+            <m.div {...fadeInUp} className="mt-16">
+              <h3 className="text-2xl font-bold text-neutral-900">
+                Premium Package Add-ons (€3,500–€5,000)
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                  <p className="font-medium text-slate-900">5-star Hotel</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Upgraded accommodation
-                  </p>
-                </div>
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                  <p className="font-medium text-slate-900">Thermal Spa Access</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    For post-recovery use
-                  </p>
-                </div>
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                  <p className="font-medium text-slate-900">Extended Stay</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    7+ nights accommodation
-                  </p>
-                </div>
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                  <p className="font-medium text-slate-900">Private Nursing</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Dedicated nursing care
-                  </p>
-                </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {PREMIUM_ADDONS.map((addon) => (
+                  <div
+                    key={addon.title}
+                    className="rounded-[2rem] border border-primary-100 bg-primary-50/50 p-8 hover:border-primary-200 transition-colors"
+                  >
+                    <Sparkles className="h-6 w-6 text-primary-600" />
+                    <p className="mt-3 font-semibold text-neutral-900">{addon.title}</p>
+                    <p className="mt-1 text-sm text-neutral-600">{addon.desc}</p>
+                  </div>
+                ))}
               </div>
             </m.div>
 
             {/* Not Included */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Typically NOT Included
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
+            <m.div {...fadeInUp} className="mt-16">
+              <h3 className="text-2xl font-bold text-neutral-900">Typically NOT Included</h3>
+              <div className="mt-8 overflow-x-auto rounded-3xl border border-neutral-100 bg-white">
+                <table className="min-w-full divide-y divide-neutral-100">
+                  <thead>
+                    <tr className="bg-neutral-50">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">
                         Item
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">
                         Estimated Cost
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Return flights (UK to Budapest)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £50-£150
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Travel insurance (with medical cover)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £30-£60
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Thermal spa treatments
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        €20-€50 per session
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Extra hotel nights
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        €50-€100/night
-                      </td>
-                    </tr>
+                  <tbody className="divide-y divide-neutral-100">
+                    {NOT_INCLUDED.map((row, i) => (
+                      <tr key={row.item} className={i % 2 === 1 ? 'bg-neutral-50/50' : ''}>
+                        <td className="px-6 py-4 text-sm text-neutral-900">{row.item}</td>
+                        <td className="px-6 py-4 text-sm text-neutral-500">{row.cost}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </m.div>
 
+            {/* Money-Saving Tip */}
             <m.div
-              variants={fadeInUp}
-              className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4"
+              {...fadeInUp}
+              className="mt-10 rounded-[2rem] border border-amber-200 bg-amber-50 p-8"
             >
-              <p className="font-medium text-slate-900">Money-Saving Tip</p>
-              <p className="mt-1 text-sm text-slate-600">
-                Hungarian clinics often offer seasonal promotions. Request quotes
-                from 3+ clinics and ask about off-peak pricing. Most Budapest clinics
-                accept GBP transfers with no conversion fees.
+              <div className="flex items-start gap-3">
+                <Zap className="h-6 w-6 flex-shrink-0 text-amber-600" />
+                <div>
+                  <p className="font-semibold text-neutral-900">Money-Saving Tip</p>
+                  <p className="mt-2 text-neutral-600">
+                    Hungarian clinics often offer seasonal promotions. Request quotes
+                    from 3+ clinics and ask about off-peak pricing. Most Budapest clinics
+                    accept GBP transfers with no conversion fees.
+                  </p>
+                </div>
+              </div>
+            </m.div>
+          </div>
+        </section>
+
+        {/* ============================================================= */}
+        {/* TYPES OF RHINOPLASTY */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Techniques</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Types of Rhinoplasty Performed in Hungary
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                Hungarian surgeons offer the full range of rhinoplasty techniques,
+                with a strong tradition of open rhinoplasty influenced by Brazilian
+                training methods.
               </p>
             </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Types of Rhinoplasty Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Types of Rhinoplasty Performed in Hungary
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Hungarian surgeons offer the full range of rhinoplasty techniques,
-              with a strong tradition of open rhinoplasty influenced by Brazilian
-              training methods.
-            </m.p>
 
             <m.div
-              variants={fadeInUp}
-              className="mt-8 space-y-6"
+              {...fadeInUp}
+              className="mt-12 space-y-6"
               data-aeo="rhinoplasty-hungary-techniques"
             >
-              {/* Open Rhinoplasty */}
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Open Rhinoplasty
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  The most common approach in Hungarian clinics, influenced by
-                  Brazilian technique training via the Prof. Pitanguy school.
-                  External columella incision provides full visibility for complex
-                  reshaping and revision cases.
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Best for:</p>
-                    <p className="text-sm text-slate-600">
-                      Complex reshaping, dorsal hump, revision cases
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Recovery:</p>
-                    <p className="text-sm text-slate-600">
-                      7-10 days visible swelling, 2-3 weeks cast removal
-                    </p>
+              {RHINOPLASTY_TYPES.map((type) => (
+                <div
+                  key={type.title}
+                  className={`rounded-[2rem] border p-8 transition-colors ${
+                    type.highlighted
+                      ? 'border-primary-200 bg-primary-50/60 hover:border-primary-300'
+                      : 'border-neutral-100 bg-white hover:border-primary-100'
+                  }`}
+                >
+                  <h3 className="text-xl font-semibold text-neutral-900">{type.title}</h3>
+                  <p className="mt-3 text-neutral-600 leading-relaxed">{type.description}</p>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {type.details.map((d) => (
+                      <div key={d.label}>
+                        <p className="text-sm font-medium text-neutral-900">{d.label}:</p>
+                        <p className={`text-sm ${d.label === 'Price' ? 'font-medium text-primary-600' : 'text-neutral-600'}`}>
+                          {d.value}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-
-              {/* Closed Rhinoplasty */}
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Closed Rhinoplasty
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Internal incisions only, no visible scarring. Shorter procedure
-                  time and faster initial recovery. Requires experienced surgeon for
-                  optimal results due to limited visibility.
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Best for:</p>
-                    <p className="text-sm text-slate-600">
-                      Minor adjustments, tip refinement
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Recovery:</p>
-                    <p className="text-sm text-slate-600">
-                      Faster initial recovery than open technique
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Ultrasonic Rhinoplasty */}
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Ultrasonic Rhinoplasty
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Available at select premium clinics from €2,870. Piezotome
-                  technology for precise bone work with reduced bruising and faster
-                  recovery. Not universally available — confirm with specific surgeons.
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Benefits:</p>
-                    <p className="text-sm text-slate-600">
-                      Reduced bruising, faster recovery, more predictable results
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Price:</p>
-                    <p className="text-sm text-emerald-600 font-medium">
-                      €2,870-€4,000
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Revision Rhinoplasty */}
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Revision Rhinoplasty
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Higher complexity requiring experienced specialists. Hungarian
-                  surgeons trained in reconstruction techniques offer revision at
-                  €4,000-€5,500 — still significant savings vs UK. Thorough
-                  pre-operative assessment essential.
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Best for:</p>
-                    <p className="text-sm text-slate-600">
-                      Correcting previous rhinoplasty results
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Recovery:</p>
-                    <p className="text-sm text-slate-600">
-                      Longer than primary rhinoplasty
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Septorhinoplasty */}
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Septorhinoplasty
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Combines cosmetic reshaping with functional correction for
-                  deviated septum and breathing issues. Popular among patients with
-                  both aesthetic and functional concerns.
-                </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Best for:</p>
-                    <p className="text-sm text-slate-600">
-                      Aesthetic + breathing improvement
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Price:</p>
-                    <p className="text-sm text-emerald-600 font-medium">
-                      €2,800-€4,200
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Choosing a Surgeon Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Choosing a Rhinoplasty Surgeon in Hungary
-            </m.h2>
+        {/* ============================================================= */}
+        {/* CHOOSING A SURGEON */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Surgeon Selection</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Choosing a Rhinoplasty Surgeon in Hungary
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                A comprehensive framework for evaluating Hungarian surgeons,
+                emphasising credentials, training lineage, and communication.
+              </p>
+            </m.div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              A comprehensive framework for evaluating Hungarian surgeons,
-              emphasising credentials, training lineage, and communication.
-            </m.p>
-
-            <m.div variants={fadeInUp} className="mt-8 grid gap-6 lg:grid-cols-2">
-              {/* Essential Credentials */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  Essential Credentials to Verify
-                </h3>
-                <ul className="mt-4 space-y-3 text-sm text-slate-600">
-                  <li className="flex gap-3">
-                    <span className="text-emerald-600">1.</span>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        Hungarian Medical Chamber Registration
-                      </p>
-                      <p>Mandatory for all practising physicians</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-emerald-600">2.</span>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        Specialist Certification in Plastic Surgery
-                      </p>
-                      <p>Issued by Hungarian authorities</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-emerald-600">3.</span>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        MPHST Membership
-                      </p>
-                      <p>
-                        Magyar Plasztikai, Helyreállító és Esztétikai Sebészeti
-                        Társaság (Hungarian Plastic Surgery Society)
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-emerald-600">4.</span>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        International Memberships
-                      </p>
-                      <p>ISAPS, EBOPRAS, or equivalent</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-emerald-600">5.</span>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        Ministry of Health Clinic Licence
-                      </p>
-                      <p>Confirms facility meets national standards</p>
-                    </div>
-                  </li>
+            <m.div {...fadeInUp} className="mt-12 grid gap-6 lg:grid-cols-2">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8">
+                <h3 className="text-lg font-semibold text-neutral-900">Essential Credentials to Verify</h3>
+                <ul className="mt-6 space-y-4">
+                  {CREDENTIALS.map((cred, i) => (
+                    <li key={cred.title} className="flex gap-4">
+                      <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="font-medium text-neutral-900">{cred.title}</p>
+                        <p className="text-sm text-neutral-600">{cred.desc}</p>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              {/* Questions to Ask */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  Questions to Ask During Consultation
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    Where did you complete your plastic surgery training?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    How many rhinoplasties do you perform annually?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    Do you have before/after photos of patients with similar nose
-                    types to mine?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    What technique do you recommend for my goals, and why?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    What is your revision rate?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    How do you handle complications if they arise after I return to
-                    the UK?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    Do you offer video consultations for pre-operative planning?
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">?</span>
-                    What follow-up care is included?
-                  </li>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8">
+                <h3 className="text-lg font-semibold text-neutral-900">Questions to Ask During Consultation</h3>
+                <ul className="mt-6 space-y-3">
+                  {CONSULTATION_QUESTIONS.map((q) => (
+                    <li key={q} className="flex items-start gap-3 text-sm text-neutral-600">
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" />
+                      {q}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </m.div>
 
             {/* Red Flags */}
             <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6"
+              {...fadeInUp}
+              className="mt-10 rounded-[2rem] border border-red-200 bg-red-50 p-8"
             >
-              <h3 className="font-semibold text-red-800">Red Flags to Watch For</h3>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-red-700">
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  Reluctance to provide credentials or training history
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  Pressure to book immediately without proper consultation
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  Unrealistic outcome promises
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  No mention of potential complications
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  Clinic without Ministry of Health certification
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>✗</span>
-                  Poor communication or language barriers during consultation
-                </li>
+              <h3 className="text-lg font-semibold text-red-800">Red Flags to Watch For</h3>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {RED_FLAGS.map((flag) => (
+                  <li key={flag} className="flex items-start gap-3 text-sm text-red-700">
+                    <span className="mt-0.5 flex-shrink-0">✗</span>
+                    {flag}
+                  </li>
+                ))}
               </ul>
             </m.div>
 
             {/* Experience Benchmarks */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Experience Benchmarks
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg bg-white p-4 shadow-sm text-center">
-                  <p className="text-2xl font-bold text-slate-400">100+</p>
-                  <p className="mt-1 text-sm text-slate-600">Minimum</p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm text-center">
-                  <p className="text-2xl font-bold text-emerald-600">500+</p>
-                  <p className="mt-1 text-sm text-slate-600">Experienced</p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm text-center">
-                  <p className="text-2xl font-bold text-emerald-700">1,000+</p>
-                  <p className="mt-1 text-sm text-slate-600">Expert</p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm text-center">
-                  <p className="text-sm font-bold text-emerald-600">Piezotome</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Specific training for ultrasonic
-                  </p>
-                </div>
+            <m.div {...fadeInUp} className="mt-12">
+              <h3 className="text-2xl font-bold text-neutral-900">Experience Benchmarks</h3>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {EXPERIENCE_BENCHMARKS.map((b) => (
+                  <div
+                    key={b.label}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 text-center hover:border-primary-100 transition-colors"
+                  >
+                    <p className={`${b.small ? 'text-base' : 'text-3xl'} font-bold ${b.color}`}>{b.value}</p>
+                    <p className="mt-2 text-sm text-neutral-600">{b.label}</p>
+                  </div>
+                ))}
               </div>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Featured Surgeons Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Featured Rhinoplasty Surgeons in Hungary
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Notable Hungarian rhinoplasty surgeons with verified credentials.
-              Profiles are for informational purposes — conduct your own due
-              diligence before booking.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2"
-            >
-              {/* Dr. Miklós Molnár */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-slate-900">
-                  Dr. Miklós Molnár
-                </h3>
-                <p className="mt-1 text-emerald-600 font-medium">€2,800-€4,000</p>
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <p>
-                    <strong>Experience:</strong> 20+ years in plastic surgery
-                  </p>
-                  <p>
-                    <strong>Training:</strong> University of Debrecen Medical School
-                    (1994), Prof. Ivo Pitanguy Institute in Rio de Janeiro (3-year
-                    postgraduate programme, 2,200+ surgeries during training)
-                  </p>
-                  <p>
-                    <strong>Current Practice:</strong> Dr. Molnar Clinic, Budapest;
-                    Perfect Age Body and Facial Aesthetics Centre
-                  </p>
-                  <p>
-                    <strong>Previous Roles:</strong> Chief of Plastic Surgery at Dr
-                    Rose Private Hospital (2008-2012)
-                  </p>
-                  <p>
-                    <strong>Languages:</strong> English, Portuguese, Italian,
-                    Spanish, German, Hungarian
-                  </p>
-                  <p>
-                    <strong>Memberships:</strong> MPHST, Hungarian Medical Board
-                    (MOK), Association of Students of Professor Ivo Pitanguy
-                  </p>
-                </div>
-              </div>
-
-              {/* Dr. Csaba Molnár */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-slate-900">
-                  Dr. Csaba Molnár
-                </h3>
-                <p className="mt-1 text-emerald-600 font-medium">€2,500-€3,500</p>
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <p>
-                    <strong>Experience:</strong> 25+ years in plastic and aesthetic
-                    surgery
-                  </p>
-                  <p>
-                    <strong>Position:</strong> Founder and Owner, Elite Clinic
-                    (opened 2015, Debrecen)
-                  </p>
-                  <p>
-                    <strong>Leadership:</strong> Former President and General
-                    Secretary of Hungarian Society for Plastic, Reconstructive and
-                    Aesthetic Surgery
-                  </p>
-                  <p>
-                    <strong>International Role:</strong> National Secretary and
-                    Representative of Hungary, ISAPS
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Debrecen (Eastern Hungary, accessible
-                    from Budapest)
-                  </p>
-                  <p>
-                    <strong>Notable:</strong> Multiple publications, congress
-                    presentations, professional course instruction
-                  </p>
-                </div>
-              </div>
-
-              {/* Dr. Tamás Karvász */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-slate-900">
-                  Dr. Tamás Karvász
-                </h3>
-                <p className="mt-1 text-emerald-600 font-medium">€2,400-€3,200</p>
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <p>
-                    <strong>Clinic:</strong> Art Real Plastic Surgery (established
-                    2003)
-                  </p>
-                  <p>
-                    <strong>Recognition:</strong> Listed in Top-10 plastic surgeons
-                    in Hungary; clinic ranked in top 10 plastic surgeries in Central
-                    Europe
-                  </p>
-                  <p>
-                    <strong>Experience:</strong> 20+ years
-                  </p>
-                  <p>
-                    <strong>Specialisation:</strong> Range of aesthetic procedures
-                    including rhinoplasty
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Budapest
-                  </p>
-                </div>
-              </div>
-
-              {/* Dr. Zsombor Varga */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-slate-900">
-                  Dr. Zsombor Varga
-                </h3>
-                <p className="mt-1 text-emerald-600 font-medium">€2,600-€3,500</p>
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <p>
-                    <strong>Associated Clinics:</strong> Works with multiple premium
-                    Budapest facilities
-                  </p>
-                  <p>
-                    <strong>Patient Reviews:</strong> Highly rated, known for
-                    personalised approach
-                  </p>
-                  <p>
-                    <strong>Specialisation:</strong> Aesthetic surgery including
-                    rhinoplasty
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Budapest
-                  </p>
-                </div>
-              </div>
+        {/* ============================================================= */}
+        {/* FEATURED SURGEONS */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Top Surgeons</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Featured Rhinoplasty Surgeons in Hungary
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                Notable Hungarian rhinoplasty surgeons with verified credentials.
+                Profiles are for informational purposes — conduct your own due
+                diligence before booking.
+              </p>
             </m.div>
 
-            <m.p variants={fadeInUp} className="mt-6 text-sm text-slate-500 italic">
+            <m.div {...fadeInUp} className="mt-12 grid gap-6 sm:grid-cols-2">
+              {SURGEONS.map((surgeon) => (
+                <div
+                  key={surgeon.name}
+                  className="group rounded-[2.5rem] border border-neutral-100 bg-white p-8 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-neutral-200/50"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-semibold text-neutral-900">{surgeon.name}</h3>
+                      <p className="mt-1 text-lg font-semibold text-primary-600">{surgeon.price}</p>
+                    </div>
+                    <div className="flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1.5">
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm font-semibold text-amber-700">{surgeon.rating}</span>
+                    </div>
+                  </div>
+
+                  <span className="mt-3 inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
+                    {surgeon.highlight}
+                  </span>
+
+                  <div className="mt-5 space-y-2.5">
+                    {surgeon.details.map((d) => (
+                      <p key={d.label} className="text-sm text-neutral-600">
+                        <strong className="text-neutral-900">{d.label}:</strong> {d.value}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </m.div>
+
+            <m.p {...fadeInUp} className="mt-8 text-center text-sm text-neutral-500 italic">
               Note: Verify current practice details, pricing, and availability
               before booking. Profiles are for informational purposes.
             </m.p>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Patient Journey Timeline */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Your Rhinoplasty Journey: Timeline for UK Patients
-            </m.h2>
+        {/* ============================================================= */}
+        {/* PATIENT JOURNEY TIMELINE */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Your Journey</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Your Rhinoplasty Journey: Timeline for UK Patients
+              </h2>
+            </m.div>
 
-            <m.div variants={fadeInUp} className="mt-8 space-y-6">
-              {/* Phase 1 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 font-bold">
-                    1
+            <m.div {...fadeInUp} className="mt-12 space-y-8">
+              {JOURNEY_PHASES.map((phase) => (
+                <div key={phase.phase} className="rounded-[2rem] border border-neutral-100 bg-white p-8">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700">
+                      {phase.phase}
+                    </div>
+                    <h3 className="text-lg font-semibold text-neutral-900">{phase.title}</h3>
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Research & Selection (4-8 weeks before travel)
-                  </h3>
+                  <ul className="mt-6 grid gap-3 sm:grid-cols-2 pl-16">
+                    {phase.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-neutral-600">
+                        <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600 pl-14">
-                  <li>Research surgeons and clinics</li>
-                  <li>Request quotes and virtual consultations</li>
-                  <li>Review before/after photos</li>
-                  <li>Check credentials and reviews</li>
-                  <li>Select surgeon and clinic</li>
-                  <li>Pay deposit (typically 20-30%)</li>
-                  <li>Book flights (London to Budapest: 2.5 hours)</li>
-                  <li>Arrange travel insurance with medical coverage</li>
-                </ul>
-              </div>
+              ))}
 
-              {/* Phase 2 */}
-              <div className="rounded-lg bg-white p-6 shadow">
+              {/* Phase 3 — Budapest Stay */}
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 font-bold">
-                    2
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Pre-Travel Preparation (2-4 weeks before)
-                  </h3>
-                </div>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600 pl-14">
-                  <li>Complete medical questionnaire</li>
-                  <li>Share photos for surgical planning</li>
-                  <li>Receive pre-operative instructions</li>
-                  <li>Arrange time off work (10-14 days minimum)</li>
-                  <li>Organise post-operative supplies</li>
-                  <li>Confirm all travel and accommodation details</li>
-                </ul>
-              </div>
-
-              {/* Phase 3 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 font-bold">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700">
                     3
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    Budapest Stay (7-10 days typical)
+                  <h3 className="text-lg font-semibold text-neutral-900">
+                    Budapest Stay (7–10 days typical)
                   </h3>
                 </div>
-                <div className="mt-4 pl-14">
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="rounded-lg bg-slate-50 p-3">
-                      <p className="font-medium text-slate-900">Day 1 — Arrival</p>
-                      <p className="text-sm text-slate-600">
-                        Airport pickup, hotel check-in, rest
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pl-16">
+                  {BUDAPEST_STAY.map((day) => (
+                    <div
+                      key={day.day}
+                      className={`rounded-2xl p-4 ${
+                        day.highlighted
+                          ? 'border border-primary-200 bg-primary-50'
+                          : 'bg-neutral-50'
+                      }`}
+                    >
+                      <p className={`font-medium ${day.highlighted ? 'text-primary-700' : 'text-neutral-900'}`}>
+                        {day.day}
                       </p>
+                      <p className="mt-1 text-sm text-neutral-600">{day.desc}</p>
                     </div>
-                    <div className="rounded-lg bg-slate-50 p-3">
-                      <p className="font-medium text-slate-900">Day 2 — Pre-Op</p>
-                      <p className="text-sm text-slate-600">
-                        Consultation, medical tests, planning
-                      </p>
-                    </div>
-                    <div className="rounded-lg bg-emerald-50 p-3">
-                      <p className="font-medium text-emerald-700">Day 3 — Surgery</p>
-                      <p className="text-sm text-slate-600">
-                        Procedure (1.5-3 hours), recovery room
-                      </p>
-                    </div>
-                    <div className="rounded-lg bg-slate-50 p-3">
-                      <p className="font-medium text-slate-900">Days 4-6 — Recovery</p>
-                      <p className="text-sm text-slate-600">
-                        Rest at hotel, follow-up visits, light walking
-                      </p>
-                    </div>
-                    <div className="rounded-lg bg-slate-50 p-3">
-                      <p className="font-medium text-slate-900">Days 7-10 — Pre-Departure</p>
-                      <p className="text-sm text-slate-600">
-                        Splint removal, final assessment, flight clearance
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Phase 4 */}
-              <div className="rounded-lg bg-white p-6 shadow">
+              {/* Phase 4 — UK Recovery */}
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 font-bold">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700">
                     4
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    UK Recovery (Weeks 2-12)
+                  <h3 className="text-lg font-semibold text-neutral-900">
+                    UK Recovery (Weeks 2–12)
                   </h3>
                 </div>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pl-14">
-                  <div className="rounded-lg bg-slate-50 p-3">
-                    <p className="font-medium text-slate-900">Week 2-3</p>
-                    <p className="text-sm text-slate-600">Most visible bruising fades</p>
-                  </div>
-                  <div className="rounded-lg bg-slate-50 p-3">
-                    <p className="font-medium text-slate-900">Week 4-6</p>
-                    <p className="text-sm text-slate-600">
-                      Return to desk work, gentle exercise
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-slate-50 p-3">
-                    <p className="font-medium text-slate-900">Week 6-8</p>
-                    <p className="text-sm text-slate-600">Resume most normal activities</p>
-                  </div>
-                  <div className="rounded-lg bg-slate-50 p-3">
-                    <p className="font-medium text-slate-900">Month 3</p>
-                    <p className="text-sm text-slate-600">80% swelling resolved</p>
-                  </div>
-                  <div className="rounded-lg bg-slate-50 p-3">
-                    <p className="font-medium text-slate-900">Month 6-12</p>
-                    <p className="text-sm text-slate-600">Final results emerging</p>
-                  </div>
-                  <div className="rounded-lg bg-emerald-50 p-3">
-                    <p className="font-medium text-emerald-700">12+ months</p>
-                    <p className="text-sm text-slate-600">Complete healing</p>
-                  </div>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pl-16">
+                  {UK_RECOVERY.map((r) => (
+                    <div
+                      key={r.period}
+                      className={`rounded-2xl p-4 ${
+                        r.highlighted
+                          ? 'border border-primary-200 bg-primary-50'
+                          : 'bg-neutral-50'
+                      }`}
+                    >
+                      <p className={`font-medium ${r.highlighted ? 'text-primary-700' : 'text-neutral-900'}`}>
+                        {r.period}
+                      </p>
+                      <p className="mt-1 text-sm text-neutral-600">{r.desc}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </m.div>
 
-            {/* Hungary-Specific Tips */}
+            {/* Hungary-Specific Considerations */}
             <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-emerald-200 bg-emerald-50 p-6"
+              {...fadeInUp}
+              className="mt-10 rounded-[2rem] border border-primary-200 bg-primary-50/60 p-8"
             >
-              <h3 className="font-semibold text-slate-900">
-                Hungary-Specific Considerations
-              </h3>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600">
-                <li>
-                  <strong>Winter visits:</strong> Budapest can be cold (Nov-Feb), but
-                  lower tourist traffic
-                </li>
-                <li>
-                  <strong>Summer visits:</strong> Warmer recovery, but busier city
-                </li>
-                <li>
-                  <strong>Thermal spas:</strong> Generally safe after 4-6 weeks
-                  (confirm with surgeon)
-                </li>
-                <li>
-                  <strong>Direct flights:</strong> Wizz Air, Ryanair, BA from multiple
-                  UK airports
-                </li>
+              <h3 className="text-lg font-semibold text-neutral-900">Hungary-Specific Considerations</h3>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {HUNGARY_CONSIDERATIONS.map((c) => (
+                  <li key={c.label} className="text-sm text-neutral-600">
+                    <strong className="text-neutral-900">{c.label}:</strong> {c.desc}
+                  </li>
+                ))}
               </ul>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Recovery & Aftercare Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Recovery & Aftercare Expectations
-            </m.h2>
+        {/* ============================================================= */}
+        {/* RECOVERY & AFTERCARE */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Recovery</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Recovery &amp; Aftercare Expectations
+              </h2>
+            </m.div>
 
-            <m.div variants={fadeInUp} className="mt-8">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Phase
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Timeframe
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        What to Expect
-                      </th>
+            <m.div {...fadeInUp} className="mt-12">
+              <div className="overflow-x-auto rounded-3xl border border-neutral-100 bg-white">
+                <table className="min-w-full divide-y divide-neutral-100">
+                  <thead>
+                    <tr className="bg-neutral-50">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Phase</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Timeframe</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">What to Expect</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Immediate Post-Op
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Days 1-7
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Nasal packing removed 24-48 hours. External splint worn.
-                        Bruising peaks Day 2-3. Sleep elevated.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Short-Term
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Weeks 2-4
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Splint removal reveals initial result (still swollen).
-                        Bruising fading. Light work possible Week 2. Avoid glasses.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Medium-Term
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Months 1-6
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Tip remains swollen longest. Subtle refinement continues.
-                        Resume exercise gradually (Month 2). Numbness resolving.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        Long-Term
-                      </td>
-                      <td className="px-4 py-4 text-sm font-medium text-emerald-600 sm:px-6">
-                        6-18 months
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Final shape emerges. Internal scarring matures. Skin
-                        re-drapes. Sensation fully returns. Final assessment possible.
-                      </td>
-                    </tr>
+                  <tbody className="divide-y divide-neutral-100">
+                    {RECOVERY_PHASES.map((r, i) => (
+                      <tr key={r.phase} className={i % 2 === 1 ? 'bg-neutral-50/50' : ''}>
+                        <td className={`px-6 py-4 text-sm font-medium ${r.highlighted ? 'text-primary-600' : 'text-neutral-900'}`}>
+                          {r.phase}
+                        </td>
+                        <td className={`px-6 py-4 text-sm ${r.highlighted ? 'font-medium text-primary-600' : 'text-neutral-600'}`}>
+                          {r.timeframe}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-neutral-600">{r.expect}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </m.div>
 
-            {/* Hungary's Recovery Advantages */}
-            <m.div variants={fadeInUp} className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-                <h3 className="font-semibold text-slate-900">
-                  Thermal Spa Culture
-                </h3>
-                <p className="mt-2 text-sm text-slate-600">
+            {/* Recovery Advantages */}
+            <m.div {...fadeInUp} className="mt-12 grid gap-6 sm:grid-cols-2">
+              <div className="rounded-[2rem] border border-primary-200 bg-primary-50/60 p-8">
+                <Heart className="h-8 w-8 text-primary-600" />
+                <h3 className="mt-4 text-lg font-semibold text-neutral-900">Thermal Spa Culture</h3>
+                <p className="mt-3 text-sm text-neutral-600 leading-relaxed">
                   Hungary&apos;s famous thermal baths (Széchenyi, Gellért, Rudas)
                   offer unique post-recovery relaxation — but only after surgeon
                   clearance (typically 4-6 weeks post-op). The mineral-rich waters
@@ -1295,489 +1027,275 @@ export function RhinoplastyHungaryClient({ faqs }: RhinoplastyHungaryClientProps
                 </p>
               </div>
 
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-                <h3 className="font-semibold text-slate-900">
-                  Affordable Extended Stays
-                </h3>
-                <p className="mt-2 text-sm text-slate-600">
+              <div className="rounded-[2rem] border border-primary-200 bg-primary-50/60 p-8">
+                <MapPin className="h-8 w-8 text-primary-600" />
+                <h3 className="mt-4 text-lg font-semibold text-neutral-900">Affordable Extended Stays</h3>
+                <p className="mt-3 text-sm text-neutral-600 leading-relaxed">
                   If you wish to stay longer for recovery monitoring, Budapest
-                  offers excellent value accommodation (€50-€100/night for quality
+                  offers excellent value accommodation (€50–€100/night for quality
                   hotels) compared to UK recovery costs. Consider extending your
                   stay for additional peace of mind.
                 </p>
               </div>
             </m.div>
 
-            {/* UK Follow-Up Integration */}
-            <m.div variants={fadeInUp} className="mt-8 rounded-lg bg-white p-6 shadow">
-              <h3 className="font-semibold text-slate-900">
-                UK Follow-Up Integration
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Most Hungarian surgeons provide:
-              </p>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600">
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600">&#10003;</span>
-                  Detailed written aftercare instructions
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600">&#10003;</span>
-                  Photo-based remote consultations via email/WhatsApp
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600">&#10003;</span>
-                  Emergency contact protocols
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600">&#10003;</span>
-                  Medical records for UK healthcare providers
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600">&#10003;</span>
-                  Coordination with UK GP if needed
-                </li>
+            {/* UK Follow-Up */}
+            <m.div {...fadeInUp} className="mt-10 rounded-[2rem] border border-neutral-100 bg-white p-8">
+              <h3 className="text-lg font-semibold text-neutral-900">UK Follow-Up Integration</h3>
+              <p className="mt-3 text-sm text-neutral-600">Most Hungarian surgeons provide:</p>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {UK_FOLLOWUP_ITEMS.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-neutral-600">
+                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" />
+                    {item}
+                  </li>
+                ))}
               </ul>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Risks & Safety Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Risks, Complications & Safety
-            </m.h2>
+        {/* ============================================================= */}
+        {/* RISKS & SAFETY */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Safety</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Risks, Complications &amp; Safety
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-neutral-600 font-light">
+                Honest risk information with context for Hungary&apos;s safety standards.
+              </p>
+            </m.div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Honest risk information with context for Hungary&apos;s safety
-              standards.
-            </m.p>
-
-            {/* General Risks */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <m.div {...fadeInUp} className="mt-12">
+              <h3 className="text-2xl font-bold text-neutral-900">
                 General Rhinoplasty Risks (apply regardless of location)
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Bleeding</p>
-                  <p className="text-sm text-slate-600">
-                    1-2% requiring intervention
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Infection</p>
-                  <p className="text-sm text-slate-600">
-                    Rare with proper protocols (&lt;1%)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Asymmetry</p>
-                  <p className="text-sm text-slate-600">
-                    Minor common; significant uncommon
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Breathing Difficulties</p>
-                  <p className="text-sm text-slate-600">
-                    Temporary swelling vs structural
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Numbness</p>
-                  <p className="text-sm text-slate-600">
-                    Usually temporary, resolves within months
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Dissatisfaction</p>
-                  <p className="text-sm text-slate-600">
-                    5-15% seek revision
-                  </p>
-                </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {GENERAL_RISKS.map((risk) => (
+                  <div
+                    key={risk.title}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                  >
+                    <Activity className="h-6 w-6 text-neutral-400" />
+                    <p className="mt-3 font-semibold text-neutral-900">{risk.title}</p>
+                    <p className="mt-1 text-sm text-neutral-600">{risk.desc}</p>
+                  </div>
+                ))}
               </div>
             </m.div>
 
-            {/* Hungary-Specific Safety */}
-            <m.div variants={fadeInUp} className="mt-8 grid gap-6 lg:grid-cols-2">
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-green-700">
-                  Hungary Safety Advantages
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    EU healthcare regulations apply
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    Ministry of Health oversight
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    Mandatory malpractice insurance for all surgeons
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    ISO-certified facilities available
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    Clear patient rights under EU law
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600">&#10003;</span>
-                    Hungarian Medical Chamber registration required
-                  </li>
+            <m.div {...fadeInUp} className="mt-12 grid gap-6 lg:grid-cols-2">
+              <div className="rounded-[2rem] border border-green-200 bg-green-50/60 p-8">
+                <Shield className="h-8 w-8 text-green-600" />
+                <h3 className="mt-4 text-lg font-semibold text-green-800">Hungary Safety Advantages</h3>
+                <ul className="mt-5 space-y-3">
+                  {SAFETY_ADVANTAGES.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-neutral-600">
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-amber-700">
-                  Considerations
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-600">&#9888;</span>
-                    Limited JCI-accredited hospitals (1 in Hungary)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-600">&#9888;</span>
-                    Most cosmetic surgery in private clinics, not hospitals
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-600">&#9888;</span>
-                    Malpractice compensation standards differ from UK
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-600">&#9888;</span>
-                    Follow-up care coordination requires planning
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-600">&#9888;</span>
-                    Language barriers possible (though English widely spoken)
-                  </li>
+              <div className="rounded-[2rem] border border-amber-200 bg-amber-50/60 p-8">
+                <Clock className="h-8 w-8 text-amber-600" />
+                <h3 className="mt-4 text-lg font-semibold text-amber-800">Considerations</h3>
+                <ul className="mt-5 space-y-3">
+                  {SAFETY_CONSIDERATIONS.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-neutral-600">
+                      <span className="mt-0.5 flex-shrink-0 text-amber-600">⚠</span>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </m.div>
 
-            {/* When Hungary May NOT Be Appropriate */}
             <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6"
+              {...fadeInUp}
+              className="mt-10 rounded-[2rem] border border-red-200 bg-red-50 p-8"
             >
-              <h3 className="font-semibold text-red-800">
-                When Hungary May NOT Be Appropriate
-              </h3>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-red-700">
-                <li className="flex items-start gap-2">
-                  <span>&#10005;</span>
-                  Complex revision cases (may require UK specialist)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>&#10005;</span>
-                  Patients with significant medical comorbidities
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>&#10005;</span>
-                  Those unable to travel for follow-up if needed
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>&#10005;</span>
-                  Patients uncomfortable with remote post-operative care
-                </li>
+              <h3 className="text-lg font-semibold text-red-800">When Hungary May NOT Be Appropriate</h3>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {INAPPROPRIATE_FOR.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-red-700">
+                    <span className="mt-0.5 flex-shrink-0">✗</span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Safety Concerns Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Is Rhinoplasty in Hungary Safe? Addressing UK Patient Concerns
-            </m.h2>
+        {/* ============================================================= */}
+        {/* ADDRESSING UK PATIENT CONCERNS */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp}>
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Patient Concerns</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Is Rhinoplasty in Hungary Safe? Addressing UK Patient Concerns
+              </h2>
+            </m.div>
 
-            <m.div variants={fadeInUp} className="mt-8 space-y-6">
-              {/* Concern 1 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  &ldquo;Is healthcare quality comparable to the UK?&rdquo;
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Hungary&apos;s medical education system is among Europe&apos;s
-                  oldest and most respected. Many surgeons have additional
-                  international training. Private clinics serving medical tourists
-                  invest heavily in modern equipment and facilities. EU healthcare
-                  directives apply, providing baseline standards. However, patients
-                  should verify individual clinic accreditations rather than assuming
-                  uniformity.
-                </p>
-              </div>
+            <m.div {...fadeInUp} className="mt-12 space-y-6">
+              {PATIENT_CONCERNS.map((concern) => (
+                <div
+                  key={concern.question}
+                  className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                >
+                  <h3 className="text-lg font-semibold text-neutral-900">{concern.question}</h3>
+                  <p className="mt-3 text-neutral-600 leading-relaxed">{concern.answer}</p>
+                  {concern.mitigations && (
+                    <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                      {concern.mitigations.map((m) => (
+                        <li key={m} className="flex items-start gap-3 text-sm text-neutral-600">
+                          <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" />
+                          {m}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
 
-              {/* Concern 2 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  &ldquo;What if something goes wrong after I return home?&rdquo;
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  This is a legitimate concern. Risk mitigation strategies include:
-                </p>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600">
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">&#10003;</span>
-                    Staying 7-10 days minimum to catch early complications
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">&#10003;</span>
-                    Choosing surgeons who offer telemedicine follow-up
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">&#10003;</span>
-                    Purchasing travel insurance with medical repatriation coverage
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">&#10003;</span>
-                    Identifying UK plastic surgeons for emergency follow-up
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-600">&#10003;</span>
-                    Keeping detailed medical records from Hungarian procedure
-                  </li>
-                </ul>
-              </div>
-
-              {/* Concern 3 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  &ldquo;Are Hungarian surgeons properly trained?&rdquo;
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Hungarian plastic surgery training is rigorous and EU-compliant.
-                  Many leading surgeons have additional international credentials.
-                  The key is individual verification: check Hungarian Medical Chamber
-                  registration, verify specialist plastic surgery certification, look
-                  for MPHST, ISAPS, or EBOPRAS membership, and research training
-                  background (Brazilian school connections are a positive indicator).
-                </p>
-              </div>
-
-              {/* Concern 4 */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  &ldquo;Why is it cheaper than the UK?&rdquo;
-                </h3>
-                <p className="mt-2 text-slate-600">
-                  Lower cost does not mean lower quality. Factors include: lower
-                  operating costs (rent, staff salaries, utilities), favourable
-                  exchange rates, competitive medical tourism market, and efficient
-                  clinic models designed for international patients.
-                </p>
-              </div>
-
-              {/* Hungary vs Turkey Comparison */}
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-                <h3 className="font-semibold text-slate-900">
-                  Hungary vs Turkey: Honest Comparison
-                </h3>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {/* Hungary vs Turkey */}
+              <div className="rounded-[2rem] border border-primary-200 bg-primary-50/60 p-8">
+                <h3 className="text-lg font-semibold text-neutral-900">Hungary vs Turkey: Honest Comparison</h3>
+                <div className="mt-6 grid gap-6 sm:grid-cols-2">
                   <div>
-                    <p className="font-medium text-slate-900">Turkey</p>
-                    <p className="text-sm text-slate-600">
-                      Higher volume, lower prices (50-70% savings), more aggressive
-                      marketing
+                    <p className="font-medium text-neutral-900">Turkey</p>
+                    <p className="mt-1 text-sm text-neutral-600">
+                      Higher volume, lower prices (50-70% savings), more aggressive marketing
                     </p>
                   </div>
                   <div>
-                    <p className="font-medium text-emerald-700">Hungary</p>
-                    <p className="text-sm text-slate-600">
-                      Lower volume, moderate prices (40-60% savings), EU standards,
-                      thermal spa recovery option
+                    <p className="font-medium text-primary-700">Hungary</p>
+                    <p className="mt-1 text-sm text-neutral-600">
+                      Lower volume, moderate prices (40-60% savings), EU standards, thermal spa recovery option
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-slate-600">
+                <p className="mt-6 text-sm text-neutral-600">
                   <strong>Consider Hungary if:</strong> EU regulatory framework
                   matters to you, you prefer European cultural context, or thermal
                   spa recovery appeals.
                 </p>
               </div>
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* FAQ Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Frequently Asked Questions About Rhinoplasty in Hungary
-            </m.h2>
+        {/* ============================================================= */}
+        {/* FAQ SECTION */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="text-center">
+              <p className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">FAQ</p>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl">
+                Frequently Asked Questions About Rhinoplasty in Hungary
+              </h2>
+            </m.div>
 
-            <m.div variants={fadeInUp} className="mt-8 space-y-4">
-              {faqs.map((faq, index) => (
-                <details
-                  key={index}
-                  className="group rounded-lg bg-white shadow-sm"
-                >
-                  <summary className="flex cursor-pointer items-center justify-between p-6 font-medium text-slate-900">
-                    {faq.question}
-                    <span className="ml-4 flex-shrink-0 text-emerald-600 transition-transform group-open:rotate-180">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+            <m.div {...fadeInUp} className="mt-12 rounded-[2.5rem] border border-neutral-200 bg-white p-6 shadow-xl sm:p-10">
+              <FAQSection
+                faqs={faqs}
+                title="Rhinoplasty in Hungary FAQ"
+                className="[&_h2]:sr-only"
+              />
+            </m.div>
+          </div>
+        </section>
+
+        {/* ============================================================= */}
+        {/* CTA SECTION */}
+        {/* ============================================================= */}
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] px-6 py-16 sm:px-16 sm:py-24">
+              <m.div
+                className="absolute -left-20 -top-20 h-[300px] w-[300px] rounded-full bg-primary-600/20 blur-[80px]"
+                animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <m.div
+                className="absolute -bottom-20 -right-20 h-[250px] w-[250px] rounded-full bg-emerald-500/15 blur-[60px]"
+                animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+              />
+
+              <m.div {...fadeInUp} className="relative text-center">
+                <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                  Get Your Free{' '}
+                  <span className="bg-gradient-to-r from-emerald-400 via-primary-400 to-emerald-300 bg-clip-text text-transparent">
+                    Rhinoplasty Quote
+                  </span>{' '}
+                  from Budapest Surgeons
+                </h2>
+                <p className="mx-auto mt-6 max-w-2xl text-lg font-light text-white/70">
+                  Compare prices and surgeons in Hungary. Receive personalised treatment
+                  plans from internationally trained specialists — no obligation.
+                </p>
+
+                <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                  <Link
+                    href="/clinics?procedure=rhinoplasty&country=hungary"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#0A1A2F] shadow-lg transition-all hover:bg-neutral-100 hover:shadow-xl"
+                  >
+                    Compare Budapest Surgeons
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                  <Link
+                    href="/enquiry?procedure=rhinoplasty&country=hungary"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white transition-all hover:border-white/60 hover:bg-white/5"
+                  >
+                    Get Free Clinic Recommendations
+                  </Link>
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+                  {['EU-standard care', 'ISO-certified clinics', '40-60% savings vs UK', 'Thermal spa recovery'].map((badge) => (
+                    <span key={badge} className="flex items-center gap-1.5 text-sm text-white/50">
+                      <CheckCircle className="h-3.5 w-3.5 text-emerald-400/70" />
+                      {badge}
                     </span>
-                  </summary>
-                  <div className="border-t border-slate-200 px-6 pb-6 pt-4 text-slate-600">
-                    {faq.answer}
-                  </div>
-                </details>
+                  ))}
+                </div>
+              </m.div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================= */}
+        {/* INTERNAL LINKS */}
+        {/* ============================================================= */}
+        <section className="py-12 sm:py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div {...fadeInUp} className="flex flex-wrap items-center justify-center gap-3 text-center">
+              <span className="text-xs font-bold tracking-[0.15em] text-neutral-400 uppercase">
+                Related Guides:
+              </span>
+              {RELATED_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:border-primary-200 hover:text-primary-600"
+                >
+                  {link.label}
+                </Link>
               ))}
             </m.div>
-          </m.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="bg-emerald-600 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-white sm:text-3xl"
-            >
-              Get Your Free Rhinoplasty Quote from Budapest Surgeons
-            </m.h2>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-4 max-w-2xl text-emerald-100"
-            >
-              Compare prices and surgeons in Hungary. Receive personalised treatment
-              plans from internationally trained specialists — no obligation.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            >
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=hungary"
-                className="w-full rounded-lg bg-white px-8 py-4 text-lg font-semibold text-emerald-600 shadow-lg transition-all hover:bg-emerald-50 sm:w-auto"
-              >
-                Compare Budapest Surgeons
-              </Link>
-              <Link
-                href="/enquiry?procedure=rhinoplasty&country=hungary"
-                className="w-full rounded-lg border-2 border-white px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-emerald-700 sm:w-auto"
-              >
-                Get Free Clinic Recommendations
-              </Link>
-            </m.div>
-
-            <m.p variants={fadeInUp} className="mt-6 text-sm text-emerald-200">
-              EU-standard care &bull; ISO-certified clinics &bull; 40-60% savings vs
-              UK &bull; Thermal spa recovery
-            </m.p>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Related Links Section */}
-      <section className="py-8 sm:py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="border-t border-slate-200 pt-8"
-          >
-            <p className="text-sm text-slate-600">
-              <strong>Related pages:</strong>{' '}
-              <Link
-                href="/procedures/rhinoplasty"
-                className="text-emerald-600 hover:underline"
-              >
-                Rhinoplasty Abroad
-              </Link>{' '}
-              &middot;{' '}
-              <Link
-                href="/procedures/rhinoplasty/turkey"
-                className="text-emerald-600 hover:underline"
-              >
-                Rhinoplasty Turkey
-              </Link>{' '}
-              &middot;{' '}
-              <Link
-                href="/procedures/rhinoplasty/poland"
-                className="text-emerald-600 hover:underline"
-              >
-                Rhinoplasty Poland
-              </Link>{' '}
-              &middot;{' '}
-              <Link
-                href="/procedures/rhinoplasty/spain"
-                className="text-emerald-600 hover:underline"
-              >
-                Rhinoplasty Spain
-              </Link>{' '}
-              &middot;{' '}
-              <Link
-                href="/destinations/hungary"
-                className="text-emerald-600 hover:underline"
-              >
-                Hungary Medical Tourism
-              </Link>
-            </p>
-          </m.div>
-        </div>
-      </section>
-    </LazyMotion>
+      </div>
   )
 }

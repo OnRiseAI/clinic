@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'BBL in Poland — Prices from £3,500, EU Standards & Top Clinics | medit',
+  title: 'BBL in Poland — Prices from £3,500, EU Standards & Top Clinics | MeetYourClinic',
   description:
     'Compare BBL prices in Poland from £3,500. Brazilian Butt Lift with EU patient protections, natural results focus. Warsaw & Kraków clinics with safety-first approach.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'BBL in Poland — Prices from £3,500, EU Standards & Top Clinics',
     description: 'Compare BBL prices in Poland from £3,500. EU standards, natural results focus.',
     url: `${SITE_URL}/procedures/bbl/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brazilian Butt Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BBLPolandPageProps {

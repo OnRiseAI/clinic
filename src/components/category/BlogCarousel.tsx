@@ -34,8 +34,8 @@ const ARTICLES = [
     author: "Meet Your Clinic",
   },
   {
-    title: "Guide to Dental Implants in Turkey 2025",
-    slug: "complete-guide-to-dental-implants-in-turkey-2025",
+    title: "Guide to Dental Implants in Turkey 2026",
+    slug: "complete-guide-to-dental-implants-in-turkey-2026",
     imageUrl:
       "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=400&h=240&fit=crop&auto=format",
     author: "Meet Your Clinic",

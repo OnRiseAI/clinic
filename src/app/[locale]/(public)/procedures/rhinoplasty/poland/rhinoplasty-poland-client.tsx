@@ -1,8 +1,24 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { PL, GB } from 'country-flag-icons/react/3x2'
+import {
+  CheckCircle,
+  Star,
+  MapPin,
+  ArrowRight,
+  Shield,
+  Zap,
+  Clock,
+  Activity,
+  Heart,
+  Sparkles,
+  Award,
+  Plane,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { FAQSection } from '@/components/seo/faq-section'
 
 // =============================================================================
 // TYPES
@@ -18,20 +34,325 @@ interface RhinoplastyPolandClientProps {
 }
 
 // =============================================================================
+// STATIC DATA
+// =============================================================================
+
+const HERO_STATS = [
+  { value: '£2,900–£4,500', label: 'Primary rhinoplasty' },
+  { value: '700,000+', label: 'Medical tourists in 2024' },
+  { value: 'EU', label: 'Healthcare standards' },
+]
+
+const KEY_ADVANTAGES = [
+  { icon: Shield, title: 'EU Standards', description: 'European healthcare regulations and consumer protections' },
+  { icon: Award, title: 'Central European Training', description: 'Many surgeons trained in Germany, Austria, UK' },
+  { icon: Plane, title: 'Short Travel Distance', description: '2-hour flights from London to Warsaw or Kraków' },
+  { icon: Sparkles, title: '40–60% Savings', description: 'Quality care at accessible prices' },
+]
+
+const PRICE_COMPARISON = [
+  { procedure: 'Primary Rhinoplasty', poland: '£2,900–£4,500', uk: '£6,500–£9,500', savings: '£3,600–£5,000' },
+  { procedure: 'Revision Rhinoplasty', poland: '£3,800–£5,500', uk: '£10,000–£16,000', savings: '£6,200–£10,500' },
+  { procedure: 'Piezo/Ultrasonic Rhinoplasty', poland: '£3,500–£5,000', uk: '£8,000–£12,000', savings: '£4,500–£7,000' },
+  { procedure: 'Septorhinoplasty', poland: '£3,200–£4,800', uk: '£8,000–£11,000', savings: '£4,800–£6,200' },
+  { procedure: 'Rhinoplasty + Chin Augmentation', poland: '£4,200–£6,000', uk: '£9,000–£14,000', savings: '£4,800–£8,000' },
+]
+
+const PACKAGE_INCLUSIONS = [
+  { title: 'Pre-operative Consultation', description: 'Virtual + in-person consultation with surgeon' },
+  { title: 'Medical Testing', description: 'Blood tests, ECG, pre-operative assessments' },
+  { title: 'Surgery', description: 'Surgeon fee, anaesthesiologist, operating theatre' },
+  { title: 'Hospital Stay', description: '1 night with nursing care' },
+  { title: 'Post-op Care', description: 'Medications, nasal splint, dressings' },
+  { title: 'Follow-up', description: 'In-clinic appointments + splint removal' },
+  { title: 'Aftercare', description: 'Telemedicine follow-ups for 12 months' },
+  { title: 'Coordinator', description: 'English-speaking patient coordinator' },
+  { title: 'Fit-to-Fly', description: 'Clearance consultation before departure' },
+]
+
+const NOT_INCLUDED = [
+  { item: 'Return flights (UK to Warsaw/Kraków)', cost: '£60–£200' },
+  { item: 'Accommodation (7-10 nights)', cost: '£350–£700' },
+  { item: 'Travel insurance (with medical cover)', cost: '£30–£60' },
+  { item: 'Airport transfers (if not included)', cost: '£40–£80' },
+]
+
+const REGIONS = [
+  {
+    name: 'Warsaw',
+    highlight: false,
+    tagline: 'Medical Hub • Largest Surgeon Selection',
+    description:
+      "Poland's capital offers the highest concentration of plastic surgeons and university hospital affiliations. Multiple daily flights from London, Manchester, and Edinburgh.",
+    advantages: [
+      'Widest selection of surgeons',
+      'University hospital access',
+      'Best flight connectivity',
+      'Modern medical infrastructure',
+    ],
+    clinicsLabel: 'Notable Clinics:',
+    clinics: 'Warsaw Aesthetic, Artplastica, Carolina Medical Center',
+  },
+  {
+    name: 'Kraków',
+    highlight: false,
+    tagline: 'Historic Charm • Slightly Lower Costs',
+    description:
+      "Poland's cultural capital combines excellent medical care with historic charm. Direct flights from several UK airports. Slightly lower costs than Warsaw.",
+    advantages: [
+      'Beautiful recovery environment',
+      '5–10% lower prices than Warsaw',
+      'UNESCO Old Town for gentle walks',
+      'Strong medical university tradition',
+    ],
+    clinicsLabel: 'Notable Clinics:',
+    clinics: 'KCM Clinic (nearby), Galen Clinic, Medistica',
+  },
+  {
+    name: 'Jelenia Góra (KCM Clinic)',
+    highlight: true,
+    tagline: 'Mountain Recovery • Purpose-Built Medical Tourism',
+    description:
+      "KCM Clinic is Poland's premier medical tourism facility, purpose-built for international patients. Located in the Karkonosze Mountains, it offers a unique recovery environment combining medical excellence with mountain air.",
+    advantages: [
+      'All-inclusive packages with accommodation',
+      'English-speaking staff throughout',
+      'Peaceful mountain recovery setting',
+      'Dedicated international patient experience',
+      'On-site recovery apartments',
+    ],
+    clinicsLabel: 'Access:',
+    clinics: '3 hours from Berlin (Schönefeld), 2 hours from Wrocław airport. Transfers included in packages.',
+  },
+  {
+    name: 'Wrocław',
+    highlight: false,
+    tagline: 'University City • Growing Hub',
+    description:
+      'A vibrant university city with excellent medical facilities and direct flights from London. Gateway to KCM Clinic in Jelenia Góra.',
+    advantages: [
+      'Direct Ryanair flights from UK',
+      'Strong university medical tradition',
+      'Gateway to Jelenia Góra/KCM',
+      'Pleasant riverside recovery setting',
+    ],
+    clinicsLabel: 'Notable Clinics:',
+    clinics: 'Wrocław Medical, Estevien Clinic',
+  },
+]
+
+const RECOMMENDATIONS = [
+  { label: 'Maximum Choice', description: 'Warsaw — most surgeons, best connectivity' },
+  { label: 'All-Inclusive Experience', description: 'Jelenia Góra (KCM) — purpose-built, peaceful' },
+  { label: 'Value + Culture', description: 'Kraków — slightly lower costs, historic setting' },
+]
+
+const PIEZO_COMPARISON = [
+  { aspect: 'Bruising duration', traditional: '14–21 days', piezo: '7–10 days' },
+  { aspect: 'Swelling peak', traditional: 'Day 10–12', piezo: 'Day 5' },
+  { aspect: 'Return to social activities', traditional: '2–3 weeks', piezo: '10–14 days' },
+  { aspect: 'Precision', traditional: 'Good', piezo: 'Excellent' },
+]
+
+const RHINOPLASTY_TYPES = [
+  {
+    name: 'Revision Rhinoplasty',
+    price: '£3,800–£5,500',
+    points: [
+      'Corrects unsatisfactory results from previous surgery',
+      'More complex due to scar tissue, altered anatomy',
+      'Polish surgeons trained in revision techniques',
+      'Wait minimum 12 months after initial surgery',
+    ],
+  },
+  {
+    name: 'Septorhinoplasty',
+    price: '£3,200–£4,800',
+    points: [
+      'Combines cosmetic reshaping with septal correction',
+      'Addresses breathing difficulties + aesthetics',
+      'Dual-trained ENT/plastic surgeons available',
+      'Popular choice for functional improvement',
+    ],
+  },
+  {
+    name: 'Preservation Rhinoplasty',
+    price: '£3,500–£5,000',
+    points: [
+      'Modern technique preserving natural structures',
+      'More natural movement and appearance',
+      'Growing availability at top Polish clinics',
+      'Suits patients wanting subtle refinement',
+    ],
+  },
+  {
+    name: 'Rhinoplasty + Chin Augmentation',
+    price: '£4,200–£6,000',
+    points: [
+      'Facial harmony through profile balancing',
+      'Single anaesthesia, combined recovery',
+      'Popular combination in Poland',
+      'Discuss suitability in consultation',
+    ],
+  },
+]
+
+const CREDENTIALS = [
+  { label: 'PTChPRiE', description: 'Polish Society of Plastic, Reconstructive and Aesthetic Surgery (Primary Polish board)' },
+  { label: 'EBOPRAS', description: 'European Board of Plastic, Reconstructive and Aesthetic Surgery' },
+  { label: 'ISAPS', description: 'International Society of Aesthetic Plastic Surgery (global recognition)' },
+  { label: 'Polish Medical Chamber Registration', description: 'Legal requirement to practice' },
+]
+
+const SURGEONS = [
+  {
+    name: 'Dr. Grzegorz Kierzynka',
+    price: 'From £3,500',
+    featured: true,
+    details: [
+      { label: 'Experience', value: '1,100+ rhinoplasties, sub-5% revision rate' },
+      { label: 'Specialisation', value: 'Primary and revision rhinoplasty, piezo technique' },
+      { label: 'Credentials', value: 'PTChPRiE member, trained in Germany' },
+      { label: 'Facility', value: 'KCM Clinic, Jelenia Góra' },
+      { label: 'Notable', value: "Lead rhinoplasty surgeon at Poland's premier medical tourism facility" },
+    ],
+    note: 'Philosophy: Meticulous technique, natural results, thorough pre-operative planning',
+  },
+  {
+    name: 'Dr. Michał Charytonowicz',
+    price: 'From £3,200',
+    featured: false,
+    details: [
+      { label: 'Experience', value: '15+ years, 800+ rhinoplasties' },
+      { label: 'Specialisation', value: 'Preservation rhinoplasty, closed technique' },
+      { label: 'Credentials', value: 'PTChPRiE, European Rhinoplasty Society' },
+      { label: 'Facility', value: 'Warsaw Aesthetic Clinic' },
+      { label: 'Notable', value: 'Known for natural, subtle results' },
+    ],
+    note: 'Reviews: Highly rated for communication and results',
+  },
+  {
+    name: 'Dr. Marta Wilczyńska',
+    price: 'From £2,900',
+    featured: false,
+    details: [
+      { label: 'Experience', value: '12+ years, 600+ rhinoplasties' },
+      { label: 'Specialisation', value: 'Female rhinoplasty, ethnic rhinoplasty' },
+      { label: 'Credentials', value: 'PTChPRiE, trained in Austria' },
+      { label: 'Facility', value: 'Artplastica, Warsaw' },
+      { label: 'Notable', value: 'Specialises in feminine aesthetic goals' },
+    ],
+    note: 'Popular with UK female patients seeking refined results',
+  },
+  {
+    name: 'Dr. Tomasz Sirek',
+    price: 'From £3,400',
+    featured: false,
+    details: [
+      { label: 'Experience', value: '20+ years, 1,000+ procedures' },
+      { label: 'Specialisation', value: 'Septorhinoplasty, functional correction' },
+      { label: 'Credentials', value: 'PTChPRiE, ENT + Plastic Surgery dual qualification' },
+      { label: 'Facility', value: 'Carolina Medical Center, Warsaw' },
+    ],
+    note: 'Ideal for patients with breathing concerns + aesthetic goals',
+  },
+  {
+    name: 'Dr. Adam Kołodziej',
+    price: 'From £3,000',
+    featured: false,
+    details: [
+      { label: 'Experience', value: '18+ years, 700+ rhinoplasties' },
+      { label: 'Specialisation', value: 'Revision rhinoplasty, open technique' },
+      { label: 'Credentials', value: 'PTChPRiE, EBOPRAS' },
+      { label: 'Facility', value: 'Medistica, Kraków' },
+    ],
+    note: 'Revision specialist accepting cases from other clinics',
+  },
+]
+
+const PRE_TRIP_PHASES = [
+  {
+    title: 'Week 1–2: Research & Shortlist',
+    steps: ['Review surgeon portfolios and credentials', 'Request consultations from 2–4 clinics', 'Compare packages and pricing'],
+  },
+  {
+    title: 'Week 2–3: Virtual Consultations',
+    steps: ['Video calls with surgeons', 'Discuss goals, share photos', 'Receive detailed quotes'],
+  },
+  {
+    title: 'Week 3–4: Decision & Booking',
+    steps: ['Select surgeon and clinic', 'Pay deposit (typically 10–20%)', 'Book flights and arrange accommodation'],
+  },
+  {
+    title: 'Week 4–8: Preparation',
+    steps: [
+      'Complete medical questionnaire',
+      'Stop smoking (minimum 2 weeks before)',
+      'Stop blood-thinning medications (1 week before)',
+      'Arrange time off work (10–14 days)',
+    ],
+  },
+]
+
+const TRIP_DAYS = [
+  { day: 'Day 1', description: 'Arrive in Poland. Transfer to accommodation. Rest and acclimatise.', highlight: false },
+  { day: 'Day 2', description: 'Transfer to clinic. In-person consultation. Blood tests, pre-op checks. Final surgical plan confirmation.', highlight: false },
+  { day: 'Day 3', description: 'Surgery Day. 1.5–3 hours under general anaesthesia. Recovery in private room. Overnight stay with nursing care.', highlight: true },
+  { day: 'Day 4–6', description: 'Recovery at accommodation. Minimal activity, head elevated. Gentle walks if staying at KCM (mountain air).', highlight: false },
+  { day: 'Day 7–10', description: 'Splint removal. Surgeon review and clearance to fly. Final instructions. Return home.', highlight: true },
+]
+
+const POST_TRIP_RECOVERY = [
+  { period: 'Week 2–3', description: 'Most bruising fades. Resume light activities. Work from home possible. First telemedicine follow-up.' },
+  { period: 'Week 4–6', description: 'Return to normal activities. Most swelling resolved. Can resume exercise (avoid contact sports).' },
+  { period: 'Month 2–3', description: 'Second telemedicine follow-up. 80–90% swelling resolved. Results becoming apparent.' },
+  { period: 'Month 6–12', description: 'Final results emerging. Residual swelling fully resolved. Nose "settles" into final shape.' },
+]
+
+const RECOVERY_AVOIDANCE = [
+  { duration: '4 Weeks', activity: 'Blowing nose' },
+  { duration: '3 Weeks', activity: 'Strenuous exercise' },
+  { duration: '4–6 Months', activity: 'Wearing glasses on nose' },
+  { duration: '3 Months', activity: 'Sun exposure (use SPF 50+)' },
+  { duration: '6 Months', activity: 'Sleeping face-down' },
+  { duration: '6 Months', activity: 'Contact sports' },
+]
+
+const MINIMIZE_RISK_ITEMS = [
+  'Choose ISO-certified facilities',
+  'Select PTChPRiE-certified surgeons',
+  'Follow all pre-operative instructions',
+  'Disclose complete medical history',
+  'Adhere to post-operative care',
+  'Attend all follow-up appointments',
+  'Have realistic expectations',
+  'Confirm revision policy in writing',
+]
+
+const CROSS_LINKS = [
+  { href: '/procedures/rhinoplasty', title: 'Rhinoplasty Hub', description: 'Compare all rhinoplasty destinations and techniques' },
+  { href: '/procedures/rhinoplasty/turkey', title: 'Rhinoplasty in Turkey', description: 'Maximum savings, highest volume destination' },
+  { href: '/procedures/rhinoplasty/spain', title: 'Rhinoplasty in Spain', description: 'Premium European care, technique innovation' },
+  { href: '/procedures/rhinoplasty/hungary', title: 'Rhinoplasty in Hungary', description: 'EU-standard care at accessible prices' },
+  { href: '/destinations/poland', title: 'Poland Destination Guide', description: 'Everything about medical tourism in Poland' },
+  { href: '/cosmetic-surgery', title: 'All Cosmetic Surgery', description: 'Browse all cosmetic procedures abroad' },
+]
+
+const FACILITY_STANDARDS = [
+  { icon: Award, title: 'ISO 9001 Certification', description: 'Quality management standard. Many Polish private clinics hold ISO certification.' },
+  { icon: Shield, title: 'NFZ Accreditation', description: 'Polish National Health Fund accreditation indicates compliance with national standards.' },
+  { icon: Star, title: 'EU Healthcare Directive', description: 'All Polish facilities must comply with EU healthcare regulations.' },
+]
+
+// =============================================================================
 // ANIMATION VARIANTS
 // =============================================================================
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 },
 }
 
 // =============================================================================
@@ -40,1885 +361,1280 @@ const staggerContainer = {
 
 export function RhinoplastyPolandClient({ faqs }: RhinoplastyPolandClientProps) {
   return (
-    <LazyMotion features={domAnimation}>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-rose-50 to-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="bg-neutral-50">
+
+        {/* =================================================================
+            HERO SECTION
+            ================================================================= */}
+        <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-20 pb-24 sm:pt-32 sm:pb-40">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A1A2F] via-[#0A1A2F]/95 to-primary-900/50" />
+
           <m.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
-              <div className="w-12 overflow-hidden rounded shadow-sm">
-                <PL title="Poland" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Rhinoplasty in Poland
-              </h1>
-            </m.div>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+              x: [0, 50, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]"
+          />
+          <m.div
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.4, 0.2],
+              x: [0, -70, 0],
+              y: [0, -40, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]"
+          />
+
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl"
             >
-              Poland welcomed 700,000+ medical tourists in 2024. Compare
-              EU-trained surgeons, ISO-accredited clinics, and comprehensive
-              packages from £2,900. Save 40–60% vs UK prices with European
-              healthcare standards and consumer protections.
-            </m.p>
-
-            <m.div variants={fadeInUp} className="mt-8 flex justify-center">
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=poland"
-                className="rounded-lg bg-rose-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-rose-700 hover:shadow-xl"
+              <m.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center gap-3 mb-8"
               >
-                Compare Verified Rhinoplasty Surgeons →
-              </Link>
+                <div className="h-px w-12 bg-primary-400" />
+                <span className="text-primary-200 text-sm font-bold tracking-[0.3em] uppercase">
+                  Premium Cosmetic Surgery
+                </span>
+              </m.div>
+
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-14 overflow-hidden rounded-lg shadow-lg">
+                  <PL title="Poland" />
+                </div>
+                <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl leading-[1.1]">
+                  Rhinoplasty in{' '}
+                  <span className="bg-gradient-to-r from-white via-primary-100 to-white/80 bg-clip-text text-transparent">
+                    Poland
+                  </span>
+                </h1>
+              </div>
+
+              <p className="text-lg text-neutral-300 sm:text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-3xl">
+                Poland welcomed 700,000+ medical tourists in 2024. Compare
+                EU-trained surgeons, ISO-accredited clinics, and comprehensive
+                packages from £2,900. Save 40–60% vs UK prices with European
+                healthcare standards and consumer protections.
+              </p>
+
+              <div className="flex flex-col gap-5 sm:flex-row">
+                <Link href="/clinics?procedure=rhinoplasty&country=poland">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-500 hover:scale-105 transition-all duration-300 rounded-full px-10 py-7 text-lg font-medium shadow-xl shadow-primary-900/20"
+                  >
+                    Compare Verified Rhinoplasty Surgeons
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="#pricing">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto border-white/20 bg-white/5 text-white hover:bg-white/10 rounded-full px-10 py-7 text-lg font-medium backdrop-blur-md transition-all duration-300"
+                  >
+                    View 2026 Prices
+                  </Button>
+                </Link>
+              </div>
             </m.div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-sm text-slate-500">
+            <m.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-20 sm:mt-28 grid grid-cols-1 gap-6 sm:grid-cols-3 border-t border-white/10 pt-12"
+            >
+              {HERO_STATS.map((stat, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 p-8 text-center"
+                >
+                  <p className="text-3xl font-bold text-white sm:text-4xl">{stat.value}</p>
+                  <p className="mt-2 text-sm font-medium tracking-widest uppercase text-neutral-400">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </m.div>
+
+            <m.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-8 text-center text-sm text-neutral-500"
+            >
               EU healthcare standards • ISO-accredited clinics • 40–60% savings
               vs UK • Free consultation matching
             </m.p>
+          </div>
+        </section>
 
-            {/* Hero Stats */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
-            >
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">£2,900–£4,500</p>
-                <p className="mt-1 text-slate-600">Primary rhinoplasty</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">700,000+</p>
-                <p className="mt-1 text-slate-600">Medical tourists in 2024</p>
-              </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">EU</p>
-                <p className="mt-1 text-slate-600">Healthcare standards</p>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
 
-      {/* Why Poland Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Why UK Patients Choose Poland for Rhinoplasty
-            </m.h2>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-6 space-y-4 text-slate-600"
-              data-aeo="rhinoplasty-poland-benefits"
-            >
-              <p>
-                Poland has emerged as a compelling choice for UK patients
-                seeking quality rhinoplasty at accessible prices. As an EU
-                member since 2004, Poland offers European healthcare standards,
-                EU-recognised medical qualifications, and consumer protection
-                laws — all within a 2-hour flight from London.
-              </p>
-
-              <p>
-                Polish surgeons bring Central European precision to rhinoplasty.
-                Many trained in Germany, Austria, or the UK before returning to
-                practice in Poland. This combination of rigorous training and
-                lower operating costs creates genuine value — not compromised
-                quality at cheap prices.
-              </p>
-
-              <p>
-                The country&apos;s medical tourism infrastructure has matured
-                significantly. Purpose-built facilities like KCM Clinic in
-                Jelenia Góra offer international patients a seamless experience
-                with English-speaking staff, dedicated recovery accommodation,
-                and comprehensive packages.
-              </p>
-
-              <p>
-                Poland welcomed over 700,000 medical tourists in 2024, with
-                cosmetic surgery representing a growing segment. The Polish
-                Society of Plastic, Reconstructive and Aesthetic Surgery
-                (PTChPRiE) maintains rigorous standards, and private clinics
-                often exceed these with ISO certifications and international
-                accreditations.
-              </p>
-            </m.div>
-
-            {/* Key Advantages Grid */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            >
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">EU Standards</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  European healthcare regulations and consumer protections
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  Central European Training
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Many surgeons trained in Germany, Austria, UK
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  Short Travel Distance
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  2-hour flights from London to Warsaw or Kraków
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  40–60% Savings
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Quality care at accessible prices
-                </p>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Cost Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Rhinoplasty Cost in Poland vs UK: 2025 Price Comparison
-            </m.h2>
-
-            {/* Main Price Comparison */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-poland-cost"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Procedure Cost Comparison
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Procedure Type
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-rose-600 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
-                            <PL title="Poland" />
-                          </div>
-                          <span>Poland</span>
-                        </div>
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
-                            <GB title="UK" />
-                          </div>
-                          <span>UK (Surgery Only)</span>
-                        </div>
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        <span>Your Savings</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Primary Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,900–£4,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,500–£9,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        £3,600–£5,000
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Revision Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,800–£5,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £10,000–£16,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        £6,200–£10,500
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Piezo/Ultrasonic Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,500–£5,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000–£12,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        £4,500–£7,000
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Septorhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,200–£4,800
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000–£11,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        £4,800–£6,200
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Rhinoplasty + Chin Augmentation
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £4,200–£6,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £9,000–£14,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                        £4,800–£8,000
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            {/* What's Typically Included */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                What&apos;s Typically Included (Poland)
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Pre-operative Consultation
+          {/* =================================================================
+              WHY POLAND SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="grid gap-16 lg:grid-cols-12 items-start">
+              <div className="lg:col-span-5">
+                <div className="sticky top-32">
+                  <m.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '80px' }}
+                    viewport={{ once: true }}
+                    className="h-1.5 bg-primary-600 rounded-full mb-8"
+                  />
+                  <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                    Why UK Patients Choose Poland for Rhinoplasty
+                  </h2>
+                  <p className="mt-8 text-lg text-neutral-600 font-light leading-relaxed">
+                    Poland has emerged as a compelling choice for UK patients
+                    seeking quality rhinoplasty at accessible prices. As an EU
+                    member since 2004, Poland offers European healthcare standards,
+                    EU-recognised medical qualifications, and consumer protection
+                    laws — all within a 2-hour flight from London.
                   </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Virtual + in-person consultation with surgeon
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Medical Testing</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Blood tests, ECG, pre-operative assessments
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Surgery</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Surgeon fee, anaesthesiologist, operating theatre
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Hospital Stay</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    1 night with nursing care
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Post-op Care</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Medications, nasal splint, dressings
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Follow-up</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    In-clinic appointments + splint removal
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Aftercare</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Telemedicine follow-ups for 12 months
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Coordinator</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    English-speaking patient coordinator
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Fit-to-Fly</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Clearance consultation before departure
-                  </p>
-                </div>
-              </div>
-            </m.div>
 
-            {/* Additional Costs */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Additional Costs to Budget
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Item
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Estimated Cost
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Return flights (UK to Warsaw/Kraków)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £60–£200
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Accommodation (7-10 nights)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £350–£700
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Travel insurance (with medical cover)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £30–£60
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Airport transfers (if not included)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £40–£80
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4"
-            >
-              <p className="font-medium text-slate-900">Money-Saving Tip</p>
-              <p className="mt-1 text-sm text-slate-600">
-                KCM Clinic in Jelenia Góra offers all-inclusive packages with
-                accommodation included, simplifying budgeting. Request itemised
-                quotes from multiple clinics and compare total costs including
-                travel.
-              </p>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Regional Guide Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Where to Have Rhinoplasty in Poland: Regional Guide
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Poland offers several excellent destinations for rhinoplasty, each
-              with distinct advantages. Understanding these options helps you
-              choose the right setting for your procedure and recovery.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2"
-              data-aeo="rhinoplasty-poland-regions"
-            >
-              {/* Warsaw */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900">Warsaw</h3>
-                <p className="mt-1 text-sm text-rose-600">Medical Hub • Largest Surgeon Selection</p>
-                <div className="mt-4 space-y-3 text-sm text-slate-600">
-                  <p>
-                    Poland&apos;s capital offers the highest concentration of
-                    plastic surgeons and university hospital affiliations.
-                    Multiple daily flights from London, Manchester, and
-                    Edinburgh.
-                  </p>
-                  <div>
-                    <p className="font-medium text-slate-900">Key Advantages:</p>
-                    <ul className="mt-1 space-y-1">
-                      <li>• Widest selection of surgeons</li>
-                      <li>• University hospital access</li>
-                      <li>• Best flight connectivity</li>
-                      <li>• Modern medical infrastructure</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-medium text-slate-900">Notable Clinics:</p>
-                    <p>Warsaw Aesthetic, Artplastica, Carolina Medical Center</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Kraków */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900">Kraków</h3>
-                <p className="mt-1 text-sm text-rose-600">Historic Charm • Slightly Lower Costs</p>
-                <div className="mt-4 space-y-3 text-sm text-slate-600">
-                  <p>
-                    Poland&apos;s cultural capital combines excellent medical
-                    care with historic charm. Direct flights from several UK
-                    airports. Slightly lower costs than Warsaw.
-                  </p>
-                  <div>
-                    <p className="font-medium text-slate-900">Key Advantages:</p>
-                    <ul className="mt-1 space-y-1">
-                      <li>• Beautiful recovery environment</li>
-                      <li>• 5–10% lower prices than Warsaw</li>
-                      <li>• UNESCO Old Town for gentle walks</li>
-                      <li>• Strong medical university tradition</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-medium text-slate-900">Notable Clinics:</p>
-                    <p>KCM Clinic (nearby), Galen Clinic, Medistica</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Jelenia Góra / KCM Clinic */}
-              <div className="rounded-xl border-2 border-rose-200 bg-rose-50 p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900">
-                  Jelenia Góra (KCM Clinic)
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">
-                  Mountain Recovery • Purpose-Built Medical Tourism
-                </p>
-                <div className="mt-4 space-y-3 text-sm text-slate-600">
-                  <p>
-                    KCM Clinic is Poland&apos;s premier medical tourism
-                    facility, purpose-built for international patients. Located
-                    in the Karkonosze Mountains, it offers a unique recovery
-                    environment combining medical excellence with mountain air.
-                  </p>
-                  <div>
-                    <p className="font-medium text-slate-900">Key Advantages:</p>
-                    <ul className="mt-1 space-y-1">
-                      <li>• All-inclusive packages with accommodation</li>
-                      <li>• English-speaking staff throughout</li>
-                      <li>• Peaceful mountain recovery setting</li>
-                      <li>• Dedicated international patient experience</li>
-                      <li>• On-site recovery apartments</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-medium text-slate-900">Access:</p>
-                    <p>
-                      3 hours from Berlin (Schönefeld), 2 hours from Wrocław
-                      airport. Transfers included in packages.
+                  <div className="mt-10 p-8 rounded-[2rem] bg-neutral-50 border border-neutral-100 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary-100/50 blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                    <Shield className="h-10 w-10 text-primary-600 mb-6 relative z-10" />
+                    <h3 className="text-xl font-bold text-neutral-900 mb-4 relative z-10">EU Healthcare Standards</h3>
+                    <p className="text-sm text-neutral-600 leading-relaxed relative z-10">
+                      Poland welcomed over 700,000 medical tourists in 2024, with
+                      cosmetic surgery representing a growing segment. The Polish
+                      Society of Plastic, Reconstructive and Aesthetic Surgery
+                      (PTChPRiE) maintains rigorous standards.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Wrocław */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900">Wrocław</h3>
-                <p className="mt-1 text-sm text-rose-600">University City • Growing Hub</p>
-                <div className="mt-4 space-y-3 text-sm text-slate-600">
-                  <p>
-                    A vibrant university city with excellent medical facilities
-                    and direct flights from London. Gateway to KCM Clinic in
-                    Jelenia Góra.
+              <div className="lg:col-span-7 space-y-12" data-aeo="rhinoplasty-poland-benefits">
+                {[
+                  {
+                    title: 'Central European Precision',
+                    content:
+                      'Polish surgeons bring Central European precision to rhinoplasty. Many trained in Germany, Austria, or the UK before returning to practice in Poland. This combination of rigorous training and lower operating costs creates genuine value — not compromised quality at cheap prices.',
+                  },
+                  {
+                    title: 'Mature Medical Tourism Infrastructure',
+                    content:
+                      "The country's medical tourism infrastructure has matured significantly. Purpose-built facilities like KCM Clinic in Jelenia Góra offer international patients a seamless experience with English-speaking staff, dedicated recovery accommodation, and comprehensive packages.",
+                  },
+                  {
+                    title: 'Rigorous Standards & Accreditations',
+                    content:
+                      'Poland welcomed over 700,000 medical tourists in 2024, with cosmetic surgery representing a growing segment. The Polish Society of Plastic, Reconstructive and Aesthetic Surgery (PTChPRiE) maintains rigorous standards, and private clinics often exceed these with ISO certifications and international accreditations.',
+                  },
+                ].map((item, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="group"
+                  >
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-lg text-neutral-600 font-light leading-relaxed">
+                      {item.content}
+                    </p>
+                    <div className="mt-8 h-px w-full bg-neutral-100 group-last:hidden" />
+                  </m.div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {KEY_ADVANTAGES.map((adv, i) => (
+                <m.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                >
+                  <adv.icon className="h-8 w-8 text-primary-600 mb-4" />
+                  <p className="font-bold text-neutral-900">{adv.title}</p>
+                  <p className="mt-2 text-sm text-neutral-600 font-light">{adv.description}</p>
+                </m.div>
+              ))}
+            </div>
+          </m.section>
+
+          {/* =================================================================
+              PRICING SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} id="pricing" className="mb-32 scroll-mt-20">
+            <div className="bg-neutral-900 rounded-[3rem] p-8 sm:p-16 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-600/10 blur-[120px]" />
+
+              <div className="relative z-10">
+                <div className="max-w-2xl mb-16">
+                  <span className="text-sm font-bold tracking-[0.2em] text-primary-400 uppercase mb-4 block">
+                    2026 Price Guide
+                  </span>
+                  <h2 className="text-4xl font-bold text-white tracking-tight sm:text-5xl mb-6">
+                    Rhinoplasty Cost in Poland vs UK
+                  </h2>
+                  <p className="text-lg text-neutral-400 font-light">
+                    Transparent pricing comparison. Save 40–60% compared to UK private clinics.
                   </p>
-                  <div>
-                    <p className="font-medium text-slate-900">Key Advantages:</p>
-                    <ul className="mt-1 space-y-1">
-                      <li>• Direct Ryanair flights from UK</li>
-                      <li>• Strong university medical tradition</li>
-                      <li>• Gateway to Jelenia Góra/KCM</li>
-                      <li>• Pleasant riverside recovery setting</li>
-                    </ul>
+                </div>
+
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                  <div className="lg:col-span-8 space-y-8" data-aeo="rhinoplasty-poland-cost">
+                    <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="text-left">
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                Procedure Type
+                              </th>
+                              <th className="p-6 text-sm font-bold text-primary-600 uppercase tracking-widest">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 overflow-hidden rounded-sm">
+                                    <PL title="Poland" />
+                                  </div>
+                                  Poland
+                                </div>
+                              </th>
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 overflow-hidden rounded-sm">
+                                    <GB title="UK" />
+                                  </div>
+                                  UK (Surgery Only)
+                                </div>
+                              </th>
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                Your Savings
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-neutral-100">
+                            {PRICE_COMPARISON.map((row, i) => (
+                              <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                                <td className="p-6 font-bold text-neutral-900">{row.procedure}</td>
+                                <td className="p-6 text-primary-600 font-bold">{row.poland}</td>
+                                <td className="p-6 text-neutral-500 line-through decoration-neutral-300">
+                                  {row.uk}
+                                </td>
+                                <td className="p-6">
+                                  <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-bold text-green-700">
+                                    {row.savings}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                      <div className="p-6">
+                        <h3 className="text-lg font-bold text-neutral-900 mb-4">
+                          Additional Costs to Budget
+                        </h3>
+                        <div className="overflow-x-auto">
+                          <table className="w-full border-collapse">
+                            <thead>
+                              <tr className="text-left">
+                                <th className="pb-4 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                  Item
+                                </th>
+                                <th className="pb-4 text-sm font-bold text-neutral-400 uppercase tracking-widest text-right">
+                                  Estimated Cost
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-neutral-100">
+                              {NOT_INCLUDED.map((row, i) => (
+                                <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                                  <td className="py-4 text-neutral-700">{row.item}</td>
+                                  <td className="py-4 text-neutral-900 font-medium text-right">{row.cost}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-slate-900">Notable Clinics:</p>
-                    <p>Wrocław Medical, Estevien Clinic</p>
+
+                  <div className="lg:col-span-4 space-y-6">
+                    <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
+                      <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <CheckCircle className="h-5 w-5 text-primary-400" />
+                        What&apos;s Typically Included
+                      </h3>
+                      <ul className="space-y-4">
+                        {PACKAGE_INCLUSIONS.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-neutral-300 text-sm">
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary-500 mt-2 flex-shrink-0" />
+                            <div>
+                              <span className="font-medium text-white">{item.title}</span>
+                              <span className="text-neutral-400"> — {item.description}</span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="p-8 rounded-3xl bg-amber-500/10 border border-amber-400/20 backdrop-blur-md">
+                      <h3 className="text-lg font-bold text-amber-300 mb-4 flex items-center gap-2">
+                        <Sparkles className="h-5 w-5" />
+                        Money-Saving Tip
+                      </h3>
+                      <p className="text-sm text-neutral-300 leading-relaxed">
+                        KCM Clinic in Jelenia Góra offers all-inclusive packages with
+                        accommodation included, simplifying budgeting. Request itemised
+                        quotes from multiple clinics and compare total costs including
+                        travel.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </m.div>
+            </div>
+          </m.section>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg bg-white p-6 shadow"
-            >
-              <h3 className="font-semibold text-slate-900">
-                Recommendation by Priority
-              </h3>
-              <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                <div>
-                  <p className="font-medium text-slate-900">
-                    Maximum Choice
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Warsaw — most surgeons, best connectivity
-                  </p>
-                </div>
-                <div>
-                  <p className="font-medium text-slate-900">
-                    All-Inclusive Experience
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Jelenia Góra (KCM) — purpose-built, peaceful
-                  </p>
-                </div>
-                <div>
-                  <p className="font-medium text-slate-900">
-                    Value + Culture
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Kraków — slightly lower costs, historic setting
-                  </p>
-                </div>
+          {/* =================================================================
+              REGIONAL GUIDE SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Destination Guide
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Where to Have Rhinoplasty in Poland
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Poland offers several excellent destinations for rhinoplasty, each
+                with distinct advantages. Understanding these options helps you
+                choose the right setting for your procedure and recovery.
+              </p>
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2" data-aeo="rhinoplasty-poland-regions">
+              {REGIONS.map((region, i) => (
+                <m.div
+                  key={region.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`group relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary-900/10 ${
+                    region.highlight
+                      ? 'border-2 border-primary-200 bg-primary-50/50'
+                      : 'border border-neutral-200/60 bg-white hover:border-primary-300'
+                  }`}
+                >
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
+
+                  <div className="relative z-10 flex-1">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="text-2xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
+                        {region.name}
+                      </h3>
+                      {region.highlight && (
+                        <span className="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-xs font-bold text-primary-700">
+                          Recommended
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-primary-600 font-medium mb-4">{region.tagline}</p>
+                    <p className="text-sm text-neutral-600 font-light leading-relaxed mb-6">
+                      {region.description}
+                    </p>
+                    <div className="mb-4">
+                      <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3">Key Advantages</p>
+                      <ul className="space-y-2">
+                        {region.advantages.map((adv, j) => (
+                          <li key={j} className="flex items-start gap-3 text-sm text-neutral-600 font-light">
+                            <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                            {adv}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="pt-4 border-t border-neutral-100">
+                      <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-1">{region.clinicsLabel}</p>
+                      <p className="text-sm text-neutral-600 font-light">{region.clinics}</p>
+                    </div>
+                  </div>
+                </m.div>
+              ))}
+            </div>
+
+            <div className="mt-12 rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">Recommendation by Priority</h3>
+              <div className="grid gap-8 sm:grid-cols-3">
+                {RECOMMENDATIONS.map((rec, i) => (
+                  <div key={i} className="group">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 mb-4">
+                      {i === 0 ? <MapPin className="h-6 w-6" /> : i === 1 ? <Heart className="h-6 w-6" /> : <Star className="h-6 w-6" />}
+                    </div>
+                    <p className="font-bold text-neutral-900 mb-2">{rec.label}</p>
+                    <p className="text-sm text-neutral-600 font-light">{rec.description}</p>
+                  </div>
+                ))}
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Types of Rhinoplasty Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Rhinoplasty Techniques Available in Poland
-            </m.h2>
+          {/* =================================================================
+              TYPES OF RHINOPLASTY SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div className="max-w-2xl">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">
+                  Technique Guide
+                </span>
+                <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  Rhinoplasty Techniques Available in Poland
+                </h2>
+                <p className="mt-4 text-lg text-neutral-600 font-light">
+                  Polish surgeons offer the full range of modern rhinoplasty
+                  techniques. Many trained in Germany or Austria, bringing Central
+                  European precision to their work.
+                </p>
+              </div>
+              <div className="h-px flex-1 bg-neutral-100 hidden md:block mx-8 mb-4" />
+            </div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Polish surgeons offer the full range of modern rhinoplasty
-              techniques. Many trained in Germany or Austria, bringing Central
-              European precision to their work.
-            </m.p>
+            <div className="grid gap-8 md:grid-cols-2 mb-16" data-aeo="rhinoplasty-techniques-poland">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-2">Open Rhinoplasty</h3>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6">
+                  £3,200–£4,500
+                </span>
+                <ul className="space-y-4">
+                  {[
+                    'Small incision across columella (tissue between nostrils)',
+                    'Full visibility of nasal structures',
+                    'Preferred for complex reshaping, revision cases',
+                    'Faint scar fades within 6–12 months',
+                    'Polish surgeons trained in meticulous closure',
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3 text-neutral-600 font-light">
+                      <CheckCircle className="h-5 w-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Open vs Closed */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-2">Closed Rhinoplasty</h3>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6">
+                  £2,900–£4,000
+                </span>
+                <ul className="space-y-4">
+                  {[
+                    'All incisions hidden inside nostrils',
+                    'No visible external scarring',
+                    'Suitable for minor refinements, dorsal hump reduction',
+                    'Faster recovery, less swelling',
+                    'Requires high surgeon skill due to limited visibility',
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3 text-neutral-600 font-light">
+                      <CheckCircle className="h-5 w-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <p className="text-sm italic text-neutral-500 mb-16 text-center">
+              Your surgeon will recommend the approach based on your anatomy
+              and goals. Polish surgeons are known for conservative, natural
+              results.
+            </p>
+
+            {/* Piezo/Ultrasonic Rhinoplasty */}
+            <div
+              className="rounded-[3rem] bg-gradient-to-br from-primary-600 to-primary-700 p-1 overflow-hidden shadow-2xl shadow-primary-200/50 mb-16"
               data-aeo="rhinoplasty-techniques-poland"
             >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Open vs Closed Rhinoplasty
-              </h3>
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-lg border border-slate-200 bg-white p-6">
-                  <h4 className="font-semibold text-slate-900">
-                    Open Rhinoplasty
+              <div className="rounded-[2.8rem] bg-white p-8 sm:p-16 relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-primary-50 blur-3xl" />
+
+                <div className="relative z-10">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 text-primary-600 mb-8 shadow-inner">
+                    <Zap className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-neutral-900 tracking-tight leading-[1.1] mb-2">
+                    Piezo/Ultrasonic Rhinoplasty in Poland
+                  </h3>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6">
+                    £3,500–£5,000
+                  </span>
+                  <p className="text-lg text-neutral-600 font-light leading-relaxed mb-10 max-w-3xl">
+                    Piezo rhinoplasty uses ultrasonic vibrations to sculpt nasal
+                    bones with precision, leaving soft tissue intact. This
+                    advanced technique is available at select Polish clinics,
+                    including KCM Clinic and top Warsaw practices.
+                  </p>
+
+                  <h4 className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-6">
+                    Key Advantages vs Traditional Technique
                   </h4>
-                  <p className="mt-1 text-sm text-rose-600">£3,200–£4,500</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      • Small incision across columella (tissue between
-                      nostrils)
-                    </li>
-                    <li>• Full visibility of nasal structures</li>
-                    <li>
-                      • Preferred for complex reshaping, revision cases
-                    </li>
-                    <li>• Faint scar fades within 6–12 months</li>
-                    <li>• Polish surgeons trained in meticulous closure</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg border border-slate-200 bg-white p-6">
-                  <h4 className="font-semibold text-slate-900">
-                    Closed Rhinoplasty
-                  </h4>
-                  <p className="mt-1 text-sm text-rose-600">£2,900–£4,000</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>• All incisions hidden inside nostrils</li>
-                    <li>• No visible external scarring</li>
-                    <li>
-                      • Suitable for minor refinements, dorsal hump reduction
-                    </li>
-                    <li>• Faster recovery, less swelling</li>
-                    <li>
-                      • Requires high surgeon skill due to limited visibility
-                    </li>
-                  </ul>
+                  <div className="bg-neutral-50 rounded-[2rem] p-2 border border-neutral-100 mb-10">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="text-left">
+                            <th className="p-5 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                              Aspect
+                            </th>
+                            <th className="p-5 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                              Traditional
+                            </th>
+                            <th className="p-5 text-sm font-bold text-primary-600 uppercase tracking-widest">
+                              Piezo/Ultrasonic
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-200">
+                          {PIEZO_COMPARISON.map((row, i) => (
+                            <tr key={i} className="group">
+                              <td className="p-5 font-bold text-neutral-900">{row.aspect}</td>
+                              <td className="p-5 text-neutral-500 font-light">{row.traditional}</td>
+                              <td className="p-5 text-green-600 font-bold">{row.piezo}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                    <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                      <strong className="text-neutral-900">Availability:</strong> Confirm piezo availability when
+                      booking. Not all Polish clinics offer this technique. KCM
+                      Clinic and select Warsaw practices have invested in piezo
+                      technology.
+                    </p>
+                  </div>
                 </div>
               </div>
-              <p className="mt-4 text-sm italic text-slate-500">
-                Your surgeon will recommend the approach based on your anatomy
-                and goals. Polish surgeons are known for conservative, natural
-                results.
-              </p>
-            </m.div>
-
-            {/* Piezo Rhinoplasty */}
-            <m.div variants={fadeInUp} className="mt-10">
-              <div className="rounded-xl border-2 border-rose-200 bg-rose-50 p-6">
-                <h3 className="text-xl font-bold text-slate-900">
-                  Piezo/Ultrasonic Rhinoplasty in Poland
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">£3,500–£5,000</p>
-                <p className="mt-3 text-slate-600">
-                  Piezo rhinoplasty uses ultrasonic vibrations to sculpt nasal
-                  bones with precision, leaving soft tissue intact. This
-                  advanced technique is available at select Polish clinics,
-                  including KCM Clinic and top Warsaw practices.
-                </p>
-
-                <h4 className="mt-6 font-semibold text-slate-900">
-                  Key Advantages vs Traditional Technique
-                </h4>
-                <div className="mt-4 overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                    <thead className="bg-slate-100">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Aspect
-                        </th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Traditional
-                        </th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Piezo/Ultrasonic
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200">
-                      <tr>
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Bruising duration
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          14–21 days
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          7–10 days
-                        </td>
-                      </tr>
-                      <tr className="bg-slate-50">
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Swelling peak
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          Day 10–12
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          Day 5
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Return to social activities
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          2–3 weeks
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          10–14 days
-                        </td>
-                      </tr>
-                      <tr className="bg-slate-50">
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Precision
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          Good
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          Excellent
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <p className="mt-4 text-sm text-slate-600">
-                  <strong>Availability:</strong> Confirm piezo availability when
-                  booking. Not all Polish clinics offer this technique. KCM
-                  Clinic and select Warsaw practices have invested in piezo
-                  technology.
-                </p>
-              </div>
-            </m.div>
+            </div>
 
             {/* Other Types */}
-            <m.div variants={fadeInUp} className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Revision Rhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,800–£5,500</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Corrects unsatisfactory results from previous surgery</li>
-                  <li>• More complex due to scar tissue, altered anatomy</li>
-                  <li>• Polish surgeons trained in revision techniques</li>
-                  <li>• Wait minimum 12 months after initial surgery</li>
-                </ul>
-              </div>
+            <div className="grid gap-8 md:grid-cols-2">
+              {RHINOPLASTY_TYPES.map((type, i) => (
+                <m.div
+                  key={type.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative flex flex-col rounded-[2rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
+                >
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
 
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Septorhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,200–£4,800</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Combines cosmetic reshaping with septal correction</li>
-                  <li>• Addresses breathing difficulties + aesthetics</li>
-                  <li>• Dual-trained ENT/plastic surgeons available</li>
-                  <li>• Popular choice for functional improvement</li>
-                </ul>
-              </div>
+                  <div className="relative z-10 flex-1">
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-primary-700 transition-colors">
+                      {type.name}
+                    </h3>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6">
+                      {type.price}
+                    </span>
+                    <ul className="space-y-3">
+                      {type.points.map((point, j) => (
+                        <li key={j} className="flex items-start gap-3 text-neutral-600 font-light text-sm">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </m.div>
+              ))}
+            </div>
+          </m.section>
 
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Preservation Rhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,500–£5,000</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Modern technique preserving natural structures</li>
-                  <li>• More natural movement and appearance</li>
-                  <li>• Growing availability at top Polish clinics</li>
-                  <li>• Suits patients wanting subtle refinement</li>
-                </ul>
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Rhinoplasty + Chin Augmentation
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£4,200–£6,000</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Facial harmony through profile balancing</li>
-                  <li>• Single anaesthesia, combined recovery</li>
-                  <li>• Popular combination in Poland</li>
-                  <li>• Discuss suitability in consultation</li>
-                </ul>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* How to Choose a Surgeon Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              How to Choose a Rhinoplasty Surgeon in Poland
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Poland&apos;s EU membership means medical qualifications are
-              recognised across Europe. Here&apos;s how to verify credentials
-              and select the right surgeon.
-            </m.p>
+          {/* =================================================================
+              HOW TO CHOOSE A SURGEON SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Surgeon Selection
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                How to Choose a Rhinoplasty Surgeon in Poland
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Poland&apos;s EU membership means medical qualifications are
+                recognised across Europe. Here&apos;s how to verify credentials
+                and select the right surgeon.
+              </p>
+            </div>
 
             {/* Credentials */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-surgeon-credentials-poland"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 mb-8" data-aeo="rhinoplasty-surgeon-credentials-poland">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-2">
                 Essential Credentials to Verify
               </h3>
-              <div className="rounded-lg bg-white p-6 shadow">
-                <p className="font-medium text-slate-900">
-                  Key Certifications (Hierarchy of Credibility)
-                </p>
-                <ol className="mt-4 space-y-3 text-sm text-slate-600">
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      1
+              <p className="text-neutral-500 font-light mb-8">
+                Key Certifications (Hierarchy of Credibility)
+              </p>
+              <ol className="space-y-6">
+                {CREDENTIALS.map((cred, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-primary-50 text-lg font-black text-primary-600">
+                      {i + 1}
                     </span>
                     <div>
-                      <span className="font-medium text-slate-900">PTChPRiE</span>{' '}
-                      — Polish Society of Plastic, Reconstructive and Aesthetic
-                      Surgery (Primary Polish board)
+                      <span className="font-bold text-neutral-900">{cred.label}</span>
+                      <span className="text-neutral-600 font-light"> — {cred.description}</span>
                     </div>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      2
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">EBOPRAS</span>{' '}
-                      — European Board of Plastic, Reconstructive and Aesthetic
-                      Surgery
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      3
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">ISAPS</span>{' '}
-                      — International Society of Aesthetic Plastic Surgery
-                      (global recognition)
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      4
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">
-                        Polish Medical Chamber Registration
-                      </span>{' '}
-                      — Legal requirement to practice
-                    </div>
-                  </li>
-                </ol>
-                <p className="mt-4 text-sm italic text-slate-500">
-                  How to verify: Request registration numbers and cross-reference
-                  with PTChPRiE directory. EU-trained surgeons welcome verification.
-                </p>
-              </div>
-            </m.div>
+                ))}
+              </ol>
+              <p className="mt-8 text-sm italic text-neutral-500">
+                How to verify: Request registration numbers and cross-reference
+                with PTChPRiE directory. EU-trained surgeons welcome verification.
+              </p>
+            </div>
 
             {/* Experience Indicators */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Experience Indicators
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Volume Thresholds</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      • <strong>Minimum acceptable:</strong> 100+ rhinoplasties
-                    </li>
-                    <li>
-                      • <strong>Experienced:</strong> 500+ rhinoplasties
-                    </li>
-                    <li>
-                      • <strong>Expert level:</strong> 1,000+ rhinoplasties
-                    </li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Ask Directly</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      &quot;How many rhinoplasties do you perform annually?&quot;
-                    </li>
-                    <li>
-                      &quot;What is your revision rate?&quot;
-                    </li>
-                    <li>
-                      &quot;Can you share before/after photos of similar cases?&quot;
-                    </li>
-                  </ul>
-                </div>
+            <div className="grid gap-8 sm:grid-cols-2 mb-8">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Activity className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Volume Thresholds</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Minimum acceptable:</strong> 100+ rhinoplasties</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Experienced:</strong> 500+ rhinoplasties</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Expert level:</strong> 1,000+ rhinoplasties</span>
+                  </li>
+                </ul>
               </div>
-            </m.div>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Heart className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Ask Directly</h3>
+                <ul className="space-y-4 text-sm text-neutral-600 font-light">
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;How many rhinoplasties do you perform annually?&quot;
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;What is your revision rate?&quot;
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;Can you share before/after photos of similar cases?&quot;
+                  </li>
+                </ul>
+              </div>
+            </div>
 
             {/* Red Flags */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6"
-            >
-              <p className="font-medium text-red-800">Red Flags to Avoid</p>
-              <ul className="mt-3 grid gap-2 text-sm text-red-700 sm:grid-cols-2">
-                <li>• Reluctance to share credentials or photos</li>
-                <li>• Prices significantly below market (under £2,000)</li>
-                <li>• Pressure to book quickly</li>
-                <li>• No revision policy in writing</li>
-                <li>• Surgery at non-accredited facilities</li>
-                <li>• No EU medical qualifications</li>
+            <div className="rounded-[2rem] bg-red-50 border border-red-100 p-8 mb-8">
+              <h3 className="text-xl font-bold text-red-900 mb-6 flex items-center gap-3">
+                <Shield className="h-6 w-6 text-red-600" />
+                Red Flags to Avoid
+              </h3>
+              <ul className="grid gap-3 text-sm text-red-800 sm:grid-cols-2">
+                {[
+                  'Reluctance to share credentials or photos',
+                  'Prices significantly below market (under £2,000)',
+                  'Pressure to book quickly',
+                  'No revision policy in writing',
+                  'Surgery at non-accredited facilities',
+                  'No EU medical qualifications',
+                ].map((flag, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="h-1.5 w-1.5 rounded-full bg-red-500 mt-2 flex-shrink-0" />
+                    {flag}
+                  </li>
+                ))}
               </ul>
-            </m.div>
+            </div>
 
             {/* Facility Standards */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Facility Standards in Poland
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    ISO 9001 Certification
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Quality management standard. Many Polish private clinics
-                    hold ISO certification.
-                  </p>
+            <div className="grid gap-6 sm:grid-cols-3">
+              {FACILITY_STANDARDS.map((item, i) => (
+                <div key={i} className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                  <item.icon className="h-8 w-8 text-primary-600 mb-4" />
+                  <h4 className="font-bold text-neutral-900 mb-3">{item.title}</h4>
+                  <p className="text-sm text-neutral-600 font-light leading-relaxed">{item.description}</p>
                 </div>
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    NFZ Accreditation
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Polish National Health Fund accreditation indicates
-                    compliance with national standards.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    EU Healthcare Directive
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    All Polish facilities must comply with EU healthcare
-                    regulations.
-                  </p>
-                </div>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+              ))}
+            </div>
+          </m.section>
 
-      {/* Featured Surgeons Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Featured Rhinoplasty Surgeons in Poland
-            </m.h2>
+          {/* =================================================================
+              FEATURED SURGEONS SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Verified Specialists
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Featured Rhinoplasty Surgeons in Poland
+              </h2>
+            </div>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {/* Dr. Grzegorz Kierzynka */}
-              <div className="rounded-xl border-2 border-rose-200 bg-white p-6 shadow-sm">
-                <div className="mb-2 inline-block rounded bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
-                  Featured
-                </div>
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Grzegorz Kierzynka
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £3,500</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 1,100+ rhinoplasties, sub-5%
-                    revision rate
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Primary and revision
-                    rhinoplasty, piezo technique
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> PTChPRiE member, trained in
-                    Germany
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> KCM Clinic, Jelenia Góra
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Lead rhinoplasty surgeon at
-                    Poland&apos;s premier medical tourism facility
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs italic text-slate-500">
-                  Philosophy: Meticulous technique, natural results, thorough
-                  pre-operative planning
-                </p>
-              </div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {SURGEONS.map((surgeon, i) => (
+                <m.div
+                  key={surgeon.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`group relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary-900/10 ${
+                    surgeon.featured
+                      ? 'border-2 border-primary-200 bg-white'
+                      : 'border border-neutral-200/60 bg-white hover:border-primary-300'
+                  }`}
+                >
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
 
-              {/* Dr. Michał Charytonowicz */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Michał Charytonowicz
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £3,200</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 15+ years, 800+ rhinoplasties
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Preservation rhinoplasty,
-                    closed technique
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> PTChPRiE, European Rhinoplasty
-                    Society
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Warsaw Aesthetic Clinic
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Known for natural, subtle results
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Reviews: Highly rated for communication and results
-                </p>
-              </div>
+                  <div className="relative z-10 flex-1">
+                    {surgeon.featured && (
+                      <span className="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-xs font-bold text-primary-700 mb-4">
+                        Featured
+                      </span>
+                    )}
+                    <h3 className="text-xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
+                      {surgeon.name}
+                    </h3>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mt-2 mb-6">
+                      {surgeon.price}
+                    </span>
+                    <ul className="space-y-3">
+                      {surgeon.details.map((detail, j) => (
+                        <li key={j} className="text-sm text-neutral-600 font-light">
+                          <strong className="text-neutral-900">{detail.label}:</strong> {detail.value}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              {/* Dr. Marta Wilczyńska */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Marta Wilczyńska
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £2,900</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 12+ years, 600+ rhinoplasties
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Female rhinoplasty, ethnic
-                    rhinoplasty
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> PTChPRiE, trained in Austria
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Artplastica, Warsaw
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Specialises in feminine aesthetic
-                    goals
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Popular with UK female patients seeking refined results
-                </p>
-              </div>
+                  {surgeon.note && (
+                    <div className="relative z-10 mt-6 pt-6 border-t border-neutral-100">
+                      <p className="text-xs italic text-neutral-500">{surgeon.note}</p>
+                    </div>
+                  )}
+                </m.div>
+              ))}
 
-              {/* Dr. Tomasz Sirek */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Tomasz Sirek
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £3,400</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 20+ years, 1,000+ procedures
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Septorhinoplasty,
-                    functional correction
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> PTChPRiE, ENT + Plastic
-                    Surgery dual qualification
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Carolina Medical Center, Warsaw
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Ideal for patients with breathing concerns + aesthetic goals
-                </p>
-              </div>
-
-              {/* Dr. Adam Kołodziej */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Adam Kołodziej
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £3,000</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 18+ years, 700+ rhinoplasties
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Revision rhinoplasty, open
-                    technique
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> PTChPRiE, EBOPRAS
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Medistica, Kraków
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Revision specialist accepting cases from other clinics
-                </p>
-              </div>
-
-              {/* Consultation CTA */}
-              <div className="flex items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6">
+              {/* Consultation CTA Card */}
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center justify-center rounded-[2.5rem] border-2 border-dashed border-neutral-300 bg-neutral-50/50 p-8"
+              >
                 <div className="text-center">
-                  <p className="font-medium text-slate-700">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 mx-auto mb-6">
+                    <Heart className="h-8 w-8" />
+                  </div>
+                  <p className="font-bold text-neutral-700 text-lg mb-2">
                     Need help choosing a surgeon?
                   </p>
-                  <p className="mt-2 text-sm text-slate-500">
+                  <p className="text-sm text-neutral-500 font-light mb-6">
                     Our team can match you with verified surgeons based on your
                     goals, budget, and preferences.
                   </p>
-                  <Link
-                    href="/enquiry?procedure=rhinoplasty&country=poland"
-                    className="mt-4 inline-block text-rose-600 hover:underline"
-                  >
-                    Get Surgeon Recommendations →
+                  <Link href="/enquiry?procedure=rhinoplasty&country=poland">
+                    <Button className="rounded-full px-8">
+                      Get Surgeon Recommendations
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
                   </Link>
                 </div>
-              </div>
-            </m.div>
+              </m.div>
+            </div>
 
-            <m.p
-              variants={fadeInUp}
-              className="mt-6 text-sm italic text-slate-500"
-            >
-              medit verifies surgeon credentials through official registries.
+            <p className="mt-8 text-sm italic text-neutral-500 text-center">
+              MeetYourClinic verifies surgeon credentials through official registries.
               Profiles updated quarterly. Always confirm current information
               directly with clinics.
-            </m.p>
-          </m.div>
-        </div>
-      </section>
+            </p>
+          </m.section>
 
-      {/* Patient Journey Timeline */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Your Rhinoplasty Journey: Step-by-Step Timeline
-            </m.h2>
+          {/* =================================================================
+              PATIENT JOURNEY TIMELINE
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Step-by-Step Guide
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Your Rhinoplasty Journey
+              </h2>
+            </div>
 
             {/* Pre-Trip Phase */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-poland-timeline"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="mb-12" data-aeo="rhinoplasty-poland-timeline">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">
                 Pre-Trip Phase (4–8 Weeks Before)
               </h3>
               <div className="space-y-4">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 1–2: Research & Shortlist
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Review surgeon portfolios and credentials</li>
-                    <li>• Request consultations from 2–4 clinics</li>
-                    <li>• Compare packages and pricing</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 2–3: Virtual Consultations
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Video calls with surgeons</li>
-                    <li>• Discuss goals, share photos</li>
-                    <li>• Receive detailed quotes</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 3–4: Decision & Booking
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Select surgeon and clinic</li>
-                    <li>• Pay deposit (typically 10–20%)</li>
-                    <li>• Book flights and arrange accommodation</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 4–8: Preparation
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Complete medical questionnaire</li>
-                    <li>• Stop smoking (minimum 2 weeks before)</li>
-                    <li>
-                      • Stop blood-thinning medications (1 week before)
-                    </li>
-                    <li>• Arrange time off work (10–14 days)</li>
-                  </ul>
-                </div>
+                {PRE_TRIP_PHASES.map((phase, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-primary-50 text-lg font-black text-primary-600">
+                        {i + 1}
+                      </span>
+                      <p className="font-bold text-neutral-900">{phase.title}</p>
+                    </div>
+                    <ul className="ml-14 space-y-2">
+                      {phase.steps.map((step, j) => (
+                        <li key={j} className="flex items-start gap-3 text-sm text-neutral-600 font-light">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          {step}
+                        </li>
+                      ))}
+                    </ul>
+                  </m.div>
+                ))}
               </div>
-            </m.div>
+            </div>
 
             {/* Trip Phase */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">
                 Trip Phase (7–10 Days in Poland)
               </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Day
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        What Happens
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 1
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Arrive in Poland. Transfer to accommodation. Rest and
-                        acclimatise.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 2
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Transfer to clinic. In-person consultation. Blood tests,
-                        pre-op checks. Final surgical plan confirmation.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Day 3
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        <strong>Surgery Day.</strong> 1.5–3 hours under general
-                        anaesthesia. Recovery in private room. Overnight stay
-                        with nursing care.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 4–6
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Recovery at accommodation. Minimal activity, head
-                        elevated. Gentle walks if staying at KCM (mountain air).
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Day 7–10
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        <strong>Splint removal.</strong> Surgeon review and
-                        clearance to fly. Final instructions. Return home.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="bg-white rounded-3xl p-2 shadow-2xl border border-neutral-100">
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="text-left">
+                        <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                          Day
+                        </th>
+                        <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                          What Happens
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100">
+                      {TRIP_DAYS.map((row, i) => (
+                        <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                          <td className={`p-6 font-bold whitespace-nowrap ${row.highlight ? 'text-primary-600' : 'text-neutral-900'}`}>
+                            {row.day}
+                          </td>
+                          <td className="p-6 text-neutral-600 font-light">{row.description}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </m.div>
+            </div>
 
             {/* Post-Trip Recovery */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">
                 Post-Trip Recovery (UK)
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Week 2–3</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Most bruising fades. Resume light activities. Work from home
-                    possible. First telemedicine follow-up.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Week 4–6</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Return to normal activities. Most swelling resolved. Can
-                    resume exercise (avoid contact sports).
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Month 2–3</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Second telemedicine follow-up. 80–90% swelling resolved.
-                    Results becoming apparent.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Month 6–12</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Final results emerging. Residual swelling fully resolved.
-                    Nose &quot;settles&quot; into final shape.
-                  </p>
-                </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {POST_TRIP_RECOVERY.map((item, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                  >
+                    <p className="font-bold text-neutral-900 mb-3">{item.period}</p>
+                    <p className="text-sm text-neutral-600 font-light leading-relaxed">{item.description}</p>
+                  </m.div>
+                ))}
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Recovery Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Recovery After Rhinoplasty in Poland
-            </m.h2>
+          {/* =================================================================
+              RECOVERY SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Recovery Guide
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Recovery After Rhinoplasty in Poland
+              </h2>
+            </div>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-poland-recovery"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 mb-8" data-aeo="rhinoplasty-poland-recovery">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-6">
                 Immediate Post-Operative Period (Days 1–7)
               </h3>
-              <div className="rounded-lg bg-white p-6 shadow">
-                <p className="font-medium text-slate-900">Common Experiences</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Nasal congestion (normal — breathing through mouth
-                    initially)
+              <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-4">Common Experiences</p>
+              <ul className="space-y-4 text-sm text-neutral-600">
+                {[
+                  'Nasal congestion (normal — breathing through mouth initially)',
+                  'Swelling concentrated around eyes and cheeks',
+                  'Bruising (varies by technique and individual)',
+                  'Mild discomfort (managed with prescribed medication)',
+                ].map((exp, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="h-1.5 w-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                    <span className="font-light">{exp}</span>
                   </li>
-                  <li>• Swelling concentrated around eyes and cheeks</li>
-                  <li>• Bruising (varies by technique and individual)</li>
-                  <li>
-                    • Mild discomfort (managed with prescribed medication)
-                  </li>
-                </ul>
-              </div>
-            </m.div>
+                ))}
+              </ul>
+            </div>
 
             {/* Mountain Recovery Advantage */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-xl border-2 border-rose-200 bg-rose-50 p-6"
-            >
-              <h3 className="text-lg font-bold text-slate-900">
-                Mountain Recovery Advantage (KCM Clinic)
-              </h3>
-              <p className="mt-3 text-slate-600">
-                KCM Clinic&apos;s location in the Karkonosze Mountains offers a
-                unique recovery experience. Clean mountain air, peaceful
-                surroundings, and purpose-built recovery accommodation create
-                optimal healing conditions.
-              </p>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <p className="font-medium text-slate-900">Recovery Benefits</p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• Clean air aids healing</li>
-                    <li>• Peaceful environment reduces stress</li>
-                    <li>• Gentle walks possible from Day 4–5</li>
-                    <li>• On-site accommodation eliminates transfers</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-medium text-slate-900">
-                    Patients Often Say
+            <div className="rounded-[3rem] bg-gradient-to-br from-primary-600 to-primary-700 p-1 overflow-hidden shadow-2xl shadow-primary-200/50 mb-8">
+              <div className="rounded-[2.8rem] bg-white p-8 sm:p-16 relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-primary-50 blur-3xl" />
+
+                <div className="relative z-10">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 text-primary-600 mb-8 shadow-inner">
+                    <Heart className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-neutral-900 tracking-tight leading-[1.1] mb-6">
+                    Mountain Recovery Advantage (KCM Clinic)
+                  </h3>
+                  <p className="text-lg text-neutral-600 font-light leading-relaxed mb-10 max-w-3xl">
+                    KCM Clinic&apos;s location in the Karkonosze Mountains offers a
+                    unique recovery experience. Clean mountain air, peaceful
+                    surroundings, and purpose-built recovery accommodation create
+                    optimal healing conditions.
                   </p>
-                  <p className="mt-2 text-sm italic text-slate-600">
-                    &quot;The mountain setting made recovery feel like a retreat
-                    rather than a hospital stay. The fresh air and peaceful
-                    surroundings helped me heal.&quot;
-                  </p>
+
+                  <div className="grid gap-8 sm:grid-cols-2">
+                    <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                      <h4 className="font-bold text-neutral-900 mb-3">Recovery Benefits</h4>
+                      <ul className="space-y-2 text-sm text-neutral-600 font-light">
+                        {[
+                          'Clean air aids healing',
+                          'Peaceful environment reduces stress',
+                          'Gentle walks possible from Day 4–5',
+                          'On-site accommodation eliminates transfers',
+                        ].map((b, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                      <h4 className="font-bold text-neutral-900 mb-3">Patients Often Say</h4>
+                      <p className="text-sm italic text-neutral-600 font-light leading-relaxed">
+                        &quot;The mountain setting made recovery feel like a retreat
+                        rather than a hospital stay. The fresh air and peaceful
+                        surroundings helped me heal.&quot;
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </m.div>
+            </div>
 
             {/* What to Avoid */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                What to Avoid During Recovery
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">4 Weeks</p>
-                  <p className="mt-1 text-sm text-red-700">Blowing nose</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">3 Weeks</p>
-                  <p className="mt-1 text-sm text-red-700">Strenuous exercise</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">4–6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">
-                    Wearing glasses on nose
-                  </p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">3 Months</p>
-                  <p className="mt-1 text-sm text-red-700">
-                    Sun exposure (use SPF 50+)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">Sleeping face-down</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">Contact sports</p>
-                </div>
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">What to Avoid During Recovery</h3>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {RECOVERY_AVOIDANCE.map((item, i) => (
+                  <div key={i} className="rounded-[1.5rem] bg-red-50 border border-red-100 p-6">
+                    <p className="font-bold text-red-900 mb-1">{item.duration}</p>
+                    <p className="text-sm text-red-800 font-light">{item.activity}</p>
+                  </div>
+                ))}
               </div>
-            </m.div>
+            </div>
 
             {/* Flying Home */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Flying Home After Rhinoplasty
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Typical Clearance</p>
-                  <p className="mt-2 text-sm text-slate-600">
+            <div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">Flying Home After Rhinoplasty</h3>
+              <div className="grid gap-8 sm:grid-cols-2">
+                <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                  <Clock className="h-8 w-8 text-primary-600 mb-6" />
+                  <h4 className="font-bold text-neutral-900 mb-4">Typical Clearance</h4>
+                  <p className="text-sm text-neutral-600 font-light mb-6">
                     Day 7–10 post-surgery (after splint removal)
                   </p>
-                  <p className="mt-4 font-medium text-slate-900">
-                    Flight Considerations
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• Short flight (2–2.5 hours) well-tolerated</li>
-                    <li>• Stay hydrated, use saline nasal spray</li>
-                    <li>• Mild facial swelling possible (temporary)</li>
+                  <p className="font-bold text-neutral-900 mb-3">Flight Considerations</p>
+                  <ul className="space-y-2 text-sm text-neutral-600 font-light">
+                    {[
+                      'Short flight (2–2.5 hours) well-tolerated',
+                      'Stay hydrated, use saline nasal spray',
+                      'Mild facial swelling possible (temporary)',
+                    ].map((c, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                        {c}
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">
-                    Surgeon Criteria for Clearance
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• External splint removed</li>
-                    <li>• Sutures removed (if external)</li>
-                    <li>• No active bleeding or infection</li>
-                    <li>• Patient comfortable and recovering well</li>
+                <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                  <Shield className="h-8 w-8 text-primary-600 mb-6" />
+                  <h4 className="font-bold text-neutral-900 mb-4">Surgeon Criteria for Clearance</h4>
+                  <ul className="space-y-3 text-sm text-neutral-600 font-light">
+                    {[
+                      'External splint removed',
+                      'Sutures removed (if external)',
+                      'No active bleeding or infection',
+                      'Patient comfortable and recovering well',
+                    ].map((c, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                        {c}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Risks and Safety Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Risks and Safety: What You Should Know
-            </m.h2>
+          {/* =================================================================
+              RISKS AND SAFETY SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Safety & Transparency
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Risks and Safety: What You Should Know
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Transparent discussion of risks demonstrates our commitment to
+                patient welfare. Poland&apos;s EU membership provides additional
+                safeguards.
+              </p>
+            </div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Transparent discussion of risks demonstrates our commitment to
-              patient welfare. Poland&apos;s EU membership provides additional
-              safeguards.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2"
-              data-aeo="rhinoplasty-poland-safety"
-            >
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  General Surgical Risks
-                </h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Bleeding (rare, typically controlled during surgery)
-                  </li>
-                  <li>
-                    • Infection (uncommon with proper care)
-                  </li>
-                  <li>
-                    • Adverse reaction to anaesthesia (pre-screening minimises)
-                  </li>
-                  <li>
-                    • Scarring (minimal with proper technique)
-                  </li>
+            <div className="grid gap-8 sm:grid-cols-2 mb-8" data-aeo="rhinoplasty-poland-safety">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">General Surgical Risks</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  {[
+                    'Bleeding (rare, typically controlled during surgery)',
+                    'Infection (uncommon with proper care)',
+                    'Adverse reaction to anaesthesia (pre-screening minimises)',
+                    'Scarring (minimal with proper technique)',
+                  ].map((risk, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                      <span className="font-light">{risk}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  Rhinoplasty-Specific Risks
-                </h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Asymmetry (8–12% experience minor degrees)
-                  </li>
-                  <li>
-                    • Breathing difficulties (temporary or requiring revision)
-                  </li>
-                  <li>
-                    • Numbness in nasal tip (usually temporary)
-                  </li>
-                  <li>• Dissatisfaction with aesthetic result</li>
-                  <li>
-                    • Need for revision surgery (5–15%)
-                  </li>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Rhinoplasty-Specific Risks</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  {[
+                    'Asymmetry (8–12% experience minor degrees)',
+                    'Breathing difficulties (temporary or requiring revision)',
+                    'Numbness in nasal tip (usually temporary)',
+                    'Dissatisfaction with aesthetic result',
+                    'Need for revision surgery (5–15%)',
+                  ].map((risk, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                      <span className="font-light">{risk}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
-            </m.div>
+            </div>
 
             {/* EU Safeguards */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-green-200 bg-green-50 p-6"
-            >
-              <h3 className="font-semibold text-slate-900">
+            <div className="rounded-[2rem] bg-green-50 border border-green-100 p-8 mb-8">
+              <h3 className="text-xl font-bold text-green-900 mb-6 flex items-center gap-3">
+                <Shield className="h-6 w-6 text-green-600" />
                 EU Consumer Protections
               </h3>
-              <p className="mt-3 text-slate-600">
+              <p className="text-neutral-700 font-light mb-4">
                 As an EU member, Poland offers additional safeguards:
               </p>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                <li>
-                  • EU healthcare directive ensures minimum quality standards
-                </li>
-                <li>
-                  • European cross-border healthcare rights apply
-                </li>
-                <li>
-                  • EU-recognised medical qualifications
-                </li>
-                <li>
-                  • Consumer protection laws for medical services
-                </li>
-                <li>
-                  • EHIC/GHIC may cover emergency complications
-                </li>
+              <ul className="space-y-3 text-sm text-green-900">
+                {[
+                  'EU healthcare directive ensures minimum quality standards',
+                  'European cross-border healthcare rights apply',
+                  'EU-recognised medical qualifications',
+                  'Consumer protection laws for medical services',
+                  'EHIC/GHIC may cover emergency complications',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="font-light">{item}</span>
+                  </li>
+                ))}
               </ul>
-            </m.div>
+            </div>
 
             {/* Minimising Risk */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Minimising Your Risk
-              </h3>
+            <div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">Minimising Your Risk</h3>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Choose ISO-certified facilities
-                  </p>
+                {MINIMIZE_RISK_ITEMS.map((item, i) => (
+                  <div key={i} className="rounded-[1.5rem] bg-green-50 border border-green-100 p-6 flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm font-medium text-green-900">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </m.section>
+
+          {/* =================================================================
+              FAQ SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="mx-auto max-w-4xl">
+              <div className="text-center mb-16">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                  Common Questions
+                </span>
+                <h2 className="text-4xl font-bold text-neutral-900 tracking-tight sm:text-5xl">
+                  Rhinoplasty in Poland FAQs
+                </h2>
+              </div>
+              <div className="bg-white rounded-[2.5rem] border border-neutral-200/60 p-4 sm:p-10 shadow-xl shadow-neutral-100">
+                <FAQSection
+                  faqs={faqs}
+                  title=""
+                  className="faq-section-custom"
+                />
+              </div>
+            </div>
+          </m.section>
+
+          {/* =================================================================
+              CTA SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="pb-12">
+            <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] p-12 text-white sm:p-20 lg:p-32 shadow-2xl text-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-600/30 via-transparent to-blue-600/30" />
+              <m.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 90, 0],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]"
+              />
+
+              <div className="relative z-10 mx-auto max-w-4xl">
+                <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">
+                  Ready to begin?
+                </span>
+                <h2 className="text-4xl font-bold sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-8">
+                  Your New Look <br />Starts in{' '}
+                  <span className="bg-gradient-to-r from-primary-300 to-primary-500 bg-clip-text text-transparent">
+                    Poland
+                  </span>
+                </h2>
+                <p className="mx-auto mt-8 max-w-2xl text-xl text-neutral-300 font-light leading-relaxed">
+                  Compare prices and surgeons from ISO-accredited clinics in Warsaw,
+                  Kraków, and KCM Clinic. Receive personalised treatment plans from
+                  EU-trained rhinoplasty specialists — no obligation.
+                </p>
+
+                <div className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
+                  <Link href="/clinics?procedure=rhinoplasty&country=poland" className="w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold shadow-xl shadow-white/10"
+                    >
+                      Compare Rhinoplasty Surgeons
+                    </Button>
+                  </Link>
+                  <Link href="/enquiry?procedure=rhinoplasty&country=poland" className="w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold backdrop-blur-md"
+                    >
+                      Get Free Clinic Recommendations
+                    </Button>
+                  </Link>
                 </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Select PTChPRiE-certified surgeons
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Follow all pre-operative instructions
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Disclose complete medical history
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Adhere to post-operative care
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Attend all follow-up appointments
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Have realistic expectations
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Confirm revision policy in writing
-                  </p>
+
+                <div className="mt-16 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm font-medium text-neutral-400">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    Trusted by 10,000+ UK patients
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    EU healthcare standards
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    No booking fees
+                  </div>
                 </div>
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* FAQ Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Frequently Asked Questions About Rhinoplasty in Poland
-            </m.h2>
-
-            <m.div variants={fadeInUp} className="mt-8 space-y-4">
-              {faqs.map((faq, index) => (
-                <details
-                  key={index}
-                  className="group rounded-lg bg-white shadow-sm"
+          {/* =================================================================
+              INTERNAL LINKS
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mt-20 border-t border-neutral-100 pt-12">
+            <div className="flex flex-wrap gap-x-8 gap-y-4 items-center justify-center text-sm font-medium">
+              <span className="text-neutral-400 uppercase tracking-widest text-xs">Related Guides:</span>
+              {CROSS_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-neutral-600 hover:text-primary-600 transition-colors"
                 >
-                  <summary className="flex cursor-pointer items-center justify-between p-6 font-medium text-slate-900">
-                    {faq.question}
-                    <span className="ml-4 flex-shrink-0 text-rose-600 transition-transform group-open:rotate-180">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-                  <div className="border-t border-slate-200 px-6 pb-6 pt-4 text-slate-600">
-                    {faq.answer}
-                  </div>
-                </details>
+                  {link.title}
+                </Link>
               ))}
-            </m.div>
-          </m.div>
+            </div>
+          </m.section>
         </div>
-      </section>
-
-      {/* Cross-Links Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Explore Other Destinations & Procedures
-            </m.h2>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              <Link
-                href="/procedures/rhinoplasty"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Rhinoplasty Hub
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Compare all rhinoplasty destinations and techniques
-                </p>
-              </Link>
-              <Link
-                href="/procedures/rhinoplasty/turkey"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Rhinoplasty in Turkey
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Maximum savings, highest volume destination
-                </p>
-              </Link>
-              <Link
-                href="/procedures/rhinoplasty/spain"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Rhinoplasty in Spain
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Premium European care, technique innovation
-                </p>
-              </Link>
-              <Link
-                href="/procedures/rhinoplasty/hungary"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Rhinoplasty in Hungary
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  EU-standard care at accessible prices
-                </p>
-              </Link>
-              <Link
-                href="/destinations/poland"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Poland Destination Guide
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Everything about medical tourism in Poland
-                </p>
-              </Link>
-              <Link
-                href="/cosmetic-surgery"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  All Cosmetic Surgery
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Browse all cosmetic procedures abroad
-                </p>
-              </Link>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-rose-600 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-white sm:text-3xl"
-            >
-              Get Your Free Rhinoplasty Quote for Poland
-            </m.h2>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-4 max-w-2xl text-rose-100"
-            >
-              Compare prices and surgeons from ISO-accredited clinics in Warsaw,
-              Kraków, and KCM Clinic. Receive personalised treatment plans from
-              EU-trained rhinoplasty specialists — no obligation.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            >
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=poland"
-                className="w-full rounded-lg bg-white px-8 py-4 text-lg font-semibold text-rose-600 shadow-lg transition-all hover:bg-rose-50 sm:w-auto"
-              >
-                Compare Rhinoplasty Surgeons
-              </Link>
-              <Link
-                href="/enquiry?procedure=rhinoplasty&country=poland"
-                className="w-full rounded-lg border-2 border-white px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-rose-700 sm:w-auto"
-              >
-                Get Free Clinic Recommendations
-              </Link>
-            </m.div>
-
-            <m.p variants={fadeInUp} className="mt-6 text-sm text-rose-200">
-              Trusted by 10,000+ UK patients • EU healthcare standards • No
-              booking fees
-            </m.p>
-          </m.div>
-        </div>
-      </section>
-    </LazyMotion>
+      </div>
   )
 }

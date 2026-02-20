@@ -1,8 +1,24 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { TR, GB } from 'country-flag-icons/react/3x2'
+import {
+  CheckCircle,
+  Star,
+  MapPin,
+  ArrowRight,
+  Shield,
+  Zap,
+  Clock,
+  Activity,
+  Heart,
+  Sparkles,
+  Award,
+  Plane,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { FAQSection } from '@/components/seo/faq-section'
 
 // =============================================================================
 // TYPES
@@ -18,20 +34,258 @@ interface RhinoplastyTurkeyClientProps {
 }
 
 // =============================================================================
+// STATIC DATA
+// =============================================================================
+
+const HERO_STATS = [
+  { value: '£2,450–£4,500', label: 'All-inclusive packages' },
+  { value: '83,000+', label: 'Rhinoplasties annually' },
+  { value: '46', label: 'JCI-accredited hospitals' },
+]
+
+const KEY_ADVANTAGES = [
+  { icon: Activity, title: 'Volume Advantage', description: '500+ procedures/year per surgeon vs 50–100 in UK' },
+  { icon: Sparkles, title: 'Technique Leadership', description: 'Early piezo adoption, refined through high volume' },
+  { icon: Shield, title: 'JCI Infrastructure', description: '46 JCI-accredited hospitals, 2nd globally' },
+  { icon: Zap, title: 'All-Inclusive Model', description: 'No hidden costs, comprehensive packages' },
+]
+
+const PRICE_COMPARISON = [
+  { procedure: 'Primary Rhinoplasty', turkey: '£2,450–£4,000', ukSurgery: '£5,000–£7,000', ukTotal: '£6,500–£9,500' },
+  { procedure: 'Revision Rhinoplasty', turkey: '£3,500–£6,000', ukSurgery: '£8,000–£12,000', ukTotal: '£10,000–£16,000' },
+  { procedure: 'Piezo/Ultrasonic Add-on', turkey: 'Included or +£400–£600', ukSurgery: '+£1,000–£2,000', ukTotal: '—' },
+  { procedure: 'Septorhinoplasty', turkey: '£2,800–£4,500', ukSurgery: '£6,000–£8,000', ukTotal: '£8,000–£11,000' },
+  { procedure: 'Ethnic Rhinoplasty', turkey: '£3,000–£5,000', ukSurgery: '£6,500–£9,000', ukTotal: '£8,500–£12,000' },
+]
+
+const PACKAGE_INCLUSIONS = [
+  { title: 'Pre-operative Consultation', description: 'Virtual + in-person consultation with surgeon' },
+  { title: 'Medical Testing', description: 'Blood tests, ECG, COVID screening' },
+  { title: 'Surgery', description: 'Surgeon fee, anaesthesiologist, operating theatre' },
+  { title: 'Hospital Stay', description: '1 night with nursing care' },
+  { title: 'Accommodation', description: '4–7 nights 4-star hotel (minimum)' },
+  { title: 'Transfers', description: 'VIP airport transfers + clinic transfers' },
+  { title: 'Post-op Care', description: 'Medications, nasal splint, dressings' },
+  { title: 'Follow-up', description: 'In-clinic appointments + splint removal' },
+  { title: 'Aftercare', description: '12-month telemedicine follow-ups' },
+  { title: 'Coordinator', description: 'Personal English-speaking patient coordinator' },
+  { title: '3D Imaging', description: 'Pre-operative simulation (most clinics)' },
+  { title: 'Fit-to-Fly', description: 'Clearance consultation before departure' },
+]
+
+const NOT_INCLUDED = [
+  { item: 'Return flights (UK to Istanbul)', cost: '£80–£250' },
+  { item: 'Travel insurance (with medical cover)', cost: '£30–£80' },
+  { item: 'Extra hotel nights (if extended recovery)', cost: '£60–£120/night' },
+  { item: 'Additional medications', cost: '£20–£50' },
+]
+
+const PIEZO_COMPARISON = [
+  { aspect: 'Pain (Day 2, 1–10 scale)', traditional: '5.1 average', piezo: '3.2 average' },
+  { aspect: 'Bruising duration', traditional: '14–21 days', piezo: '7–10 days' },
+  { aspect: 'Swelling peak resolution', traditional: 'Day 10–12', piezo: 'Day 5' },
+  { aspect: '"Beaten up" appearance', traditional: 'Common', piezo: 'Minimal' },
+  { aspect: 'Return to social activities', traditional: '2–3 weeks', piezo: '10–14 days' },
+]
+
+const RHINOPLASTY_TYPES = [
+  {
+    name: 'Revision Rhinoplasty',
+    price: '£3,500–£6,000',
+    points: [
+      'Corrects unsatisfactory results from previous surgery',
+      'Addresses breathing problems, aesthetic concerns, or both',
+      'More complex due to scar tissue, altered anatomy',
+      'Surgeons recommend waiting 12+ months after initial surgery',
+      'Turkey excels due to high revision volumes and experience',
+    ],
+    note: 'Minimum 100 revision cases, before/after portfolio of similar cases, clear revision policy',
+  },
+  {
+    name: 'Ethnic Rhinoplasty',
+    price: '£3,000–£5,000',
+    points: [
+      'Preserves cultural identity while achieving desired refinements',
+      'Requires understanding of diverse nasal structures (Middle Eastern, Asian, African descent)',
+      'Techniques may include bridge augmentation, tip refinement, nostril adjustment',
+      'Turkish surgeons experienced due to diverse international patient base',
+    ],
+  },
+  {
+    name: 'Septorhinoplasty (Functional + Aesthetic)',
+    price: '£2,800–£4,500',
+    points: [
+      'Combines cosmetic reshaping with septal correction',
+      'Addresses breathing difficulties alongside aesthetic concerns',
+      'May qualify for partial UK insurance coverage (septoplasty component)',
+      'Requires ENT or dual-trained surgeon',
+    ],
+  },
+  {
+    name: 'Preservation Rhinoplasty',
+    price: '£3,000–£5,000',
+    points: [
+      'Modern technique preserving natural nasal structures',
+      'Less disruption to ligaments and soft tissue',
+      'More natural movement and appearance',
+      'Faster recovery than traditional methods',
+      'Growing in popularity at elite Turkish clinics',
+    ],
+  },
+]
+
+const CREDENTIALS = [
+  { label: 'TSPRAS', description: 'Turkish Society of Plastic, Reconstructive and Aesthetic Surgery (Primary Turkish board)' },
+  { label: 'EBOPRAS', description: 'European Board of Plastic, Reconstructive and Aesthetic Surgery' },
+  { label: 'ISAPS', description: 'International Society of Aesthetic Plastic Surgery (indicates global recognition)' },
+  { label: 'Turkish Ministry of Health Registration', description: 'Legal requirement' },
+  { label: 'International Health Tourism Authorization', description: 'Required for treating foreign patients' },
+]
+
+const SURGEONS = [
+  {
+    name: 'Prof. Dr. Süleyman Taş',
+    price: '£4,500–£7,000',
+    rating: null,
+    details: [
+      { label: 'Experience', value: '15+ years, 10,000+ plastic surgery procedures' },
+      { label: 'Specialisation', value: 'Closed rhinoplasty, natural results philosophy' },
+      { label: 'Credentials', value: 'ISAPS member, FEBOPRAS, Turkish Aesthetic Surgery Society' },
+      { label: 'Notable', value: 'Published "Rhinoplasty in Practice" textbook, 5+ patents' },
+      { label: 'Facility', value: 'TAS Medical Center, Şişli, Istanbul' },
+    ],
+    note: 'Philosophy: "Address of Natural Beauty" — refined, subtle results',
+  },
+  {
+    name: 'Dr. Cem Altındağ',
+    price: '£2,800–£3,500',
+    rating: '4.8/5 (79 Bookimed), 5.0 RealSelf',
+    details: [
+      { label: 'Experience', value: '26 years, 5,000+ rhinoplasties' },
+      { label: 'Specialisation', value: 'Septorhinoplasty, functional correction' },
+      { label: 'Credentials', value: 'European Rhinoplasty Society, trained in USA/UK' },
+      { label: 'Notable', value: 'The Nose Clinic, Istanbul — dedicated rhinoplasty practice' },
+      { label: 'Technique', value: 'Closed approach, soft silastic splints' },
+    ],
+    note: null,
+  },
+  {
+    name: 'Dr. Ergin Er',
+    price: 'From £3,600',
+    rating: '4.8/5 rating',
+    details: [
+      { label: 'Experience', value: '31 years, 1,100+ rhinoplasties' },
+      { label: 'Credentials', value: 'Award-winning plastic surgeon' },
+      { label: 'Facility', value: 'Istanbul Aesthetic Plastic Surgery Center (4,000+ procedures/year)' },
+      { label: 'Package', value: 'All-inclusive, 8-night stay, 4-star hotel' },
+      { label: 'Notable', value: 'Strong international patient experience' },
+    ],
+    note: null,
+  },
+  {
+    name: 'Prof. Dr. Murat Songu',
+    price: 'From €5,000',
+    rating: null,
+    details: [
+      { label: 'Specialisation', value: 'Piezo/ultrasonic rhinoplasty' },
+      { label: 'Notable', value: 'Leading piezo surgeon with advanced tissue-preservation techniques' },
+      { label: 'Approach', value: 'Minimises swelling, improves recovery outcomes' },
+      { label: 'Pricing', value: 'Piezo specialist premium tier' },
+    ],
+    note: null,
+  },
+  {
+    name: 'Prof. Dr. Gürhan Özcan',
+    price: '£5,000–£7,500',
+    rating: null,
+    details: [
+      { label: 'Experience', value: '35+ years, revision rhinoplasty specialist' },
+      { label: 'Credentials', value: 'Founding chairman Plastic Surgery at Başkent University' },
+      { label: 'Training', value: 'Baylor Medical School (Houston)' },
+      { label: 'Facility', value: 'Istanbul Aesthetic Plastic Surgery Center' },
+      { label: 'Specialisation', value: 'Complex revision cases' },
+    ],
+    note: null,
+  },
+]
+
+const PRE_TRIP_PHASES = [
+  {
+    title: 'Week 1–2: Research & Shortlist',
+    steps: ['Review surgeon portfolios and credentials', 'Request consultations from 3–5 clinics', 'Compare packages and pricing'],
+  },
+  {
+    title: 'Week 2–4: Virtual Consultations',
+    steps: ['Video calls with surgeons', 'Discuss goals, review 3D simulations', 'Receive detailed quotes'],
+  },
+  {
+    title: 'Week 4–6: Decision & Booking',
+    steps: ['Select surgeon and clinic', 'Pay deposit (typically 10–20%)', 'Book flights and travel insurance'],
+  },
+  {
+    title: 'Week 6–12: Preparation',
+    steps: [
+      'Complete medical questionnaire',
+      'Stop smoking (minimum 2 weeks before)',
+      'Stop blood-thinning medications (aspirin, ibuprofen — 1 week before)',
+      'Arrange time off work (10–14 days total)',
+    ],
+  },
+]
+
+const TRIP_DAYS = [
+  { day: 'Day 1', description: 'VIP airport transfer to hotel. Rest and acclimatise.', highlight: false },
+  { day: 'Day 2', description: 'Transfer to clinic. In-person consultation. Blood tests, ECG, pre-op checks. Final surgical plan confirmation.', highlight: false },
+  { day: 'Day 3', description: 'Surgery Day. 1.5–3 hours under general anaesthesia. Recovery in private room. Overnight stay with nursing care.', highlight: true },
+  { day: 'Day 4–6', description: 'Hotel rest (nurse visits if needed). Minimal activity, head elevated. Swelling and bruising peak (Day 2–3 post-op).', highlight: false },
+  { day: 'Day 7–10', description: 'Splint removal. Surgeon review and clearance to fly. Final instructions. VIP transfer to airport. Return home.', highlight: true },
+]
+
+const POST_TRIP_RECOVERY = [
+  { period: 'Week 2–3', description: 'Most bruising fades. Resume light activities. Work from home possible. First telemedicine follow-up.' },
+  { period: 'Week 4–6', description: 'Return to normal activities. Most swelling resolved. Can resume exercise (avoid contact sports).' },
+  { period: 'Month 2–3', description: 'Second telemedicine follow-up. 80–90% swelling resolved. Results becoming apparent.' },
+  { period: 'Month 6–12', description: 'Final results emerging. Residual swelling fully resolved. Nose "settles" into final shape.' },
+]
+
+const RECOVERY_AVOIDANCE = [
+  { duration: '4 Weeks', activity: 'Blowing nose' },
+  { duration: '3 Weeks', activity: 'Strenuous exercise' },
+  { duration: '4–6 Months', activity: 'Wearing glasses on nose' },
+  { duration: '3 Months', activity: 'Sun exposure (use SPF 50+)' },
+  { duration: '6 Months', activity: 'Sleeping face-down' },
+  { duration: '6 Months', activity: 'Contact sports' },
+]
+
+const MINIMIZE_RISK_ITEMS = [
+  'Choose JCI-accredited facilities only',
+  'Select board-certified, high-volume surgeons',
+  'Follow all pre-operative instructions',
+  'Disclose complete medical history',
+  'Adhere strictly to post-operative care',
+  'Attend all follow-up appointments',
+  'Have realistic expectations',
+  'Confirm revision policy in writing',
+]
+
+const CROSS_LINKS = [
+  { href: '/procedures/rhinoplasty', title: 'Rhinoplasty Hub', description: 'Compare all rhinoplasty destinations and techniques' },
+  { href: '/procedures/facelift/turkey', title: 'Facelift in Turkey', description: 'Combine rhinoplasty with facial rejuvenation' },
+  { href: '/procedures/liposuction/turkey', title: 'Liposuction in Turkey', description: 'Body contouring at JCI-accredited clinics' },
+  { href: '/procedures/tummy-tuck/turkey', title: 'Tummy Tuck in Turkey', description: 'Abdominoplasty from £2,500 all-inclusive' },
+  { href: '/destinations/turkey', title: 'Turkey Destination Guide', description: 'Everything you need to know about medical tourism in Turkey' },
+  { href: '/cosmetic-surgery', title: 'All Cosmetic Surgery', description: 'Browse all cosmetic procedures abroad' },
+]
+
+// =============================================================================
 // ANIMATION VARIANTS
 // =============================================================================
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 },
 }
 
 // =============================================================================
@@ -40,2002 +294,1421 @@ const staggerContainer = {
 
 export function RhinoplastyTurkeyClient({ faqs }: RhinoplastyTurkeyClientProps) {
   return (
-    <LazyMotion features={domAnimation}>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-rose-50 to-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="bg-neutral-50">
+
+        {/* =================================================================
+            HERO SECTION
+            ================================================================= */}
+        <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-20 pb-24 sm:pt-32 sm:pb-40">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A1A2F] via-[#0A1A2F]/95 to-primary-900/50" />
+
           <m.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.div variants={fadeInUp} className="flex items-center justify-center gap-3">
-              <div className="w-12 overflow-hidden rounded shadow-sm">
-                <TR title="Turkey" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Rhinoplasty in Turkey
-              </h1>
-            </m.div>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+              x: [0, 50, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]"
+          />
+          <m.div
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.4, 0.2],
+              x: [0, -70, 0],
+              y: [0, -40, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]"
+          />
+
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <m.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl"
             >
-              Turkey performs 83,000+ rhinoplasties annually — more than any
-              other country. Compare JCI-accredited clinics, piezo and
-              traditional techniques, and all-inclusive packages from £2,450.
-              Save 50–70% vs UK prices with verified surgeons.
-            </m.p>
-
-            <m.div variants={fadeInUp} className="mt-8 flex justify-center">
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=turkey"
-                className="rounded-lg bg-rose-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-rose-700 hover:shadow-xl"
+              <m.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center gap-3 mb-8"
               >
-                Compare Verified Rhinoplasty Surgeons →
-              </Link>
+                <div className="h-px w-12 bg-primary-400" />
+                <span className="text-primary-200 text-sm font-bold tracking-[0.3em] uppercase">
+                  Premium Cosmetic Surgery
+                </span>
+              </m.div>
+
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-14 overflow-hidden rounded-lg shadow-lg">
+                  <TR title="Turkey" />
+                </div>
+                <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl leading-[1.1]">
+                  Rhinoplasty in{' '}
+                  <span className="bg-gradient-to-r from-white via-primary-100 to-white/80 bg-clip-text text-transparent">
+                    Turkey
+                  </span>
+                </h1>
+              </div>
+
+              <p className="text-lg text-neutral-300 sm:text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-3xl">
+                Turkey performs 83,000+ rhinoplasties annually — more than any
+                other country. Compare JCI-accredited clinics, piezo and
+                traditional techniques, and all-inclusive packages from £2,450.
+                Save 50–70% vs UK prices with verified surgeons.
+              </p>
+
+              <div className="flex flex-col gap-5 sm:flex-row">
+                <Link href="/clinics?procedure=rhinoplasty&country=turkey">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-500 hover:scale-105 transition-all duration-300 rounded-full px-10 py-7 text-lg font-medium shadow-xl shadow-primary-900/20"
+                  >
+                    Compare Verified Rhinoplasty Surgeons
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="#pricing">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto border-white/20 bg-white/5 text-white hover:bg-white/10 rounded-full px-10 py-7 text-lg font-medium backdrop-blur-md transition-all duration-300"
+                  >
+                    View 2026 Prices
+                  </Button>
+                </Link>
+              </div>
             </m.div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-sm text-slate-500">
+            <m.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-20 sm:mt-28 grid grid-cols-1 gap-6 sm:grid-cols-3 border-t border-white/10 pt-12"
+            >
+              {HERO_STATS.map((stat, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 p-8 text-center"
+                >
+                  <p className="text-3xl font-bold text-white sm:text-4xl">{stat.value}</p>
+                  <p className="mt-2 text-sm font-medium tracking-widest uppercase text-neutral-400">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </m.div>
+
+            <m.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-8 text-center text-sm text-neutral-500"
+            >
               JCI-accredited facilities • 90–95% success rates • 50–70% savings
               vs UK • Free consultation matching
             </m.p>
+          </div>
+        </section>
 
-            {/* Hero Stats */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
-            >
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">£2,450–£4,500</p>
-                <p className="mt-1 text-slate-600">All-inclusive packages</p>
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+
+          {/* =================================================================
+              WHY TURKEY SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="grid gap-16 lg:grid-cols-12 items-start">
+              <div className="lg:col-span-5">
+                <div className="sticky top-32">
+                  <m.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '80px' }}
+                    viewport={{ once: true }}
+                    className="h-1.5 bg-primary-600 rounded-full mb-8"
+                  />
+                  <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                    Why UK Patients Choose Turkey for Rhinoplasty
+                  </h2>
+                  <p className="mt-8 text-lg text-neutral-600 font-light leading-relaxed">
+                    Turkey has transformed from a budget destination into the global
+                    leader for rhinoplasty. This is not about cheap surgery — it is
+                    about accessing world-class expertise at accessible prices.
+                  </p>
+
+                  <div className="mt-10 p-8 rounded-[2rem] bg-neutral-50 border border-neutral-100 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary-100/50 blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                    <Shield className="h-10 w-10 text-primary-600 mb-6 relative z-10" />
+                    <h3 className="text-xl font-bold text-neutral-900 mb-4 relative z-10">46 JCI-Accredited Hospitals</h3>
+                    <p className="text-sm text-neutral-600 leading-relaxed relative z-10">
+                      2nd highest globally. Purpose-built aesthetic clinics with
+                      advanced 3D imaging technology and EU-aligned safety protocols.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">83,000+</p>
-                <p className="mt-1 text-slate-600">Rhinoplasties annually</p>
+
+              <div className="lg:col-span-7 space-y-12" data-aeo="rhinoplasty-turkey-benefits">
+                {[
+                  {
+                    title: 'Surgeon Volume Advantage',
+                    content:
+                      'Turkish surgeons perform 500+ rhinoplasties annually (compared to 50–100 for typical UK surgeons). This experience gap translates to refined technique and better outcomes.',
+                  },
+                  {
+                    title: 'Cost Economics Without Compromise',
+                    content:
+                      'The cost economics are driven by lower operating costs, favourable exchange rates, and government-supported medical tourism infrastructure — not compromised quality. Turkey pioneered piezo/ultrasonic rhinoplasty adoption. Many surgeons trained in the US and Europe, brought techniques back, and refined them through high-volume practice.',
+                  },
+                  {
+                    title: 'All-Inclusive Package Model',
+                    content:
+                      'Unlike UK à la carte pricing, Turkish packages eliminate hidden costs and simplify planning. Turkey has 46 JCI-accredited hospitals, purpose-built aesthetic clinics, and advanced 3D imaging technology.',
+                  },
+                  {
+                    title: 'Exponential Growth & Proven Track Record',
+                    content:
+                      'In 2022, Turkey performed 56,700 rhinoplasties, rising to 83,000 in 2023. The country ranks 2nd globally for plastic surgeons and JCI-accredited hospitals. UK search interest for "cosmetic surgery Turkey" has increased 1,000%+ since 2015.',
+                  },
+                ].map((item, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="group"
+                  >
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-lg text-neutral-600 font-light leading-relaxed">
+                      {item.content}
+                    </p>
+                    <div className="mt-8 h-px w-full bg-neutral-100 group-last:hidden" />
+                  </m.div>
+                ))}
               </div>
-              <div className="rounded-xl bg-white p-6 shadow-md">
-                <p className="text-3xl font-bold text-rose-600">46</p>
-                <p className="mt-1 text-slate-600">JCI-accredited hospitals</p>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
 
-      {/* Why Turkey Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Why UK Patients Choose Turkey for Rhinoplasty
-            </m.h2>
+            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {KEY_ADVANTAGES.map((adv, i) => (
+                <m.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                >
+                  <adv.icon className="h-8 w-8 text-primary-600 mb-4" />
+                  <p className="font-bold text-neutral-900">{adv.title}</p>
+                  <p className="mt-2 text-sm text-neutral-600 font-light">{adv.description}</p>
+                </m.div>
+              ))}
+            </div>
+          </m.section>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-6 space-y-4 text-slate-600"
-              data-aeo="rhinoplasty-turkey-benefits"
-            >
-              <p>
-                Turkey has transformed from a budget destination into the global
-                leader for rhinoplasty. This is not about cheap surgery — it is
-                about accessing world-class expertise at accessible prices.
-                Turkish surgeons perform 500+ rhinoplasties annually (compared
-                to 50–100 for typical UK surgeons). This experience gap
-                translates to refined technique and better outcomes.
-              </p>
+          {/* =================================================================
+              PRICING SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} id="pricing" className="mb-32 scroll-mt-20">
+            <div className="bg-neutral-900 rounded-[3rem] p-8 sm:p-16 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-600/10 blur-[120px]" />
 
-              <p>
-                The cost economics are driven by lower operating costs,
-                favourable exchange rates, and government-supported medical
-                tourism infrastructure — not compromised quality. Turkey
-                pioneered piezo/ultrasonic rhinoplasty adoption. Many surgeons
-                trained in the US and Europe, brought techniques back, and
-                refined them through high-volume practice.
-              </p>
+              <div className="relative z-10">
+                <div className="max-w-2xl mb-16">
+                  <span className="text-sm font-bold tracking-[0.2em] text-primary-400 uppercase mb-4 block">
+                    2026 Price Guide
+                  </span>
+                  <h2 className="text-4xl font-bold text-white tracking-tight sm:text-5xl mb-6">
+                    Rhinoplasty Cost in Turkey vs UK
+                  </h2>
+                  <p className="text-lg text-neutral-400 font-light">
+                    Transparent all-inclusive pricing. Save 50–70% compared to UK private clinics.
+                  </p>
+                </div>
 
-              <p>
-                Turkey has 46 JCI-accredited hospitals (2nd highest globally),
-                purpose-built aesthetic clinics, and advanced 3D imaging
-                technology. Unlike UK à la carte pricing, Turkish packages
-                eliminate hidden costs and simplify planning.
-              </p>
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                  <div className="lg:col-span-8 space-y-8" data-aeo="rhinoplasty-turkey-cost">
+                    <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="text-left">
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                Procedure
+                              </th>
+                              <th className="p-6 text-sm font-bold text-primary-600 uppercase tracking-widest">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 overflow-hidden rounded-sm">
+                                    <TR title="Turkey" />
+                                  </div>
+                                  Turkey (All-Inclusive)
+                                </div>
+                              </th>
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 overflow-hidden rounded-sm">
+                                    <GB title="UK" />
+                                  </div>
+                                  UK (Surgery Only)
+                                </div>
+                              </th>
+                              <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 overflow-hidden rounded-sm">
+                                    <GB title="UK" />
+                                  </div>
+                                  UK (Total Est.)
+                                </div>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-neutral-100">
+                            {PRICE_COMPARISON.map((row, i) => (
+                              <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                                <td className="p-6 font-bold text-neutral-900">{row.procedure}</td>
+                                <td className="p-6 text-primary-600 font-bold">{row.turkey}</td>
+                                <td className="p-6 text-neutral-500 line-through decoration-neutral-300">
+                                  {row.ukSurgery}
+                                </td>
+                                <td className="p-6 text-neutral-500">{row.ukTotal}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
 
-              <p>
-                In 2022, Turkey performed 56,700 rhinoplasties, rising to 83,000
-                in 2023. The country ranks 2nd globally for plastic surgeons and
-                JCI-accredited hospitals. UK search interest for "cosmetic
-                surgery Turkey" has increased 1,000%+ since 2015.
-              </p>
-            </m.div>
-
-            {/* Key Advantages Grid */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            >
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">Volume Advantage</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  500+ procedures/year per surgeon vs 50–100 in UK
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  Technique Leadership
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Early piezo adoption, refined through high volume
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  JCI Infrastructure
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  46 JCI-accredited hospitals, 2nd globally
-                </p>
-              </div>
-              <div className="rounded-lg bg-rose-50 p-4">
-                <p className="font-semibold text-slate-900">
-                  All-Inclusive Model
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  No hidden costs, comprehensive packages
-                </p>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Cost Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Rhinoplasty Cost in Turkey vs UK: 2025 Price Comparison
-            </m.h2>
-
-            {/* Main Price Comparison */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-turkey-cost"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Procedure Cost Comparison
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Procedure Type
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-rose-600 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
-                            <TR title="Turkey" />
-                          </div>
-                          <span>Turkey (All-Inclusive)</span>
+                    <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                      <div className="p-6">
+                        <h3 className="text-lg font-bold text-neutral-900 mb-4">
+                          Typically NOT Included
+                        </h3>
+                        <div className="overflow-x-auto">
+                          <table className="w-full border-collapse">
+                            <thead>
+                              <tr className="text-left">
+                                <th className="pb-4 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                                  Item
+                                </th>
+                                <th className="pb-4 text-sm font-bold text-neutral-400 uppercase tracking-widest text-right">
+                                  Estimated Cost
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-neutral-100">
+                              {NOT_INCLUDED.map((row, i) => (
+                                <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                                  <td className="py-4 text-neutral-700">{row.item}</td>
+                                  <td className="py-4 text-neutral-900 font-medium text-right">{row.cost}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
-                            <GB title="UK" />
-                          </div>
-                          <span>UK (Surgery Only)</span>
-                        </div>
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 overflow-hidden rounded-sm shadow-sm">
-                            <GB title="UK" />
-                          </div>
-                          <span>UK (Total Est.)</span>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Primary Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,450–£4,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £5,000–£7,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,500–£9,500
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Revision Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,500–£6,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000–£12,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £10,000–£16,000
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Piezo/Ultrasonic Add-on
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Included or +£400–£600
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        +£1,000–£2,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        —
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Septorhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £2,800–£4,500
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,000–£8,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,000–£11,000
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Ethnic Rhinoplasty
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        £3,000–£5,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £6,500–£9,000
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £8,500–£12,000
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </m.div>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Package Inclusions */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Standard All-Inclusive Package (£2,450–£4,000)
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Pre-operative Consultation
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Virtual + in-person consultation with surgeon
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Medical Testing</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Blood tests, ECG, COVID screening
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Surgery</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Surgeon fee, anaesthesiologist, operating theatre
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Hospital Stay</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    1 night with nursing care
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Accommodation</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    4–7 nights 4-star hotel (minimum)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Transfers</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    VIP airport transfers + clinic transfers
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Post-op Care</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Medications, nasal splint, dressings
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Follow-up</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    In-clinic appointments + splint removal
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Aftercare</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    12-month telemedicine follow-ups
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Coordinator</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Personal English-speaking patient coordinator
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">3D Imaging</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Pre-operative simulation (most clinics)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Fit-to-Fly</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Clearance consultation before departure
-                  </p>
+                  <div className="lg:col-span-4 space-y-6">
+                    <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
+                      <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <CheckCircle className="h-5 w-5 text-primary-400" />
+                        Standard Package (£2,450–£4,000)
+                      </h3>
+                      <ul className="space-y-4">
+                        {PACKAGE_INCLUSIONS.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-neutral-300 text-sm">
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary-500 mt-2 flex-shrink-0" />
+                            <div>
+                              <span className="font-medium text-white">{item.title}</span>
+                              <span className="text-neutral-400"> — {item.description}</span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="p-8 rounded-3xl bg-amber-500/10 border border-amber-400/20 backdrop-blur-md">
+                      <h3 className="text-lg font-bold text-amber-300 mb-4 flex items-center gap-2">
+                        <Sparkles className="h-5 w-5" />
+                        Money-Saving Tip
+                      </h3>
+                      <p className="text-sm text-neutral-300 leading-relaxed">
+                        Request itemised quotes from 3+ clinics. Ensure revision policy
+                        is in writing before booking. Quotes typically valid 60–90 days.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </m.div>
+            </div>
+          </m.section>
 
-            {/* Not Included */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Typically NOT Included
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Item
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Estimated Cost
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Return flights (UK to Istanbul)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £80–£250
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Travel insurance (with medical cover)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £30–£80
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Extra hotel nights (if extended recovery)
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £60–£120/night
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                        Additional medications
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        £20–£50
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          {/* =================================================================
+              TYPES OF RHINOPLASTY SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div className="max-w-2xl">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">
+                  Technique Guide
+                </span>
+                <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  Types of Rhinoplasty Performed in Turkey
+                </h2>
+                <p className="mt-4 text-lg text-neutral-600 font-light">
+                  Understanding your options empowers better surgeon conversations.
+                  Many patients do not know the difference between techniques — this
+                  knowledge helps you make informed decisions.
+                </p>
               </div>
-            </m.div>
+              <div className="h-px flex-1 bg-neutral-100 hidden md:block mx-8 mb-4" />
+            </div>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4"
-            >
-              <p className="font-medium text-slate-900">Money-Saving Tip</p>
-              <p className="mt-1 text-sm text-slate-600">
-                Request itemised quotes from 3+ clinics. Ensure revision policy
-                is in writing before booking. Quotes typically valid 60–90 days.
-              </p>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* Types of Rhinoplasty Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Types of Rhinoplasty Performed in Turkey
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Understanding your options empowers better surgeon conversations.
-              Many patients do not know the difference between techniques — this
-              knowledge helps you make informed decisions.
-            </m.p>
-
-            {/* Open vs Closed */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-techniques"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Open vs Closed Rhinoplasty
-              </h3>
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-lg border border-slate-200 bg-white p-6">
-                  <h4 className="font-semibold text-slate-900">
-                    Open Rhinoplasty
-                  </h4>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      • Small incision across columella (tissue between
-                      nostrils)
+            <div className="grid gap-8 md:grid-cols-2 mb-16" data-aeo="rhinoplasty-techniques">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-6">Open Rhinoplasty</h3>
+                <ul className="space-y-4">
+                  {[
+                    'Small incision across columella (tissue between nostrils)',
+                    'Full visibility of nasal structures',
+                    'Preferred for complex reshaping, revision cases, significant tip work',
+                    'Faint scar fades within 6–12 months',
+                    'Slightly longer recovery (bruising 10–14 days)',
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3 text-neutral-600 font-light">
+                      <CheckCircle className="h-5 w-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {point}
                     </li>
-                    <li>• Full visibility of nasal structures</li>
-                    <li>
-                      • Preferred for complex reshaping, revision cases,
-                      significant tip work
-                    </li>
-                    <li>• Faint scar fades within 6–12 months</li>
-                    <li>• Slightly longer recovery (bruising 10–14 days)</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg border border-slate-200 bg-white p-6">
-                  <h4 className="font-semibold text-slate-900">
-                    Closed Rhinoplasty
-                  </h4>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>• All incisions hidden inside nostrils</li>
-                    <li>• No visible external scarring</li>
-                    <li>
-                      • Suitable for minor refinements, dorsal hump reduction
-                    </li>
-                    <li>• Faster recovery, less swelling</li>
-                    <li>
-                      • Requires high surgeon skill due to limited visibility
-                    </li>
-                    <li>• 85–90% success rate for achieving desired outcomes</li>
-                  </ul>
-                </div>
+                  ))}
+                </ul>
               </div>
-              <p className="mt-4 text-sm italic text-slate-500">
-                Your surgeon will recommend the approach based on your anatomy
-                and goals. Trust their expertise — both techniques achieve
-                excellent results in skilled hands.
-              </p>
-            </m.div>
+
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-6">Closed Rhinoplasty</h3>
+                <ul className="space-y-4">
+                  {[
+                    'All incisions hidden inside nostrils',
+                    'No visible external scarring',
+                    'Suitable for minor refinements, dorsal hump reduction',
+                    'Faster recovery, less swelling',
+                    'Requires high surgeon skill due to limited visibility',
+                    '85–90% success rate for achieving desired outcomes',
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3 text-neutral-600 font-light">
+                      <CheckCircle className="h-5 w-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <p className="text-sm italic text-neutral-500 mb-16 text-center">
+              Your surgeon will recommend the approach based on your anatomy
+              and goals. Trust their expertise — both techniques achieve
+              excellent results in skilled hands.
+            </p>
 
             {/* Piezo/Ultrasonic Rhinoplasty */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-10"
+            <div
+              className="rounded-[3rem] bg-gradient-to-br from-primary-600 to-primary-700 p-1 overflow-hidden shadow-2xl shadow-primary-200/50 mb-16"
               data-aeo="piezo-rhinoplasty-turkey"
             >
-              <div className="rounded-xl border-2 border-rose-200 bg-rose-50 p-6">
-                <h3 className="text-xl font-bold text-slate-900">
-                  Piezo/Ultrasonic Rhinoplasty — Turkey&apos;s Key Differentiator
-                </h3>
-                <p className="mt-3 text-slate-600">
-                  Piezo rhinoplasty uses ultrasonic vibrations (25–30 kHz
-                  frequency) to sculpt nasal bones with microscopic precision.
-                  Unlike traditional chisels and rasps, piezo only affects bone
-                  tissue, leaving soft tissue, blood vessels, and mucosa
-                  completely intact.
-                </p>
+              <div className="rounded-[2.8rem] bg-white p-8 sm:p-16 relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-primary-50 blur-3xl" />
 
-                <h4 className="mt-6 font-semibold text-slate-900">
-                  Key Advantages (Aesthetic Surgery Journal 2023)
-                </h4>
-                <div className="mt-4 overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                    <thead className="bg-slate-100">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Aspect
-                        </th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Traditional
-                        </th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                          Piezo/Ultrasonic
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200">
-                      <tr>
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Pain (Day 2, 1–10 scale)
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          5.1 average
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          3.2 average
-                        </td>
-                      </tr>
-                      <tr className="bg-slate-50">
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Bruising duration
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          14–21 days
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          7–10 days
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Swelling peak resolution
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          Day 10–12
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          Day 5
-                        </td>
-                      </tr>
-                      <tr className="bg-slate-50">
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          &quot;Beaten up&quot; appearance
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          Common
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          Minimal
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-4 py-4 text-sm text-slate-900 sm:px-6">
-                          Return to social activities
-                        </td>
-                        <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                          2–3 weeks
-                        </td>
-                        <td className="px-4 py-4 text-sm font-medium text-green-600 sm:px-6">
-                          10–14 days
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-lg bg-white p-4">
-                    <p className="font-medium text-slate-900">
-                      Turkey&apos;s Piezo Expertise
-                    </p>
-                    <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                      <li>• Early adoption from European training</li>
-                      <li>
-                        • High-volume piezo surgeons (200+ annual procedures)
-                      </li>
-                      <li>
-                        • 2024 TSPRAS audit: 1.2% major complication rate across
-                        3,400 piezo procedures at JCI centres
-                      </li>
-                    </ul>
+                <div className="relative z-10">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 text-primary-600 mb-8 shadow-inner">
+                    <Zap className="h-8 w-8" />
                   </div>
-                  <div className="rounded-lg bg-white p-4">
-                    <p className="font-medium text-slate-900">
-                      Cost Consideration
-                    </p>
-                    <p className="mt-2 text-sm text-slate-600">
-                      Piezo typically adds £400–£700 to procedure cost but
-                      benefits often justify investment, especially for patients
-                      prioritising faster recovery.
-                    </p>
+                  <h3 className="text-3xl font-bold text-neutral-900 tracking-tight leading-[1.1] mb-6">
+                    Piezo/Ultrasonic Rhinoplasty — Turkey&apos;s Key Differentiator
+                  </h3>
+                  <p className="text-lg text-neutral-600 font-light leading-relaxed mb-10 max-w-3xl">
+                    Piezo rhinoplasty uses ultrasonic vibrations (25–30 kHz
+                    frequency) to sculpt nasal bones with microscopic precision.
+                    Unlike traditional chisels and rasps, piezo only affects bone
+                    tissue, leaving soft tissue, blood vessels, and mucosa
+                    completely intact.
+                  </p>
+
+                  <h4 className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-6">
+                    Key Advantages (Aesthetic Surgery Journal 2023)
+                  </h4>
+                  <div className="bg-neutral-50 rounded-[2rem] p-2 border border-neutral-100 mb-10">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="text-left">
+                            <th className="p-5 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                              Aspect
+                            </th>
+                            <th className="p-5 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                              Traditional
+                            </th>
+                            <th className="p-5 text-sm font-bold text-primary-600 uppercase tracking-widest">
+                              Piezo/Ultrasonic
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-200">
+                          {PIEZO_COMPARISON.map((row, i) => (
+                            <tr key={i} className="group">
+                              <td className="p-5 font-bold text-neutral-900">{row.aspect}</td>
+                              <td className="p-5 text-neutral-500 font-light">{row.traditional}</td>
+                              <td className="p-5 text-green-600 font-bold">{row.piezo}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                      <h4 className="font-bold text-neutral-900 mb-3">Turkey&apos;s Piezo Expertise</h4>
+                      <ul className="space-y-2 text-sm text-neutral-600 font-light">
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          Early adoption from European training
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          High-volume piezo surgeons (200+ annual procedures)
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          2024 TSPRAS audit: 1.2% major complication rate across 3,400 piezo procedures at JCI centres
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                      <h4 className="font-bold text-neutral-900 mb-3">Cost Consideration</h4>
+                      <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                        Piezo typically adds £400–£700 to procedure cost but
+                        benefits often justify investment, especially for patients
+                        prioritising faster recovery.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </m.div>
+            </div>
 
             {/* Other Types */}
-            <m.div variants={fadeInUp} className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Revision Rhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,500–£6,000</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Corrects unsatisfactory results from previous surgery</li>
-                  <li>• Addresses breathing problems, aesthetic concerns, or both</li>
-                  <li>• More complex due to scar tissue, altered anatomy</li>
-                  <li>• Surgeons recommend waiting 12+ months after initial surgery</li>
-                  <li>• Turkey excels due to high revision volumes and experience</li>
-                </ul>
-                <div className="mt-4 rounded bg-slate-50 p-3">
-                  <p className="text-xs font-medium text-slate-500">
-                    SURGEON SELECTION FOR REVISION
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Minimum 100 revision cases, before/after portfolio of
-                    similar cases, clear revision policy
-                  </p>
-                </div>
-              </div>
+            <div className="grid gap-8 md:grid-cols-2">
+              {RHINOPLASTY_TYPES.map((type, i) => (
+                <m.div
+                  key={type.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative flex flex-col rounded-[2rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
+                >
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
 
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Ethnic Rhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,000–£5,000</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Preserves cultural identity while achieving desired
-                    refinements
-                  </li>
-                  <li>
-                    • Requires understanding of diverse nasal structures (Middle
-                    Eastern, Asian, African descent)
-                  </li>
-                  <li>
-                    • Techniques may include bridge augmentation, tip
-                    refinement, nostril adjustment
-                  </li>
-                  <li>
-                    • Turkish surgeons experienced due to diverse international
-                    patient base
-                  </li>
-                </ul>
-              </div>
+                  <div className="relative z-10 flex-1">
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-primary-700 transition-colors">
+                      {type.name}
+                    </h3>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6">
+                      {type.price}
+                    </span>
+                    <ul className="space-y-3">
+                      {type.points.map((point, j) => (
+                        <li key={j} className="flex items-start gap-3 text-neutral-600 font-light text-sm">
+                          <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Septorhinoplasty (Functional + Aesthetic)
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£2,800–£4,500</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>• Combines cosmetic reshaping with septal correction</li>
-                  <li>
-                    • Addresses breathing difficulties alongside aesthetic
-                    concerns
-                  </li>
-                  <li>
-                    • May qualify for partial UK insurance coverage (septoplasty
-                    component)
-                  </li>
-                  <li>• Requires ENT or dual-trained surgeon</li>
-                </ul>
-              </div>
+                  {type.note && (
+                    <div className="relative z-10 mt-6 pt-6 border-t border-neutral-100">
+                      <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-2">
+                        Surgeon Selection for Revision
+                      </span>
+                      <p className="text-sm text-neutral-600 font-light">{type.note}</p>
+                    </div>
+                  )}
+                </m.div>
+              ))}
+            </div>
+          </m.section>
 
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h4 className="font-semibold text-slate-900">
-                  Preservation Rhinoplasty
-                </h4>
-                <p className="mt-1 text-sm text-rose-600">£3,000–£5,000</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Modern technique preserving natural nasal structures
-                  </li>
-                  <li>• Less disruption to ligaments and soft tissue</li>
-                  <li>• More natural movement and appearance</li>
-                  <li>• Faster recovery than traditional methods</li>
-                  <li>• Growing in popularity at elite Turkish clinics</li>
-                </ul>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* How to Choose a Surgeon Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              How to Choose a Rhinoplasty Surgeon in Turkey
-            </m.h2>
-
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              This section establishes your verification framework. Use it
-              independently to build confidence in your surgeon selection.
-            </m.p>
+          {/* =================================================================
+              HOW TO CHOOSE A SURGEON SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Surgeon Selection
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                How to Choose a Rhinoplasty Surgeon in Turkey
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                This section establishes your verification framework. Use it
+                independently to build confidence in your surgeon selection.
+              </p>
+            </div>
 
             {/* Credentials */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-surgeon-credentials"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 mb-8" data-aeo="rhinoplasty-surgeon-credentials">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-2">
                 Essential Credentials to Verify
               </h3>
-              <div className="rounded-lg bg-white p-6 shadow">
-                <p className="font-medium text-slate-900">
-                  Board Certifications (Hierarchy of Credibility)
-                </p>
-                <ol className="mt-4 space-y-3 text-sm text-slate-600">
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      1
+              <p className="text-neutral-500 font-light mb-8">
+                Board Certifications (Hierarchy of Credibility)
+              </p>
+              <ol className="space-y-6">
+                {CREDENTIALS.map((cred, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-primary-50 text-lg font-black text-primary-600">
+                      {i + 1}
                     </span>
                     <div>
-                      <span className="font-medium text-slate-900">TSPRAS</span>{' '}
-                      — Turkish Society of Plastic, Reconstructive and Aesthetic
-                      Surgery (Primary Turkish board)
+                      <span className="font-bold text-neutral-900">{cred.label}</span>
+                      <span className="text-neutral-600 font-light"> — {cred.description}</span>
                     </div>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      2
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">EBOPRAS</span>{' '}
-                      — European Board of Plastic, Reconstructive and Aesthetic
-                      Surgery
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      3
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">ISAPS</span>{' '}
-                      — International Society of Aesthetic Plastic Surgery
-                      (indicates global recognition)
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      4
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">
-                        Turkish Ministry of Health Registration
-                      </span>{' '}
-                      — Legal requirement
-                    </div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 text-xs font-bold text-rose-600">
-                      5
-                    </span>
-                    <div>
-                      <span className="font-medium text-slate-900">
-                        International Health Tourism Authorization
-                      </span>{' '}
-                      — Required for treating foreign patients
-                    </div>
-                  </li>
-                </ol>
-                <p className="mt-4 text-sm italic text-slate-500">
-                  How to verify: Request registration numbers. Cross-reference
-                  with TSPRAS directory and Turkish Ministry of Health database.
-                  Legitimate surgeons welcome verification.
-                </p>
-              </div>
-            </m.div>
+                ))}
+              </ol>
+              <p className="mt-8 text-sm italic text-neutral-500">
+                How to verify: Request registration numbers. Cross-reference
+                with TSPRAS directory and Turkish Ministry of Health database.
+                Legitimate surgeons welcome verification.
+              </p>
+            </div>
 
             {/* Experience Indicators */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Experience Indicators
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Volume Thresholds</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      • <strong>Minimum acceptable:</strong> 100+ rhinoplasties
-                    </li>
-                    <li>
-                      • <strong>Experienced:</strong> 500+ rhinoplasties
-                    </li>
-                    <li>
-                      • <strong>Expert level:</strong> 1,000+ rhinoplasties
-                    </li>
-                    <li>
-                      • <strong>Piezo proficiency:</strong> 200+ annual piezo
-                      procedures
-                    </li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Ask Directly</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                    <li>
-                      &quot;How many rhinoplasties do you perform annually?&quot;
-                    </li>
-                    <li>
-                      &quot;What is your revision rate for primary
-                      procedures?&quot;
-                    </li>
-                    <li>
-                      &quot;Can you share before/after photos of patients with
-                      similar anatomy to mine?&quot;
-                    </li>
-                  </ul>
-                </div>
+            <div className="grid gap-8 sm:grid-cols-2 mb-8">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Activity className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Volume Thresholds</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Minimum acceptable:</strong> 100+ rhinoplasties</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Experienced:</strong> 500+ rhinoplasties</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Expert level:</strong> 1,000+ rhinoplasties</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Piezo proficiency:</strong> 200+ annual piezo procedures</span>
+                  </li>
+                </ul>
               </div>
-            </m.div>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Heart className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Ask Directly</h3>
+                <ul className="space-y-4 text-sm text-neutral-600 font-light">
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;How many rhinoplasties do you perform annually?&quot;
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;What is your revision rate for primary procedures?&quot;
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <ArrowRight className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    &quot;Can you share before/after photos of patients with similar anatomy to mine?&quot;
+                  </li>
+                </ul>
+              </div>
+            </div>
 
             {/* Red Flags */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6"
-            >
-              <p className="font-medium text-red-800">Red Flags to Avoid</p>
-              <ul className="mt-3 grid gap-2 text-sm text-red-700 sm:grid-cols-2">
-                <li>• Reluctance to share credentials or photos</li>
-                <li>• Prices significantly below market (under £1,500)</li>
-                <li>• Pressure to book quickly</li>
-                <li>• No revision policy in writing</li>
-                <li>• Surgery performed outside accredited facilities</li>
-                <li>• No before/after portfolio for similar cases</li>
+            <div className="rounded-[2rem] bg-red-50 border border-red-100 p-8 mb-8">
+              <h3 className="text-xl font-bold text-red-900 mb-6 flex items-center gap-3">
+                <Shield className="h-6 w-6 text-red-600" />
+                Red Flags to Avoid
+              </h3>
+              <ul className="grid gap-3 text-sm text-red-800 sm:grid-cols-2">
+                {[
+                  'Reluctance to share credentials or photos',
+                  'Prices significantly below market (under £1,500)',
+                  'Pressure to book quickly',
+                  'No revision policy in writing',
+                  'Surgery performed outside accredited facilities',
+                  'No before/after portfolio for similar cases',
+                ].map((flag, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="h-1.5 w-1.5 rounded-full bg-red-500 mt-2 flex-shrink-0" />
+                    {flag}
+                  </li>
+                ))}
               </ul>
-            </m.div>
+            </div>
 
             {/* Facility Accreditation */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Facility Accreditation
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    JCI (Gold Standard)
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Turkey has 46 JCI-accredited hospitals. Confirms
-                    international safety, hygiene, and quality standards. Valid
-                    3 years.
-                  </p>
+            <div className="grid gap-6 sm:grid-cols-3 mb-8">
+              {[
+                {
+                  icon: Award,
+                  title: 'JCI (Gold Standard)',
+                  description: 'Turkey has 46 JCI-accredited hospitals. Confirms international safety, hygiene, and quality standards. Valid 3 years.',
+                },
+                {
+                  icon: Shield,
+                  title: 'ISO Certifications',
+                  description: 'Quality management systems certification. Look for ISO 9001.',
+                },
+                {
+                  icon: Star,
+                  title: 'Ministry of Health A-Rating',
+                  description: 'Turkish national standard for healthcare facilities.',
+                },
+              ].map((item, i) => (
+                <div key={i} className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                  <item.icon className="h-8 w-8 text-primary-600 mb-4" />
+                  <h4 className="font-bold text-neutral-900 mb-3">{item.title}</h4>
+                  <p className="text-sm text-neutral-600 font-light leading-relaxed">{item.description}</p>
                 </div>
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    ISO Certifications
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Quality management systems certification. Look for ISO 9001.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    Ministry of Health A-Rating
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Turkish national standard for healthcare facilities.
-                  </p>
-                </div>
-              </div>
-            </m.div>
+              ))}
+            </div>
 
-            {/* JCI Hospitals */}
-            <m.div variants={fadeInUp} className="mt-6">
-              <p className="text-sm font-medium text-slate-900">
-                Notable JCI-Accredited Facilities:
-              </p>
-              <p className="mt-2 text-sm text-slate-600">
+            <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6 mb-8">
+              <p className="text-sm font-bold text-neutral-900 mb-2">Notable JCI-Accredited Facilities:</p>
+              <p className="text-sm text-neutral-600 font-light">
                 Memorial Şişli Hospital • Anadolu Medical Center • Liv Hospital
                 Ulus (50,000+ international patients annually) • Acıbadem
                 Healthcare Group • Medicana International
               </p>
-            </m.div>
+            </div>
 
             {/* Consultation Quality */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Consultation Quality Markers
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="font-medium text-green-800">
-                    Good Consultation Signs
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-green-700">
-                    <li>• 3D imaging/simulation to preview expected results</li>
-                    <li>• Detailed explanation of technique selection</li>
-                    <li>• Honest discussion of limitations and risks</li>
-                    <li>• Clear revision policy presented upfront</li>
-                    <li>• Time for questions without pressure</li>
+            <div className="grid gap-8 sm:grid-cols-2">
+              <div className="rounded-[2rem] bg-green-50 border border-green-100 p-8">
+                <h3 className="text-xl font-bold text-green-900 mb-6 flex items-center gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                  Good Consultation Signs
+                </h3>
+                <ul className="space-y-3 text-sm text-green-800">
+                  {[
+                    '3D imaging/simulation to preview expected results',
+                    'Detailed explanation of technique selection',
+                    'Honest discussion of limitations and risks',
+                    'Clear revision policy presented upfront',
+                    'Time for questions without pressure',
+                  ].map((sign, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      {sign}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">
+                  Required Documentation Before Booking
+                </h3>
+                <ul className="space-y-3 text-sm text-neutral-600">
+                  {[
+                    'Itemised quote with validity period',
+                    'Revision policy in writing',
+                    'Surgeon credentials/registration numbers',
+                    'Hospital/clinic accreditation proof',
+                    'Cancellation/refund terms',
+                  ].map((doc, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {doc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </m.section>
+
+          {/* =================================================================
+              FEATURED SURGEONS SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div className="max-w-2xl">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">
+                  Verified Surgeons
+                </span>
+                <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  Featured Rhinoplasty Surgeons in Turkey
+                </h2>
+              </div>
+              <div className="h-px flex-1 bg-neutral-100 hidden md:block mx-8 mb-4" />
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {SURGEONS.map((surgeon, i) => (
+                <m.div
+                  key={surgeon.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="group relative flex flex-col rounded-[2.5rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
+                      {surgeon.name}
+                    </h3>
+                    {surgeon.rating && (
+                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-700">
+                        <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                        <span className="text-xs font-bold">{surgeon.rating.split(' ')[0]}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-sm font-bold mb-6 w-fit">
+                    {surgeon.price}
+                  </span>
+
+                  <ul className="space-y-3 flex-1">
+                    {surgeon.details.map((detail, j) => (
+                      <li key={j} className="text-sm text-neutral-600">
+                        <strong className="text-neutral-900">{detail.label}:</strong>{' '}
+                        <span className="font-light">{detail.value}</span>
+                      </li>
+                    ))}
                   </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow">
-                  <p className="font-medium text-slate-900">
-                    Required Documentation Before Booking
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• Itemised quote with validity period</li>
-                    <li>• Revision policy in writing</li>
-                    <li>• Surgeon credentials/registration numbers</li>
-                    <li>• Hospital/clinic accreditation proof</li>
-                    <li>• Cancellation/refund terms</li>
-                  </ul>
-                </div>
-              </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
 
-      {/* Featured Surgeons Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Featured Rhinoplasty Surgeons in Turkey
-            </m.h2>
+                  {surgeon.note && (
+                    <p className="mt-4 pt-4 border-t border-neutral-100 text-xs italic text-neutral-500">
+                      {surgeon.note}
+                    </p>
+                  )}
+                  {surgeon.rating && (
+                    <p className="mt-3 text-xs text-neutral-500">
+                      Reviews: {surgeon.rating}
+                    </p>
+                  )}
+                </m.div>
+              ))}
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {/* Prof. Dr. Süleyman Taş */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Prof. Dr. Süleyman Taş
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">£4,500–£7,000</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 15+ years, 10,000+ plastic
-                    surgery procedures
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Closed rhinoplasty, natural
-                    results philosophy
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> ISAPS member, FEBOPRAS,
-                    Turkish Aesthetic Surgery Society
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Published &quot;Rhinoplasty in
-                    Practice&quot; textbook, 5+ patents
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> TAS Medical Center, Şişli,
-                    Istanbul
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs italic text-slate-500">
-                  Philosophy: &quot;Address of Natural Beauty&quot; — refined,
-                  subtle results
-                </p>
-              </div>
-
-              {/* Dr. Cem Altındağ */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Cem Altındağ
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">£2,800–£3,500</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 26 years, 5,000+ rhinoplasties
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Septorhinoplasty,
-                    functional correction
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> European Rhinoplasty Society,
-                    trained in USA/UK
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> The Nose Clinic, Istanbul —
-                    dedicated rhinoplasty practice
-                  </li>
-                  <li>
-                    <strong>Technique:</strong> Closed approach, soft silastic
-                    splints
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Reviews: 4.8/5 (79 Bookimed), 5.0 RealSelf
-                </p>
-              </div>
-
-              {/* Dr. Ergin Er */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Dr. Ergin Er
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From £3,600</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 31 years, 1,100+ rhinoplasties
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> Award-winning plastic surgeon
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Istanbul Aesthetic Plastic Surgery
-                    Center (4,000+ procedures/year)
-                  </li>
-                  <li>
-                    <strong>Package:</strong> All-inclusive, 8-night stay, 4-star
-                    hotel
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Strong international patient
-                    experience
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">
-                  Reviews: 4.8/5 rating
-                </p>
-              </div>
-
-              {/* Prof. Dr. Murat Songu */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Prof. Dr. Murat Songu
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">From €5,000</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Specialisation:</strong> Piezo/ultrasonic
-                    rhinoplasty
-                  </li>
-                  <li>
-                    <strong>Notable:</strong> Leading piezo surgeon with
-                    advanced tissue-preservation techniques
-                  </li>
-                  <li>
-                    <strong>Approach:</strong> Minimises swelling, improves
-                    recovery outcomes
-                  </li>
-                  <li>
-                    <strong>Pricing:</strong> Piezo specialist premium tier
-                  </li>
-                </ul>
-              </div>
-
-              {/* Prof. Dr. Gürhan Özcan */}
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Prof. Dr. Gürhan Özcan
-                </h3>
-                <p className="mt-1 text-sm text-rose-600">£5,000–£7,500</p>
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  <li>
-                    <strong>Experience:</strong> 35+ years, revision rhinoplasty
-                    specialist
-                  </li>
-                  <li>
-                    <strong>Credentials:</strong> Founding chairman Plastic
-                    Surgery at Başkent University
-                  </li>
-                  <li>
-                    <strong>Training:</strong> Baylor Medical School (Houston)
-                  </li>
-                  <li>
-                    <strong>Facility:</strong> Istanbul Aesthetic Plastic Surgery
-                    Center
-                  </li>
-                  <li>
-                    <strong>Specialisation:</strong> Complex revision cases
-                  </li>
-                </ul>
-              </div>
-
-              {/* Consultation CTA */}
-              <div className="flex items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6">
+              {/* Consultation CTA Card */}
+              <div className="flex items-center justify-center rounded-[2.5rem] border-2 border-dashed border-neutral-200 bg-neutral-50/50 p-8">
                 <div className="text-center">
-                  <p className="font-medium text-slate-700">
+                  <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+                    <Heart className="h-8 w-8" />
+                  </div>
+                  <p className="font-bold text-neutral-900 text-lg mb-2">
                     Need help choosing a surgeon?
                   </p>
-                  <p className="mt-2 text-sm text-slate-500">
+                  <p className="text-sm text-neutral-500 font-light mb-6">
                     Our team can match you with verified surgeons based on your
                     goals, budget, and preferred technique.
                   </p>
-                  <Link
-                    href="/enquiry?procedure=rhinoplasty&country=turkey"
-                    className="mt-4 inline-block text-rose-600 hover:underline"
-                  >
-                    Get Surgeon Recommendations →
+                  <Link href="/enquiry?procedure=rhinoplasty&country=turkey">
+                    <Button className="bg-primary-600 hover:bg-primary-700 text-white rounded-full px-8 py-6 font-bold shadow-lg shadow-primary-200">
+                      Get Surgeon Recommendations
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
                   </Link>
                 </div>
               </div>
-            </m.div>
+            </div>
 
-            <m.p
-              variants={fadeInUp}
-              className="mt-6 text-sm italic text-slate-500"
-            >
-              medit verifies surgeon credentials through official registries.
+            <p className="mt-8 text-sm italic text-neutral-500 text-center">
+              MeetYourClinic verifies surgeon credentials through official registries.
               Profiles are updated quarterly. Always confirm current information
               directly with clinics.
-            </m.p>
-          </m.div>
-        </div>
-      </section>
+            </p>
+          </m.section>
 
-      {/* Patient Journey Timeline */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Your Rhinoplasty Journey: Step-by-Step Timeline
-            </m.h2>
+          {/* =================================================================
+              PATIENT JOURNEY TIMELINE
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                The Journey
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Your Rhinoplasty Journey: Step-by-Step Timeline
+              </h2>
+            </div>
 
             {/* Pre-Trip Phase */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
-              data-aeo="rhinoplasty-turkey-timeline"
-            >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="mb-16" data-aeo="rhinoplasty-turkey-timeline">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 flex items-center gap-3">
+                <Clock className="h-6 w-6 text-primary-600" />
                 Pre-Trip Phase (4–12 Weeks Before)
               </h3>
-              <div className="space-y-4">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 1–2: Research & Shortlist
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Review surgeon portfolios and credentials</li>
-                    <li>• Request consultations from 3–5 clinics</li>
-                    <li>• Compare packages and pricing</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 2–4: Virtual Consultations
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Video calls with surgeons</li>
-                    <li>• Discuss goals, review 3D simulations</li>
-                    <li>• Receive detailed quotes</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 4–6: Decision & Booking
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Select surgeon and clinic</li>
-                    <li>• Pay deposit (typically 10–20%)</li>
-                    <li>• Book flights and travel insurance</li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">
-                    Week 6–12: Preparation
-                  </p>
-                  <ul className="mt-2 text-sm text-slate-600">
-                    <li>• Complete medical questionnaire</li>
-                    <li>• Stop smoking (minimum 2 weeks before)</li>
-                    <li>
-                      • Stop blood-thinning medications (aspirin, ibuprofen — 1
-                      week before)
-                    </li>
-                    <li>• Arrange time off work (10–14 days total)</li>
-                  </ul>
+              <div className="relative">
+                <div className="absolute left-8 top-0 bottom-0 w-px bg-neutral-100 hidden md:block" />
+                <div className="space-y-8">
+                  {PRE_TRIP_PHASES.map((phase, i) => (
+                    <m.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="relative md:pl-24"
+                    >
+                      <div className="absolute left-0 top-0 hidden md:flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-neutral-100 shadow-sm z-10">
+                        <span className="text-2xl font-black text-primary-600">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                      <div className="bg-white rounded-[2rem] border border-neutral-100 p-8 shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="text-lg font-bold text-neutral-900 mb-4 flex items-center gap-3">
+                          <span className="md:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-600 text-lg font-bold">
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+                          {phase.title}
+                        </h4>
+                        <ul className="space-y-3">
+                          {phase.steps.map((step, j) => (
+                            <li key={j} className="flex items-start gap-3 text-neutral-600 font-light text-sm">
+                              <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                              {step}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </m.div>
+                  ))}
                 </div>
               </div>
-            </m.div>
+            </div>
 
             {/* Trip Phase */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="mb-16">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 flex items-center gap-3">
+                <Plane className="h-6 w-6 text-primary-600" />
                 Trip Phase (7–10 Days in Turkey)
               </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 rounded-lg bg-white shadow">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        Day
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900 sm:px-6">
-                        What Happens
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 1
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        VIP airport transfer to hotel. Rest and acclimatise.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 2
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Transfer to clinic. In-person consultation. Blood tests,
-                        ECG, pre-op checks. Final surgical plan confirmation.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Day 3
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        <strong>Surgery Day.</strong> 1.5–3 hours under general
-                        anaesthesia. Recovery in private room. Overnight stay
-                        with nursing care.
-                      </td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                        Day 4–6
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        Hotel rest (nurse visits if needed). Minimal activity,
-                        head elevated. Swelling and bruising peak (Day 2–3
-                        post-op).
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-rose-600 sm:px-6">
-                        Day 7–10
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600 sm:px-6">
-                        <strong>Splint removal.</strong> Surgeon review and
-                        clearance to fly. Final instructions. VIP transfer to
-                        airport. Return home.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="bg-white rounded-[2.5rem] border border-neutral-100 p-2 shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="text-left">
+                        <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                          Day
+                        </th>
+                        <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">
+                          What Happens
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100">
+                      {TRIP_DAYS.map((row, i) => (
+                        <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                          <td className={`whitespace-nowrap p-6 font-bold ${row.highlight ? 'text-primary-600' : 'text-neutral-900'}`}>
+                            {row.day}
+                          </td>
+                          <td className="p-6 text-neutral-600 font-light">{row.description}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </m.div>
+            </div>
 
             {/* Post-Trip Recovery */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 flex items-center gap-3">
+                <Heart className="h-6 w-6 text-primary-600" />
                 Post-Trip Recovery (UK)
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Week 2–3</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Most bruising fades. Resume light activities. Work from home
-                    possible. First telemedicine follow-up.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Week 4–6</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Return to normal activities. Most swelling resolved. Can
-                    resume exercise (avoid contact sports).
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Month 2–3</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Second telemedicine follow-up. 80–90% swelling resolved.
-                    Results becoming apparent.
-                  </p>
-                </div>
-                <div className="rounded-lg bg-white p-4 shadow-sm">
-                  <p className="font-medium text-slate-900">Month 6–12</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Final results emerging. Residual swelling fully resolved.
-                    Nose &quot;settles&quot; into final shape.
-                  </p>
-                </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {POST_TRIP_RECOVERY.map((item, i) => (
+                  <m.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors"
+                  >
+                    <h4 className="font-bold text-primary-600 mb-3">{item.period}</h4>
+                    <p className="text-sm text-neutral-600 font-light leading-relaxed">{item.description}</p>
+                  </m.div>
+                ))}
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Recovery Expectations Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Recovery After Rhinoplasty in Turkey: What to Expect
-            </m.h2>
+          {/* =================================================================
+              RECOVERY EXPECTATIONS SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Recovery Guide
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Recovery After Rhinoplasty in Turkey
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                What to expect during your healing journey.
+              </p>
+            </div>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8"
+            {/* Immediate Post-Op */}
+            <div
+              className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 mb-8"
               data-aeo="rhinoplasty-turkey-recovery"
             >
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-6">
                 Immediate Post-Operative Period (Days 1–7)
               </h3>
-              <div className="rounded-lg bg-white p-6 shadow">
-                <p className="font-medium text-slate-900">Common Experiences</p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Nasal congestion (normal — breathing through mouth
-                    initially)
+              <h4 className="font-bold text-neutral-900 mb-4">Common Experiences</h4>
+              <ul className="space-y-3">
+                {[
+                  'Nasal congestion (normal — breathing through mouth initially)',
+                  'Swelling concentrated around eyes and cheeks',
+                  'Bruising (varies by technique and individual)',
+                  'Mild discomfort (managed with prescribed pain medication)',
+                  'Nausea (anaesthesia side effect — temporary)',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-neutral-600 font-light">
+                    <CheckCircle className="h-5 w-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                    {item}
                   </li>
-                  <li>• Swelling concentrated around eyes and cheeks</li>
-                  <li>• Bruising (varies by technique and individual)</li>
-                  <li>
-                    • Mild discomfort (managed with prescribed pain medication)
-                  </li>
-                  <li>• Nausea (anaesthesia side effect — temporary)</li>
-                </ul>
-              </div>
-            </m.div>
+                ))}
+              </ul>
+            </div>
 
             {/* What to Avoid */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">
                 What to Avoid During Recovery
               </h3>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">4 Weeks</p>
-                  <p className="mt-1 text-sm text-red-700">Blowing nose</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">3 Weeks</p>
-                  <p className="mt-1 text-sm text-red-700">Strenuous exercise</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">4–6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">
-                    Wearing glasses on nose
-                  </p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">3 Months</p>
-                  <p className="mt-1 text-sm text-red-700">
-                    Sun exposure (use SPF 50+)
-                  </p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">Sleeping face-down</p>
-                </div>
-                <div className="rounded-lg bg-red-50 p-4">
-                  <p className="font-medium text-red-800">6 Months</p>
-                  <p className="mt-1 text-sm text-red-700">Contact sports</p>
-                </div>
+                {RECOVERY_AVOIDANCE.map((item, i) => (
+                  <div key={i} className="rounded-[1.5rem] bg-red-50 border border-red-100 p-6">
+                    <p className="font-bold text-red-900">{item.duration}</p>
+                    <p className="mt-1 text-sm text-red-700 font-light">{item.activity}</p>
+                  </div>
+                ))}
               </div>
-            </m.div>
+            </div>
 
             {/* Flying After Rhinoplasty */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Flying After Rhinoplasty
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">Typical Clearance</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Day 8–11 post-surgery (after splint removal)
-                  </p>
-                  <p className="mt-4 font-medium text-slate-900">
-                    Flight Considerations
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>
-                      • Cabin pressure may cause mild facial swelling (temporary)
+            <div className="grid gap-8 sm:grid-cols-2 mb-8">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Plane className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-4">Typical Clearance</h3>
+                <p className="text-neutral-600 font-light mb-6">
+                  Day 8–11 post-surgery (after splint removal)
+                </p>
+                <h4 className="font-bold text-neutral-900 mb-3">Flight Considerations</h4>
+                <ul className="space-y-2 text-sm text-neutral-600 font-light">
+                  {[
+                    'Cabin pressure may cause mild facial swelling (temporary)',
+                    'Stay hydrated, use saline nasal spray',
+                    'Avoid alcohol during travel',
+                    'Istanbul to London (3.5–4 hours) well-tolerated by Day 7–10',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {item}
                     </li>
-                    <li>• Stay hydrated, use saline nasal spray</li>
-                    <li>• Avoid alcohol during travel</li>
-                    <li>
-                      • Istanbul to London (3.5–4 hours) well-tolerated by Day
-                      7–10
-                    </li>
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-white p-6 shadow">
-                  <p className="font-medium text-slate-900">
-                    Surgeon Criteria for Clearance
-                  </p>
-                  <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                    <li>• External splint removed</li>
-                    <li>• Sutures removed (if external)</li>
-                    <li>• No active bleeding or infection</li>
-                    <li>• Patient comfortable and recovering well</li>
-                  </ul>
-                </div>
+                  ))}
+                </ul>
               </div>
-            </m.div>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <Shield className="h-8 w-8 text-primary-600 mb-6" />
+                <h3 className="text-xl font-bold text-neutral-900 mb-4">
+                  Surgeon Criteria for Clearance
+                </h3>
+                <ul className="space-y-3 text-sm text-neutral-600 font-light">
+                  {[
+                    'External splint removed',
+                    'Sutures removed (if external)',
+                    'No active bleeding or infection',
+                    'Patient comfortable and recovering well',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
-            {/* Tips from Patients */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-rose-200 bg-rose-50 p-6"
-            >
-              <p className="font-medium text-slate-900">
+            {/* Tips */}
+            <div className="rounded-[2rem] bg-primary-50 border border-primary-100 p-8">
+              <h3 className="text-xl font-bold text-neutral-900 mb-6 flex items-center gap-3">
+                <Sparkles className="h-6 w-6 text-primary-600" />
                 Recovery Tips from Experienced Patients
-              </p>
-              <ul className="mt-3 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
-                <li>• Book return flights for Day 8–11 to allow flexibility</li>
-                <li>
-                  • Bring button-front shirts (avoid pulling over head)
-                </li>
-                <li>• Travel pillow essential for semi-reclined sleeping</li>
-                <li>• Arrange someone to collect you from UK airport</li>
-                <li>
-                  • Plan 7–10 days off work minimum (longer for client-facing
-                  roles)
-                </li>
-                <li>
-                  • Have UK GP appointment scheduled for Day 14–21 (wound check)
-                </li>
+              </h3>
+              <ul className="grid gap-3 text-sm text-neutral-700 sm:grid-cols-2">
+                {[
+                  'Book return flights for Day 8–11 to allow flexibility',
+                  'Bring button-front shirts (avoid pulling over head)',
+                  'Travel pillow essential for semi-reclined sleeping',
+                  'Arrange someone to collect you from UK airport',
+                  'Plan 7–10 days off work minimum (longer for client-facing roles)',
+                  'Have UK GP appointment scheduled for Day 14–21 (wound check)',
+                ].map((tip, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                    {tip}
+                  </li>
+                ))}
               </ul>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Risks and Complications Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Risks and Complications: What You Should Know
-            </m.h2>
+          {/* =================================================================
+              RISKS AND COMPLICATIONS SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Safety First
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Risks and Complications: What You Should Know
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Transparent discussion of risks builds trust and demonstrates we
+                prioritise patient welfare over sales.
+              </p>
+            </div>
 
-            <m.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Transparent discussion of risks builds trust and demonstrates we
-              prioritise patient welfare over sales.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-6 sm:grid-cols-2"
-              data-aeo="rhinoplasty-risks"
-            >
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  General Surgical Risks
-                </h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Bleeding (rare, typically controlled during surgery)
-                  </li>
-                  <li>
-                    • Infection (uncommon with proper care, antibiotics
-                    provided)
-                  </li>
-                  <li>
-                    • Adverse reaction to anaesthesia (pre-screening minimises
-                    risk)
-                  </li>
-                  <li>
-                    • Scarring (minimal with closed technique, fades with open)
-                  </li>
+            <div className="grid gap-6 md:grid-cols-2 mb-8" data-aeo="rhinoplasty-risks">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">General Surgical Risks</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  {[
+                    'Bleeding (rare, typically controlled during surgery)',
+                    'Infection (uncommon with proper care, antibiotics provided)',
+                    'Adverse reaction to anaesthesia (pre-screening minimises risk)',
+                    'Scarring (minimal with closed technique, fades with open)',
+                  ].map((risk, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                      <span className="font-light">{risk}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
-                  Rhinoplasty-Specific Risks
-                </h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    • Asymmetry (8–12% experience minor degrees, often
-                    unnoticeable)
-                  </li>
-                  <li>
-                    • Breathing difficulties (temporary or requiring revision)
-                  </li>
-                  <li>
-                    • Numbness in nasal tip (usually temporary, 1–3 months)
-                  </li>
-                  <li>• Dissatisfaction with aesthetic result</li>
-                  <li>
-                    • Need for revision surgery (5–15% depending on case
-                    complexity)
-                  </li>
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 hover:border-primary-100 transition-colors">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6">Rhinoplasty-Specific Risks</h3>
+                <ul className="space-y-4 text-sm text-neutral-600">
+                  {[
+                    'Asymmetry (8–12% experience minor degrees, often unnoticeable)',
+                    'Breathing difficulties (temporary or requiring revision)',
+                    'Numbness in nasal tip (usually temporary, 1–3 months)',
+                    'Dissatisfaction with aesthetic result',
+                    'Need for revision surgery (5–15% depending on case complexity)',
+                  ].map((risk, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="h-1.5 w-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                      <span className="font-light">{risk}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
-            </m.div>
+            </div>
 
             {/* Complication Rates */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg bg-white p-6 shadow"
-            >
-              <h3 className="font-semibold text-slate-900">
+            <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 mb-8">
+              <h3 className="text-xl font-bold text-neutral-900 mb-4">
                 Complication Rates in Turkish Centres
               </h3>
-              <p className="mt-3 text-sm text-slate-600">
-                <strong>
-                  2024 Turkish Society of Plastic Surgery Audit
-                </strong>{' '}
+              <p className="text-sm text-neutral-600 font-light mb-4">
+                <strong className="text-neutral-900">2024 Turkish Society of Plastic Surgery Audit</strong>{' '}
                 (3,400 piezo procedures, 12 JCI-accredited centres):
               </p>
-              <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                <li>• Major complication rate: 1.2%</li>
-                <li>
-                  • Comparable to 0.7% reported in large international datasets
+              <ul className="space-y-2 text-sm text-neutral-600 font-light mb-6">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  Major complication rate: 1.2%
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  Comparable to 0.7% reported in large international datasets
                 </li>
               </ul>
-              <p className="mt-4 text-sm text-slate-600">
-                <strong>What This Means:</strong> Turkish centres perform at or
+              <p className="text-sm text-neutral-600 font-light">
+                <strong className="text-neutral-900">What This Means:</strong> Turkish centres perform at or
                 near international safety standards when JCI-accredited
                 facilities and board-certified surgeons are selected.
               </p>
-            </m.div>
+            </div>
 
             {/* Minimising Risk */}
-            <m.div variants={fadeInUp} className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-slate-900">
-                Minimising Your Risk
-              </h3>
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">Minimising Your Risk</h3>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Choose JCI-accredited facilities only
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Select board-certified, high-volume surgeons
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Follow all pre-operative instructions
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Disclose complete medical history
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Adhere strictly to post-operative care
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Attend all follow-up appointments
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Have realistic expectations
-                  </p>
-                </div>
-                <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm font-medium text-green-800">
-                    Confirm revision policy in writing
-                  </p>
-                </div>
+                {MINIMIZE_RISK_ITEMS.map((item, i) => (
+                  <div key={i} className="rounded-[1.5rem] bg-green-50 border border-green-100 p-6 flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm font-medium text-green-900">{item}</p>
+                  </div>
+                ))}
               </div>
-            </m.div>
+            </div>
 
             {/* Revision Reality */}
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-6"
-            >
-              <h3 className="font-semibold text-slate-900">
+            <div className="rounded-[2rem] bg-amber-50 border border-amber-100 p-8">
+              <h3 className="text-xl font-bold text-neutral-900 mb-6 flex items-center gap-3">
+                <Activity className="h-6 w-6 text-amber-600" />
                 Revision Rhinoplasty: Understanding the Reality
               </h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                <li>• Revision rates vary: 5–15% across published literature</li>
-                <li>
-                  • Definition varies (minor touch-up vs major correction)
-                </li>
-                <li>
-                  • Many &quot;revisions&quot; are minor adjustments, not full
-                  procedures
-                </li>
-                <li>• Always confirm revision policy before booking</li>
-                <li>
-                  • Reputable surgeons typically cover surgical fees for
-                  medically necessary revision within 12 months
-                </li>
+              <ul className="space-y-3 text-sm text-neutral-700 font-light mb-6">
+                {[
+                  'Revision rates vary: 5–15% across published literature',
+                  'Definition varies (minor touch-up vs major correction)',
+                  'Many "revisions" are minor adjustments, not full procedures',
+                  'Always confirm revision policy before booking',
+                  'Reputable surgeons typically cover surgical fees for medically necessary revision within 12 months',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
               </ul>
-              <p className="mt-4 text-sm italic text-slate-600">
+              <p className="text-sm italic text-amber-900 font-medium">
                 <strong>Important:</strong> If you are unhappy with results from
                 a previous surgery (anywhere), Turkish surgeons are experienced
                 in revision work. However, wait minimum 12 months for swelling
                 to fully resolve before considering revision.
               </p>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* Safety Concerns Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Is Rhinoplasty in Turkey Safe? Addressing Common Concerns
-            </m.h2>
+          {/* =================================================================
+              SAFETY CONCERNS SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="max-w-3xl mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                Addressing Concerns
+              </span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Is Rhinoplasty in Turkey Safe?
+              </h2>
+            </div>
 
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 space-y-6"
-              data-aeo="rhinoplasty-turkey-safety"
-            >
-              {/* Trust Concern */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
+            <div className="space-y-8" data-aeo="rhinoplasty-turkey-safety">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-4">
                   &quot;How Can I Trust a Surgeon I&apos;ve Never Met?&quot;
                 </h3>
-                <p className="mt-3 text-slate-600">
+                <p className="text-neutral-600 font-light leading-relaxed mb-4">
                   Virtual consultations allow meaningful pre-trip evaluation. 3D
                   simulations demonstrate surgeon&apos;s vision for your
                   results. Before/after portfolios show actual outcomes. Reviews
                   from previous UK patients provide peer insights. Credential
                   verification is possible through official registries.
                 </p>
-                <p className="mt-3 text-sm italic text-slate-500">
+                <p className="text-sm italic text-neutral-500">
                   Recommendation: Have 2–3 virtual consultations before
                   deciding. Trust your instincts — you should feel confident and
                   comfortable with your chosen surgeon.
                 </p>
               </div>
 
-              {/* Something Goes Wrong */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-4">
                   &quot;What If Something Goes Wrong?&quot;
                 </h3>
-                <p className="mt-3 text-slate-600">
+                <p className="text-neutral-600 font-light leading-relaxed mb-6">
                   Legitimate concern — here&apos;s how to prepare:
                 </p>
-                <ol className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>
-                    1. Choose clinics with clear revision policies (in writing)
-                  </li>
-                  <li>
-                    2. Ensure travel insurance covers medical complications
-                    abroad
-                  </li>
-                  <li>
-                    3. Confirm clinic has emergency protocols (24/7 contact
-                    available)
-                  </li>
-                  <li>
-                    4. Know the escalation path (how to reach surgeon post-trip)
-                  </li>
-                  <li>5. Have UK GP prepared for local follow-up if needed</li>
+                <ol className="space-y-3 text-sm text-neutral-600 font-light mb-6">
+                  {[
+                    'Choose clinics with clear revision policies (in writing)',
+                    'Ensure travel insurance covers medical complications abroad',
+                    'Confirm clinic has emergency protocols (24/7 contact available)',
+                    'Know the escalation path (how to reach surgeon post-trip)',
+                    'Have UK GP prepared for local follow-up if needed',
+                  ].map((step, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary-50 text-xs font-bold text-primary-600">
+                        {i + 1}
+                      </span>
+                      {step}
+                    </li>
+                  ))}
                 </ol>
-                <p className="mt-4 text-sm text-slate-600">
-                  <strong>Turkey&apos;s Response Infrastructure:</strong> Most
-                  complications are minor and manageable. Turkish hospitals
-                  equipped for emergencies. Many clinics offer extended stays if
-                  needed. Telemedicine follow-ups catch issues early.
-                </p>
+                <div className="rounded-[1.5rem] bg-neutral-50 border border-neutral-100 p-6">
+                  <p className="text-sm text-neutral-600 font-light">
+                    <strong className="text-neutral-900">Turkey&apos;s Response Infrastructure:</strong> Most
+                    complications are minor and manageable. Turkish hospitals
+                    equipped for emergencies. Many clinics offer extended stays if
+                    needed. Telemedicine follow-ups catch issues early.
+                  </p>
+                </div>
               </div>
 
-              {/* Cost Saving Worth It */}
-              <div className="rounded-lg bg-white p-6 shadow">
-                <h3 className="font-semibold text-slate-900">
+              <div className="rounded-[2rem] border border-neutral-100 bg-white p-8 sm:p-12 hover:border-primary-100 transition-colors">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-6">
                   &quot;Is the Cost Saving Worth the Travel?&quot;
                 </h3>
-                <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-8 sm:grid-cols-2">
                   <div>
-                    <p className="font-medium text-slate-900">
-                      Consider the Full Picture
-                    </p>
-                    <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                      <li>• £3,000–£6,000+ savings on surgery cost</li>
-                      <li>• Minus: £150–£350 travel expenses</li>
-                      <li>• Net savings: Typically £2,500–£5,500</li>
-                      <li>
-                        • Plus: All-inclusive care (often fragmented/extra in
-                        UK)
-                      </li>
-                      <li>
-                        • Plus: Dedicated recovery time (forced break from
-                        routine)
-                      </li>
+                    <h4 className="font-bold text-neutral-900 mb-4">Consider the Full Picture</h4>
+                    <ul className="space-y-3 text-sm text-neutral-600 font-light">
+                      {[
+                        '£3,000–£6,000+ savings on surgery cost',
+                        'Minus: £150–£350 travel expenses',
+                        'Net savings: Typically £2,500–£5,500',
+                        'Plus: All-inclusive care (often fragmented/extra in UK)',
+                        'Plus: Dedicated recovery time (forced break from routine)',
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                   <div>
-                    <p className="font-medium text-slate-900">
-                      When Turkey May NOT Be Right
-                    </p>
-                    <ul className="mt-2 space-y-1 text-sm text-slate-600">
-                      <li>
-                        • Very complex revision cases (may prefer local
-                        specialist)
-                      </li>
-                      <li>
-                        • Significant medical conditions (discuss with GP first)
-                      </li>
-                      <li>• Inability to take required time off work</li>
-                      <li>
-                        • Extreme anxiety about travelling for medical care
-                      </li>
+                    <h4 className="font-bold text-neutral-900 mb-4">When Turkey May NOT Be Right</h4>
+                    <ul className="space-y-3 text-sm text-neutral-600 font-light">
+                      {[
+                        'Very complex revision cases (may prefer local specialist)',
+                        'Significant medical conditions (discuss with GP first)',
+                        'Inability to take required time off work',
+                        'Extreme anxiety about travelling for medical care',
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <ArrowRight className="h-4 w-4 text-neutral-400 flex-shrink-0 mt-0.5" />
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
               </div>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
+            </div>
+          </m.section>
 
-      {/* FAQ Section */}
-      <section className="bg-slate-50 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Frequently Asked Questions About Rhinoplasty in Turkey
-            </m.h2>
+          {/* =================================================================
+              FAQ SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="mx-auto max-w-4xl">
+              <div className="text-center mb-16">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">
+                  Common Questions
+                </span>
+                <h2 className="text-4xl font-bold text-neutral-900 tracking-tight sm:text-5xl">
+                  Rhinoplasty in Turkey FAQs
+                </h2>
+              </div>
+              <div className="bg-white rounded-[2.5rem] border border-neutral-200/60 p-4 sm:p-10 shadow-xl shadow-neutral-100">
+                <FAQSection
+                  faqs={faqs}
+                  title=""
+                  className="faq-section-custom"
+                />
+              </div>
+            </div>
+          </m.section>
 
-            <m.div variants={fadeInUp} className="mt-8 space-y-4">
-              {faqs.map((faq, index) => (
-                <details
-                  key={index}
-                  className="group rounded-lg bg-white shadow-sm"
-                >
-                  <summary className="flex cursor-pointer items-center justify-between p-6 font-medium text-slate-900">
-                    {faq.question}
-                    <span className="ml-4 flex-shrink-0 text-rose-600 transition-transform group-open:rotate-180">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-                  <div className="border-t border-slate-200 px-6 pb-6 pt-4 text-slate-600">
-                    {faq.answer}
+          {/* =================================================================
+              CTA SECTION
+              ================================================================= */}
+          <m.section {...fadeInUp} className="pb-12">
+            <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] p-12 text-white sm:p-20 lg:p-32 shadow-2xl text-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-600/30 via-transparent to-blue-600/30" />
+              <m.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 90, 0],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]"
+              />
+
+              <div className="relative z-10 mx-auto max-w-4xl">
+                <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">
+                  Ready to begin?
+                </span>
+                <h2 className="text-4xl font-bold sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-8">
+                  Your New Look <br />Starts in{' '}
+                  <span className="bg-gradient-to-r from-primary-300 to-primary-500 bg-clip-text text-transparent">
+                    Turkey
+                  </span>
+                </h2>
+                <p className="mx-auto mt-8 max-w-2xl text-xl text-neutral-300 font-light leading-relaxed">
+                  Compare prices and surgeons from JCI-accredited clinics in
+                  Istanbul. Receive personalised treatment plans from board-certified
+                  rhinoplasty specialists — no obligation.
+                </p>
+
+                <div className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
+                  <Link href="/clinics?procedure=rhinoplasty&country=turkey" className="w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold shadow-xl shadow-white/10"
+                    >
+                      Compare Rhinoplasty Surgeons
+                    </Button>
+                  </Link>
+                  <Link href="/enquiry?procedure=rhinoplasty&country=turkey" className="w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold backdrop-blur-md"
+                    >
+                      Get Free Clinic Recommendations
+                    </Button>
+                  </Link>
+                </div>
+
+                <div className="mt-16 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm font-medium text-neutral-400">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    Trusted by 10,000+ UK patients
                   </div>
-                </details>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    Verified surgeons only
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary-400" />
+                    No booking fees
+                  </div>
+                </div>
+              </div>
+            </div>
+          </m.section>
+
+          {/* =================================================================
+              INTERNAL LINKS
+              ================================================================= */}
+          <m.section {...fadeInUp} className="mt-20 border-t border-neutral-100 pt-12">
+            <div className="flex flex-wrap gap-x-8 gap-y-4 items-center justify-center text-sm font-medium">
+              <span className="text-neutral-400 uppercase tracking-widest text-xs">Related Guides:</span>
+              {CROSS_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-neutral-600 hover:text-primary-600 transition-colors"
+                >
+                  {link.title}
+                </Link>
               ))}
-            </m.div>
-          </m.div>
+            </div>
+          </m.section>
         </div>
-      </section>
-
-      {/* Cross-Links Section */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-slate-900 sm:text-3xl"
-            >
-              Explore Other Destinations & Procedures
-            </m.h2>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              <Link
-                href="/procedures/rhinoplasty"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Rhinoplasty Hub
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Compare all rhinoplasty destinations and techniques
-                </p>
-              </Link>
-              <Link
-                href="/procedures/facelift/turkey"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">Facelift in Turkey</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Combine rhinoplasty with facial rejuvenation
-                </p>
-              </Link>
-              <Link
-                href="/procedures/liposuction/turkey"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Liposuction in Turkey
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Body contouring at JCI-accredited clinics
-                </p>
-              </Link>
-              <Link
-                href="/procedures/tummy-tuck/turkey"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Tummy Tuck in Turkey
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Abdominoplasty from £2,500 all-inclusive
-                </p>
-              </Link>
-              <Link
-                href="/destinations/turkey"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  Turkey Destination Guide
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Everything you need to know about medical tourism in Turkey
-                </p>
-              </Link>
-              <Link
-                href="/cosmetic-surgery"
-                className="rounded-lg border border-slate-200 bg-white p-4 transition-shadow hover:shadow-md"
-              >
-                <p className="font-medium text-slate-900">
-                  All Cosmetic Surgery
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Browse all cosmetic procedures abroad
-                </p>
-              </Link>
-            </m.div>
-          </m.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-rose-600 py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <m.h2
-              variants={fadeInUp}
-              className="text-2xl font-bold text-white sm:text-3xl"
-            >
-              Get Your Free Rhinoplasty Quote for Turkey
-            </m.h2>
-            <m.p
-              variants={fadeInUp}
-              className="mx-auto mt-4 max-w-2xl text-rose-100"
-            >
-              Compare prices and surgeons from JCI-accredited clinics in
-              Istanbul. Receive personalised treatment plans from board-certified
-              rhinoplasty specialists — no obligation.
-            </m.p>
-
-            <m.div
-              variants={fadeInUp}
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            >
-              <Link
-                href="/clinics?procedure=rhinoplasty&country=turkey"
-                className="w-full rounded-lg bg-white px-8 py-4 text-lg font-semibold text-rose-600 shadow-lg transition-all hover:bg-rose-50 sm:w-auto"
-              >
-                Compare Rhinoplasty Surgeons
-              </Link>
-              <Link
-                href="/enquiry?procedure=rhinoplasty&country=turkey"
-                className="w-full rounded-lg border-2 border-white px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-rose-700 sm:w-auto"
-              >
-                Get Free Clinic Recommendations
-              </Link>
-            </m.div>
-
-            <m.p variants={fadeInUp} className="mt-6 text-sm text-rose-200">
-              Trusted by 10,000+ UK patients • Verified surgeons only • No
-              booking fees
-            </m.p>
-          </m.div>
-        </div>
-      </section>
-    </LazyMotion>
+      </div>
   )
 }

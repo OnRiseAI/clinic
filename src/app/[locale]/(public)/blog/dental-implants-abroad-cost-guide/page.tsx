@@ -9,14 +9,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'How Much Do Dental Implants Cost Abroad? 2026 Price Guide by Country | medit',
+  title: 'How Much Do Dental Implants Cost Abroad? 2026 Price Guide by Country | MeetYourClinic',
   description:
     "Compare dental implant prices in 8+ countries. Single implants from £250 in Turkey to £1,200 in Spain. See what's included, why prices differ, and how UK patients save 50–80%. Updated for 2026.",
   alternates: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     description:
       "Compare dental implant prices in 8+ countries. Single implants from £250 in Turkey to £1,200 in Spain. See what's included, why prices differ, and how UK patients save 50–80%.",
     url: `${SITE_URL}/blog/dental-implants-abroad-cost-guide`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'article',
     locale: 'en_GB',
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     ],
     publishedTime: '2026-02-01T00:00:00Z',
     modifiedTime: '2026-02-01T00:00:00Z',
-    authors: ['medit Research Team'],
+    authors: ['MeetYourClinic Research Team'],
   },
   twitter: {
     card: 'summary_large_image',
@@ -122,12 +122,12 @@ const articleSchema = {
     "Compare dental implant prices in 8+ countries. Single implants from £250 in Turkey to £1,200 in Spain. See what's included, why prices differ, and how UK patients save 50–80%.",
   author: {
     '@type': 'Organization',
-    name: 'medit Research Team',
+    name: 'MeetYourClinic Research Team',
     url: `${SITE_URL}/about`,
   },
   publisher: {
     '@type': 'Organization',
-    name: 'medit',
+    name: 'MeetYourClinic',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',

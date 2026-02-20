@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Rhinoplasty Abroad — Compare Prices, Techniques & Top Surgeons | medit',
+  title: 'Rhinoplasty Abroad — Compare Prices, Techniques & Top Surgeons | MeetYourClinic',
   description:
     "Compare rhinoplasty prices abroad from £2,000. Piezo, ultrasonic & preservation techniques in Turkey, Spain, Hungary, Poland — real prices, verified surgeons, recovery guidance. Save 40–70% vs UK.",
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       "Compare rhinoplasty prices abroad from £2,000. Piezo, ultrasonic & preservation techniques in Turkey, Spain, Hungary, Poland. Save 40–70% vs UK.",
     url: `${SITE_URL}/procedures/rhinoplasty`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Liposuction in Spain — Prices from £2,400, Barcelona & Marbella Clinics | medit',
+  title: 'Liposuction in Spain — Prices from £2,400, Barcelona & Marbella Clinics | MeetYourClinic',
   description:
     "Compare liposuction prices in Spain from £2,400. VASER, HD lipo & lipo 360 at world-class Barcelona, Madrid & Marbella clinics. EU-regulated, Quirónsalud hospitals. 40–60% savings vs UK. Free quotes.",
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       "Compare liposuction prices in Spain from £2,400. VASER, HD lipo & lipo 360 at world-class Barcelona, Madrid & Marbella clinics. EU-regulated, Quirónsalud hospitals.",
     url: `${SITE_URL}/procedures/liposuction/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

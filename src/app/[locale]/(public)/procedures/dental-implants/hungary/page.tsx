@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Implants in Hungary — 2026 Prices, Budapest Clinics & UK Guide | medit',
+  title: 'Dental Implants in Hungary — 2026 Prices, Budapest Clinics & UK Guide | MeetYourClinic',
   description:
     'Compare dental implant prices in Hungary from verified Budapest clinics. Single implants from £600, All-on-4 from £4,500. Read UK patient reviews, check accreditations, and get a free quote.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental implant prices in Hungary from verified Budapest clinics. Single implants from £600, All-on-4 from £4,500. Read UK patient reviews, check accreditations, and get a free quote.',
     url: `${SITE_URL}/procedures/dental-implants/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

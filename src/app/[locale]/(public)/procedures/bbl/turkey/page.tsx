@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'BBL in Turkey — Prices from £2,800, Top Clinics & Safety | medit',
+  title: 'BBL in Turkey — Prices from £2,800, Top Clinics & Safety | MeetYourClinic',
   description:
     'Compare BBL prices in Turkey from £2,800 all-inclusive. Brazilian Butt Lift at JCI-accredited Istanbul clinics. Safety protocols, before/after results, and free consultations.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'BBL in Turkey — Prices from £2,800, Top Clinics & Safety',
     description: 'Compare BBL prices in Turkey from £2,800. Brazilian Butt Lift at JCI-accredited clinics.',
     url: `${SITE_URL}/procedures/bbl/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brazilian Butt Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BBLTurkeyPageProps {

@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Liposuction Abroad — Compare Prices, Techniques & Clinics | medit',
+  title: 'Liposuction Abroad — Compare Prices, Techniques & Clinics | MeetYourClinic',
   description:
     'Compare liposuction prices abroad from £1,165. VASER, laser & traditional lipo in Turkey, Hungary, Poland, Spain — real prices, recovery timelines, verified surgeons. Free quotes from accredited clinics.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare liposuction prices abroad from £1,165. VASER, laser & traditional lipo in Turkey, Hungary, Poland, Spain — real prices, recovery timelines, verified surgeons.',
     url: `${SITE_URL}/procedures/liposuction`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

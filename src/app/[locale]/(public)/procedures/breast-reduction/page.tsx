@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Breast Reduction Abroad — Compare Prices & Clinics | medit',
+  title: 'Breast Reduction Abroad — Compare Prices & Clinics | MeetYourClinic',
   description:
     'Compare breast reduction prices abroad from £3,000. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Breast Reduction Abroad — Compare Prices & Clinics',
     description: 'Compare breast reduction prices abroad from £3,000. Save 50-70% vs UK.',
     url: `${SITE_URL}/procedures/breast-reduction`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },

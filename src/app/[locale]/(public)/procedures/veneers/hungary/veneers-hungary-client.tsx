@@ -19,6 +19,11 @@ import {
   Languages,
   ArrowRight,
   BadgeCheck,
+  Palette,
+  Sparkles,
+  Award,
+  Eye,
+  AlertTriangle,
 } from 'lucide-react'
 import { HU, TR } from 'country-flag-icons/react/3x2'
 
@@ -292,458 +297,582 @@ export function VeneersHungaryClient({ faqs }: VeneersHungaryClientProps) {
       {/* =====================================================================
           SECTION A: HERO
           ===================================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 text-white">
-        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-5" />
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Veneers in Hungary: Compare Prices, Clinics & Packages
+      <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-20 pb-24 sm:pt-32 sm:pb-40">
+        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+        
+        {/* Abstract Premium Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A1A2F] via-[#0A1A2F]/95 to-primary-900/50" />
+        
+        {/* Animated Glowing Orbs */}
+        <m.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+            x: [0, 50, 0],
+            y: [0, 30, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]" 
+        />
+        <m.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, -70, 0],
+            y: [0, -40, 0]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]" 
+        />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <m.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl"
+          >
+            <m.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex items-center gap-3 mb-8"
+            >
+              <div className="h-px w-12 bg-primary-400" />
+              <span className="text-primary-200 text-sm font-bold tracking-[0.3em] uppercase">The Dental Capital of Europe</span>
+            </m.div>
+
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl mb-8 leading-[1.1]">
+              Veneers in <span className="bg-gradient-to-r from-white via-primary-100 to-white/80 bg-clip-text text-transparent">Hungary</span>
             </h1>
-            <p className="mt-4 text-base text-primary-100 sm:mt-6 sm:text-lg lg:text-xl">
-              Hungary is Europe's leading dental tourism destination. Compare verified Budapest
-              clinics, real prices from £105 per veneer, and all-inclusive packages — all in one
-              place.
+            
+            <p className="text-lg text-neutral-300 sm:text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-3xl">
+              Compare verified Budapest clinics, premium materials, and all-inclusive packages. 
+              Save up to 65% with EU-regulated clinical excellence.
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
+
+            <div className="flex flex-col gap-5 sm:flex-row">
               <Link href="/search?procedure=veneers&country=hungary">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                  Browse Veneer Clinics in Hungary
+                <Button size="lg" className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-500 hover:scale-105 transition-all duration-300 rounded-full px-10 py-7 text-lg font-medium shadow-xl shadow-primary-900/20">
+                  Browse Clinics
                 </Button>
               </Link>
               <Link href="#pricing">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="lg"
-                  className="w-full text-white hover:bg-white/10 sm:w-auto"
+                  className="w-full sm:w-auto border-white/20 bg-white/5 text-white hover:bg-white/10 rounded-full px-10 py-7 text-lg font-medium backdrop-blur-md transition-all duration-300"
                 >
-                  View Prices
+                  View 2026 Prices
                 </Button>
               </Link>
             </div>
-          </div>
+          </m.div>
 
-          {/* Trust Strip */}
-          <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-white/20 pt-8 text-sm text-primary-200 sm:mt-12 sm:gap-6">
-            <span className="flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              Verified clinics
-            </span>
-            <span className="flex items-center gap-2">
-              <Globe className="h-4 w-4" />
-              EU-regulated
-            </span>
-            <span className="flex items-center gap-2">
-              <Plane className="h-4 w-4" />
-              2.5hr flight from London
-            </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              Free consultation matching
-            </span>
-          </div>
-
-          {/* Hero Stat Cards */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-              <p className="text-2xl font-bold">From £105</p>
-              <p className="text-sm text-primary-200">per tooth</p>
-            </div>
-            <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-              <p className="text-2xl font-bold">40–65%</p>
-              <p className="text-sm text-primary-200">savings vs UK</p>
-            </div>
-            <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-              <p className="text-2xl font-bold">2.5hr</p>
-              <p className="text-sm text-primary-200">flight from London</p>
-            </div>
-          </div>
+          {/* Trust Bar */}
+          <m.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-20 sm:mt-28 grid grid-cols-2 gap-8 sm:grid-cols-4 border-t border-white/10 pt-12"
+          >
+            {[
+              { icon: Shield, text: "Verified Clinics" },
+              { icon: Globe, text: "EU-Regulated" },
+              { icon: Plane, text: "2.5hr from London" },
+              { icon: CheckCircle, text: "Free Consultations" }
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center sm:items-start gap-3">
+                <item.icon className="h-6 w-6 text-primary-400" />
+                <span className="text-sm font-medium text-neutral-300 tracking-wide">{item.text}</span>
+              </div>
+            ))}
+          </m.div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         {/* =====================================================================
             SECTION B: WHY HUNGARY FOR VENEERS
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Why UK Patients Choose Hungary for Dental Veneers
-          </h2>
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="grid gap-16 lg:grid-cols-12 items-start">
+            <div className="lg:col-span-5">
+              <div className="sticky top-32">
+                <m.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "80px" }}
+                  viewport={{ once: true }}
+                  className="h-1.5 bg-primary-600 rounded-full mb-8"
+                />
+                <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  Why Choose Hungary for Veneers?
+                </h2>
+                <p className="mt-8 text-lg text-neutral-600 font-light leading-relaxed">
+                  As the "Dental Capital of Europe," Hungary offers a unique combination of 
+                  historical expertise and modern clinical excellence.
+                </p>
+                
+                <div className="mt-10 p-8 rounded-[2rem] bg-neutral-50 border border-neutral-100 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary-100/50 blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                  <GraduationCap className="h-10 w-10 text-primary-600 mb-6 relative z-10" />
+                  <h3 className="text-xl font-bold text-neutral-900 mb-4 relative z-10">Academic Excellence</h3>
+                  <p className="text-sm text-neutral-600 leading-relaxed relative z-10">
+                    Home to Semmelweis University, one of Europe's oldest and most respected medical schools, 
+                    producing world-class dental specialists.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-          <div className="mt-6 space-y-4 text-neutral-700 sm:mt-8 sm:space-y-6">
-            <p className="text-base leading-relaxed sm:text-lg">
-              <strong>Hungary is the "dental capital of Europe."</strong> Budapest alone hosts over
-              500 dental facilities treating international patients. Semmelweis University — one of
-              Europe's oldest and most respected medical schools (founded 1769) — produces world-class
-              dental graduates. Hungary has more dentists per capita than almost any other EU country,
-              and the concentration of specialist expertise in Budapest is unmatched.
-            </p>
-
-            <p className="leading-relaxed">
-              <strong>EU membership means real patient protections.</strong> Hungarian dental clinics
-              must comply with EU medical device regulations, hygiene standards, and patient rights
-              directives. This is a tangible trust signal versus non-EU destinations. Clinics are
-              regularly inspected, and ISO certification is common among Budapest's top practices.
-            </p>
-
-            <p className="leading-relaxed">
-              <strong>Proximity makes treatment practical.</strong> Budapest is just 2.5 hours from
-              London by direct flight. Budget airlines (Ryanair, Wizz Air) operate multiple daily
-              routes with return fares often under £80. No visa is required for UK citizens (stays
-              under 90 days). If you need a follow-up visit, it's easy to arrange — unlike more
-              distant destinations.
-            </p>
-
-            <p className="leading-relaxed">
-              <strong>30+ years of dental tourism experience.</strong> Hungary has been treating
-              international{' '}
-              <Link href="/dental" className="text-primary-600 hover:underline">
-                dental
-              </Link>{' '}
-              patients for over three decades — long before "medical tourism" became a buzzword.
-              Budapest clinics have treated millions of patients from Germany, Austria, the UK, and
-              Scandinavia. English-speaking staff and dedicated international patient coordinators are
-              standard at reputable clinics.
-            </p>
+            <div className="lg:col-span-7 space-y-12">
+              {[
+                {
+                  title: "Europe's Dental Hub",
+                  content: "Budapest hosts over 500 specialized dental facilities, creating a competitive environment that drives up clinical standards while keeping prices accessible."
+                },
+                {
+                  title: "Strict EU Compliance",
+                  content: "As a full EU member, Hungarian clinics must adhere to the highest European standards for hygiene, medical devices, and patient safety protocols."
+                },
+                {
+                  title: "Decades of Experience",
+                  content: "Hungary has been the primary destination for European dental tourism for over 30 years, with highly developed infrastructure for international patients."
+                },
+                {
+                  title: "Seamless Travel",
+                  content: "With a flight time of just 2.5 hours from London and multiple daily budget routes, Budapest is one of the most practical locations for treatment."
+                }
+              ].map((item, i) => (
+                <m.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group"
+                >
+                  <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-lg text-neutral-600 font-light leading-relaxed">
+                    {item.content}
+                  </p>
+                  <div className="mt-8 h-px w-full bg-neutral-100 group-last:hidden" />
+                </m.div>
+              ))}
+            </div>
           </div>
         </m.section>
 
         {/* =====================================================================
             SECTION C: PRICING
             ===================================================================== */}
-        <m.section {...fadeInUp} id="pricing" className="mb-16 scroll-mt-8 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            How Much Do Veneers Cost in Hungary?
-          </h2>
-          <p className="mt-2 text-neutral-600">
-            Prices updated February 2026. All prices in GBP (£).
-          </p>
-
-          {/* Per-Tooth Pricing Table */}
-          <h3 className="mt-10 text-xl font-semibold text-neutral-900">Price Per Veneer</h3>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[500px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-neutral-200 bg-neutral-50">
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">Veneer Type</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">Hungary</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">UK</th>
-                  <th className="px-4 py-3 text-left font-semibold text-green-700">Saving</th>
-                </tr>
-              </thead>
-              <tbody>
-                {VENEER_PRICES.map((row, index) => (
-                  <tr key={row.type} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-900">
-                      {row.type}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 font-medium text-primary-700">
-                      {row.hungaryPrice}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-600">
-                      {row.ukPrice}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 font-semibold text-green-600">
-                      {row.saving}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Full Set Package Pricing */}
-          <h3 className="mt-10 text-xl font-semibold text-neutral-900">Full Set Package Pricing</h3>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[500px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-neutral-200 bg-neutral-50">
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">Package</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">Hungary</th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">UK</th>
-                  <th className="px-4 py-3 text-left font-semibold text-green-700">You Save</th>
-                </tr>
-              </thead>
-              <tbody>
-                {PACKAGE_PRICES.map((row, index) => (
-                  <tr key={row.package} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-900">
-                      {row.package}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 font-medium text-primary-700">
-                      {row.hungaryPrice}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-600">
-                      {row.ukPrice}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 font-semibold text-green-600">
-                      {row.saving}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Pricing Notes */}
-          <div className="mt-8 space-y-4 text-neutral-700">
-            <p className="leading-relaxed">
-              Several factors affect veneer pricing: <strong>material choice</strong> (composite is
-              cheapest, E-max is premium), <strong>number of teeth</strong> being treated,{' '}
-              <strong>clinic reputation</strong> and location, and whether you opt for an{' '}
-              <strong>all-inclusive package</strong> with hotel and transfers included.
-            </p>
-            <p className="leading-relaxed">
-              All-inclusive packages are common in Budapest and often represent better value than
-              booking treatment and accommodation separately. For a detailed breakdown of costs across
-              countries, see our{' '}
-              <Link
-                href="/blog/dental-implants-abroad-cost-guide"
-                className="text-primary-600 hover:underline"
-              >
-                dental treatment abroad cost guide
-              </Link>
-              .
-            </p>
-          </div>
-
-          {/* Disclaimer */}
-          <p className="mt-6 text-sm text-neutral-500 italic">
-            Prices are based on published clinic rates and may vary. Request a personalised quote for
-            accurate pricing.
-          </p>
-
-          {/* CTA */}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Link href="/search?procedure=veneers&country=hungary">
-              <Button size="lg" className="w-full sm:w-auto">
-                Get Your Free Quote
-              </Button>
-            </Link>
-          </div>
-        </m.section>
-
-        {/* =====================================================================
-            SECTION D: TYPES OF VENEERS
-            ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Types of Veneers Available at Budapest Clinics
-          </h2>
-          <p className="mt-2 text-neutral-600">
-            Budapest clinics offer the full range of veneer materials to suit every budget and goal
-          </p>
-
-          <div className="mt-6 space-y-4 sm:mt-8 sm:space-y-6">
-            {VENEER_TYPES.map((veneer) => (
-              <div
-                key={veneer.name}
-                className="rounded-xl border border-neutral-200 bg-white p-5 sm:p-6"
-              >
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <h3 className="text-lg font-semibold text-neutral-900">{veneer.name}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700">
-                      {veneer.price}
-                    </span>
-                    <span className="rounded-full bg-neutral-100 px-3 py-1 text-sm text-neutral-600">
-                      {veneer.lifespan} lifespan
-                    </span>
-                  </div>
-                </div>
-                <p className="mt-3 text-neutral-700 leading-relaxed">{veneer.description}</p>
-                <p className="mt-3 text-sm text-neutral-500">
-                  <strong>Best for:</strong> {veneer.bestFor}
+        <m.section {...fadeInUp} id="pricing" className="mb-32 scroll-mt-20">
+          <div className="bg-neutral-900 rounded-[3rem] p-8 sm:p-16 overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-600/10 blur-[120px]" />
+            
+            <div className="relative z-10">
+              <div className="max-w-2xl mb-16">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-400 uppercase mb-4 block">2026 Price Guide</span>
+                <h2 className="text-4xl font-bold text-white tracking-tight sm:text-5xl mb-6">
+                  Veneer Costs in Hungary
+                </h2>
+                <p className="text-lg text-neutral-400 font-light">
+                  Transparent pricing updated for February 2026. All prices in GBP (£).
                 </p>
               </div>
-            ))}
-          </div>
 
-          {/* Veneers vs Crowns Note */}
-          <div className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
-            <h3 className="font-semibold text-amber-900">Veneers vs Crowns — Know the Difference</h3>
-            <p className="mt-2 text-sm text-amber-800 leading-relaxed">
-              Many "Turkey teeth" cases involve crowns marketed as veneers. Veneers are thin shells
-              bonded to the front of teeth (0.2–0.7mm preparation). Crowns require significant tooth
-              reduction and cover the entire tooth. Reputable Budapest clinics are transparent about
-              which treatment they recommend and why. If a clinic suggests extensive filing for
-              "veneers," ask whether crowns are actually being proposed.
-            </p>
-          </div>
-        </m.section>
-
-        {/* =====================================================================
-            SECTION E: TREATMENT TIMELINE
-            ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            What to Expect: Your Veneers Treatment in Budapest
-          </h2>
-          <p className="mt-2 text-neutral-600">
-            A typical porcelain or E-max veneer treatment takes 4–5 days
-          </p>
-
-          <div className="mt-6 sm:mt-8">
-            {TIMELINE_STEPS.map((step, index) => (
-              <div key={step.day} className="relative pb-8 last:pb-0">
-                {/* Connector line */}
-                {index < TIMELINE_STEPS.length - 1 && (
-                  <div className="absolute left-4 top-10 h-full w-0.5 bg-primary-100" />
-                )}
-                <div className="flex gap-4">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
-                    {index + 1}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
-                      <span className="text-sm font-medium text-primary-600">{step.day}</span>
-                      <h3 className="font-semibold text-neutral-900">{step.title}</h3>
+              <div className="grid lg:grid-cols-12 gap-12 items-start">
+                <div className="lg:col-span-8 space-y-8">
+                  {/* Price Tables */}
+                  <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="text-left">
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">Material</th>
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">Hungary</th>
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">UK Price</th>
+                            <th className="p-6 text-sm font-bold text-primary-600 uppercase tracking-widest text-right">Saving</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-100">
+                          {VENEER_PRICES.map((row, i) => (
+                            <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                              <td className="p-6 font-bold text-neutral-900">{row.type}</td>
+                              <td className="p-6 text-primary-600 font-bold">{row.hungaryPrice}</td>
+                              <td className="p-6 text-neutral-500 line-through decoration-neutral-300">{row.ukPrice}</td>
+                              <td className="p-6 text-right font-black text-green-600">{row.saving}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <p className="mt-2 text-neutral-600 leading-relaxed">{step.description}</p>
+                  </div>
+
+                  <div className="bg-white rounded-3xl p-2 shadow-2xl">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="text-left">
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">Package Deals</th>
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest">Hungary</th>
+                            <th className="p-6 text-sm font-bold text-neutral-400 uppercase tracking-widest text-right">You Save</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-100">
+                          {PACKAGE_PRICES.map((row, i) => (
+                            <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                              <td className="p-6 font-bold text-neutral-900">{row.package}</td>
+                              <td className="p-6 text-primary-600 font-bold">{row.hungaryPrice}</td>
+                              <td className="p-6 text-right font-black text-green-600">{row.saving}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Same-day option */}
-          <div className="mt-8 rounded-xl border border-primary-200 bg-primary-50 p-5 sm:p-6">
-            <div className="flex items-start gap-3">
-              <Clock className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600" />
-              <div>
-                <h3 className="font-semibold text-primary-900">Same-Day Option Available</h3>
-                <p className="mt-2 text-sm text-primary-800 leading-relaxed">
-                  Composite and nanoceramic veneers can often be completed in a single day using
-                  same-day digital design and fabrication. This is ideal for patients who cannot take
-                  5 days off work. Ask clinics about CEREC or similar same-day technology when
-                  requesting your quote.
-                </p>
+                <div className="lg:col-span-4 space-y-6">
+                  <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary-400" />
+                      What's Included
+                    </h3>
+                    <ul className="space-y-4">
+                      {[
+                        "Initial Consultation",
+                        "Digital Smile Design",
+                        "Temporary Veneers",
+                        "Premium Materials",
+                        "Local Transfers",
+                        "Follow-up Care"
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-center gap-3 text-neutral-300 text-sm">
+                          <div className="h-1.5 w-1.5 rounded-full bg-primary-500" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="p-8 rounded-3xl bg-primary-600 shadow-xl shadow-primary-900/20">
+                    <h3 className="text-xl font-bold text-white mb-4">Request a Quote</h3>
+                    <p className="text-primary-100 text-sm mb-8 leading-relaxed">
+                      Get a personalized treatment plan and fixed-price quote from Budapest's top clinics.
+                    </p>
+                    <Link href="/contact">
+                      <Button className="w-full bg-white text-primary-700 hover:bg-neutral-100 rounded-xl py-6 font-bold">
+                        Get Free Quote
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </m.section>
 
         {/* =====================================================================
+            SECTION D: TYPES OF VENEERS
+            ===================================================================== */}
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Material Guide</span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Veneer Options in Budapest
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Budapest clinics offer the full range of veneer materials to suit every budget and goal.
+              </p>
+            </div>
+            <div className="h-px flex-1 bg-neutral-100 hidden md:block mx-8 mb-4" />
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {VENEER_TYPES.map((type, i) => (
+              <m.div
+                key={type.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative flex flex-col rounded-[2.5rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
+              >
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
+                
+                <div className="relative z-10 flex-1">
+                  <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-50 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                    {i === 0 ? <Palette className="h-6 w-6" /> : i === 1 ? <Sparkles className="h-6 w-6" /> : i === 2 ? <Award className="h-6 w-6" /> : i === 3 ? <Shield className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
+                  </div>
+                  <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-700 transition-colors">
+                    {type.name}
+                  </h3>
+                  <p className="text-neutral-600 leading-relaxed font-light mb-8 text-sm">
+                    {type.description}
+                  </p>
+                </div>
+
+                <div className="relative z-10 space-y-4 pt-6 border-t border-neutral-100">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-neutral-400 uppercase tracking-widest">Lifespan</span>
+                    <span className="font-bold text-neutral-900">{type.lifespan}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-neutral-400 uppercase tracking-widest">Est. Price</span>
+                    <span className="font-bold text-primary-600">{type.price}</span>
+                  </div>
+                </div>
+              </m.div>
+            ))}
+          </div>
+
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 p-8 rounded-[2.5rem] bg-amber-50 border border-amber-100 relative overflow-hidden"
+          >
+            <div className="absolute right-0 top-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-amber-200/20 blur-3xl" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+                <AlertTriangle className="h-8 w-8" />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-amber-900 mb-2">Veneers vs Crowns — Know the Difference</h4>
+                <p className="text-amber-800 font-light leading-relaxed">
+                  Many "Turkey teeth" cases involve crowns marketed as veneers. Veneers are thin shells
+                  bonded to the front of teeth (0.2–0.7mm preparation). Reputable Budapest clinics are transparent about
+                  which treatment they recommend. If a clinic suggests extensive filing, ask whether crowns are actually being proposed.
+                </p>
+              </div>
+            </div>
+          </m.div>
+        </m.section>
+
+        {/* =====================================================================
+            SECTION E: TREATMENT TIMELINE
+            ===================================================================== */}
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="max-w-3xl mb-16">
+            <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">The Journey</span>
+            <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+              Your Treatment Timeline
+            </h2>
+            <p className="mt-4 text-lg text-neutral-600 font-light">
+              A typical porcelain or E-max veneer treatment in Budapest takes 4–5 days.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-neutral-100 hidden md:block" />
+
+            <div className="space-y-12">
+              {TIMELINE_STEPS.map((step, i) => (
+                <m.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative md:pl-24"
+                >
+                  <div className="absolute left-0 top-0 hidden md:flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-neutral-100 shadow-sm z-10">
+                    <span className="text-xl font-black text-primary-600">{i + 1}</span>
+                  </div>
+                  <div className="bg-white rounded-[2rem] border border-neutral-100 p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                      <h3 className="text-2xl font-bold text-neutral-900 flex items-center gap-4">
+                        <span className="md:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-600 text-lg font-bold">{i + 1}</span>
+                        {step.title}
+                      </h3>
+                      <span className="px-4 py-1.5 rounded-full bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest">
+                        {step.day}
+                      </span>
+                    </div>
+                    <p className="text-neutral-600 font-light leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </m.div>
+              ))}
+            </div>
+          </div>
+
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 p-8 rounded-[2.5rem] bg-primary-900 text-white relative overflow-hidden"
+          >
+            <div className="absolute right-0 top-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-primary-600/20 blur-3xl" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md">
+                <Clock className="h-8 w-8 text-primary-300" />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold mb-2">Same-Day Option Available</h4>
+                <p className="text-primary-100 font-light leading-relaxed">
+                  Composite and nanoceramic veneers can often be completed in a single day using
+                  same-day digital design and fabrication. Ideal for patients with limited time.
+                </p>
+              </div>
+            </div>
+          </m.div>
+        </m.section>
+
+        {/* =====================================================================
             SECTION F: TOP CLINICS
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Top-Rated Veneer Clinics in Budapest
-          </h2>
-          <p className="mt-2 text-neutral-600">
-            Browse verified clinics with real patient reviews and transparent pricing
-          </p>
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Providers</span>
+              <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                Top Veneer Clinics in Budapest
+              </h2>
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Highest-rated medical facilities vetted for international quality standards.
+              </p>
+            </div>
+            <Link href="/search?procedure=veneers&country=hungary">
+              <Button variant="outline" className="group rounded-full border-neutral-200 px-8 py-6 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 transition-all duration-300">
+                View All Clinics <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </div>
 
-          <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURED_CLINICS.map((clinic, index) => (
+          <div className="grid gap-8 lg:grid-cols-2">
+            {FEATURED_CLINICS.map((clinic, i) => (
               <m.div
                 key={clinic.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="rounded-xl border border-neutral-200 bg-white p-5 sm:p-6"
+                transition={{ delay: i * 0.05 }}
+                className="group relative flex flex-col rounded-[2.5rem] border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between mb-8">
                   <div>
-                    <h3 className="font-semibold text-neutral-900">{clinic.name}</h3>
-                    <p className="mt-1 flex items-center gap-1 text-sm text-neutral-500">
-                      <MapPin className="h-3 w-3" />
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2">{clinic.name}</h3>
+                    <div className="flex items-center gap-2 text-primary-600 font-medium">
+                      <MapPin className="h-4 w-4" />
                       {clinic.location}
-                    </p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1">
-                    <Star className="h-3 w-3 fill-green-500 text-green-500" />
-                    <span className="text-sm font-medium text-green-700">{clinic.rating}</span>
+                  <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-green-50 text-green-700">
+                    <Star className="h-4 w-4 fill-green-500 text-green-500" />
+                    <span className="text-sm font-bold">{clinic.rating}</span>
                   </div>
                 </div>
-                <p className="mt-3 text-sm text-primary-600">{clinic.highlight}</p>
-                <p className="mt-2 text-xs text-neutral-500">{clinic.specialties}</p>
-                <p className="mt-2 text-xs text-neutral-400">{clinic.reviews} reviews</p>
-                {/* TODO: Link to /clinics/[slug] when clinic data is connected */}
-                <span className="mt-4 inline-flex items-center text-sm font-medium text-primary-600">
-                  View Clinic Profile
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </span>
+
+                <div className="mb-8">
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest mb-4">
+                    {clinic.highlight}
+                  </div>
+                  <p className="text-neutral-500 text-sm font-light leading-relaxed">
+                    {clinic.specialties}
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-6 border-t border-neutral-100 flex items-center justify-between">
+                  <span className="text-neutral-400 text-sm font-medium">{clinic.reviews} Verified Reviews</span>
+                  <Link href={`/search?procedure=veneers&clinic=${clinic.name.toLowerCase()}`} className="text-sm font-bold text-primary-600 group-hover:text-primary-700 transition-colors flex items-center gap-2">
+                    View Profile <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </m.div>
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Link href="/search?procedure=veneers&country=hungary">
-              <Button size="lg" className="w-full sm:w-auto">
-                Browse All Veneer Clinics
-              </Button>
-            </Link>
-          </div>
+          <m.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="mt-16 p-10 rounded-[3rem] bg-gradient-to-br from-primary-50 to-white border border-primary-100 relative overflow-hidden"
+          >
+            <div className="absolute right-0 bottom-0 -mb-10 -mr-10 h-40 w-40 rounded-full bg-primary-200/20 blur-3xl" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+              <div className="flex-shrink-0">
+                <div className="h-20 w-20 rounded-3xl bg-primary-600 flex items-center justify-center shadow-xl shadow-primary-200">
+                  <Shield className="h-10 w-10 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-primary-900 mb-4">The MeetYourClinic Advantage</h3>
+                <p className="text-lg text-primary-800/80 font-light leading-relaxed">
+                  Every clinic on our platform undergoes a rigorous 50-point vetting process. 
+                  We verify clinical accreditations, material authenticity, and genuine patient 
+                  outcomes so you can book with absolute confidence.
+                </p>
+              </div>
+              <div className="flex-shrink-0 w-full md:w-auto">
+                <Link href="/search?procedure=veneers&country=hungary">
+                  <Button className="w-full md:w-auto bg-primary-600 hover:bg-primary-700 text-white rounded-2xl px-8 py-6 font-bold shadow-lg shadow-primary-200">
+                    Browse Vetted Clinics
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </m.div>
         </m.section>
 
         {/* =====================================================================
             SECTION G: HUNGARY VS TURKEY COMPARISON
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Veneers in Hungary vs Turkey: Which Is Right for You?
-          </h2>
-          <p className="mt-2 text-neutral-600">
-            Comparing Europe's two most popular dental tourism destinations
-          </p>
-
-          <div className="mt-6 overflow-x-auto">
-            <table className="w-full min-w-[600px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-neutral-200 bg-neutral-50">
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900">Factor</th>
-                  <th className="px-4 py-3 text-left font-semibold text-primary-700">
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 overflow-hidden rounded-sm shadow-sm">
-                        <HU title="Hungary" />
-                      </div>
-                      Hungary
-                    </div>
-                  </th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-700">
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 overflow-hidden rounded-sm shadow-sm">
-                        <TR title="Turkey" />
-                      </div>
-                      Turkey
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPARISON_DATA.map((row, index) => (
-                  <tr key={row.factor} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                    <td className="border-b border-neutral-100 px-4 py-3 font-medium text-neutral-900">
-                      {row.factor}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-700">
-                      {row.hungary}
-                    </td>
-                    <td className="border-b border-neutral-100 px-4 py-3 text-neutral-600">
-                      {row.turkey}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Market Analysis</span>
+            <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+              Hungary vs Turkey
+            </h2>
+            <p className="mt-4 text-lg text-neutral-600 font-light">
+              Comparing Europe's two leading dental tourism destinations.
+            </p>
           </div>
 
-          <div className="mt-6 rounded-xl border border-neutral-200 bg-white p-5 sm:p-6">
-            <h3 className="font-semibold text-neutral-900">The bottom line</h3>
-            <p className="mt-2 text-neutral-700 leading-relaxed">
-              Choose Hungary if you prioritise EU consumer protections, shorter travel, and dental
-              heritage. Choose Turkey if you're looking for maximum savings or want to combine
-              treatment with a beach or city holiday. Both destinations have reputable clinics
-              delivering excellent results — the right choice depends on your priorities.
-            </p>
-            <Link
-              href="/procedures/veneers/turkey"
-              className="mt-4 inline-flex items-center text-sm font-medium text-primary-600 hover:underline"
-            >
-              Compare veneer prices in Turkey
-              <ArrowRight className="ml-1 h-4 w-4" />
+          <div className="bg-white rounded-[3rem] border border-neutral-200/60 p-2 shadow-2xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="text-left">
+                    <th className="p-8 text-sm font-bold text-neutral-400 uppercase tracking-widest">Factor</th>
+                    <th className="p-8 text-sm font-bold text-primary-600 uppercase tracking-widest bg-primary-50/50">Hungary</th>
+                    <th className="p-8 text-sm font-bold text-neutral-700 uppercase tracking-widest">Turkey</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-100">
+                  {COMPARISON_DATA.map((row, i) => (
+                    <tr key={i} className="group hover:bg-neutral-50 transition-colors">
+                      <td className="p-8 font-bold text-neutral-900">{row.factor}</td>
+                      <td className="p-8 text-primary-700 font-black bg-primary-50/30">{row.hungary}</td>
+                      <td className="p-8 text-neutral-600 font-light">{row.turkey}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="mt-12 p-8 rounded-[2rem] bg-neutral-900 text-white flex flex-col md:flex-row items-center gap-8">
+            <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+              <Shield className="h-6 w-6 text-primary-400" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-lg font-bold mb-1">The Bottom Line</h4>
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Choose Hungary if you prioritize EU consumer protections, shorter travel, and long-standing dental heritage. 
+                Choose Turkey if you're looking for maximum savings or want to combine treatment with a holiday.
+              </p>
+            </div>
+            <Link href="/procedures/veneers/turkey">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 rounded-xl px-6">
+                View Turkey Guide
+              </Button>
             </Link>
           </div>
         </m.section>
@@ -751,26 +880,32 @@ export function VeneersHungaryClient({ faqs }: VeneersHungaryClientProps) {
         {/* =====================================================================
             SECTION H: PRACTICAL INFORMATION
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-            Planning Your Veneer Trip to Budapest
-          </h2>
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="max-w-3xl mb-16">
+            <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Travel Guide</span>
+            <h2 className="text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+              Practical Information
+            </h2>
+            <p className="mt-4 text-lg text-neutral-600 font-light">
+              Everything you need to know about your dental trip to Budapest.
+            </p>
+          </div>
 
-          <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
-            {PRACTICAL_INFO.map((item, index) => (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {PRACTICAL_INFO.map((info, i) => (
               <m.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
+                key={info.title}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="rounded-xl border border-neutral-200 bg-white p-5"
+                transition={{ delay: i * 0.05 }}
+                className="p-8 rounded-[2rem] border border-neutral-100 bg-white hover:border-primary-100 transition-colors"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-50 text-primary-600">
-                  <item.icon className="h-5 w-5" />
+                <div className="h-12 w-12 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600 mb-6">
+                  <info.icon className="h-6 w-6" />
                 </div>
-                <h3 className="mt-3 font-semibold text-neutral-900">{item.title}</h3>
-                <p className="mt-2 text-sm text-neutral-600 leading-relaxed">{item.content}</p>
+                <h3 className="text-lg font-bold text-neutral-900 mb-4">{info.title}</h3>
+                <p className="text-sm text-neutral-500 font-light leading-relaxed">{info.content}</p>
               </m.div>
             ))}
           </div>
@@ -779,46 +914,81 @@ export function VeneersHungaryClient({ faqs }: VeneersHungaryClientProps) {
         {/* =====================================================================
             SECTION I: FAQ
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mb-16 sm:mb-20">
-          <FAQSection
-            faqs={faqs}
-            title="Frequently Asked Questions About Veneers in Hungary"
-            className="faq-section"
-          />
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="mx-auto max-w-4xl">
+            <div className="text-center mb-16">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase mb-4 block">Common Questions</span>
+              <h2 className="text-4xl font-bold text-neutral-900 tracking-tight sm:text-5xl">
+                Budapest Veneers FAQs
+              </h2>
+            </div>
+            <div className="bg-white rounded-[2.5rem] border border-neutral-200/60 p-4 sm:p-10 shadow-xl shadow-neutral-100">
+              <FAQSection
+                faqs={faqs}
+                title=""
+                className="faq-section-custom"
+              />
+            </div>
+          </div>
         </m.section>
 
         {/* =====================================================================
             SECTION J: CTA / CONVERSION BLOCK
             ===================================================================== */}
-        <m.section {...fadeInUp}>
-          <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 p-6 text-white sm:p-8 lg:p-12">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-2xl font-bold sm:text-3xl">
-                Get Your Free Veneer Quote from Budapest Clinics
+        <m.section {...fadeInUp} className="pb-12">
+          <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] p-12 text-white sm:p-20 lg:p-32 shadow-2xl text-center">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/30 via-transparent to-blue-600/30" />
+            <m.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 90, 0],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
+            />
+            <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+            
+            <div className="relative z-10 mx-auto max-w-4xl">
+              <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">Ready to begin?</span>
+              <h2 className="text-4xl font-bold sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-8">
+                Your New Smile <br/>Starts in <span className="text-primary-400">Budapest</span>
               </h2>
-              <p className="mt-3 text-primary-100 sm:mt-4 sm:text-lg">
-                Compare verified clinics, see transparent prices, and get personalised
-                recommendations. Free, no-obligation quotes from EU-regulated Budapest clinics.
+              <p className="mx-auto mt-8 max-w-2xl text-xl text-neutral-300 font-light leading-relaxed">
+                Join thousands of UK patients who have transformed their smiles in Hungary. 
+                Get your personalized treatment plan today.
               </p>
-              <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-center sm:gap-4">
-                <Link href="/search?procedure=veneers&country=hungary">
-                  <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                    Browse Veneer Clinics in Hungary
+              
+              <div className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
+                <Link href="/search?procedure=veneers&country=hungary" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold shadow-xl shadow-white/10">
+                    Get My Free Quote
                   </Button>
                 </Link>
-                <Link href="/contact?procedure=veneers&country=hungary">
+                <Link href="/contact" className="w-full sm:w-auto">
                   <Button
-                    variant="ghost"
                     size="lg"
-                    className="w-full text-white hover:bg-white/10 sm:w-auto"
+                    className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold backdrop-blur-md"
                   >
-                    Get Free Clinic Recommendations
+                    Speak to an Advisor
                   </Button>
                 </Link>
               </div>
-              <p className="mt-6 text-sm text-primary-200">
-                Verified clinics · EU-regulated · No booking fees
-              </p>
+              
+              <div className="mt-16 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm font-medium text-neutral-400">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary-400" />
+                  EU-Regulated
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary-400" />
+                  Verified Pricing
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary-400" />
+                  24/7 Support
+                </div>
+              </div>
             </div>
           </div>
         </m.section>
@@ -826,29 +996,19 @@ export function VeneersHungaryClient({ faqs }: VeneersHungaryClientProps) {
         {/* =====================================================================
             INTERNAL LINKS — HUB PAGE CONNECTION
             ===================================================================== */}
-        <m.section {...fadeInUp} className="mt-12 border-t border-neutral-200 pt-8">
-          <p className="text-sm text-neutral-600">
-            <strong>Related pages:</strong>{' '}
-            <Link href="/dental" className="text-primary-600 hover:underline">
-              Dental work abroad
-            </Link>{' '}
-            ·{' '}
-            {/* TODO: link to /procedures/veneers when built */}
-            <span className="text-neutral-500">Veneers abroad</span> ·{' '}
-            <Link href="/procedures/veneers/turkey" className="text-primary-600 hover:underline">
+        <m.section {...fadeInUp} className="mt-20 border-t border-neutral-100 pt-12">
+          <div className="flex flex-wrap gap-x-8 gap-y-4 items-center justify-center text-sm font-medium">
+            <span className="text-neutral-400 uppercase tracking-widest text-xs">Related Guides:</span>
+            <Link href="/dental" className="text-neutral-600 hover:text-primary-600 transition-colors">
+              Dental Work Abroad
+            </Link>
+            <Link href="/procedures/veneers/turkey" className="text-neutral-600 hover:text-primary-600 transition-colors">
               Veneers in Turkey
-            </Link>{' '}
-            ·{' '}
-            <Link
-              href="/procedures/dental-implants/hungary"
-              className="text-primary-600 hover:underline"
-            >
-              Dental implants in Hungary
-            </Link>{' '}
-            ·{' '}
-            {/* TODO: link to /destinations/hungary when built */}
-            <span className="text-neutral-500">Dental tourism in Hungary</span>
-          </p>
+            </Link>
+            <Link href="/destinations/hungary" className="text-neutral-600 hover:text-primary-600 transition-colors">
+              Medical Tourism Hungary
+            </Link>
+          </div>
         </m.section>
       </div>
     </>

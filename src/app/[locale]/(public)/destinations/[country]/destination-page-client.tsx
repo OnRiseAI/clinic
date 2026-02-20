@@ -275,231 +275,370 @@ export function DestinationPageClient({
   return (
     <>
       {/* Hero Section */}
-      <m.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="relative overflow-hidden bg-gradient-to-br from-primary-700 to-primary-900 text-white"
-      >
+      <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-20 pb-24 sm:pt-32 sm:pb-40">
         {destination.hero_image_url && (
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-30"
+            className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity scale-105"
             style={{ backgroundImage: `url(${destination.hero_image_url})` }}
           />
         )}
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="w-16 overflow-hidden rounded-md shadow-lg border-2 border-white/20">
-              {(() => {
-                const Flag = COUNTRY_FLAGS[destination.slug]
-                return Flag ? <Flag title={destination.country_name} /> : <span>🌍</span>
-              })()}
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
-                Medical Tourism in {destination.country_name}
-              </h1>
-              <p className="mt-4 max-w-2xl text-lg text-primary-100 sm:text-xl">
-                {destination.description ||
-                  `Discover world-class healthcare at affordable prices. ${destination.country_name} offers accredited hospitals, experienced doctors, and significant savings on medical treatments.`}
-              </p>
-            </div>
-          </div>
+        
+        {/* Abstract Premium Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A1A2F] via-[#0A1A2F]/95 to-primary-900/50" />
+        
+        {/* Animated Glowing Orbs */}
+        <m.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+            x: [0, 50, 0],
+            y: [0, 30, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]" 
+        />
+        <m.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, -70, 0],
+            y: [0, -40, 0]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]" 
+        />
+        
+        {/* Pattern Overlay */}
+        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+        
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <m.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col items-center text-center"
+          >
+            {/* Flag Badge */}
+            <m.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
+              className="mb-8 relative"
+            >
+              <div className="absolute inset-0 bg-white/20 blur-xl rounded-full" />
+              <div className="relative w-24 h-16 overflow-hidden rounded-2xl shadow-2xl border-2 border-white/20">
+                {(() => {
+                  const Flag = COUNTRY_FLAGS[destination.slug]
+                  return Flag ? <Flag title={destination.country_name} className="w-full h-full object-cover" /> : <span className="text-5xl">🌍</span>
+                })()}
+              </div>
+            </m.div>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href={`/search?destination=${destination.slug}`}>
-              <Button variant="secondary" size="lg">
-                Browse Clinics
-              </Button>
-            </Link>
-            <Link href="#procedures">
-              <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
-                View Treatments
-              </Button>
-            </Link>
-          </div>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+              <span className="block text-white/90 text-2xl sm:text-3xl font-light tracking-[0.2em] uppercase mb-4">Medical Tourism in</span>
+              <span className="bg-gradient-to-r from-white via-primary-100 to-white/80 bg-clip-text text-transparent">
+                {destination.country_name}
+              </span>
+            </h1>
+            
+            <p className="mx-auto mt-8 max-w-2xl text-lg text-neutral-300 sm:text-xl lg:text-2xl leading-relaxed font-light">
+              {destination.description ||
+                `Discover world-class healthcare at affordable prices. ${destination.country_name} offers accredited hospitals, experienced doctors, and significant savings on medical treatments.`}
+            </p>
 
-          {/* Quick Stats */}
-          <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <div>
-              <p className="text-3xl font-bold">{stats.clinicCount}+</p>
-              <p className="text-sm text-primary-200">Verified Clinics</p>
+            <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+              <Link href={`/search?destination=${destination.slug}`}>
+                <Button size="lg" className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-500 hover:scale-105 transition-all duration-300 rounded-full px-10 py-7 text-lg font-medium shadow-xl shadow-primary-900/20">
+                  Browse Verified Clinics
+                </Button>
+              </Link>
+              <Link href="#procedures">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-white/20 bg-white/5 text-white hover:bg-white/10 rounded-full px-10 py-7 text-lg font-medium backdrop-blur-md transition-all duration-300"
+                >
+                  View Treatments
+                </Button>
+              </Link>
             </div>
-            <div>
-              <p className="text-3xl font-bold">{stats.procedureCount}+</p>
-              <p className="text-sm text-primary-200">Procedures</p>
+          </m.div>
+
+          {/* Premium Glassmorphism Trust Bar */}
+          <m.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-20 sm:mt-28 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 relative z-10">
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{stats.clinicCount}+</p>
+                <p className="text-xs sm:text-sm font-medium uppercase tracking-widest text-primary-200/60">Verified Clinics</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{stats.procedureCount}+</p>
+                <p className="text-xs sm:text-sm font-medium uppercase tracking-widest text-primary-200/60">Procedures</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{stats.categoryCount}+</p>
+                <p className="text-xs sm:text-sm font-medium uppercase tracking-widest text-primary-200/60">Specialties</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">50-70%</p>
+                <p className="text-xs sm:text-sm font-medium uppercase tracking-widest text-primary-200/60">Average Savings</p>
+              </div>
             </div>
-            <div>
-              <p className="text-3xl font-bold">{stats.categoryCount}+</p>
-              <p className="text-sm text-primary-200">Specialties</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold">50-70%</p>
-              <p className="text-sm text-primary-200">Average Savings</p>
-            </div>
-          </div>
+          </m.div>
         </div>
-      </m.section>
+      </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         {/* Why This Destination */}
-        <m.section {...fadeInUp} className="mb-20">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <h2 className="mb-6 text-3xl font-bold text-neutral-900">
-                {highlights?.title || `Why Choose ${destination.country_name}?`}
-              </h2>
-              {highlights ? (
-                <ul className="space-y-4">
-                  {highlights.points.map((point, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 text-xs text-primary-600">
-                        {index + 1}
-                      </span>
-                      <span className="text-lg text-neutral-700">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="prose prose-neutral max-w-none">
-                  <p className="text-lg text-neutral-700">
-                    {destination.country_name} has become a popular destination for medical tourists
-                    seeking high-quality healthcare at affordable prices. With internationally
-                    accredited hospitals, experienced doctors trained at top institutions, and
-                    significant cost savings compared to Western countries, patients can receive
-                    excellent care while exploring a beautiful destination.
-                  </p>
-                  <p className="mt-4 text-neutral-600">
-                    Medical tourists choose {destination.country_name} for its combination of quality,
-                    value, and accessibility. Many clinics offer comprehensive packages including
-                    consultations, procedures, accommodation, and airport transfers, making the
-                    entire experience seamless.
-                  </p>
-                </div>
-              )}
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="grid gap-16 lg:grid-cols-12">
+            <div className="lg:col-span-7 xl:col-span-8">
+              <div className="relative">
+                <m.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "80px" }}
+                  viewport={{ once: true }}
+                  className="h-1.5 bg-primary-600 rounded-full mb-8"
+                />
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">The Destination</span>
+                <h2 className="mt-4 mb-10 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight leading-[1.1]">
+                  {highlights?.title || `Why Choose ${destination.country_name}?`}
+                </h2>
+              </div>
+              
+              <div className="prose prose-lg prose-neutral max-w-none text-neutral-600 leading-relaxed">
+                {highlights ? (
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    {highlights.points.map((point, index) => (
+                      <m.div 
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="group flex items-start gap-5 rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary-100"
+                      >
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-base text-neutral-700 font-medium leading-snug">{point}</span>
+                      </m.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-6 text-lg text-neutral-700 font-light leading-relaxed">
+                    <p>
+                      {destination.country_name} has become a global leader in medical tourism, 
+                      offering a sophisticated blend of world-class healthcare infrastructure and 
+                      exceptional patient hospitality.
+                    </p>
+                    <p className="p-6 rounded-2xl bg-primary-50/50 border border-primary-100 text-primary-900 font-medium italic">
+                      "Patients typically save between 50% and 70% compared to UK or US prices, 
+                      without any compromise on clinical quality or safety standards."
+                    </p>
+                    <p>
+                      With internationally accredited hospitals (JCI, ISO) and surgeons who often 
+                      hold international certifications, {destination.country_name} provides a 
+                      seamless experience for those seeking elective procedures, dental work, 
+                      or specialized treatments.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Practical Info Sidebar */}
-            <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm h-fit">
-              <h3 className="mb-4 text-lg font-semibold text-neutral-900">Travel Information</h3>
-              {travelInfo ? (
-                <dl className="space-y-4">
-                  <div>
-                    <dt className="text-sm font-medium text-neutral-500">Visa Requirements</dt>
-                    <dd className="mt-1 text-neutral-900">{travelInfo.visa}</dd>
+            <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-32 h-fit">
+              <m.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="rounded-3xl border border-neutral-200/60 bg-white p-8 shadow-2xl shadow-neutral-200/40 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-primary-50/50 blur-3xl" />
+                
+                <h3 className="mb-8 text-2xl font-bold text-neutral-900 flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-600 text-white shadow-lg shadow-primary-200">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-neutral-500">Currency</dt>
-                    <dd className="mt-1 text-neutral-900">{travelInfo.currency}</dd>
+                  Travel Essentials
+                </h3>
+                
+                {travelInfo ? (
+                  <div className="space-y-8">
+                    {[
+                      { label: 'Visa Requirements', value: travelInfo.visa, icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+                      { label: 'Currency', value: travelInfo.currency, icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                      { label: 'Language', value: travelInfo.language, icon: 'M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129' },
+                      { label: 'Timezone', value: travelInfo.timezone, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                      { label: 'Flight from London', value: travelInfo.flight, icon: 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8' }
+                    ].map((item, i) => (
+                      <div key={i} className="flex gap-4 group">
+                        <div className="flex-shrink-0 mt-1">
+                          <svg className="h-5 w-5 text-primary-500 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
+                          </svg>
+                        </div>
+                        <div>
+                          <dt className="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-1">{item.label}</dt>
+                          <dd className="text-sm font-semibold text-neutral-900">{item.value}</dd>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-neutral-500">Language</dt>
-                    <dd className="mt-1 text-neutral-900">{travelInfo.language}</dd>
+                ) : (
+                  <div className="rounded-2xl bg-neutral-50 p-6 border border-neutral-100">
+                    <p className="text-sm text-neutral-600 leading-relaxed">
+                      Travel information for {destination.country_name} is being updated. 
+                      Our advisors can provide specific visa and travel guidance for your treatment.
+                    </p>
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-neutral-500">Timezone</dt>
-                    <dd className="mt-1 text-neutral-900">{travelInfo.timezone}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-neutral-500">Flight from London</dt>
-                    <dd className="mt-1 text-neutral-900">{travelInfo.flight}</dd>
-                  </div>
-                </dl>
-              ) : (
-                <p className="text-neutral-500">
-                  Travel information coming soon. Contact clinics directly for visa and travel guidance.
-                </p>
-              )}
+                )}
+                
+                <div className="mt-10 pt-8 border-t border-neutral-100">
+                  <Link href="/contact" className="block">
+                    <Button variant="outline" className="w-full rounded-xl border-primary-200 text-primary-700 hover:bg-primary-50 transition-all duration-300">
+                      Request Travel Guide
+                    </Button>
+                  </Link>
+                </div>
+              </m.div>
             </div>
           </div>
         </m.section>
 
         {/* Popular Procedures */}
-        <m.section {...fadeInUp} id="procedures" className="mb-20">
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <h2 className="text-3xl font-bold text-neutral-900">
+        <m.section {...fadeInUp} id="procedures" className="mb-32">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Treatments</span>
+              <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight">
                 Popular Procedures in {destination.country_name}
               </h2>
-              <p className="mt-2 text-neutral-600">
-                Most sought-after treatments by medical tourists
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Explore the most sought-after medical and cosmetic treatments available.
               </p>
             </div>
+            <div className="h-px flex-1 bg-neutral-100 hidden md:block mx-8 mb-4" />
           </div>
 
           {procedures.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {procedures.map((procedure, index) => (
                 <m.div
                   key={procedure.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index * 0.05, duration: 0.5 }}
                 >
                   <Link
                     href={`/destinations/${destination.slug}/${procedure.slug}`}
-                    className="group block rounded-xl border border-neutral-200 bg-white p-6 shadow-sm transition-all hover:border-primary-200 hover:shadow-md"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-neutral-200/60 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-2xl hover:shadow-primary-900/10"
                   >
-                    <h3 className="font-semibold text-neutral-900 group-hover:text-primary-600">
-                      {procedure.name}
-                    </h3>
-                    {procedure.description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-neutral-600">
-                        {procedure.description}
-                      </p>
-                    )}
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-sm font-medium text-primary-600">
-                        {formatPrice(procedure.starting_price, procedure.price_currency)}
-                      </span>
-                      {procedure.clinic_count > 0 && (
-                        <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600">
-                          {procedure.clinic_count} clinics
-                        </span>
+                    {/* Animated Background Orb */}
+                    <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary-50 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl group-hover:scale-150" />
+                    
+                    <div className="relative z-10 flex-1">
+                      <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-50 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
+                        {procedure.name}
+                      </h3>
+                      {procedure.description && (
+                        <p className="mt-4 line-clamp-3 text-neutral-600 leading-relaxed font-light">
+                          {procedure.description}
+                        </p>
                       )}
+                    </div>
+                    
+                    <div className="relative z-10 mt-8 space-y-4 pt-6 border-t border-neutral-100">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">Est. Price</span>
+                        <span className="text-lg font-bold text-neutral-900">
+                          {formatPrice(procedure.starting_price, procedure.price_currency)}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-primary-600 font-bold text-sm">
+                        <span>{procedure.clinic_count} Verified Clinics</span>
+                        <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
+                      </div>
                     </div>
                   </Link>
                 </m.div>
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-neutral-300 bg-neutral-50 px-8 py-16 text-center">
-              <p className="text-neutral-500">
-                Procedures in {destination.country_name} coming soon
+            <div className="rounded-3xl border-2 border-dashed border-neutral-200 bg-neutral-50/50 px-8 py-20 text-center mt-10">
+              <div className="mx-auto w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mb-6">
+                <svg className="h-8 w-8 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900 mb-2">Procedures coming soon</h3>
+              <p className="text-neutral-500 max-w-md mx-auto mb-8">
+                We are currently vetting top clinics in {destination.country_name} for various procedures.
               </p>
-              <Link href="/search" className="mt-4 inline-block">
-                <Button variant="primary">Browse All Procedures</Button>
+              <Link href="/search">
+                <Button className="rounded-full px-8 py-6 bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-100">Browse All Locations</Button>
               </Link>
             </div>
           )}
         </m.section>
 
         {/* Top Clinics */}
-        <m.section {...fadeInUp} className="mb-20">
-          <div className="mb-8 flex items-end justify-between">
+        <m.section {...fadeInUp} className="mb-32">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-neutral-900">
+              <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Featured Providers</span>
+              <h2 className="mt-4 text-4xl font-bold text-neutral-900 sm:text-5xl tracking-tight">
                 Top Clinics in {destination.country_name}
               </h2>
-              <p className="mt-2 text-neutral-600">
-                Highest-rated medical facilities for international patients
+              <p className="mt-4 text-lg text-neutral-600 font-light">
+                Highest-rated medical facilities vetted for international quality standards.
               </p>
             </div>
             <Link href={`/search?destination=${destination.slug}`}>
-              <Button variant="outline">View All Clinics</Button>
+              <Button variant="outline" className="group rounded-full border-neutral-200 px-8 py-6 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 transition-all duration-300">
+                View All Clinics <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Button>
             </Link>
           </div>
 
           {clinics.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {clinics.slice(0, 8).map((clinic) => (
-                <ClinicCard key={clinic.id} clinic={clinic} showEnquiryButton={false} />
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {clinics.slice(0, 8).map((clinic, i) => (
+                <m.div 
+                  key={clinic.id} 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="transition-all duration-500 hover:-translate-y-2"
+                >
+                  <ClinicCard clinic={clinic} showEnquiryButton={false} />
+                </m.div>
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-neutral-300 bg-neutral-50 px-8 py-16 text-center">
-              <p className="text-neutral-500">
-                Clinics in {destination.country_name} coming soon
+            <div className="rounded-3xl border border-neutral-200 bg-neutral-50/50 px-8 py-20 text-center">
+              <p className="text-neutral-500 font-light text-lg">
+                Vetting process in progress for {destination.country_name} clinics.
               </p>
             </div>
           )}
@@ -507,57 +646,128 @@ export function DestinationPageClient({
 
         {/* Cost Comparison */}
         {costComparison.length > 0 && (
-          <m.section {...fadeInUp} className="mb-20">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-neutral-900">
-                Treatment Costs in {destination.country_name}
-              </h2>
-              <p className="mt-2 text-neutral-600">
-                Average prices for popular procedures
-              </p>
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="bg-neutral-900 rounded-[3rem] p-8 sm:p-16 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-600/10 blur-[120px]" />
+              <div className="relative z-10 grid lg:grid-cols-5 gap-12 items-center">
+                <div className="lg:col-span-2">
+                  <span className="text-sm font-bold tracking-[0.2em] text-primary-400 uppercase">Cost Savings</span>
+                  <h2 className="mt-6 text-4xl font-bold text-white tracking-tight sm:text-5xl leading-[1.1]">
+                    Transparent Pricing in {destination.country_name}
+                  </h2>
+                  <p className="mt-6 text-lg text-neutral-400 font-light leading-relaxed">
+                    Compare average treatment costs and see why thousands of patients 
+                    choose {destination.country_name} for their medical care.
+                  </p>
+                  <div className="mt-10 flex items-center gap-4 text-white">
+                    <div className="flex -space-x-3">
+                      {[1,2,3].map(i => (
+                        <div key={i} className="w-10 h-10 rounded-full border-2 border-neutral-900 bg-neutral-800 flex items-center justify-center text-xs font-bold">
+                          {String.fromCharCode(64 + i)}
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-sm font-medium text-neutral-300">Joined by 500+ patients this month</span>
+                  </div>
+                </div>
+                <div className="lg:col-span-3 bg-white rounded-3xl p-2 shadow-2xl">
+                  <DestinationCostTable data={costComparison} />
+                </div>
+              </div>
             </div>
-
-            <DestinationCostTable data={costComparison} />
           </m.section>
         )}
 
         {/* FAQ Section */}
         {faqs.length > 0 && (
-          <m.section {...fadeInUp} className="mb-20">
-            <FAQAccordion
-              items={faqs}
-              title={`Medical Tourism in ${destination.country_name} FAQs`}
-            />
+          <m.section {...fadeInUp} className="mb-32">
+            <div className="mx-auto max-w-4xl">
+              <div className="text-center mb-16">
+                <span className="text-sm font-bold tracking-[0.2em] text-primary-600 uppercase">Common Questions</span>
+                <h2 className="mt-4 text-4xl font-bold text-neutral-900 tracking-tight sm:text-5xl">
+                  Medical Tourism in {destination.country_name} FAQs
+                </h2>
+              </div>
+              <div className="bg-white rounded-3xl border border-neutral-200/60 p-4 sm:p-8 shadow-xl shadow-neutral-100">
+                <FAQAccordion items={faqs} />
+              </div>
+            </div>
           </m.section>
         )}
 
         {/* CTA Section */}
-        <m.section {...fadeInUp}>
-          <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 p-8 text-center text-white sm:p-12">
-            <div className="mx-auto mb-6 w-16 overflow-hidden rounded-md shadow-xl border-2 border-white/20">
-              {(() => {
-                const Flag = COUNTRY_FLAGS[destination.slug]
-                return Flag ? <Flag title={destination.country_name} /> : <span>🌍</span>
-              })()}
-            </div>
-            <h2 className="text-2xl font-bold sm:text-3xl">
-              Start Your Medical Journey to {destination.country_name}
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-100">
-              Compare clinics, read verified reviews, and get personalized quotes from
-              top-rated facilities in {destination.country_name}.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href={`/search?destination=${destination.slug}`}>
-                <Button variant="secondary" size="lg">
-                  Browse Clinics
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
-                  Speak to an Advisor
-                </Button>
-              </Link>
+        <m.section {...fadeInUp} className="pb-12">
+          <div className="relative overflow-hidden rounded-[3rem] bg-[#0A1A2F] p-12 text-white sm:p-20 lg:p-32 shadow-2xl text-center">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/30 via-transparent to-blue-600/30" />
+            <m.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 90, 0],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
+            />
+            <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+            
+            <div className="relative z-10 mx-auto max-w-4xl">
+              <m.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                className="mx-auto mb-12 w-24 h-16 overflow-hidden rounded-2xl shadow-2xl border-2 border-white/20"
+              >
+                {(() => {
+                  const Flag = COUNTRY_FLAGS[destination.slug]
+                  return Flag ? <Flag title={destination.country_name} className="w-full h-full object-cover" /> : <span className="text-5xl py-2 inline-block">🌍</span>
+                })()}
+              </m.div>
+              
+              <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">Ready to begin?</span>
+              <h2 className="text-4xl font-bold sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-8">
+                Your Journey to <span className="text-primary-400">{destination.country_name}</span> Starts Here
+              </h2>
+              <p className="mx-auto mt-8 max-w-2xl text-xl text-neutral-300 font-light leading-relaxed">
+                Receive personalized treatment plans and all-inclusive quotes from the 
+                most prestigious medical facilities in {destination.country_name}.
+              </p>
+              
+              <div className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
+                <Link href={`/search?destination=${destination.slug}`} className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full bg-white text-primary-900 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold shadow-xl shadow-white/10">
+                    Browse Top Clinics
+                  </Button>
+                </Link>
+                <Link href="/contact" className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-12 py-8 text-lg font-bold backdrop-blur-md"
+                  >
+                    Free Consultation
+                  </Button>
+                </Link>
+              </div>
+              
+              <div className="mt-16 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm font-medium text-neutral-400">
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Verified Reviews
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Best Price Guarantee
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  24/7 Patient Support
+                </div>
+              </div>
             </div>
           </div>
         </m.section>

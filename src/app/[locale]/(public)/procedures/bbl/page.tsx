@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'BBL Abroad — Brazilian Butt Lift Prices, Safety & Top Clinics | medit',
+  title: 'BBL Abroad — Brazilian Butt Lift Prices, Safety & Top Clinics | MeetYourClinic',
   description:
     'Compare BBL prices abroad from £2,800. Brazilian Butt Lift in Turkey, Poland, Spain & Hungary — safety protocols, fat transfer techniques, verified surgeons. Free quotes from accredited clinics.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare BBL prices abroad from £2,800. Brazilian Butt Lift in Turkey, Poland, Spain & Hungary — safety protocols, fat transfer techniques, verified surgeons.',
     url: `${SITE_URL}/procedures/bbl`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -127,7 +127,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

@@ -312,7 +312,7 @@ export function VeneersClient({ faqs }: VeneersClientProps) {
                 Getting veneers abroad is not risk-free. Outcomes depend heavily on the clinic you
                 choose. Always verify accreditation, check independent reviews, confirm dentist
                 credentials, and get a written treatment plan before committing. Not every clinic
-                abroad is reputable — medit only lists verified, accredited options.
+                abroad is reputable — MeetYourClinic only lists verified, accredited options.
               </p>
             </div>
           </div>

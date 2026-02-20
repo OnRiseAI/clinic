@@ -63,7 +63,7 @@ const dentalConfig: CategoryConfig = {
     'Compare verified dental clinics for implants, veneers, and cosmetic dentistry. Transparent pricing, real patient reviews, and direct contact\u2014no middleman fees.',
   heroImage:
     'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=700&h=500&fit=crop&auto=format',
-  metaTitle: 'Compare Trusted Dental Clinics | Verified Clinics & Pricing | medit',
+  metaTitle: 'Compare Trusted Dental Clinics | Verified Clinics & Pricing | MeetYourClinic',
   metaDescription:
     'Compare verified dental clinics offering implants, veneers, cosmetic dentistry and more. Transparent pricing, real patient reviews, and direct contact \u2014 no obligation.',
   metaKeywords:
@@ -183,7 +183,7 @@ function createTemplateConfig(
     heroSubtitle: `Compare verified ${namePlural.toLowerCase()} worldwide. Transparent pricing, real patient reviews, and direct contact\u2014no middleman fees.`,
     heroImage:
       'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=700&h=500&fit=crop&auto=format',
-    metaTitle: `Compare Trusted ${namePlural} | Verified Clinics & Pricing | medit`,
+    metaTitle: `Compare Trusted ${namePlural} | Verified Clinics & Pricing | MeetYourClinic`,
     metaDescription: `Compare verified ${namePlural.toLowerCase()} worldwide. Transparent pricing, real patient reviews, and direct contact \u2014 no obligation.`,
     metaKeywords: `${name.toLowerCase()} clinics, best ${name.toLowerCase()} clinics, ${name.toLowerCase()} abroad, medical tourism ${name.toLowerCase()}`,
     pricingHeading: `What\u2019s the cost of ${name.toLowerCase()} procedures?`,

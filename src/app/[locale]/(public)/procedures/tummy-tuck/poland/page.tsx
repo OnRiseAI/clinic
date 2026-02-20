@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Tummy Tuck in Poland — Prices from £2,370, Top Clinics & EU Quality | medit',
+  title: 'Tummy Tuck in Poland — Prices from £2,370, Top Clinics & EU Quality | MeetYourClinic',
   description:
     'Compare tummy tuck prices in Poland from £2,370. Browse ISO-certified clinics in Warsaw, Kraków and Wrocław, EU-regulated surgeons, all-inclusive packages, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare tummy tuck prices in Poland from £2,370. Browse ISO-certified clinics in Warsaw, Kraków and Wrocław, EU-regulated surgeons.',
     url: `${SITE_URL}/procedures/tummy-tuck/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -84,7 +84,7 @@ const TUMMY_TUCK_POLAND_FAQS = [
   {
     question: 'Do Polish surgeons speak English?',
     answer:
-      'At clinics treating international patients, yes. Most Polish plastic surgeons speak English or German fluently. All recommended clinics on medit have dedicated English-speaking patient coordinators to support you throughout your stay.',
+      'At clinics treating international patients, yes. Most Polish plastic surgeons speak English or German fluently. All recommended clinics on MeetYourClinic have dedicated English-speaking patient coordinators to support you throughout your stay.',
   },
   {
     question: 'What qualifications do Polish plastic surgeons have?',

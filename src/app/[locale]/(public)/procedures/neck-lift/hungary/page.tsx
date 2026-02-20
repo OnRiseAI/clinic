@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Neck Lift in Hungary — EU Quality from £3,200 | medit',
+  title: 'Neck Lift in Hungary — EU Quality from £3,200 | MeetYourClinic',
   description:
     'Compare neck lift prices in Hungary from £3,200. EU healthcare standards, Budapest medical tourism expertise, thermal spa recovery options. Save 50-55% vs UK.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Neck Lift in Hungary — EU Quality from £3,200',
     description: 'Compare neck lift prices in Hungary from £3,200. EU standards, experienced surgeons.',
     url: `${SITE_URL}/procedures/neck-lift/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Neck Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface NeckLiftHungaryPageProps {

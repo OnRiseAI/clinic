@@ -422,7 +422,7 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
                   surgeon skill, implant brand, and proper treatment planning. Always verify clinic
                   accreditation, confirm the implant brand, review surgeon credentials, and get a CT
                   scan assessment before committing. Not every clinic abroad meets the required
-                  standards — medit only lists verified, accredited options.
+                  standards — MeetYourClinic only lists verified, accredited options.
                 </p>
               </div>
             </div>

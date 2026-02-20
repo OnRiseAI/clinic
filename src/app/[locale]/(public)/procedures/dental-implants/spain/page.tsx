@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Implants in Spain — Prices, Clinics & Packages from Barcelona | medit',
+  title: 'Dental Implants in Spain — Prices, Clinics & Packages from Barcelona | MeetYourClinic',
   description:
     'Compare dental implant prices in Spain from £900 per tooth. Browse JCI-accredited Barcelona clinics, All-on-4 packages from £8,000, Straumann & Nobel Biocare brands, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental implant prices in Spain from £900 per tooth. Browse JCI-accredited Barcelona clinics, All-on-4 packages from £8,000, Straumann & Nobel Biocare brands.',
     url: `${SITE_URL}/procedures/dental-implants/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

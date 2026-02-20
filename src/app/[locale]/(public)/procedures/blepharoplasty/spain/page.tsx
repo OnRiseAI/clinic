@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Blepharoplasty in Spain — Premium Quality from £2,500 | medit',
+  title: 'Blepharoplasty in Spain — Premium Quality from £2,500 | MeetYourClinic',
   description:
     'Compare blepharoplasty prices in Spain from £2,500. Eyelid surgery with world-class surgeons, #1 healthcare system, Mediterranean recovery. EU protections.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Blepharoplasty in Spain — Premium Quality from £2,500',
     description: 'Compare eyelid surgery prices in Spain from £2,500. World-class surgeons, EU standards.',
     url: `${SITE_URL}/procedures/blepharoplasty/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Blepharoplasty',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BlepharoplastySpainPageProps {

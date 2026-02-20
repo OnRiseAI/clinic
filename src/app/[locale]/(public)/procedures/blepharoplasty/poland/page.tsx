@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Blepharoplasty in Poland — EU Standards from £1,800 | medit',
+  title: 'Blepharoplasty in Poland — EU Standards from £1,800 | MeetYourClinic',
   description:
     'Compare blepharoplasty prices in Poland from £1,800. Eyelid surgery with EU healthcare standards, short flights from UK. Save 50-60% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Blepharoplasty in Poland — EU Standards from £1,800',
     description: 'Compare eyelid surgery prices in Poland from £1,800. EU standards, experienced surgeons.',
     url: `${SITE_URL}/procedures/blepharoplasty/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Blepharoplasty',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BlepharoplastyPolandPageProps {

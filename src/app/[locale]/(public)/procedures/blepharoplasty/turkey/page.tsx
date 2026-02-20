@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Blepharoplasty in Turkey — Eyelid Surgery from £1,200 | medit',
+  title: 'Blepharoplasty in Turkey — Eyelid Surgery from £1,200 | MeetYourClinic',
   description:
     'Compare blepharoplasty prices in Turkey from £1,200. Eyelid surgery with experienced surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Blepharoplasty in Turkey — Eyelid Surgery from £1,200',
     description: 'Compare eyelid surgery prices in Turkey from £1,200. JCI hospitals, experienced surgeons.',
     url: `${SITE_URL}/procedures/blepharoplasty/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Blepharoplasty',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BlepharoplastyTurkeyPageProps {

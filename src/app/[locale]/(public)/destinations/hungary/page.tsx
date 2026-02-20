@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Tourism Hungary 2025: Costs, Clinics & Guide | medit',
+  title: 'Dental Tourism Hungary 2025: Costs, Clinics & Guide | MeetYourClinic',
   description:
     'Europe\'s dental capital. 40-60% savings on implants, veneers & crowns. EU healthcare standards, 2.5hr flight from London. 100,000+ patients choose Hungary yearly.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       '100,000+ dental tourists annually. EU healthcare standards. 40-60% savings. Complete guide to dental and medical treatment in Hungary.',
     url: `${SITE_URL}/destinations/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

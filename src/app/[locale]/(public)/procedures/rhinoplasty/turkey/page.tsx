@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Rhinoplasty Turkey 2025: £2,450-£4,500 | Top Surgeons & Clinics | medit',
+  title: 'Rhinoplasty Turkey 2026: £2,450-£4,500 | Top Surgeons & Clinics | MeetYourClinic',
   description:
     "Compare rhinoplasty in Turkey from JCI-accredited clinics. Piezo & traditional techniques, all-inclusive packages, verified surgeons. Save 50-70% vs UK prices.",
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Rhinoplasty Turkey 2025: £2,450-£4,500 | Top Surgeons & Clinics',
+    title: 'Rhinoplasty Turkey 2026: £2,450-£4,500 | Top Surgeons & Clinics',
     description:
       "Compare rhinoplasty in Turkey from JCI-accredited clinics. Piezo & traditional techniques, all-inclusive packages, verified surgeons.",
     url: `${SITE_URL}/procedures/rhinoplasty/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rhinoplasty Turkey 2025: £2,450-£4,500 | Top Surgeons & Clinics',
+    title: 'Rhinoplasty Turkey 2026: £2,450-£4,500 | Top Surgeons & Clinics',
     description:
       "Compare rhinoplasty in Turkey from JCI-accredited clinics. Piezo & traditional techniques, all-inclusive packages.",
   },
@@ -147,7 +147,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-02',
+  lastReviewed: '2026-02-02',
 }
 
 // =============================================================================

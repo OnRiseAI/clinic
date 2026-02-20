@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Breast Reduction in Spain — From £4,500 Premium Quality | medit',
+  title: 'Breast Reduction in Spain — From £4,500 Premium Quality | MeetYourClinic',
   description:
     'Compare breast reduction prices in Spain from £4,500. Premium clinics, world-class surgeons, EU standards. Save 40-50% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Breast Reduction in Spain — From £4,500 Premium Quality',
     description: 'Compare breast reduction in Spain from £4,500. Premium clinics, world-class surgeons.',
     url: `${SITE_URL}/procedures/breast-reduction/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Breast Reduction',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BreastReductionSpainPageProps {

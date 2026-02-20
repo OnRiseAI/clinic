@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 
 // =============================================================================
@@ -39,7 +39,7 @@ const staggerContainer = {
 
 export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-amber-50 to-white py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1167,6 +1167,6 @@ export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
           </m.div>
         </div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

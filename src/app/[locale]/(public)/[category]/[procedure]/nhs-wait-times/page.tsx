@@ -117,7 +117,7 @@ export default async function NHSWaitTimesPage({ params }: NHSWaitTimesPageProps
       answer: `Most clinics abroad offer all-inclusive packages covering the procedure, anaesthesia, hospital stay, pre-operative tests, post-operative medications, and follow-up consultations. Some packages also include airport transfers and hotel accommodation. Always confirm exactly what is included before booking.`,
     },
     {
-      question: `How long is the NHS waiting list for ${procedureName.toLowerCase()} in 2025?`,
+      question: `How long is the NHS waiting list for ${procedureName.toLowerCase()} in 2026?`,
       answer: `The current NHS wait for ${procedureName.toLowerCase()} is approximately ${waitWeeks} weeks (${Math.round(waitWeeks / 4.3)} months). Wait times vary by region and can be longer in some areas. Going abroad eliminates the wait entirely, with most patients treated within 2-4 weeks.`,
     },
   ]

@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'BBL in Spain — Premium Quality, World-Class Surgeons | medit',
+  title: 'BBL in Spain — Premium Quality, World-Class Surgeons | MeetYourClinic',
   description:
     'Compare BBL prices in Spain from £4,500. Brazilian Butt Lift at world-class Barcelona & Marbella clinics. #1 healthcare system, premium recovery experience.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'BBL in Spain — Premium Quality, World-Class Surgeons',
     description: 'Compare BBL prices in Spain from £4,500. World-class surgeons, premium recovery.',
     url: `${SITE_URL}/procedures/bbl/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brazilian Butt Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BBLSpainPageProps {

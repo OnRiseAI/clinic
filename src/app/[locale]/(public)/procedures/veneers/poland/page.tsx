@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Veneers in Poland 2025: £70-£400/tooth | Krakow & Warsaw Clinics | medit',
+  title: 'Veneers in Poland 2026: £70-£400/tooth | Krakow & Warsaw Clinics | MeetYourClinic',
   description:
     'Dental veneers in Poland from £70/tooth. EU-standard care, German materials, English-speaking dentists. Compare Krakow and Warsaw clinics and save 50-70% vs UK prices.',
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Veneers in Poland 2025: £70-£400/tooth | Krakow & Warsaw Clinics',
+    title: 'Veneers in Poland 2026: £70-£400/tooth | Krakow & Warsaw Clinics',
     description:
       'Dental veneers in Poland from £70/tooth. EU-standard care, German materials, English-speaking dentists. Compare Krakow and Warsaw clinics.',
     url: `${SITE_URL}/procedures/veneers/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Veneers in Poland 2025: £70-£400/tooth | Krakow & Warsaw Clinics',
+    title: 'Veneers in Poland 2026: £70-£400/tooth | Krakow & Warsaw Clinics',
     description:
       'Dental veneers in Poland from £70/tooth. EU-standard care, German materials, English-speaking dentists.',
   },
@@ -126,7 +126,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

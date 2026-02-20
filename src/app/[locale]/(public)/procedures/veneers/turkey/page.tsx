@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Veneers in Turkey — 2026 Prices, Clinics & UK Patient Guide | medit',
+  title: 'Veneers in Turkey — 2026 Prices, Clinics & UK Patient Guide | MeetYourClinic',
   description:
     'Compare veneer prices in Turkey from verified clinics. E-max porcelain veneers from £200 per tooth, full sets from £2,400. Read UK patient reviews, compare materials, and get a free quote.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare veneer prices in Turkey from verified clinics. E-max porcelain veneers from £200 per tooth, full sets from £2,400. Read UK patient reviews, compare materials, and get a free quote.',
     url: `${SITE_URL}/procedures/veneers/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

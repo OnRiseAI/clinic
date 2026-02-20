@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Medical Tourism Poland 2025: Costs, Clinics & Complete Guide | medit',
+  title: 'Medical Tourism Poland 2026: Costs, Clinics & Complete Guide | MeetYourClinic',
   description:
     'Poland\'s emerging medical tourism hub. 40-60% savings on cosmetic surgery, dental work & orthopaedics. EU healthcare standards, 2hr flight from London. 300,000+ patients annually.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       '300,000+ medical tourists annually. EU healthcare standards. 40-60% savings. Complete guide to cosmetic surgery and medical treatment in Poland.',
     url: `${SITE_URL}/destinations/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Medical Tourism Poland 2025: Costs, Clinics & Complete Guide',
+    title: 'Medical Tourism Poland 2026: Costs, Clinics & Complete Guide',
     description:
       'Poland\'s emerging medical tourism hub. 40-60% savings on cosmetic surgery, dental work & orthopaedics. EU healthcare standards.',
   },
@@ -115,7 +115,7 @@ const POLAND_MEDICAL_TOURISM_FAQS = [
 const medicalWebPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'MedicalWebPage',
-  name: 'Medical Tourism in Poland: Complete 2025 Guide',
+  name: 'Medical Tourism in Poland: Complete 2026 Guide',
   description:
     'Comprehensive guide to medical tourism in Poland covering procedures, costs, safety, accreditation, and practical information for UK patients.',
   url: `${SITE_URL}/destinations/poland`,
@@ -136,7 +136,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

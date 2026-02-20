@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Liposuction in Turkey — Prices from £1,500, Top Clinics & VASER Packages | medit',
+  title: 'Liposuction in Turkey — Prices from £1,500, Top Clinics & VASER Packages | MeetYourClinic',
   description:
     'Compare liposuction prices in Turkey from £1,500 all-inclusive. VASER, laser & 360 lipo at JCI-accredited Istanbul clinics. Real before/after results, recovery timelines, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare liposuction prices in Turkey from £1,500 all-inclusive. VASER, laser & 360 lipo at JCI-accredited Istanbul clinics.',
     url: `${SITE_URL}/procedures/liposuction/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

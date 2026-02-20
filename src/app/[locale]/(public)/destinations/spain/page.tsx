@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Medical Tourism Spain 2025: World #1 Healthcare | medit',
+  title: 'Medical Tourism Spain 2026: World #1 Healthcare | MeetYourClinic',
   description:
     'World\'s healthiest nation. Europe\'s IVF leader. Premium cosmetic surgery & dental care. Discover why 120,000+ patients choose Spain for world-class treatment.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Europe\'s #1 for IVF. Ranked healthiest nation globally. EU healthcare excellence. Complete guide to medical treatment in Spain.',
     url: `${SITE_URL}/destinations/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Medical Tourism Spain 2025: World #1 Healthcare',
+    title: 'Medical Tourism Spain 2026: World #1 Healthcare',
     description:
       'World\'s healthiest nation. Europe\'s IVF leader. Premium cosmetic surgery & dental care.',
   },
@@ -136,7 +136,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 // =============================================================================

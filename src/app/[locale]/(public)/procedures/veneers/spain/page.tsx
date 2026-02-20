@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Veneers in Spain — Prices, Clinics & Packages from Barcelona | medit',
+  title: 'Veneers in Spain — Prices, Clinics & Packages from Barcelona | MeetYourClinic',
   description:
     'Compare dental veneer prices in Spain from £250 per tooth. Browse JCI-accredited Barcelona clinics, porcelain and E-max options, smile makeover packages, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental veneer prices in Spain from £250 per tooth. Browse JCI-accredited Barcelona clinics, porcelain and E-max options, smile makeover packages.',
     url: `${SITE_URL}/procedures/veneers/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

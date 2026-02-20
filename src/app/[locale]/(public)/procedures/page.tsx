@@ -3,10 +3,10 @@ import { setRequestLocale } from 'next-intl/server'
 import { ProceduresListClient } from './procedures-list-client'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-    title: 'Medical Procedures & Treatments Abroad | Compare Prices | medit',
+    title: 'Medical Procedures & Treatments Abroad | Compare Prices | MeetYourClinic',
     description:
         'Explore detailed guides for medical procedures abroad. Compare prices for rhinoplasty, dental implants, hair transplants, and more across top destinations like Turkey, Spain, and Hungary.',
     alternates: {

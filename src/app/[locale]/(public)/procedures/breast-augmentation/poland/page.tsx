@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Breast Augmentation in Poland — EU Standards from £3,000 | medit',
+  title: 'Breast Augmentation in Poland — EU Standards from £3,000 | MeetYourClinic',
   description:
     'Compare breast augmentation prices in Poland from £3,000. Premium implants with EU protections, short flights from UK, natural results focus. Save 50-60% vs UK.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Breast Augmentation in Poland — EU Standards from £3,000',
     description: 'Compare breast augmentation in Poland from £3,000. EU protections, premium implants.',
     url: `${SITE_URL}/procedures/breast-augmentation/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Breast Augmentation',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BreastAugmentationPolandPageProps {

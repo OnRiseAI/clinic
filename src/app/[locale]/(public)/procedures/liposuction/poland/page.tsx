@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Liposuction in Poland — Prices from £500, Warsaw & Kraków Clinics | medit',
+  title: 'Liposuction in Poland — Prices from £500, Warsaw & Kraków Clinics | MeetYourClinic',
   description:
     'Compare liposuction prices in Poland from £500 per area. Warsaw, Kraków & Wrocław clinics with EU regulation, ISO accreditation, and unique N.I.L. infrasound technology. Free quotes and recovery planning.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare liposuction prices in Poland from £500 per area. Warsaw, Kraków & Wrocław clinics with EU regulation and unique N.I.L. infrasound technology.',
     url: `${SITE_URL}/procedures/liposuction/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

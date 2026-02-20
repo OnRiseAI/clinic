@@ -23,7 +23,7 @@ import CountryLinks from "@/components/category/CountryLinks";
 
 // ─── SEO Metadata ────────────────────────────────────────────────────────────
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://medit.com";
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://meetyourclinic.com";
 
 interface PageProps {
   params: Promise<{ locale: string; category: string }>;

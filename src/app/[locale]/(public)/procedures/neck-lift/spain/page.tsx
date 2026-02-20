@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Neck Lift in Spain — Premium Quality from £4,000 | medit',
+  title: 'Neck Lift in Spain — Premium Quality from £4,000 | MeetYourClinic',
   description:
     'Compare neck lift prices in Spain from £4,000. World-class facial surgeons, #1 healthcare system, Mediterranean recovery. Premium quality with EU protections.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Neck Lift in Spain — Premium Quality from £4,000',
     description: 'Compare neck lift prices in Spain from £4,000. World-class surgeons, EU standards.',
     url: `${SITE_URL}/procedures/neck-lift/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Neck Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface NeckLiftSpainPageProps {

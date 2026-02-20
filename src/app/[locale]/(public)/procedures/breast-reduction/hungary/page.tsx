@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Breast Reduction in Hungary — From £3,800 Quality Focus | medit',
+  title: 'Breast Reduction in Hungary — From £3,800 Quality Focus | MeetYourClinic',
   description:
     'Compare breast reduction prices in Hungary from £3,800. Quality-focused clinics, experienced surgeons, EU standards. Save 50-55% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Breast Reduction in Hungary — From £3,800 Quality Focus',
     description: 'Compare breast reduction in Hungary from £3,800. Quality-focused clinics, EU standards.',
     url: `${SITE_URL}/procedures/breast-reduction/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Breast Reduction',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BreastReductionHungaryPageProps {

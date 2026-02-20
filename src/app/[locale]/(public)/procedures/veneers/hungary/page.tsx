@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Veneers in Hungary — Prices, Clinics & Packages from Budapest | medit',
+  title: 'Veneers in Hungary — Prices, Clinics & Packages from Budapest | MeetYourClinic',
   description:
     'Compare dental veneer prices in Hungary from £105–£565 per tooth. Browse verified Budapest clinics, porcelain and E-max options, all-inclusive packages, and free consultations.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental veneer prices in Hungary from £105–£565 per tooth. Browse verified Budapest clinics, porcelain and E-max options, all-inclusive packages.',
     url: `${SITE_URL}/procedures/veneers/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

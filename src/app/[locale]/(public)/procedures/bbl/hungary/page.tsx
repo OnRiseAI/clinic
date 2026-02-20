@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'BBL in Hungary — EU Quality, Competitive Prices | medit',
+  title: 'BBL in Hungary — EU Quality, Competitive Prices | MeetYourClinic',
   description:
     'Compare BBL prices in Hungary from £3,200. Brazilian Butt Lift in Budapest with EU standards, thermal spa recovery. Growing expertise in body contouring.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'BBL in Hungary — EU Quality, Competitive Prices',
     description: 'Compare BBL prices in Hungary from £3,200. EU standards, thermal spa recovery.',
     url: `${SITE_URL}/procedures/bbl/hungary`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Brazilian Butt Lift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface BBLHungaryPageProps {

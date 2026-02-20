@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Rhinoplasty Poland 2025: £2,900-£4,500 | EU Quality & Standards | medit',
+  title: 'Rhinoplasty Poland 2026: £2,900-£4,500 | EU Quality & Standards | MeetYourClinic',
   description:
     "Compare rhinoplasty in Poland with EU-trained surgeons at accredited clinics. Warsaw, Kraków, KCM Clinic specialists. EU healthcare standards, 40-60% savings vs UK prices.",
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Rhinoplasty Poland 2025: £2,900-£4,500 | EU Quality & Standards',
+    title: 'Rhinoplasty Poland 2026: £2,900-£4,500 | EU Quality & Standards',
     description:
       "Compare rhinoplasty in Poland with EU-trained surgeons at accredited clinics. Warsaw, Kraków, KCM Clinic specialists.",
     url: `${SITE_URL}/procedures/rhinoplasty/poland`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rhinoplasty Poland 2025: £2,900-£4,500 | EU Quality & Standards',
+    title: 'Rhinoplasty Poland 2026: £2,900-£4,500 | EU Quality & Standards',
     description:
       "Compare rhinoplasty in Poland with EU-trained surgeons at accredited clinics. EU healthcare standards.",
   },
@@ -147,7 +147,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-02',
+  lastReviewed: '2026-02-02',
 }
 
 // =============================================================================

@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Rhinoplasty Spain 2025: €4,500-€7,500 | Ultrasonic Specialists | medit',
+  title: 'Rhinoplasty Spain 2026: €4,500-€7,500 | Ultrasonic Specialists | MeetYourClinic',
   description:
     "Compare rhinoplasty in Spain with ultrasonic & preservation technique specialists. Premium European care, Mediterranean recovery. Save 40-60% vs UK prices.",
   alternates: {
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Rhinoplasty Spain 2025: €4,500-€7,500 | Ultrasonic Specialists',
+    title: 'Rhinoplasty Spain 2026: €4,500-€7,500 | Ultrasonic Specialists',
     description:
       "Compare rhinoplasty in Spain with ultrasonic & preservation technique specialists. Premium European care, Mediterranean recovery.",
     url: `${SITE_URL}/procedures/rhinoplasty/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rhinoplasty Spain 2025: €4,500-€7,500 | Ultrasonic Specialists',
+    title: 'Rhinoplasty Spain 2026: €4,500-€7,500 | Ultrasonic Specialists',
     description:
       "Compare rhinoplasty in Spain with ultrasonic & preservation technique specialists. Premium European care.",
   },
@@ -147,7 +147,7 @@ const medicalWebPageSchema = {
       name: 'United Kingdom',
     },
   },
-  lastReviewed: '2025-02-02',
+  lastReviewed: '2026-02-02',
 }
 
 // =============================================================================

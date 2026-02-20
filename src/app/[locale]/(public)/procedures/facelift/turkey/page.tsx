@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Facelift in Turkey — From £3,000 All-Inclusive | medit',
+  title: 'Facelift in Turkey — From £3,000 All-Inclusive | MeetYourClinic',
   description:
     'Compare facelift prices in Turkey from £3,000. Experienced facial surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Facelift in Turkey — From £3,000 All-Inclusive',
     description: 'Compare facelift prices in Turkey from £3,000. JCI hospitals, experienced surgeons.',
     url: `${SITE_URL}/procedures/facelift/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },
@@ -77,7 +77,7 @@ const medicalWebPageSchema = {
     name: 'Facelift',
     procedureType: 'https://schema.org/SurgicalProcedure',
   },
-  lastReviewed: '2025-02-03',
+  lastReviewed: '2026-02-03',
 }
 
 interface FaceliftTurkeyPageProps {

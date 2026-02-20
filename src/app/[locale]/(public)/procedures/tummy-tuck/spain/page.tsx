@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Tummy Tuck in Spain — Prices, Top Clinics in Madrid, Barcelona & Marbella | medit',
+  title: 'Tummy Tuck in Spain — Prices, Top Clinics in Madrid, Barcelona & Marbella | MeetYourClinic',
   description:
     'Compare tummy tuck prices in Spain from £3,000. Browse SECPRE-accredited surgeons in Madrid, Barcelona, and Marbella. EU-regulated, premium quality, and 2hr flights from London.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare tummy tuck prices in Spain from £3,000. Browse SECPRE-accredited surgeons in Madrid, Barcelona, and Marbella. EU-regulated, premium quality.',
     url: `${SITE_URL}/procedures/tummy-tuck/spain`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
@@ -94,7 +94,7 @@ const TUMMY_TUCK_SPAIN_FAQS = [
   {
     question: 'Do Spanish clinics offer all-inclusive tummy tuck packages?',
     answer:
-      'Some do, especially in Marbella and at specialist international clinics like Wellness Kliniek in Barcelona. Others quote surgery only. Ask about package options when requesting quotes — medit can match you with clinics offering all-inclusive pricing.',
+      'Some do, especially in Marbella and at specialist international clinics like Wellness Kliniek in Barcelona. Others quote surgery only. Ask about package options when requesting quotes — MeetYourClinic can match you with clinics offering all-inclusive pricing.',
   },
 ]
 

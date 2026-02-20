@@ -10,10 +10,10 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 export const metadata: Metadata = {
-  title: 'Blepharoplasty Abroad — Eyelid Surgery Prices & Clinics | medit',
+  title: 'Blepharoplasty Abroad — Eyelid Surgery Prices & Clinics | MeetYourClinic',
   description:
     'Compare blepharoplasty prices abroad from £1,200. Eyelid surgery in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Blepharoplasty Abroad — Eyelid Surgery Prices & Clinics',
     description: 'Compare eyelid surgery prices abroad from £1,200. Save 50-70% vs UK.',
     url: `${SITE_URL}/procedures/blepharoplasty`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
   },

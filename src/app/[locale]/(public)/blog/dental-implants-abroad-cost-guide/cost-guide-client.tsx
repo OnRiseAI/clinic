@@ -151,7 +151,7 @@ export function CostGuideClient({ faqs }: CostGuideClientProps) {
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-neutral-500">
               <span className="flex items-center gap-1">
                 <Users className="h-4 w-4" />
-                By the medit Research Team
+                By the MeetYourClinic Research Team
               </span>
               <time dateTime="2026-02-01" className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
@@ -718,7 +718,7 @@ export function CostGuideClient({ faqs }: CostGuideClientProps) {
                 <div>
                   <h4 className="font-semibold text-neutral-900">Use a comparison platform</h4>
                   <p className="mt-1 text-sm text-neutral-600">
-                    Platforms like medit let you compare verified clinics, check accreditations,
+                    Platforms like MeetYourClinic let you compare verified clinics, check accreditations,
                     and request itemised quotes in one place.
                   </p>
                 </div>

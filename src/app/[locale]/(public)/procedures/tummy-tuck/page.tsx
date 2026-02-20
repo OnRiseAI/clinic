@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Tummy Tuck Abroad — Compare Prices by Country & Clinic | medit',
+  title: 'Tummy Tuck Abroad — Compare Prices by Country & Clinic | MeetYourClinic',
   description:
     'Compare tummy tuck prices abroad from £1,750. Turkey, Hungary, Poland, Spain — see real prices, recovery timelines, verified surgeons, and get free quotes from accredited clinics.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare tummy tuck prices abroad from £1,750. Turkey, Hungary, Poland, Spain — see real prices, recovery timelines, verified surgeons.',
     url: `${SITE_URL}/procedures/tummy-tuck`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [

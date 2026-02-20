@@ -10,14 +10,14 @@ import {
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://medit.com'
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
 // =============================================================================
 // METADATA
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Dental Implants in Turkey — 2026 Prices, Clinics & UK Patient Guide | medit',
+  title: 'Dental Implants in Turkey — 2026 Prices, Clinics & UK Patient Guide | MeetYourClinic',
   description:
     'Compare dental implant prices in Turkey from verified clinics. Single implants from £300, full-mouth from £1,600. Read UK patient reviews, check clinic accreditations, and get a free quote.',
   alternates: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description:
       'Compare dental implant prices in Turkey from verified clinics. Single implants from £300, full-mouth from £1,600. Read UK patient reviews, check clinic accreditations, and get a free quote.',
     url: `${SITE_URL}/procedures/dental-implants/turkey`,
-    siteName: 'medit',
+    siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
     images: [
