@@ -52,11 +52,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/hair-transplant/:path*',
-        destination: '/procedures/hair-transplant/:path*',
-        permanent: true,
-      },
-      {
         source: '/rhinoplasty/:path*',
         destination: '/procedures/rhinoplasty/:path*',
         permanent: true,

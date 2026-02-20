@@ -21,16 +21,16 @@ export const metadata: Metadata = {
   description:
     'Save 50-80% on hair transplant abroad. Compare FUE, DHI & sapphire techniques in Turkey, Spain, Hungary, Poland — real prices, verified clinics, recovery guidance.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/hair-transplant`,
+    canonical: `${SITE_URL}/en/hair-transplant`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/hair-transplant`,
+      'en-GB': `${SITE_URL}/en/hair-transplant`,
     },
   },
   openGraph: {
     title: 'Hair Transplant Abroad — Compare Prices, Techniques & Top Clinics',
     description:
       'Save 50-80% on hair transplant abroad. FUE, DHI & sapphire techniques in Turkey, Spain, Hungary, Poland. Real prices, verified clinics.',
-    url: `${SITE_URL}/procedures/hair-transplant`,
+    url: `${SITE_URL}/hair-transplant`,
     siteName: 'MeetYourClinic',
     type: 'website',
     locale: 'en_GB',
@@ -128,7 +128,7 @@ const medicalWebPageSchema = {
   name: 'Hair Transplant Abroad — Compare Prices, Techniques & Top Clinics',
   description:
     'Comprehensive guide to hair transplant abroad for UK patients. Compare FUE, DHI, and sapphire techniques across Turkey, Spain, Hungary, and Poland with real prices and verified clinics.',
-  url: `${SITE_URL}/procedures/hair-transplant`,
+  url: `${SITE_URL}/hair-transplant`,
   inLanguage: 'en-GB',
   about: {
     '@type': 'MedicalProcedure',
@@ -174,7 +174,6 @@ export default async function HairTransplantPage({
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
-    { name: 'Cosmetic Surgery', url: '/cosmetic-surgery' },
     { name: 'Hair Transplant' },
   ])
 
@@ -195,7 +194,6 @@ export default async function HairTransplantPage({
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <Breadcrumbs
           items={[
-            { name: 'Cosmetic Surgery', url: '/cosmetic-surgery' },
             { name: 'Hair Transplant' },
           ]}
         />
