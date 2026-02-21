@@ -20,6 +20,7 @@ const procedures = [
   {
     name: 'Hair Transplant',
     slug: 'hair-transplant',
+    href: '/hair-transplant',
     image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&h=400&fit=crop&auto=format&q=80',
     fallbackGradient: 'from-amber-50 to-orange-50',
     icon: '\u{1F487}',
@@ -54,6 +55,7 @@ const procedures = [
   {
     name: 'Weight Loss Surgery',
     slug: 'bariatric-surgery',
+    href: '/bariatric-surgery',
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&auto=format&q=80',
     fallbackGradient: 'from-green-50 to-emerald-50',
     icon: '\u2696\uFE0F',
@@ -65,6 +67,7 @@ const procedures = [
   {
     name: 'IVF Treatment',
     slug: 'ivf',
+    href: '/fertility',
     image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&h=400&fit=crop&auto=format&q=80',
     fallbackGradient: 'from-teal-50 to-cyan-50',
     icon: '\u{1F476}',
@@ -132,7 +135,7 @@ export function PopularProcedures() {
               }}
             >
               <Link
-                href={`/procedures/${proc.slug}`}
+                href={(proc as any).href || `/procedures/${proc.slug}`}
                 className="group block bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(15,27,45,0.04)] ring-1 ring-slate-900/5 border border-transparent transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,27,45,0.08)] hover:border-gold/30"
               >
                 {/* Image */}
