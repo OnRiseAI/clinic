@@ -59,7 +59,7 @@ export function Hero() {
               animate="visible"
               variants={fadeUp}
             >
-              <h1 className="font-serif text-[3rem] sm:text-[3.5rem] md:text-[4.5rem] leading-[1.0] tracking-tight text-white mb-6">
+            <h1 className="text-[3rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold tracking-tight leading-[1.0] text-white mb-6">
                 Make Confident <br />
                 <span className="text-white relative inline-block pb-1">
                   Medical Decisions
@@ -67,7 +67,7 @@ export function Hero() {
                   <span className="absolute bottom-1.5 left-0 w-full h-[1px] bg-gradient-to-r from-gold/30 to-transparent opacity-40" />
                 </span>
               </h1>
-              <p className="text-white/30 font-serif text-3xl md:text-4xl mt-0 mb-10 tracking-tight">
+              <p className="text-white/30 font-bold text-3xl md:text-4xl mt-0 mb-10 tracking-tight">
                 Globally.
               </p>
             </motion.div>
@@ -118,7 +118,7 @@ export function Hero() {
               <div className="flex items-center gap-4">
                 <Globe2 className="w-5 h-5 text-teal/40" />
                 <div className="flex flex-col">
-                  <span className="text-white font-serif text-xl leading-none">20+</span>
+                  <span className="text-white font-bold tracking-tight text-xl leading-none">20+</span>
                   <span className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1.5 font-bold">Global Markets</span>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export function Hero() {
               <div className="flex items-center gap-4">
                 <CheckCircle2 className="w-5 h-5 text-gold/40" />
                 <div className="flex flex-col">
-                  <span className="text-white font-serif text-xl leading-none">100%</span>
+                  <span className="text-white font-bold tracking-tight text-xl leading-none">100%</span>
                   <span className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1.5 font-bold">Verified Network</span>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export function Hero() {
                     <MapPin className="w-3 h-3 text-gold" />
                     <p className="text-[9px] text-white tracking-[0.2em] font-bold uppercase">Istanbul</p>
                   </div>
-                  <p className="text-sm text-white/80 font-serif leading-tight">Advanced Dental<br />Center</p>
+                  <p className="text-sm text-white/80 font-bold leading-tight">Advanced Dental<br />Center</p>
                 </div>
               </motion.div>
 
@@ -216,7 +216,7 @@ export function Hero() {
                     <MapPin className="w-3.5 h-3.5 text-teal" />
                     <p className="text-[10px] text-white tracking-[0.25em] font-bold uppercase">Barcelona</p>
                   </div>
-                  <p className="text-2xl text-white font-serif leading-tight">Fertility<br />Specialists</p>
+                  <p className="text-2xl text-white font-bold tracking-tight leading-tight">Fertility<br />Specialists</p>
                   <div className="w-8 h-px bg-gold/30 mt-4" />
                 </div>
               </motion.div>
@@ -242,7 +242,7 @@ export function Hero() {
                     <MapPin className="w-3 h-3 text-white/40" />
                     <p className="text-[9px] text-white tracking-[0.2em] font-bold uppercase">Mexico City</p>
                   </div>
-                  <p className="text-xs text-white/70 font-serif">Regenerative<br />Surgery Unit</p>
+                  <p className="text-xs text-white/70 font-bold">Regenerative<br />Surgery Unit</p>
                 </div>
               </motion.div>
             </div>

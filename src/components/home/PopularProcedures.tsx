@@ -110,7 +110,7 @@ export function PopularProcedures() {
           <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
             Treatment Directory
           </p>
-          <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
             Common <span className="text-teal-600">Procedures</span>
           </h2>
           <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
@@ -133,7 +133,7 @@ export function PopularProcedures() {
             >
               <Link
                 href={`/procedures/${proc.slug}`}
-                className="group block bg-white rounded-2xl overflow-hidden border border-navy/[0.04] card-premium"
+                className="group block bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(15,27,45,0.04)] ring-1 ring-slate-900/5 border border-transparent transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,27,45,0.08)] hover:border-gold/30"
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">

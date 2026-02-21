@@ -49,7 +49,7 @@ export function HowItWorks() {
           <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
             The Process
           </p>
-          <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
             A Structured Approach
           </h2>
           <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
@@ -69,7 +69,7 @@ export function HowItWorks() {
                 duration: 0.7,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative bg-white rounded-2xl p-8 border border-navy/[0.04] card-premium text-center"
+              className="relative bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgba(15,27,45,0.04)] ring-1 ring-slate-900/5 border border-transparent transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,27,45,0.08)] hover:border-gold/30 text-center"
             >
               <div className="w-14 h-14 rounded-2xl bg-navy/[0.03] flex items-center justify-center text-navy/70 mx-auto mb-6">
                 {step.icon}

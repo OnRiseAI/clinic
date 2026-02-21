@@ -16,7 +16,7 @@ export function Newsletter() {
           <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
             Updates
           </p>
-          <h2 className="heading-serif text-3xl sm:text-4xl text-navy mb-5">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-navy mb-5">
             Medical Travel <span className="text-teal-600">Insights</span>
           </h2>
           <p className="text-navy/60 leading-relaxed mb-10 font-light">

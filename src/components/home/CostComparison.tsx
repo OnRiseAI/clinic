@@ -27,7 +27,7 @@ export function CostComparison() {
             <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
               Cost Reference
             </p>
-            <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
               Cost Comparison{' '}
               <span className="text-teal-600">by Region</span>
             </h2>
@@ -74,7 +74,7 @@ export function CostComparison() {
                       whileInView={{ width: `${(item.cost / maxCost) * 100}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1, delay: index * 0.1, ease: 'easeOut' }}
-                      className={`h-full rounded-full ${item.highlight ? 'bg-teal' : 'bg-navy/20'}`}
+                      className={`h-full rounded-full ${item.highlight ? 'bg-gradient-to-r from-teal-500 to-emerald-400 shadow-[0_0_15px_rgba(20,184,166,0.4)]' : 'bg-navy/20'}`}
                     />
                   </div>
                 </div>

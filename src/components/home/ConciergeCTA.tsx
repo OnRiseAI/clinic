@@ -16,7 +16,7 @@ export function ConciergeCTA() {
             <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
               Personalized Service
             </p>
-            <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
               Not sure where to start?{' '}
               <span className="text-teal-600">Use our Guided Clinic Matching.</span>
             </h2>

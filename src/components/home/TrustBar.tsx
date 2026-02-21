@@ -43,7 +43,7 @@ const standards = [
 
 export function TrustBar() {
   return (
-    <section className="py-16 relative border-y border-navy/[0.04]">
+    <section className="py-16 relative bg-navy border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         {/* Accreditation standards */}
         <motion.div
@@ -52,21 +52,21 @@ export function TrustBar() {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-[11px] text-navy/40 uppercase tracking-[0.2em] mb-6 text-center font-bold">
+          <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] mb-6 text-center font-bold">
             Accreditation Standards We Recognise
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {standards.map((std) => (
               <div
                 key={std.name}
-                className="flex items-center gap-3 p-4 rounded-xl bg-white border border-navy/[0.04]"
+                className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:border-gold/30 hover:bg-white/[0.04] transition-colors"
               >
-                <div className="w-11 h-11 rounded-xl bg-navy/[0.03] flex items-center justify-center text-navy/50 shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center text-gold shrink-0">
                   {std.icon}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-navy">{std.name}</p>
-                  <p className="text-[11px] text-navy/40">{std.description}</p>
+                  <p className="text-sm font-semibold text-white">{std.name}</p>
+                  <p className="text-[11px] text-white/50">{std.description}</p>
                 </div>
               </div>
             ))}

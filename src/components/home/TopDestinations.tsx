@@ -71,7 +71,7 @@ export function TopDestinations() {
           <p className="text-xs font-bold text-navy/40 uppercase tracking-[0.2em] mb-4">
             Global Coverage
           </p>
-          <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-navy mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
             Medical Travel{' '}
             <span className="text-teal-600">Destinations</span>
           </h2>
@@ -80,15 +80,26 @@ export function TopDestinations() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {destinations.slice(0, 3).map((dest, i) => (
-            <DestinationCard key={dest.slug} dest={dest} index={i} />
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {destinations.slice(3).map((dest, i) => (
-            <DestinationCard key={dest.slug} dest={dest} index={i + 3} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {destinations.map((dest, i) => {
+            // Bento Grid Layout Classes
+            const bentoClasses = [
+              'md:col-span-2 md:row-span-2 h-[400px] md:h-[624px]', // Turkey - Massive Hero
+              'md:col-span-1 md:row-span-1 h-[300px]', // Hungary - Square
+              'md:col-span-1 md:row-span-1 h-[300px]', // Mexico - Square
+              'md:col-span-1 md:row-span-1 h-[300px]', // Spain - Square
+              'md:col-span-2 md:row-span-1 h-[300px]', // Poland - Wide
+            ]
+
+            return (
+              <DestinationCard 
+                key={dest.slug} 
+                dest={dest} 
+                index={i} 
+                className={bentoClasses[i]} 
+              />
+            )
+          })}
         </div>
 
         <div className="text-center mt-12">
@@ -107,7 +118,15 @@ export function TopDestinations() {
   )
 }
 
-function DestinationCard({ dest, index }: { dest: (typeof destinations)[number]; index: number }) {
+function DestinationCard({ 
+  dest, 
+  index,
+  className = "h-72" 
+}: { 
+  dest: (typeof destinations)[number]; 
+  index: number;
+  className?: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -118,10 +137,11 @@ function DestinationCard({ dest, index }: { dest: (typeof destinations)[number];
         duration: 0.7,
         ease: [0.16, 1, 0.3, 1],
       }}
+      className={className}
     >
       <Link
         href={`/destinations/${dest.slug}`}
-        className="group block relative rounded-2xl overflow-hidden h-72 card-premium"
+        className="group block relative rounded-2xl overflow-hidden h-full shadow-[0_8px_30px_rgba(15,27,45,0.04)] ring-1 ring-slate-900/5 border border-transparent transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,27,45,0.08)] hover:border-gold/30"
       >
         <Image
           src={dest.image}
