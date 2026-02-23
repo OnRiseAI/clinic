@@ -10,6 +10,7 @@ import {
 } from '@/lib/seo/structured-data'
 import { StructuredData } from '@/components/seo/structured-data-component'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
+import { InteractiveMap } from './interactive-map'
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 
@@ -138,6 +139,37 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
 
   const itemListSchema = generateItemListSchema(countries)
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How much can I save on medical tourism?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Patients typically save between 40% and 70% on major procedures when traveling abroad for medical care. Countries like Turkey and Hungary offer world-class treatments at a fraction of UK or US private costs, while maintaining strict JCI and ISO accreditations.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Which country is best for medical tourism?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The best country depends on the specific treatment. Turkey is renowned for Hair Transplants and Cosmetic Surgery, Hungary and Poland lead in advanced Dental Implants, and Spain is highly rated for Fertility (IVF) treatments.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Are medical tourism clinics safe?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, when chosen carefully. Top medical tourism clinics hold international accreditations such as JCI (Joint Commission International) or ISO. Our VisQuanta Gold Standard™ ensures that listed clinics meet rigorous quality, safety, and multilingual support criteria.',
+        },
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-neutral-50">
       <StructuredData
@@ -146,6 +178,7 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
           generateWebsiteSchema(),
           breadcrumbSchema,
           itemListSchema,
+          faqSchema,
         ]}
       />
 
@@ -164,7 +197,7 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
         <div className="absolute inset-0 bg-gradient-to-br from-primary-900/40 via-[#0A1A2F] to-primary-950/80" />
         <div className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]" />
         <div className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
-        <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-transparent opacity-5 mix-blend-overlay" />
         
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -178,18 +211,52 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
         </div>
       </section>
 
-      {/* Country Cards Grid */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {countries.map((country) => {
+      {/* Interactive Map Section */}
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-navy tracking-tight">Global Healthcare Network</h2>
+            <p className="mt-2 text-navy/60 font-medium">Hover over countries to explore available treatments and pricing</p>
+          </div>
+          <div className="flex items-center gap-4 text-sm font-medium">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-teal-500"></span>
+              <span className="text-navy/70">Active Destinations</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+              <span className="text-navy/70">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+        <InteractiveMap countries={countries} stats={countryStats} locale={locale} />
+      </section>
+
+      {/* Bento Box Grid */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-10">
+           <h2 className="text-3xl font-bold text-navy">All Destinations</h2>
+           <p className="mt-2 text-navy/60">Compare prices, clinics, and procedures across our global network.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-[280px] gap-6">
+          {countries.map((country, index) => {
             const stats = countryStats[country.id]
             const procedureCount = stats?.procedure_count ?? 0
             const minPrice = stats?.min_price_gbp ?? null
+            const isComingSoon = country.status !== 'published'
 
-            // Truncate description to ~120 chars for the card
+            // Determine size based on popularity/status
+            // e.g., Turkey and Spain are popular, they get larger bento blocks
+            let spanClass = "md:col-span-3 lg:col-span-4" // default
+            if (!isComingSoon && (country.name === 'Turkey' || country.name === 'Spain' || index === 0 || index === 1)) {
+               spanClass = "md:col-span-6 lg:col-span-6" // feature size
+            } else if (isComingSoon) {
+               spanClass = "md:col-span-3 lg:col-span-3" // smaller size
+            }
+
             const snippet = country.description
-              ? country.description.length > 120
-                ? country.description.slice(0, 117) + '...'
+              ? country.description.length > 90
+                ? country.description.slice(0, 87) + '...'
                 : country.description
               : `Explore medical treatments in ${country.name}.`
 
@@ -197,74 +264,208 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
               <Link
                 key={country.id}
                 href={`/${locale}/destinations/${country.slug}`}
-                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/60 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-900/5"
+                className={`group relative flex flex-col overflow-hidden rounded-3xl bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-navy/5 ${spanClass} ${isComingSoon ? 'border border-dashed border-navy/20 bg-neutral-50/50' : 'border border-navy/5 shadow-lg shadow-navy/[0.02]'}`}
               >
-                <div className="absolute top-0 right-0 -mr-8 -mt-8 h-32 w-32 rounded-full bg-gradient-to-br from-primary-50 to-primary-100/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-2xl" />
-
-                {/* Flag & Name */}
-                <div className="relative z-10 flex items-center gap-3">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-50 border border-neutral-100 text-3xl shadow-sm">
-                    {country.flag_emoji || '🌍'}
-                  </span>
-                  <h2 className="text-xl font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
-                    {country.name}
-                  </h2>
-                </div>
-
-                {/* Description Snippet */}
-                <div className="relative z-10 mt-4 flex-1">
-                  <p className="text-sm text-neutral-600 line-clamp-3 leading-relaxed">
-                    {snippet}
-                  </p>
-                </div>
-
-                {/* Stats Row */}
-                <div className="relative z-10 mt-6 space-y-3 rounded-xl bg-neutral-50 p-4 border border-neutral-100">
-                  {procedureCount > 0 && (
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="font-medium text-neutral-500">Treatments</span>
-                      <span className="font-semibold text-neutral-900">
-                        {procedureCount} available
-                      </span>
-                    </div>
-                  )}
-                  {minPrice !== null && (
-                    <div className="flex justify-between items-center text-sm border-t border-neutral-200/60 pt-3">
-                      <span className="font-medium text-neutral-500">Starting from</span>
-                      <span className="text-base font-bold text-green-600">
-                        £{minPrice.toLocaleString('en-GB')}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Specialties Tags */}
-                {country.specialties && country.specialties.length > 0 && (
-                  <div className="relative z-10 mt-6 flex flex-wrap gap-2">
-                    {country.specialties.slice(0, 3).map((specialty) => (
-                      <span
-                        key={specialty}
-                        className="inline-block rounded-lg bg-primary-50/50 border border-primary-100 px-2.5 py-1 text-xs font-medium text-primary-700"
-                      >
-                        {specialty}
-                      </span>
-                    ))}
-                    {country.specialties.length > 3 && (
-                      <span className="inline-block rounded-lg bg-neutral-50 border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600">
-                        +{country.specialties.length - 3} more
-                      </span>
-                    )}
-                  </div>
+                {!isComingSoon && (
+                  <div className="absolute top-0 right-0 -mr-8 -mt-8 h-40 w-40 rounded-full bg-gradient-to-br from-teal-50 to-blue-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-3xl" />
                 )}
 
-                {/* Arrow indicator */}
-                <div className="relative z-10 mt-6 inline-flex items-center text-sm font-semibold text-primary-600 transition-colors group-hover:text-primary-800">
-                  Explore {country.name}
-                  <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-navy/5 text-3xl shadow-sm">
+                        {country.flag_emoji || '🌍'}
+                      </span>
+                      {isComingSoon && (
+                        <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-xl font-bold text-navy group-hover:text-teal-700 transition-colors">
+                      {country.name}
+                    </h3>
+                    <p className="mt-2 text-sm text-navy/60 line-clamp-2">
+                      {snippet}
+                    </p>
+                  </div>
+
+                  {!isComingSoon ? (
+                    <div className="mt-6 flex items-center justify-between pt-4 border-t border-navy/5">
+                      {minPrice !== null && (
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-navy/40">Starting From</p>
+                          <p className="text-lg font-bold text-teal-600">£{minPrice.toLocaleString('en-GB')}</p>
+                        </div>
+                      )}
+                      {procedureCount > 0 && (
+                        <div className="text-right">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-navy/40">Treatments</p>
+                          <p className="text-base font-semibold text-navy">{procedureCount}</p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                     <div className="mt-6 pt-4 border-t border-navy/5 flex justify-end">
+                       <span className="text-sm font-medium text-navy/50 group-hover:text-navy/80 transition-colors flex items-center gap-1">
+                          Join Waitlist <span className="text-lg leading-none">→</span>
+                       </span>
+                     </div>
+                  )}
                 </div>
               </Link>
             )
           })}
+        </div>
+      </section>
+
+      {/* GEO FAQ & Quick Facts Section */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-navy/5">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+          <div>
+            <span className="text-sm font-bold tracking-widest text-teal-600 uppercase mb-3 block">Expert Advice</span>
+            <h2 className="text-3xl font-bold text-navy mb-8">Frequently Asked Questions</h2>
+            
+            <div className="space-y-8">
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">How much can I save on medical tourism?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    Patients typically save between <strong className="text-navy">40% and 70%</strong> on major procedures when traveling abroad for medical care. Countries like Turkey and Hungary offer world-class treatments at a fraction of UK or US private costs, while maintaining strict JCI and ISO accreditations.
+                  </p>
+                </div>
+              </div>
+
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">Which country is best for medical tourism?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    The best country depends on the specific treatment. <strong className="text-navy">Turkey</strong> is renowned for Hair Transplants and Cosmetic Surgery, <strong className="text-navy">Hungary</strong> and <strong className="text-navy">Poland</strong> lead in advanced Dental Implants, and <strong className="text-navy">Spain</strong> is highly rated for Fertility (IVF) treatments.
+                  </p>
+                </div>
+              </div>
+
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">Are medical tourism clinics safe?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    Yes, when chosen carefully. Top medical tourism clinics hold international accreditations such as <strong className="text-navy">JCI (Joint Commission International)</strong> or <strong className="text-navy">ISO</strong>. Our VisQuanta Gold Standard™ ensures that listed clinics meet rigorous quality, safety, and multilingual support criteria.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-navy rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-[80px]" />
+             <div className="relative z-10">
+               <h3 className="text-2xl font-bold mb-6">Why Choose MeetYourClinic?</h3>
+               <ul className="space-y-6">
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">1</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Vetted Quality</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">Every clinic must pass our strict 50-point inspection covering medical standards, hygiene, and patient care.</p>
+                   </div>
+                 </li>
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">2</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Transparent Pricing</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">No hidden fees. Compare accurate starting prices for thousands of procedures across top destinations.</p>
+                   </div>
+                 </li>
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">3</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Real Patient Reviews</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">Make informed decisions based on verified Google reviews and authentic patient testimonials.</p>
+                   </div>
+                 </li>
+               </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GEO FAQ & Quick Facts Section */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-navy/5">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+          <div>
+            <span className="text-sm font-bold tracking-widest text-teal-600 uppercase mb-3 block">Expert Advice</span>
+            <h2 className="text-3xl font-bold text-navy mb-8">Frequently Asked Questions</h2>
+            
+            <div className="space-y-8">
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">How much can I save on medical tourism?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    Patients typically save between <strong className="text-navy">40% and 70%</strong> on major procedures when traveling abroad for medical care. Countries like Turkey and Hungary offer world-class treatments at a fraction of UK or US private costs, while maintaining strict JCI and ISO accreditations.
+                  </p>
+                </div>
+              </div>
+
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">Which country is best for medical tourism?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    The best country depends on the specific treatment. <strong className="text-navy">Turkey</strong> is renowned for Hair Transplants and Cosmetic Surgery, <strong className="text-navy">Hungary</strong> and <strong className="text-navy">Poland</strong> lead in advanced Dental Implants, and <strong className="text-navy">Spain</strong> is highly rated for Fertility (IVF) treatments.
+                  </p>
+                </div>
+              </div>
+
+              <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <h3 itemProp="name" className="text-xl font-bold text-navy mb-3">Are medical tourism clinics safe?</h3>
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                  <p itemProp="text" className="text-navy/70 leading-relaxed">
+                    Yes, when chosen carefully. Top medical tourism clinics hold international accreditations such as <strong className="text-navy">JCI (Joint Commission International)</strong> or <strong className="text-navy">ISO</strong>. Our VisQuanta Gold Standard™ ensures that listed clinics meet rigorous quality, safety, and multilingual support criteria.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-navy rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-[80px]" />
+             <div className="relative z-10">
+               <h3 className="text-2xl font-bold mb-6">Why Choose MeetYourClinic?</h3>
+               <ul className="space-y-6">
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">1</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Vetted Quality</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">Every clinic must pass our strict 50-point inspection covering medical standards, hygiene, and patient care.</p>
+                   </div>
+                 </li>
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">2</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Transparent Pricing</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">No hidden fees. Compare accurate starting prices for thousands of procedures across top destinations.</p>
+                   </div>
+                 </li>
+                 <li className="flex gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <span className="text-teal-400 font-bold">3</span>
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-lg mb-1">Real Patient Reviews</h4>
+                     <p className="text-white/60 text-sm leading-relaxed">Make informed decisions based on verified Google reviews and authentic patient testimonials.</p>
+                   </div>
+                 </li>
+               </ul>
+             </div>
+          </div>
         </div>
       </section>
 
@@ -274,7 +475,7 @@ export default async function DestinationsPage({ params }: DestinationsPageProps
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-transparent to-blue-600/20" />
           <div className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" />
           <div className="absolute -bottom-1/4 -right-1/4 h-full w-full rounded-full bg-blue-500/10 blur-[120px]" />
-          <div className="absolute inset-0 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-transparent opacity-5 mix-blend-overlay" />
           
           <div className="relative z-10 mx-auto max-w-3xl">
             <span className="text-sm font-bold tracking-widest text-primary-200/80 uppercase mb-4 block">Take the next step</span>

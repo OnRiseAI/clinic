@@ -229,7 +229,7 @@ export function LiposuctionTurkeyClient({ faqs }: LiposuctionTurkeyClientProps) 
             transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -right-32 bottom-1/4 h-96 w-96 rounded-full bg-rose-500/10 blur-[100px]" 
           />
-          <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+          <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
             <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -771,7 +771,7 @@ export function LiposuctionTurkeyClient({ faqs }: LiposuctionTurkeyClientProps) 
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
               />
-              <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+              <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
               
               <div className="relative z-10 mx-auto max-w-4xl">
                 <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">Ready to begin?</span>

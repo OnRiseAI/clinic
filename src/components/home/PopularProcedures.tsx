@@ -65,16 +65,16 @@ const procedures = [
     clinics: 64,
   },
   {
-    name: 'IVF Treatment',
-    slug: 'ivf',
-    href: '/fertility',
-    image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&h=400&fit=crop&auto=format&q=80',
-    fallbackGradient: 'from-teal-50 to-cyan-50',
-    icon: '\u{1F476}',
-    startingPrice: '\u20AC3,000',
-    rating: 4.9,
-    reviews: 278,
-    clinics: 52,
+    name: 'BBL Surgery',
+    slug: 'bbl',
+    href: '/procedures/bbl',
+    image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&h=400&fit=crop&auto=format&q=80',
+    fallbackGradient: 'from-fuchsia-50 to-pink-50',
+    icon: '\u{1F351}',
+    startingPrice: '\u20AC2,500',
+    rating: 4.8,
+    reviews: 421,
+    clinics: 85,
   },
 ]
 
@@ -114,7 +114,7 @@ export function PopularProcedures() {
             Treatment Directory
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
-            Common <span className="text-teal-600">Procedures</span>
+            Common <span className="text-gold-dark">Procedures</span>
           </h2>
           <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
             Compare accredited providers by treatment type and destination.
@@ -195,7 +195,7 @@ export function PopularProcedures() {
         <div className="text-center mt-12">
           <Link
             href="/clinics"
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide"
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-500 transition-all duration-300 tracking-wide shadow-lg shadow-teal-600/20"
           >
             Browse All Treatments
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

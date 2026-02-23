@@ -29,7 +29,7 @@ export function CostComparison() {
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
               Cost Comparison{' '}
-              <span className="text-teal-600">by Region</span>
+              <span className="text-gold-dark">by Region</span>
             </h2>
             <p className="text-navy/60 max-w-lg leading-relaxed font-light mb-8">
               Average treatment costs vary significantly by country. We present these figures
@@ -37,7 +37,7 @@ export function CostComparison() {
             </p>
             <Link
               href="/procedures/veneers"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-500 transition-all duration-300 tracking-wide shadow-lg shadow-teal-600/20"
             >
               Compare All Costs
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

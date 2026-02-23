@@ -203,7 +203,7 @@ export function DentalLandingClient({
         <div className="absolute inset-0 bg-gradient-to-br from-primary-900/40 via-[#0A1A2F] to-primary-950/80" />
         <div className="absolute -left-1/4 -top-1/4 h-1/2 w-1/2 rounded-full bg-primary-600/20 blur-[120px]" />
         <div className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
-        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-transparent opacity-5 mix-blend-overlay" />
         
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
           <m.div 
@@ -591,7 +591,7 @@ export function DentalLandingClient({
             <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-transparent to-blue-600/20" />
             <div className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" />
             <div className="absolute -bottom-1/4 -right-1/4 h-full w-full rounded-full bg-blue-500/10 blur-[120px]" />
-            <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-5 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-transparent opacity-5 mix-blend-overlay" />
             
             <div className="relative z-10 mx-auto max-w-3xl text-center">
               <span className="text-sm font-bold tracking-widest text-primary-200/80 uppercase mb-4 block">Take the next step</span>

@@ -403,7 +403,7 @@ export function VeneersPolandClient({ faqs }: VeneersPolandClientProps) {
           SECTION A: HERO
           ===================================================================== */}
       <section className="relative overflow-hidden bg-[#0A1A2F] text-white pt-20 pb-24 sm:pt-32 sm:pb-40">
-        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
         
         {/* Abstract Premium Background Elements */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A1A2F] via-[#0A1A2F]/95 to-primary-900/50" />
@@ -1142,7 +1142,7 @@ export function VeneersPolandClient({ faqs }: VeneersPolandClientProps) {
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
             />
-            <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+            <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
             
             <div className="relative z-10 mx-auto max-w-4xl">
               <span className="text-sm font-bold tracking-[0.3em] text-primary-300 uppercase mb-6 block">Ready to begin?</span>

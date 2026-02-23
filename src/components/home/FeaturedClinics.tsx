@@ -39,14 +39,14 @@ const featuredClinics = [
     badge: 'Top Rated',
   },
   {
-    name: 'Barcelona IVF Center',
-    slug: 'barcelona-ivf-center',
-    category: 'fertility',
-    location: 'Barcelona, Spain',
-    rating: 4.7,
-    reviews: 198,
-    specialties: ['IVF', 'Egg Freezing', 'Fertility Tests'],
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=250&fit=crop&auto=format&q=80',
+    name: 'KCM Clinic',
+    slug: 'kcm-clinic',
+    category: 'bariatric-surgery',
+    location: 'Warsaw, Poland',
+    rating: 4.9,
+    reviews: 843,
+    specialties: ['Bariatric Surgery', 'Orthopedics', 'Plastic Surgery'],
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400&h=250&fit=crop&auto=format&q=80',
     badge: 'Verified',
   },
 ]
@@ -67,7 +67,7 @@ export function FeaturedClinics() {
               Verified Listings
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-navy mb-3">
-              Selected <span className="text-teal-600">Providers</span>
+              Selected <span className="text-gold-dark">Providers</span>
             </h2>
             <p className="text-navy/60 max-w-lg leading-relaxed font-light">
               Verified for accreditation, medical standards, and patient safety protocols.

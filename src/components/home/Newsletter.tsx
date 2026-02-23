@@ -17,7 +17,7 @@ export function Newsletter() {
             Updates
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-navy mb-5">
-            Medical Travel <span className="text-teal-600">Insights</span>
+            Medical Travel <span className="text-gold-dark">Insights</span>
           </h2>
           <p className="text-navy/60 leading-relaxed mb-10 font-light">
             Receive destination guides, industry updates, and clinic spotlights
@@ -35,7 +35,7 @@ export function Newsletter() {
             />
             <button
               type="submit"
-              className="px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 whitespace-nowrap tracking-wide"
+              className="px-7 py-3.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-500 transition-all duration-300 whitespace-nowrap tracking-wide shadow-lg shadow-teal-600/20"
             >
               Subscribe
             </button>

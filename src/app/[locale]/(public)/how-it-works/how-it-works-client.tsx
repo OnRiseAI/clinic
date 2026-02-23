@@ -200,7 +200,7 @@ const StepVisual = ({ index }: { index: number }) => {
     case 3:
       return (
         <div className="relative aspect-square sm:aspect-auto sm:h-[450px] w-full rounded-[40px] bg-neutral-900 border border-neutral-800 p-8 overflow-hidden flex items-center justify-center group">
-          <div className="absolute top-0 right-0 w-full h-full bg-[url('/images/patterns/dental-pattern.svg')] opacity-5" />
+          <div className="absolute top-0 right-0 w-full h-full bg-transparent opacity-5" />
           
           <div className="w-full max-w-sm bg-neutral-800/80 backdrop-blur-md rounded-3xl border border-neutral-700 shadow-2xl p-8 relative z-10 transform transition-all duration-700 group-hover:scale-105 group-hover:border-amber-500/30">
             <div className="flex justify-between items-start mb-8">
@@ -260,7 +260,7 @@ const StepVisual = ({ index }: { index: number }) => {
                <div className="w-8 h-8 border-2 border-teal-400 rounded-lg" />
             </div>
           </div>
-          <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-5 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-transparent opacity-5 mix-blend-overlay" />
         </div>
       )
     case 5:

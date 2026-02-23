@@ -21,7 +21,7 @@ const destinations = [
     slug: 'hungary',
     flag: '\u{1F1ED}\u{1F1FA}',
     image: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=800&h=500&fit=crop&auto=format&q=80',
-    specialties: ['Dental', 'Orthopedics', 'Fertility'],
+    specialties: ['Dental', 'Orthopedics', 'Cosmetic'],
     clinics: 145,
     startingPrice: '\u20AC350',
   },
@@ -41,7 +41,7 @@ const destinations = [
     slug: 'spain',
     flag: '\u{1F1EA}\u{1F1F8}',
     image: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&h=500&fit=crop&auto=format&q=80',
-    specialties: ['Fertility', 'Dental', 'Cosmetic'],
+    specialties: ['Cosmetic', 'Dental', 'Orthopedics'],
     clinics: 178,
     startingPrice: '\u20AC400',
   },
@@ -73,7 +73,7 @@ export function TopDestinations() {
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
             Medical Travel{' '}
-            <span className="text-teal-600">Destinations</span>
+            <span className="text-gold-dark">Destinations</span>
           </h2>
           <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
             Browse accredited clinics across established medical destinations.
@@ -105,7 +105,7 @@ export function TopDestinations() {
         <div className="text-center mt-12">
           <Link
             href="/destinations"
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide"
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-500 transition-all duration-300 tracking-wide shadow-lg shadow-teal-600/20"
           >
             Explore All Destinations
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

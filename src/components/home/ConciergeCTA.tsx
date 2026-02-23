@@ -18,14 +18,14 @@ export function ConciergeCTA() {
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
               Not sure where to start?{' '}
-              <span className="text-teal-600">Use our Guided Clinic Matching.</span>
+              <span className="text-gold-dark">Use our Guided Clinic Matching.</span>
             </h2>
             <p className="text-navy/60 max-w-lg leading-relaxed font-light mb-8">
               Our advanced system matches your specific treatment requirements with accredited providers.
               Describe your needs to receive tailored recommendations.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-navy-light transition-all duration-300 tracking-wide">
+              <button className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-500 transition-all duration-300 tracking-wide shadow-lg shadow-teal-600/20">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
                 </svg>

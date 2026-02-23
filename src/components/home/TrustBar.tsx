@@ -55,7 +55,7 @@ export function TrustBar() {
           <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] mb-6 text-center font-bold">
             Accreditation Standards We Recognise
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {standards.map((std) => (
               <div
                 key={std.name}

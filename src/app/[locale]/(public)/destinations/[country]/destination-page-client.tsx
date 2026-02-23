@@ -309,7 +309,7 @@ export function DestinationPageClient({
         />
         
         {/* Pattern Overlay */}
-        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
         
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <m.div 
@@ -708,7 +708,7 @@ export function DestinationPageClient({
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute -left-1/4 -top-1/4 h-full w-full rounded-full bg-primary-500/10 blur-[120px]" 
             />
-            <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-[0.03] mix-blend-overlay" />
+            <div className="absolute inset-0 bg-transparent opacity-[0.03] mix-blend-overlay" />
             
             <div className="relative z-10 mx-auto max-w-4xl">
               <m.div 

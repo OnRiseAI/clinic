@@ -150,7 +150,7 @@ export async function getAllCountries(): Promise<Country[]> {
   const { data, error } = await supabase
     .from('countries')
     .select('*')
-    .eq('status', 'published')
+    .in('status', ['published', 'coming_soon', 'vetting'])
     .order('name')
 
   if (error || !data) {

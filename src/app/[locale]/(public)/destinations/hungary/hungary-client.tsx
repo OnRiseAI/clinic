@@ -943,7 +943,7 @@ export function HungaryDestinationClient({ faqs }: HungaryDestinationClientProps
               ================================================================= */}
           <m.section {...fadeInUp} className="mb-24 sm:mb-32">
             <div className="rounded-[3rem] bg-gradient-to-br from-cyan-50 to-emerald-50 p-8 sm:p-12 border border-cyan-100 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[url('/images/patterns/medical-pattern.svg')] opacity-5 mix-blend-multiply" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-transparent opacity-5 mix-blend-multiply" />
 
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-8">

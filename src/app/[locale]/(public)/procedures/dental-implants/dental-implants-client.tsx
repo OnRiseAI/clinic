@@ -304,7 +304,7 @@ export function DentalImplantsClient({ faqs }: DentalImplantsClientProps) {
           SECTION A: HERO
           ===================================================================== */}
       <section className="relative overflow-hidden bg-gradient-to-br from-sky-700 via-sky-800 to-sky-900 text-white">
-        <div className="absolute inset-0 bg-[url('/images/patterns/dental-pattern.svg')] opacity-5" />
+        <div className="absolute inset-0 bg-transparent opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <div className="max-w-3xl">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">

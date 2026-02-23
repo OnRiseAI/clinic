@@ -61,16 +61,12 @@ export function ComingSoonPlaceholder({ type, name, subtitleText }: ComingSoonPl
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Button asChild size="lg" className="bg-navy hover:bg-navy-light text-white rounded-xl px-8 h-14 text-base font-semibold transition-all shadow-[0_8px_20px_rgba(15,27,45,0.15)] hover:shadow-[0_15px_30px_rgba(15,27,45,0.2)] hover:-translate-y-0.5">
-                <Link href="/list-your-clinic">
+              <Link href="/list-your-clinic" className="inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-14 px-8 text-base bg-navy hover:bg-navy-light text-white rounded-xl shadow-[0_8px_20px_rgba(15,27,45,0.15)] hover:shadow-[0_15px_30px_rgba(15,27,45,0.2)] hover:-translate-y-0.5">
                   List Your Clinic <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-navy/10 hover:border-navy/20 hover:bg-navy/5 text-navy rounded-xl px-8 h-14 text-base font-semibold transition-all">
-                <Link href={isDest ? "/clinics" : "/destinations"}>
+              </Link>
+              <Link href={isDest ? "/clinics" : "/destinations"} className="inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-14 px-8 text-base border border-navy/10 hover:border-navy/20 hover:bg-navy/5 text-navy rounded-xl">
                   Explore Active {isDest ? "Destinations" : "Treatments"}
-                </Link>
-              </Button>
+              </Link>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 pt-8 border-t border-navy/5">

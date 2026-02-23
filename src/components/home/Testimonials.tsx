@@ -28,9 +28,9 @@ const reviews = [
     rating: 5,
   },
   {
-    text: 'As a nurse, I was skeptical. But after researching the clinics on this platform, I felt confident. The accreditation details made all the difference.',
+    text: 'As a nurse, I was skeptical. But after researching the clinics on this platform, I felt confident. The accreditation details made all the difference for my bariatric surgery.',
     author: 'Lisa M.',
-    treatment: 'IVF Treatment \u00B7 Spain',
+    treatment: 'Bariatric Surgery \u00B7 Poland',
     rating: 5,
   },
 ]
@@ -50,7 +50,7 @@ export function Testimonials() {
             Feedback
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy mb-5">
-            Patient <span className="text-teal-600">Experiences</span>
+            Patient <span className="text-gold-dark">Experiences</span>
           </h2>
           <p className="text-navy/60 max-w-lg mx-auto leading-relaxed font-light">
             Insights from patients who have used our directory to find care.
