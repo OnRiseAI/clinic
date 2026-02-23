@@ -14,12 +14,12 @@ const fadeUp = {
 
 const floatAnimation1 = {
   hidden: { y: 0 },
-  visible: { y: [-15, 10, -15], transition: { duration: 6, ease: 'easeInOut', repeat: Infinity } }
+  visible: { y: [-15, 10, -15], transition: { duration: 6, ease: 'easeInOut' as const, repeat: Infinity } }
 }
 
 const floatAnimation2 = {
   hidden: { y: 0 },
-  visible: { y: [10, -15, 10], transition: { duration: 7, ease: 'easeInOut', repeat: Infinity } }
+  visible: { y: [10, -15, 10], transition: { duration: 7, ease: 'easeInOut' as const, repeat: Infinity } }
 }
 
 // Rotation Data using listed clinics
@@ -136,12 +136,12 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-navy text-white selection:bg-gold/30 selection:text-white">
-      
+
       {/* BACKGROUND SYSTEM */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-[#0F1B2D] to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy to-transparent z-10" />
-        
+
         {/* Blurred Medical Background with Crossfade */}
         <div className="absolute right-0 top-0 w-[70%] h-full opacity-30 mix-blend-luminosity overflow-hidden">
           <AnimatePresence mode="popLayout">
@@ -221,7 +221,7 @@ export function Hero() {
                   className="bg-navy/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl relative overflow-hidden"
                 >
                   <div className={`absolute top-0 right-0 w-32 h-32 ${activeData.iconBg} rounded-bl-full opacity-20 blur-2xl`} />
-                  
+
                   <div className="flex items-start gap-4 mb-4 relative z-10">
                     <div className={`relative w-16 h-16 rounded-full overflow-hidden border-2 ${activeData.borderColor} shrink-0`}>
                       <Image src={activeData.image} alt={activeData.clinicName} fill className="object-cover" />
@@ -236,7 +236,7 @@ export function Hero() {
                       <Star className="w-3 h-3 fill-gold" /> {activeData.rating}
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4 mt-2 relative z-10">
                     <div>
                       <span className="text-white/50 text-[10px] uppercase tracking-wider font-bold block mb-1">Specialty</span>
@@ -354,7 +354,7 @@ export function Hero() {
                 <ShieldCheck className="w-4 h-4 text-gold" />
                 <span className="text-white text-xs font-bold tracking-wide">JCI Accredited Facility</span>
               </motion.div>
-              
+
               {/* Feature Badge (Static) */}
               <motion.div
                 variants={floatAnimation2}
