@@ -56,6 +56,72 @@ const nextConfig: NextConfig = {
         destination: '/procedures/rhinoplasty/:path*',
         permanent: true,
       },
+      // Catch-all for handcrafted procedures to ensure canonical structure
+      {
+        source: '/dental/dental-implants',
+        destination: '/procedures/dental-implants',
+        permanent: true,
+      },
+      {
+        source: '/dental/dental-veneers',
+        destination: '/procedures/veneers',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/bbl',
+        destination: '/procedures/bbl',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/blepharoplasty',
+        destination: '/procedures/blepharoplasty',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/breast-augmentation',
+        destination: '/procedures/breast-augmentation',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/breast-lift',
+        destination: '/procedures/breast-lift',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/breast-reduction',
+        destination: '/procedures/breast-reduction',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/brow-lift',
+        destination: '/procedures/brow-lift',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/facelift',
+        destination: '/procedures/facelift',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/liposuction',
+        destination: '/procedures/liposuction',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/neck-lift',
+        destination: '/procedures/neck-lift',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/rhinoplasty',
+        destination: '/procedures/rhinoplasty',
+        permanent: true,
+      },
+      {
+        source: '/cosmetic-surgery/tummy-tuck',
+        destination: '/procedures/tummy-tuck',
+        permanent: true,
+      },
       // Non-existent landing pages to search/procedures
       {
         source: '/treatments',

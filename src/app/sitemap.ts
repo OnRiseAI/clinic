@@ -52,6 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
+      url: `${SITE_URL}/compare`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/privacy`,
       lastModified: now,
       changeFrequency: 'yearly',
@@ -170,6 +176,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: categoryProcs } = await supabase
     .from('procedures')
     .select('slug, nhs_wait_weeks, category:categories(slug)')
+    .eq('is_active', true)
 
   const categoryProcPages: MetadataRoute.Sitemap = (categoryProcs || [])
     .filter((p: any) => p.category?.slug)
@@ -212,13 +219,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Generate pairs of procedures within the same category
   const comparisonPages: MetadataRoute.Sitemap = []
   const procsByCategory: Record<string, string[]> = {}
-  ;(categoryProcs || []).forEach((p: any) => {
-    const catSlug = p.category?.slug
-    if (catSlug) {
-      if (!procsByCategory[catSlug]) procsByCategory[catSlug] = []
-      procsByCategory[catSlug].push(p.slug)
-    }
-  })
+    ; (categoryProcs || []).forEach((p: any) => {
+      const catSlug = p.category?.slug
+      if (catSlug) {
+        if (!procsByCategory[catSlug]) procsByCategory[catSlug] = []
+        procsByCategory[catSlug].push(p.slug)
+      }
+    })
   for (const slugs of Object.values(procsByCategory)) {
     slugs.sort()
     for (let i = 0; i < slugs.length; i++) {

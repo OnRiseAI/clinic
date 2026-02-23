@@ -9,16 +9,10 @@
 - [Blog](https://meetyourclinic.com/blog): Healthcare insights, recovery advice, and medical tourism news.
 
 ## Medical Resources
-- [Cost Analysis](https://meetyourclinic.com/procedures): Comparative cost guides for medical procedures across different regions.
-- [NHS Wait Time Data](https://meetyourclinic.com/procedures): Statistical insights into UK healthcare wait times vs private international options.
-- [Patient Comparison Tools](https://meetyourclinic.com/compare): Compare different procedures (e.g., Dental Implants vs All-on-4).
-- [Country Medical Guides](https://meetyourclinic.com/destinations): Logistic information, visa requirements, and medical standards by country.
-
-## Language Locales
-- [English](https://meetyourclinic.com/en): Default international version.
-- [Spanish (ES)](https://meetyourclinic.com/es): Specialized content for Spanish-speaking patients.
-- [Canadian English](https://meetyourclinic.com/en-CA): Regional information for Canada.
-- [UK English](https://meetyourclinic.com/en-GB): Specialized data for UK patients (NHS comparisons).
+- [Procedure Search](https://meetyourclinic.com/procedures): Comparative cost guides and treatment information.
+- [Clinic Directory](https://meetyourclinic.com/clinics): Verified healthcare facilities worldwide.
+- [Treatment Comparisons](https://meetyourclinic.com/compare): Side-by-side analysis of medical procedures.
+- [International Guides](https://meetyourclinic.com/destinations): Country-specific medical standards and pricing.
 
 ## Information & Support
 - [About Meet Your Clinic](https://meetyourclinic.com/about): Our mission, values, and commitment to patient safety.
