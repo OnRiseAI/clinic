@@ -287,7 +287,8 @@ export async function getClinicsByCategory(
   const { data: clinics, error } = await supabase
     .from('clinics')
     .select(`
-      id, name, slug, city, country, claimed, featured, accreditations,
+      id, name, slug, city, country, is_claimed, is_featured,
+      clinic_accreditations(accreditation_name),
       photos:clinic_photos(url, sort_order),
       google_reviews(rating, review_count),
       clinic_categories(category:categories(name, slug)),
@@ -449,7 +450,8 @@ export async function getClinicsByProcedure(
   const { data: clinics, error } = await supabase
     .from('clinics')
     .select(`
-      id, name, slug, city, country, claimed, featured, accreditations,
+      id, name, slug, city, country, is_claimed, is_featured,
+      clinic_accreditations(accreditation_name),
       photos:clinic_photos(url, sort_order),
       google_reviews(rating, review_count),
       clinic_categories(category:categories(name, slug)),
@@ -594,7 +596,8 @@ export async function getClinicsByCountry(
   const { data: clinics, error } = await supabase
     .from('clinics')
     .select(`
-      id, name, slug, city, country, claimed, featured, accreditations,
+      id, name, slug, city, country, is_claimed, is_featured,
+      clinic_accreditations(accreditation_name),
       photos:clinic_photos(url, sort_order),
       google_reviews(rating, review_count),
       clinic_categories(category:categories(name, slug)),
@@ -742,7 +745,8 @@ export async function getClinicsByCountryAndProcedure(
   const { data: clinics, error } = await supabase
     .from('clinics')
     .select(`
-      id, name, slug, city, country, claimed, featured, accreditations,
+      id, name, slug, city, country, is_claimed, is_featured,
+      clinic_accreditations(accreditation_name),
       photos:clinic_photos(url, sort_order),
       google_reviews(rating, review_count),
       clinic_categories(category:categories(name, slug)),
@@ -1147,9 +1151,11 @@ function transformClinicToCardData(clinic: any): ClinicCardData {
     slug: clinic.slug,
     city: clinic.city,
     country: clinic.country,
-    claimed: clinic.claimed,
-    featured: clinic.featured,
-    accreditations: clinic.accreditations || [],
+    claimed: clinic.is_claimed || clinic.claimed || false,
+    featured: clinic.is_featured || clinic.featured || false,
+    accreditations: clinic.clinic_accreditations
+      ? clinic.clinic_accreditations.map((a: any) => a.accreditation_name)
+      : (clinic.accreditations || []),
     first_photo: firstPhoto,
     google_rating: googleReviews?.rating || null,
     google_review_count: googleReviews?.review_count || null,

@@ -118,7 +118,7 @@ export async function getClinicBySlug(slug: string): Promise<ClinicWithRelations
       city_rel:cities(name),
       doctors:clinic_doctors(id, name, title, specialty, credentials, years_experience, languages, photo_url, bio, is_lead_surgeon),
       clinic_procedures(
-        id, price_min, price_max, price_currency_original,
+        id, price_min, price_max, currency,
         procedure:procedures(id, name, slug, category_id)
       ),
       clinic_accreditations(accreditation_name),
@@ -172,10 +172,10 @@ export async function getClinicBySlug(slug: string): Promise<ClinicWithRelations
     languages: d.languages || [],
   }))
 
-  // Map clinic_procedures: price_currency_original -> currency
+  // Map clinic_procedures
   const procedures = (clinic.clinic_procedures || []).map((cp: Record<string, unknown>) => ({
     ...cp,
-    currency: cp.price_currency_original || cp.currency || 'EUR',
+    currency: cp.currency || 'EUR',
   }))
 
   // Fallback rating from clinic_reviews_summary if google_reviews has no data
@@ -245,7 +245,7 @@ export async function getSimilarClinics(
       country_rel:countries(name, iso_code, flag_emoji),
       city_rel:cities(name),
       clinic_reviews_summary(rating, review_count),
-      clinic_procedures(price_min, price_currency_original),
+      clinic_procedures(price_min, currency),
       clinic_accreditations(accreditation_name)
     `)
     .neq('id', clinicId)
@@ -340,7 +340,7 @@ export async function searchClinics(filters: SearchFilters): Promise<SearchResul
       clinic_reviews_summary(rating, review_count),
       clinic_media(url, sort_order),
       clinic_accreditations(accreditation_name),
-      clinic_procedures(price_min, price_max, price_currency_original, procedure:procedures(slug, name))
+      clinic_procedures(price_min, price_max, currency, procedure:procedures(slug, name))
     `, { count: 'exact' })
 
   // Apply basic filters
@@ -476,7 +476,7 @@ function transformClinicToCardData(clinic: any): ClinicCardData {
     .map((cp: any) => cp.price_min)
     .filter((p: number | null) => p !== null) as number[]
   const startingPrice = prices.length > 0 ? Math.min(...prices) : null
-  const currency = procedures[0]?.price_currency_original || procedures[0]?.currency || 'EUR'
+  const currency = procedures[0]?.currency || 'EUR'
 
   // Support both old (inline text) and new (FK join) schema
   const accreditations = clinic.clinic_accreditations
@@ -564,7 +564,7 @@ export async function getFeaturedClinics(limit: number = 6): Promise<ClinicCardD
       clinic_reviews_summary(rating, review_count),
       clinic_media(url, sort_order),
       clinic_accreditations(accreditation_name),
-      clinic_procedures(price_min, price_max, price_currency_original, procedure:procedures(slug, name))
+      clinic_procedures(price_min, price_max, currency, procedure:procedures(slug, name))
     `)
     .eq('is_featured', true)
     .eq('is_active', true)

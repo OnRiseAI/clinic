@@ -111,7 +111,7 @@ export async function getClinicsForCategory(
       clinic_accreditations(accreditation_name),
       clinic_media(url, sort_order, media_type),
       clinic_procedures(
-        price_min, price_max, price_currency_original,
+        price_min, price_max, currency,
         procedure:procedures(name, slug)
       )
     `)
@@ -177,7 +177,7 @@ export async function getClinicsForCategory(
     const treatments = (clinic.clinic_procedures || []).map((cp: any) => ({
       name: cp.procedure?.name || 'Treatment',
       priceMin: cp.price_min,
-      currency: cp.price_currency_original || 'EUR',
+      currency: cp.currency || 'EUR',
     }))
 
     const countryName = clinic.country?.name || ''

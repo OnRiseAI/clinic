@@ -332,7 +332,7 @@ export async function getHubClinics(limit: number = 20): Promise<CategoryClinicC
       .in('clinic_id', clinicIds),
     supabase
       .from('clinic_procedures')
-      .select('clinic_id, price_min, price_max, price_currency_original, procedure:procedures(name, slug)')
+      .select('clinic_id, price_min, price_max, currency, procedure:procedures(name, slug)')
       .in('clinic_id', clinicIds),
     supabase
       .from('clinic_categories')
@@ -438,7 +438,7 @@ export async function getHubClinics(limit: number = 20): Promise<CategoryClinicC
     const treatments = procedures.map((cp: any) => ({
       name: cp.procedure?.name || 'Treatment',
       priceMin: cp.price_min ? Number(cp.price_min) : null,
-      currency: cp.price_currency_original || 'EUR',
+      currency: cp.currency || 'EUR',
     }))
 
     // Tags from categories
@@ -471,18 +471,18 @@ export async function getHubClinics(limit: number = 20): Promise<CategoryClinicC
       description: clinic.description,
       doctor: leadDoctor
         ? {
-            name: leadDoctor.name,
-            specialty: leadDoctor.specialty || 'General',
-            yearsExperience: leadDoctor.years_experience || 0,
-            photoUrl: leadDoctor.photo_url,
-          }
+          name: leadDoctor.name,
+          specialty: leadDoctor.specialty || 'General',
+          yearsExperience: leadDoctor.years_experience || 0,
+          photoUrl: leadDoctor.photo_url,
+        }
         : null,
       review: topReview
         ? {
-            text: topReview.text || '',
-            authorName: topReview.author_name || 'Patient',
-            rating: topReview.rating || 5,
-          }
+          text: topReview.text || '',
+          authorName: topReview.author_name || 'Patient',
+          rating: topReview.rating || 5,
+        }
         : null,
       treatments,
       tags,
@@ -616,7 +616,7 @@ export async function getHubPricing(): Promise<PricingRow[]> {
   const { data: procedures } = await supabase
     .from('clinic_procedures')
     .select(`
-      price_min, price_currency_original,
+      price_min, currency,
       procedure:procedures(name),
       clinic:clinics(country:countries(name, flag_emoji))
     `)
