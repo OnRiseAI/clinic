@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast augmentation prices abroad from £2,500. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with quality implants.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-augmentation`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-augmentation` },
+    canonical: `/procedures/breast-augmentation`,
+    languages: { 'en-GB': `/procedures/breast-augmentation` },
   },
   openGraph: {
     title: 'Breast Augmentation Abroad — Compare Prices & Clinics',

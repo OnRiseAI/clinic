@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare liposuction prices in Poland from £500 per area. Warsaw, Kraków & Wrocław clinics with EU regulation, ISO accreditation, and unique N.I.L. infrasound technology. Free quotes and recovery planning.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/liposuction/poland`,
+    canonical: `/procedures/liposuction/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/liposuction/poland`,
+      'en-GB': `/procedures/liposuction/poland`,
     },
   },
   openGraph: {

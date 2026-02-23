@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Compare rhinoplasty prices abroad from £2,000. Piezo, ultrasonic & preservation techniques in Turkey, Spain, Hungary, Poland — real prices, verified surgeons, recovery guidance. Save 40–70% vs UK.",
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/rhinoplasty`,
+    canonical: `/procedures/rhinoplasty`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/rhinoplasty`,
+      'en-GB': `/procedures/rhinoplasty`,
     },
   },
   openGraph: {

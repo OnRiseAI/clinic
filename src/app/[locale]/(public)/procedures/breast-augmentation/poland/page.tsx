@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast augmentation prices in Poland from £3,000. Premium implants with EU protections, short flights from UK, natural results focus. Save 50-60% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-augmentation/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-augmentation/poland` },
+    canonical: `/procedures/breast-augmentation/poland`,
+    languages: { 'en-GB': `/procedures/breast-augmentation/poland` },
   },
   openGraph: {
     title: 'Breast Augmentation in Poland — EU Standards from £3,000',

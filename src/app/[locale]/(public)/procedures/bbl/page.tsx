@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare BBL prices abroad from £2,800. Brazilian Butt Lift in Turkey, Poland, Spain & Hungary — safety protocols, fat transfer techniques, verified surgeons. Free quotes from accredited clinics.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/bbl`,
+    canonical: `/procedures/bbl`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/bbl`,
+      'en-GB': `/procedures/bbl`,
     },
   },
   openGraph: {

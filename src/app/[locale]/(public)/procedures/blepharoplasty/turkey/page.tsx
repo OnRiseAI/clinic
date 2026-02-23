@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare blepharoplasty prices in Turkey from £1,200. Eyelid surgery with experienced surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/blepharoplasty/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/blepharoplasty/turkey` },
+    canonical: `/procedures/blepharoplasty/turkey`,
+    languages: { 'en-GB': `/procedures/blepharoplasty/turkey` },
   },
   openGraph: {
     title: 'Blepharoplasty in Turkey — Eyelid Surgery from £1,200',

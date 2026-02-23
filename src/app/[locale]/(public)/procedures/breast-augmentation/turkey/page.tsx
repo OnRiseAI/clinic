@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast augmentation prices in Turkey from £2,500. Premium implants (Mentor, Allergan, Motiva), JCI hospitals, all-inclusive packages. Save 60-70% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-augmentation/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-augmentation/turkey` },
+    canonical: `/procedures/breast-augmentation/turkey`,
+    languages: { 'en-GB': `/procedures/breast-augmentation/turkey` },
   },
   openGraph: {
     title: 'Breast Augmentation in Turkey — From £2,500 All-Inclusive',

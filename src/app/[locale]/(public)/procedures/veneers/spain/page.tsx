@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental veneer prices in Spain from £250 per tooth. Browse JCI-accredited Barcelona clinics, porcelain and E-max options, smile makeover packages, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/veneers/spain`,
+    canonical: `/procedures/veneers/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/veneers/spain`,
+      'en-GB': `/procedures/veneers/spain`,
     },
   },
   openGraph: {

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare brow lift prices abroad from £2,000. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/brow-lift`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/brow-lift` },
+    canonical: `/procedures/brow-lift`,
+    languages: { 'en-GB': `/procedures/brow-lift` },
   },
   openGraph: {
     title: 'Brow Lift Abroad — Compare Prices & Clinics',

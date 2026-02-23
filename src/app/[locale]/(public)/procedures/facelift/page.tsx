@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare facelift prices abroad from £3,000. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/facelift`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/facelift` },
+    canonical: `/procedures/facelift`,
+    languages: { 'en-GB': `/procedures/facelift` },
   },
   openGraph: {
     title: 'Facelift Abroad — Compare Prices & Clinics',

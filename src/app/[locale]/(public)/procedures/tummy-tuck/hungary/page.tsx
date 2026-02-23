@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare tummy tuck prices in Hungary from £1,750 — the lowest in Europe. Browse verified Budapest clinics, EU-regulated surgeons, all-inclusive packages, and get free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/tummy-tuck/hungary`,
+    canonical: `/procedures/tummy-tuck/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/tummy-tuck/hungary`,
+      'en-GB': `/procedures/tummy-tuck/hungary`,
     },
   },
   openGraph: {

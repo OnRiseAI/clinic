@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare BBL prices in Turkey from £2,800 all-inclusive. Brazilian Butt Lift at JCI-accredited Istanbul clinics. Safety protocols, before/after results, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/bbl/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/bbl/turkey` },
+    canonical: `/procedures/bbl/turkey`,
+    languages: { 'en-GB': `/procedures/bbl/turkey` },
   },
   openGraph: {
     title: 'BBL in Turkey — Prices from £2,800, Top Clinics & Safety',

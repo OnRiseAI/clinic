@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental veneer prices in Hungary from £105–£565 per tooth. Browse verified Budapest clinics, porcelain and E-max options, all-inclusive packages, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/veneers/hungary`,
+    canonical: `/procedures/veneers/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/veneers/hungary`,
+      'en-GB': `/procedures/veneers/hungary`,
     },
   },
   openGraph: {

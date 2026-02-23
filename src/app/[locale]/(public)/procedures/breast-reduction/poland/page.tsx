@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast reduction prices in Poland from £3,500. EU-regulated clinics, experienced surgeons, quality care. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-reduction/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-reduction/poland` },
+    canonical: `/procedures/breast-reduction/poland`,
+    languages: { 'en-GB': `/procedures/breast-reduction/poland` },
   },
   openGraph: {
     title: 'Breast Reduction in Poland — From £3,500 EU Standards',

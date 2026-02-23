@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare brow lift prices in Turkey from £2,000. Experienced facial surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/brow-lift/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/brow-lift/turkey` },
+    canonical: `/procedures/brow-lift/turkey`,
+    languages: { 'en-GB': `/procedures/brow-lift/turkey` },
   },
   openGraph: {
     title: 'Brow Lift in Turkey — From £2,000 All-Inclusive',

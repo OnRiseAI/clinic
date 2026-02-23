@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare neck lift prices in Poland from £3,000. EU healthcare standards, short flights from UK, natural results focus. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/neck-lift/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/neck-lift/poland` },
+    canonical: `/procedures/neck-lift/poland`,
+    languages: { 'en-GB': `/procedures/neck-lift/poland` },
   },
   openGraph: {
     title: 'Neck Lift in Poland — EU Standards from £3,000',

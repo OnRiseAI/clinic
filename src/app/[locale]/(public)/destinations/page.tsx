@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   description:
     'Explore top medical tourism destinations worldwide. Compare procedure prices, clinic quality, and savings across Turkey, Hungary, Spain, Poland and more. Find the best country for your treatment abroad.',
   alternates: {
-    canonical: `${SITE_URL}/en/destinations`,
+    canonical: `/destinations`,
     languages: {
-      'en-GB': `${SITE_URL}/en/destinations`,
+      'en-GB': `/destinations`,
     },
   },
   openGraph: {

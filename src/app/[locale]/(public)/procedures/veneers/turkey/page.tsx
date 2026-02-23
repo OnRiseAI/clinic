@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare veneer prices in Turkey from verified clinics. E-max porcelain veneers from £200 per tooth, full sets from £2,400. Read UK patient reviews, compare materials, and get a free quote.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/veneers/turkey`,
+    canonical: `/procedures/veneers/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/veneers/turkey`,
+      'en-GB': `/procedures/veneers/turkey`,
     },
   },
   openGraph: {

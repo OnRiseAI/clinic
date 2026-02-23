@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare facelift prices in Hungary from £4,500. EU healthcare standards, Budapest medical tourism expertise, thermal spa recovery options. Save 45-55% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/facelift/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/facelift/hungary` },
+    canonical: `/procedures/facelift/hungary`,
+    languages: { 'en-GB': `/procedures/facelift/hungary` },
   },
   openGraph: {
     title: 'Facelift in Hungary — EU Quality from £4,500',

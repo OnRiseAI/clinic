@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare facelift prices in Spain from £5,500. World-class facial surgeons, #1 healthcare system, Mediterranean recovery. Premium quality with EU protections.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/facelift/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/facelift/spain` },
+    canonical: `/procedures/facelift/spain`,
+    languages: { 'en-GB': `/procedures/facelift/spain` },
   },
   openGraph: {
     title: 'Facelift in Spain — Premium Quality from £5,500',

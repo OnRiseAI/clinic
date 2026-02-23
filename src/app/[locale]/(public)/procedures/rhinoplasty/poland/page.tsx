@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Compare rhinoplasty in Poland with EU-trained surgeons at accredited clinics. Warsaw, Kraków, KCM Clinic specialists. EU healthcare standards, 40-60% savings vs UK prices.",
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/rhinoplasty/poland`,
+    canonical: `/procedures/rhinoplasty/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/rhinoplasty/poland`,
+      'en-GB': `/procedures/rhinoplasty/poland`,
     },
   },
   openGraph: {

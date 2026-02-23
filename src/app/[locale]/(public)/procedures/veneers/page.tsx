@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental veneer prices abroad from £105/tooth. Turkey, Hungary, Spain — see real prices by material type, browse verified clinics, and get free quotes from top-rated destinations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/veneers`,
+    canonical: `/procedures/veneers`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/veneers`,
+      'en-GB': `/procedures/veneers`,
     },
   },
   openGraph: {

@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Compare rhinoplasty in Spain with ultrasonic & preservation technique specialists. Premium European care, Mediterranean recovery. Save 40-60% vs UK prices.",
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/rhinoplasty/spain`,
+    canonical: `/procedures/rhinoplasty/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/rhinoplasty/spain`,
+      'en-GB': `/procedures/rhinoplasty/spain`,
     },
   },
   openGraph: {

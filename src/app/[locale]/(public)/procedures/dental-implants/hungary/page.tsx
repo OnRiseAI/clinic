@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental implant prices in Hungary from verified Budapest clinics. Single implants from £600, All-on-4 from £4,500. Read UK patient reviews, check accreditations, and get a free quote.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/dental-implants/hungary`,
+    canonical: `/procedures/dental-implants/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/dental-implants/hungary`,
+      'en-GB': `/procedures/dental-implants/hungary`,
     },
   },
   openGraph: {

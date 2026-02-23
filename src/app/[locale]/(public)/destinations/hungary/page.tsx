@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Europe\'s dental capital. 40-60% savings on implants, veneers & crowns. EU healthcare standards, 2.5hr flight from London. 100,000+ patients choose Hungary yearly.',
   alternates: {
-    canonical: `${SITE_URL}/en/destinations/hungary`,
+    canonical: `/destinations/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/destinations/hungary`,
+      'en-GB': `/destinations/hungary`,
     },
   },
   openGraph: {

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare blepharoplasty prices in Spain from £2,500. Eyelid surgery with world-class surgeons, #1 healthcare system, Mediterranean recovery. EU protections.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/blepharoplasty/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/blepharoplasty/spain` },
+    canonical: `/procedures/blepharoplasty/spain`,
+    languages: { 'en-GB': `/procedures/blepharoplasty/spain` },
   },
   openGraph: {
     title: 'Blepharoplasty in Spain — Premium Quality from £2,500',

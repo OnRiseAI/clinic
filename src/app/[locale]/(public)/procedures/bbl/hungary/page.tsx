@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare BBL prices in Hungary from £3,200. Brazilian Butt Lift in Budapest with EU standards, thermal spa recovery. Growing expertise in body contouring.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/bbl/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/bbl/hungary` },
+    canonical: `/procedures/bbl/hungary`,
+    languages: { 'en-GB': `/procedures/bbl/hungary` },
   },
   openGraph: {
     title: 'BBL in Hungary — EU Quality, Competitive Prices',

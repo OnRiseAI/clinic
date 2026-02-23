@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Save 50-80% on hair transplant abroad. Compare FUE, DHI & sapphire techniques in Turkey, Spain, Hungary, Poland — real prices, verified clinics, recovery guidance.',
   alternates: {
-    canonical: `${SITE_URL}/en/hair-transplant`,
+    canonical: `/hair-transplant`,
     languages: {
-      'en-GB': `${SITE_URL}/en/hair-transplant`,
+      'en-GB': `/hair-transplant`,
     },
   },
   openGraph: {

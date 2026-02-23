@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast lift prices in Poland from £3,000. EU healthcare standards, short flights from UK, natural results focus. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-lift/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-lift/poland` },
+    canonical: `/procedures/breast-lift/poland`,
+    languages: { 'en-GB': `/procedures/breast-lift/poland` },
   },
   openGraph: {
     title: 'Breast Lift in Poland — EU Standards from £3,000',

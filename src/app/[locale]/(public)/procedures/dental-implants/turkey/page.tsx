@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental implant prices in Turkey from verified clinics. Single implants from £300, full-mouth from £1,600. Read UK patient reviews, check clinic accreditations, and get a free quote.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/dental-implants/turkey`,
+    canonical: `/procedures/dental-implants/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/dental-implants/turkey`,
+      'en-GB': `/procedures/dental-implants/turkey`,
     },
   },
   openGraph: {

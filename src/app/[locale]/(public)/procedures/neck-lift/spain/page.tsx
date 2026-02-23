@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare neck lift prices in Spain from £4,000. World-class facial surgeons, #1 healthcare system, Mediterranean recovery. Premium quality with EU protections.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/neck-lift/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/neck-lift/spain` },
+    canonical: `/procedures/neck-lift/spain`,
+    languages: { 'en-GB': `/procedures/neck-lift/spain` },
   },
   openGraph: {
     title: 'Neck Lift in Spain — Premium Quality from £4,000',

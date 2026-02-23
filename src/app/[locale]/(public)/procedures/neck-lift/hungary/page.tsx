@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare neck lift prices in Hungary from £3,200. EU healthcare standards, Budapest medical tourism expertise, thermal spa recovery options. Save 50-55% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/neck-lift/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/neck-lift/hungary` },
+    canonical: `/procedures/neck-lift/hungary`,
+    languages: { 'en-GB': `/procedures/neck-lift/hungary` },
   },
   openGraph: {
     title: 'Neck Lift in Hungary — EU Quality from £3,200',

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare neck lift prices abroad from £2,500. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/neck-lift`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/neck-lift` },
+    canonical: `/procedures/neck-lift`,
+    languages: { 'en-GB': `/procedures/neck-lift` },
   },
   openGraph: {
     title: 'Neck Lift Abroad — Compare Prices & Clinics',

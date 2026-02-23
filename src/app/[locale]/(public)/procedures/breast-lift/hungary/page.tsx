@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast lift prices in Hungary from £3,200. EU healthcare standards, Budapest medical tourism expertise. Save 50-55% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-lift/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-lift/hungary` },
+    canonical: `/procedures/breast-lift/hungary`,
+    languages: { 'en-GB': `/procedures/breast-lift/hungary` },
   },
   openGraph: {
     title: 'Breast Lift in Hungary — EU Quality from £3,200',

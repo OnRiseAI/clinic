@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast lift (mastopexy) prices abroad from £2,500. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-lift`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-lift` },
+    canonical: `/procedures/breast-lift`,
+    languages: { 'en-GB': `/procedures/breast-lift` },
   },
   openGraph: {
     title: 'Breast Lift Abroad — Compare Prices & Clinics',

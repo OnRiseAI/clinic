@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Compare rhinoplasty in Turkey from JCI-accredited clinics. Piezo & traditional techniques, all-inclusive packages, verified surgeons. Save 50-70% vs UK prices.",
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/rhinoplasty/turkey`,
+    canonical: `/procedures/rhinoplasty/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/rhinoplasty/turkey`,
+      'en-GB': `/procedures/rhinoplasty/turkey`,
     },
   },
   openGraph: {

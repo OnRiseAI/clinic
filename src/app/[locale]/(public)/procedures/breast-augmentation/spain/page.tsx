@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast augmentation prices in Spain from £4,000. World-class surgeons, #1 healthcare system, Mediterranean recovery. Premium quality with EU protections.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-augmentation/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-augmentation/spain` },
+    canonical: `/procedures/breast-augmentation/spain`,
+    languages: { 'en-GB': `/procedures/breast-augmentation/spain` },
   },
   openGraph: {
     title: 'Breast Augmentation in Spain — Premium Quality from £4,000',

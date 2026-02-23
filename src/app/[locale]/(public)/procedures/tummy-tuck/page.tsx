@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare tummy tuck prices abroad from £1,750. Turkey, Hungary, Poland, Spain — see real prices, recovery timelines, verified surgeons, and get free quotes from accredited clinics.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/tummy-tuck`,
+    canonical: `/procedures/tummy-tuck`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/tummy-tuck`,
+      'en-GB': `/procedures/tummy-tuck`,
     },
   },
   openGraph: {

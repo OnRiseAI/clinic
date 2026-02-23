@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare liposuction prices in Turkey from £1,500 all-inclusive. VASER, laser & 360 lipo at JCI-accredited Istanbul clinics. Real before/after results, recovery timelines, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/liposuction/turkey`,
+    canonical: `/procedures/liposuction/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/liposuction/turkey`,
+      'en-GB': `/procedures/liposuction/turkey`,
     },
   },
   openGraph: {

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare brow lift prices in Hungary from £2,800. EU-standard clinics, quality-focused surgeons, comprehensive packages. Save 50-55% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/brow-lift/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/brow-lift/hungary` },
+    canonical: `/procedures/brow-lift/hungary`,
+    languages: { 'en-GB': `/procedures/brow-lift/hungary` },
   },
   openGraph: {
     title: 'Brow Lift in Hungary — From £2,800 Quality Focus',

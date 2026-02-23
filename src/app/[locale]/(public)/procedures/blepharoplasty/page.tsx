@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare blepharoplasty prices abroad from £1,200. Eyelid surgery in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/blepharoplasty`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/blepharoplasty` },
+    canonical: `/procedures/blepharoplasty`,
+    languages: { 'en-GB': `/procedures/blepharoplasty` },
   },
   openGraph: {
     title: 'Blepharoplasty Abroad — Eyelid Surgery Prices & Clinics',

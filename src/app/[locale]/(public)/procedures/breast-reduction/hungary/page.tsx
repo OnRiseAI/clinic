@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast reduction prices in Hungary from £3,800. Quality-focused clinics, experienced surgeons, EU standards. Save 50-55% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-reduction/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-reduction/hungary` },
+    canonical: `/procedures/breast-reduction/hungary`,
+    languages: { 'en-GB': `/procedures/breast-reduction/hungary` },
   },
   openGraph: {
     title: 'Breast Reduction in Hungary — From £3,800 Quality Focus',

@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental implant prices in Poland from £550 per tooth. Browse verified clinics in Kraków & Warsaw, All-on-4 packages from £4,000, Nobel Biocare & Straumann brands, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/dental-implants/poland`,
+    canonical: `/procedures/dental-implants/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/dental-implants/poland`,
+      'en-GB': `/procedures/dental-implants/poland`,
     },
   },
   openGraph: {

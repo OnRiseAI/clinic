@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare brow lift prices in Spain from £3,500. Premium EU clinics, renowned facial surgeons, luxury recovery. Save 40-50% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/brow-lift/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/brow-lift/spain` },
+    canonical: `/procedures/brow-lift/spain`,
+    languages: { 'en-GB': `/procedures/brow-lift/spain` },
   },
   openGraph: {
     title: 'Brow Lift in Spain — From £3,500 Premium Quality',

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare BBL prices in Spain from £4,500. Brazilian Butt Lift at world-class Barcelona & Marbella clinics. #1 healthcare system, premium recovery experience.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/bbl/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/bbl/spain` },
+    canonical: `/procedures/bbl/spain`,
+    languages: { 'en-GB': `/procedures/bbl/spain` },
   },
   openGraph: {
     title: 'BBL in Spain — Premium Quality, World-Class Surgeons',

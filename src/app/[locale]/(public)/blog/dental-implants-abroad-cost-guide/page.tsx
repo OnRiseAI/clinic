@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/blog/dental-implants-abroad-cost-guide`,
     languages: {
-      'en-GB': `${SITE_URL}/en/blog/dental-implants-abroad-cost-guide`,
+      'en-GB': `/blog/dental-implants-abroad-cost-guide`,
     },
   },
   openGraph: {

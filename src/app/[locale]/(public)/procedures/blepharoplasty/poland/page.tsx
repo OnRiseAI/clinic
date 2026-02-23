@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare blepharoplasty prices in Poland from £1,800. Eyelid surgery with EU healthcare standards, short flights from UK. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/blepharoplasty/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/blepharoplasty/poland` },
+    canonical: `/procedures/blepharoplasty/poland`,
+    languages: { 'en-GB': `/procedures/blepharoplasty/poland` },
   },
   openGraph: {
     title: 'Blepharoplasty in Poland — EU Standards from £1,800',

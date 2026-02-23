@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Compare liposuction prices in Spain from £2,400. VASER, HD lipo & lipo 360 at world-class Barcelona, Madrid & Marbella clinics. EU-regulated, Quirónsalud hospitals. 40–60% savings vs UK. Free quotes.",
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/liposuction/spain`,
+    canonical: `/procedures/liposuction/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/liposuction/spain`,
+      'en-GB': `/procedures/liposuction/spain`,
     },
   },
   openGraph: {

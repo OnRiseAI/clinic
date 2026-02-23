@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare facelift prices in Poland from £4,000. EU healthcare standards, short flights from UK, natural results focus. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/facelift/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/facelift/poland` },
+    canonical: `/procedures/facelift/poland`,
+    languages: { 'en-GB': `/procedures/facelift/poland` },
   },
   openGraph: {
     title: 'Facelift in Poland — EU Standards from £4,000',

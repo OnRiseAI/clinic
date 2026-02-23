@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare liposuction prices abroad from £1,165. VASER, laser & traditional lipo in Turkey, Hungary, Poland, Spain — real prices, recovery timelines, verified surgeons. Free quotes from accredited clinics.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/liposuction`,
+    canonical: `/procedures/liposuction`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/liposuction`,
+      'en-GB': `/procedures/liposuction`,
     },
   },
   openGraph: {

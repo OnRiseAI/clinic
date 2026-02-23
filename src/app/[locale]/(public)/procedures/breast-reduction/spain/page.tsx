@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast reduction prices in Spain from £4,500. Premium clinics, world-class surgeons, EU standards. Save 40-50% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-reduction/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-reduction/spain` },
+    canonical: `/procedures/breast-reduction/spain`,
+    languages: { 'en-GB': `/procedures/breast-reduction/spain` },
   },
   openGraph: {
     title: 'Breast Reduction in Spain — From £4,500 Premium Quality',

@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Rhinoplasty in Hungary from €2,200. EU-standard care, internationally trained surgeons, thermal spa recovery. Compare Budapest clinics and save 40-60% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/rhinoplasty/hungary`,
+    canonical: `/procedures/rhinoplasty/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/rhinoplasty/hungary`,
+      'en-GB': `/procedures/rhinoplasty/hungary`,
     },
   },
   openGraph: {

@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Poland\'s emerging medical tourism hub. 40-60% savings on cosmetic surgery, dental work & orthopaedics. EU healthcare standards, 2hr flight from London. 300,000+ patients annually.',
   alternates: {
-    canonical: `${SITE_URL}/en/destinations/poland`,
+    canonical: `/destinations/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/destinations/poland`,
+      'en-GB': `/destinations/poland`,
     },
   },
   openGraph: {

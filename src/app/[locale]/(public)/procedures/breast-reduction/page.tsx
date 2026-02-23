@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast reduction prices abroad from £3,000. Find verified clinics in Turkey, Poland, Spain & Hungary. Save 50-70% vs UK prices with experienced surgeons.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-reduction`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-reduction` },
+    canonical: `/procedures/breast-reduction`,
+    languages: { 'en-GB': `/procedures/breast-reduction` },
   },
   openGraph: {
     title: 'Breast Reduction Abroad — Compare Prices & Clinics',

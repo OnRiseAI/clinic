@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare tummy tuck prices in Turkey from £2,900 all-inclusive. Browse JCI-accredited Istanbul and Antalya clinics, real before/after results, recovery timelines, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/tummy-tuck/turkey`,
+    canonical: `/procedures/tummy-tuck/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/tummy-tuck/turkey`,
+      'en-GB': `/procedures/tummy-tuck/turkey`,
     },
   },
   openGraph: {

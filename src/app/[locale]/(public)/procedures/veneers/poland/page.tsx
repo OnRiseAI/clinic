@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Dental veneers in Poland from £70/tooth. EU-standard care, German materials, English-speaking dentists. Compare Krakow and Warsaw clinics and save 50-70% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/veneers/poland`,
+    canonical: `/procedures/veneers/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/veneers/poland`,
+      'en-GB': `/procedures/veneers/poland`,
     },
   },
   openGraph: {

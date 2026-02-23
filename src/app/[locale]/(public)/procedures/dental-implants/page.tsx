@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental implant prices abroad from £300 per implant. Turkey, Hungary, Poland, Spain — see real prices, browse verified clinics, and get free quotes from top-rated destinations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/dental-implants`,
+    canonical: `/procedures/dental-implants`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/dental-implants`,
+      'en-GB': `/procedures/dental-implants`,
     },
   },
   openGraph: {

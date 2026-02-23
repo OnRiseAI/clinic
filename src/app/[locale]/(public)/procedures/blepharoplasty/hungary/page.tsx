@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare blepharoplasty prices in Hungary from £2,000. Eyelid surgery with EU healthcare standards, Budapest medical tourism expertise. Save 45-55% vs UK.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/blepharoplasty/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/blepharoplasty/hungary` },
+    canonical: `/procedures/blepharoplasty/hungary`,
+    languages: { 'en-GB': `/procedures/blepharoplasty/hungary` },
   },
   openGraph: {
     title: 'Blepharoplasty in Hungary — EU Quality from £2,000',

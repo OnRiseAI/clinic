@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare dental implant prices in Spain from £900 per tooth. Browse JCI-accredited Barcelona clinics, All-on-4 packages from £8,000, Straumann & Nobel Biocare brands, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/dental-implants/spain`,
+    canonical: `/procedures/dental-implants/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/dental-implants/spain`,
+      'en-GB': `/procedures/dental-implants/spain`,
     },
   },
   openGraph: {

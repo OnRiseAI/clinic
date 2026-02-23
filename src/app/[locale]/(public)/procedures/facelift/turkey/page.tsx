@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare facelift prices in Turkey from £3,000. Experienced facial surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/facelift/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/facelift/turkey` },
+    canonical: `/procedures/facelift/turkey`,
+    languages: { 'en-GB': `/procedures/facelift/turkey` },
   },
   openGraph: {
     title: 'Facelift in Turkey — From £3,000 All-Inclusive',

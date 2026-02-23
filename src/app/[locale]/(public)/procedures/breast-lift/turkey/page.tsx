@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast lift prices in Turkey from £2,500. JCI-accredited hospitals, experienced surgeons, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-lift/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-lift/turkey` },
+    canonical: `/procedures/breast-lift/turkey`,
+    languages: { 'en-GB': `/procedures/breast-lift/turkey` },
   },
   openGraph: {
     title: 'Breast Lift in Turkey — From £2,500 All-Inclusive',

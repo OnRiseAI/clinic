@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare tummy tuck prices in Spain from £3,000. Browse SECPRE-accredited surgeons in Madrid, Barcelona, and Marbella. EU-regulated, premium quality, and 2hr flights from London.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/tummy-tuck/spain`,
+    canonical: `/procedures/tummy-tuck/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/tummy-tuck/spain`,
+      'en-GB': `/procedures/tummy-tuck/spain`,
     },
   },
   openGraph: {

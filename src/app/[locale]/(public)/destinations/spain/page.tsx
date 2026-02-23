@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'World\'s healthiest nation. Europe\'s IVF leader. Premium cosmetic surgery & dental care. Discover why 120,000+ patients choose Spain for world-class treatment.',
   alternates: {
-    canonical: `${SITE_URL}/en/destinations/spain`,
+    canonical: `/destinations/spain`,
     languages: {
-      'en-GB': `${SITE_URL}/en/destinations/spain`,
+      'en-GB': `/destinations/spain`,
     },
   },
   openGraph: {

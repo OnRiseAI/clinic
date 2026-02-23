@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare BBL prices in Poland from £3,500. Brazilian Butt Lift with EU patient protections, natural results focus. Warsaw & Kraków clinics with safety-first approach.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/bbl/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/bbl/poland` },
+    canonical: `/procedures/bbl/poland`,
+    languages: { 'en-GB': `/procedures/bbl/poland` },
   },
   openGraph: {
     title: 'BBL in Poland — Prices from £3,500, EU Standards & Top Clinics',

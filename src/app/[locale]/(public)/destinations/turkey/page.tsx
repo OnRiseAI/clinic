@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Complete guide to medical tourism in Turkey. Compare costs (50-70% savings), find JCI-accredited hospitals, and discover why 1.5M patients choose Turkey annually.',
   alternates: {
-    canonical: `${SITE_URL}/en/destinations/turkey`,
+    canonical: `/destinations/turkey`,
     languages: {
-      'en-GB': `${SITE_URL}/en/destinations/turkey`,
+      'en-GB': `/destinations/turkey`,
     },
   },
   openGraph: {

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast lift prices in Spain from £4,000. World-class surgeons, #1 healthcare system, Mediterranean recovery. Premium quality with EU protections.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-lift/spain`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-lift/spain` },
+    canonical: `/procedures/breast-lift/spain`,
+    languages: { 'en-GB': `/procedures/breast-lift/spain` },
   },
   openGraph: {
     title: 'Breast Lift in Spain — Premium Quality from £4,000',

@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare brow lift prices in Poland from £2,500. EU-standard clinics, experienced facial surgeons, comprehensive packages. Save 50-60% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/brow-lift/poland`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/brow-lift/poland` },
+    canonical: `/procedures/brow-lift/poland`,
+    languages: { 'en-GB': `/procedures/brow-lift/poland` },
   },
   openGraph: {
     title: 'Brow Lift in Poland — From £2,500 EU Quality',

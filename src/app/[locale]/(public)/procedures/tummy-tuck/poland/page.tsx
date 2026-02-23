@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare tummy tuck prices in Poland from £2,370. Browse ISO-certified clinics in Warsaw, Kraków and Wrocław, EU-regulated surgeons, all-inclusive packages, and free consultations.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/tummy-tuck/poland`,
+    canonical: `/procedures/tummy-tuck/poland`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/tummy-tuck/poland`,
+      'en-GB': `/procedures/tummy-tuck/poland`,
     },
   },
   openGraph: {

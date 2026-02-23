@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'Compare liposuction prices in Hungary from £1,165 per area — the lowest in the EU. Budapest clinics with ISO 9001 accreditation, EU-regulated surgeons, and full aftercare. Free quotes.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/liposuction/hungary`,
+    canonical: `/procedures/liposuction/hungary`,
     languages: {
-      'en-GB': `${SITE_URL}/en/procedures/liposuction/hungary`,
+      'en-GB': `/procedures/liposuction/hungary`,
     },
   },
   openGraph: {

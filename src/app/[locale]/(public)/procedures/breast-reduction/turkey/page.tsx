@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast reduction prices in Turkey from £3,000. Experienced surgeons, JCI hospitals, all-inclusive packages. Save 60-70% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-reduction/turkey`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-reduction/turkey` },
+    canonical: `/procedures/breast-reduction/turkey`,
+    languages: { 'en-GB': `/procedures/breast-reduction/turkey` },
   },
   openGraph: {
     title: 'Breast Reduction in Turkey — From £3,000 All-Inclusive',

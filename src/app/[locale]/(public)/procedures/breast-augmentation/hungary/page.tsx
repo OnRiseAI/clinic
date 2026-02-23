@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     'Compare breast augmentation prices in Hungary from £3,200. Premium implants with EU standards, Budapest medical tourism expertise. Save 50-55% vs UK prices.',
   alternates: {
-    canonical: `${SITE_URL}/en/procedures/breast-augmentation/hungary`,
-    languages: { 'en-GB': `${SITE_URL}/en/procedures/breast-augmentation/hungary` },
+    canonical: `/procedures/breast-augmentation/hungary`,
+    languages: { 'en-GB': `/procedures/breast-augmentation/hungary` },
   },
   openGraph: {
     title: 'Breast Augmentation in Hungary — EU Quality from £3,200',
