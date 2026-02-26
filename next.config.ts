@@ -122,6 +122,86 @@ const nextConfig: NextConfig = {
         destination: '/procedures/tummy-tuck',
         permanent: true,
       },
+      // Crawl remediation: legacy and dead paths from SEO audit
+      {
+        source: '/cosmetic',
+        destination: '/cosmetic-surgery',
+        permanent: true,
+      },
+      {
+        source: '/hair-transplant/turkey',
+        destination: '/hair-transplant',
+        permanent: true,
+      },
+      // Legacy blog slugs
+      {
+        source: '/blog/medical-tourism-costa-del-sol-2026',
+        destination: '/blog/medical-tourism-trends-2026',
+        permanent: true,
+      },
+      {
+        source: '/blog/complete-guide-to-dental-implants-in-turkey-2026',
+        destination: '/blog/dental-implants-turkey-2026-guide',
+        permanent: true,
+      },
+      // Legacy clinic profile slugs (now consolidated)
+      {
+        source: '/clinics/cosmetic-surgery/estethica-medical-group',
+        destination: '/clinics/cosmetic-surgery/istanbul-aesthetics-center',
+        permanent: true,
+      },
+      {
+        source: '/clinics/dental/istanbul-smile-center',
+        destination: '/clinics/dental/hisar-hospital-intercontinental',
+        permanent: true,
+      },
+      {
+        source: '/clinics/dental/budapest-dental-clinic',
+        destination: '/clinics/dental/hisar-hospital-intercontinental',
+        permanent: true,
+      },
+      {
+        source: '/clinics/bariatric-surgery/kcm-clinic',
+        destination: '/clinics/bariatric-surgery/clinic-center',
+        permanent: true,
+      },
+      // Legacy single-segment clinic slugs from static landing pages
+      {
+        source: '/clinics/:slug(acibadem|memorial|medicana|florence-nightingale|esteworld|estethica|akdeniz|medworld|warsaw-plastic-surgery|krakow-cosmetic|clinicforyou|coramed|kcm-clinic|lipoline|beauty-hungary|szeptest|pataki|mona-lisa-centrum|dolemed|liv-duna|wellness-kliniek|quironsalud-barcelona|quironsalud-madrid|clinica-menorca|marbella-cosmetic|ocean-clinic)',
+        destination: '/clinics/cosmetic-surgery/clinic-center',
+        permanent: true,
+      },
+      {
+        source: '/clinics/:slug(centro-medico-teknon|puyuelo-dental-clinic|nart-clinica-dental|catar-clinica-dental)',
+        destination: '/clinics/dental/hisar-hospital-intercontinental',
+        permanent: true,
+      },
+      // Legacy procedures now handled by category hubs
+      {
+        source: '/procedures/:slug(dental-crowns|porcelain-veneers|dental-bridges|cosmetic-dentistry|root-canal|hollywood-smile|full-mouth-restoration|all-on-4|teeth-whitening|orthodontics|invisalign)',
+        destination: '/clinics/dental',
+        permanent: true,
+      },
+      {
+        source: '/procedures/:slug(fue-hair-transplant|dhi-hair-transplant|beard-transplant|eyebrow-transplant|hair-transplant)',
+        destination: '/hair-transplant',
+        permanent: true,
+      },
+      {
+        source: '/procedures/:slug(spinal-surgery|physiotherapy-rehabilitation|acl-reconstruction|knee-replacement|shoulder-surgery|hip-replacement)',
+        destination: '/clinics/orthopaedic-surgery',
+        permanent: true,
+      },
+      {
+        source: '/procedures/:slug(lens-replacement|lasik-eye-surgery|cataract-surgery)',
+        destination: '/clinics/eye-surgery',
+        permanent: true,
+      },
+      {
+        source: '/procedures/:slug(dermatology-treatment|varicose-vein-treatment|stem-cell-therapy|health-check-up)',
+        destination: '/clinics/other-treatments',
+        permanent: true,
+      },
       // Non-existent landing pages to search/procedures
       {
         source: '/treatments',
