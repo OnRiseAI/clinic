@@ -84,14 +84,17 @@ export function SignInForm() {
   return (
     <>
       {error && (
-        <div className="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-600">
+        <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-600 border border-red-100 flex items-center gap-2">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="mb-2 block text-sm font-medium text-neutral-700">
+          <label className="mb-2 block text-sm font-bold text-slate-700">
             Email address
           </label>
           <input
@@ -101,17 +104,17 @@ export function SignInForm() {
             onChange={handleChange}
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-neutral-200 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            className="w-full rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-500/20 text-base transition-all"
             placeholder="you@example.com"
           />
         </div>
 
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <label className="text-sm font-medium text-neutral-700">Password</label>
+            <label className="text-sm font-bold text-slate-700">Password</label>
             <Link
               href="/auth/forgot-password"
-              className="text-sm font-medium text-primary-600 hover:text-primary-700"
+              className="text-sm font-bold text-teal-700 hover:text-teal-800 transition-colors"
             >
               Forgot password?
             </Link>
@@ -123,43 +126,40 @@ export function SignInForm() {
             onChange={handleChange}
             required
             autoComplete="current-password"
-            className="w-full rounded-lg border border-neutral-200 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            className="w-full rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-500/20 text-base transition-all"
             placeholder="••••••••"
           />
         </div>
 
-        <Button
+        <button
           type="submit"
-          variant="primary"
-          className="w-full"
-          size="lg"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-teal-700 px-6 py-4 text-base font-bold text-white transition-all hover:bg-teal-800 hover:shadow-lg hover:shadow-teal-900/20 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-2"
           disabled={isLoading}
         >
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
           Sign in
-        </Button>
+        </button>
       </form>
 
-      <div className="relative my-6">
+      <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-neutral-200" />
+          <div className="w-full border-t border-slate-200" />
         </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="bg-white px-4 text-neutral-500">Or continue with</span>
+        <div className="relative flex justify-center text-sm font-medium">
+          <span className="bg-white px-4 text-slate-500">Or continue with</span>
         </div>
       </div>
 
-      <Button
+      <button
         type="button"
-        variant="outline"
-        className="w-full"
+        className="w-full inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-6 py-4 text-base font-bold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
         onClick={handleGoogleSignIn}
         disabled={isGoogleLoading}
       >
         {isGoogleLoading ? (
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <Loader2 className="h-5 w-5 animate-spin" />
         ) : (
-          <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+          <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -179,7 +179,7 @@ export function SignInForm() {
           </svg>
         )}
         Continue with Google
-      </Button>
+      </button>
     </>
   )
 }
