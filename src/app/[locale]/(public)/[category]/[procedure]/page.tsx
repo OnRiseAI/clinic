@@ -24,7 +24,7 @@ interface ProcedurePageProps {
 }
 
 export async function generateMetadata({ params }: ProcedurePageProps): Promise<Metadata> {
-  const { procedure: procedureSlug } = await params
+  const { category: categorySlug, procedure: procedureSlug } = await params
   const [procedure, clinics] = await Promise.all([
     getProcedureBySlug(procedureSlug),
     getClinicsByProcedure(procedureSlug, 1),

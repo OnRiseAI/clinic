@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight } from "lucide-react"
-import { createBrowserClient } from "@/lib/supabase/client"
+import { createClient } from "@/lib/supabase/client"
 
 interface ClinicProps {
   id: string
@@ -65,7 +65,7 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
   const [error, setError] = useState<string | null>(null)
   const [showExitWarning, setShowExitWarning] = useState(false)
 
-  const supabase = createBrowserClient()
+  const supabase = createClient()
 
   // Exit intent for desktop
   useEffect(() => {

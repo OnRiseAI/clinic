@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { getClinicBySlug } from '@/lib/data/clinics'
 import EnquiryFlow from '@/components/enquiry-flow'
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title: 'Get a Free Quote | MeetYourClinic',
   description: 'Request a free, no-obligation quote. Compare prices and connect directly. Takes less than 2 minutes.',
   robots: {
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const clinic = await getClinicBySlug(resolvedParams.slug)
 
   if (!clinic) {
-    return metadata
+    return defaultMetadata
   }
 
   return {
@@ -67,7 +67,7 @@ export default async function EnquiryPage({ params }: PageProps) {
           slug: clinic.slug,
           city: clinic.city,
           country: clinic.country,
-          rating: clinic.google_reviews?.rating || clinic.average_rating || null,
+          rating: clinic.google_reviews?.rating || null,
           photoUrl: clinic.photos?.[0]?.url || null,
         }}
         procedures={uniqueProcedures}
