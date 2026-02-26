@@ -524,6 +524,13 @@ export function ConciergeWidget({ agentId }: ConciergeWidgetProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [textChat.messages])
 
+  // Listen for global open events
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true)
+    window.addEventListener('open-concierge', handleOpen)
+    return () => window.removeEventListener('open-concierge', handleOpen)
+  }, [])
+
   // Auto-switch to text if voice errors
   useEffect(() => {
     if (voice.error && !agentId) {

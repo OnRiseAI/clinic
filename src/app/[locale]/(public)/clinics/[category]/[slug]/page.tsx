@@ -516,12 +516,12 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                     </p>
                   </div>
 
-                  <a
-                    href="#clinic-funnel"
+                  <Link
+                    href={`/enquiry/${clinic.slug}`}
                     className="flex items-center justify-center gap-2 rounded-xl bg-teal-500 px-6 py-4 text-base font-bold text-white shadow-lg shadow-teal-500/20 transition-all hover:bg-teal-400 hover:-translate-y-0.5 w-full mb-6"
                   >
                     Start Your Journey <ArrowRight className="w-5 h-5" />
-                  </a>
+                  </Link>
                   
                   <div className="space-y-3 border-t border-white/10 pt-6">
                     <div className="flex items-center justify-center gap-2 text-sm text-white/90">
@@ -540,19 +540,6 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Lead funnel */}
-              <div
-                id="clinic-funnel"
-                className="rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5 p-5 sm:p-6"
-              >
-                <LeadFunnel
-                  clinicId={clinic.id}
-                  clinicSlug={clinic.slug}
-                  clinicName={clinic.name}
-                  pageContext={`${clinic.name} — ${location}`}
-                  clinicContactConfig={contactConfig}
-                />
-              </div>
 
               {/* Trust signals */}
               <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-400 font-light">

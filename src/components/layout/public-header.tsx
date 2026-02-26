@@ -23,7 +23,11 @@ import {
   ArrowRight,
   Building2,
   Search,
-  Globe2
+  Globe2,
+  BookOpen,
+  Newspaper,
+  Info,
+  Phone
 } from 'lucide-react'
 
 const categories = [
@@ -61,8 +65,9 @@ export function PublicHeader({ user }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [categoriesOpen, setCategoriesOpen] = useState(false)
   const [destinationsOpen, setDestinationsOpen] = useState(false)
+  const [expandedMobileSection, setExpandedMobileSection] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
-  
+
   const categoriesRef = useRef<HTMLDivElement>(null)
   const destinationsRef = useRef<HTMLDivElement>(null)
 
@@ -251,8 +256,8 @@ export function PublicHeader({ user }: PublicHeaderProps) {
             href="/clinics"
             className={cn(
               'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
-              pathname.startsWith('/clinics') 
-                ? 'text-white bg-white/10' 
+              pathname.startsWith('/clinics')
+                ? 'text-white bg-white/10'
                 : 'text-white/70 hover:bg-white/5 hover:text-white'
             )}
             onClick={() => { setCategoriesOpen(false); setDestinationsOpen(false) }}
@@ -264,8 +269,8 @@ export function PublicHeader({ user }: PublicHeaderProps) {
             href="/how-it-works"
             className={cn(
               'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
-              pathname === '/how-it-works' 
-                ? 'text-white bg-white/10' 
+              pathname === '/how-it-works'
+                ? 'text-white bg-white/10'
                 : 'text-white/70 hover:bg-white/5 hover:text-white'
             )}
             onClick={() => { setCategoriesOpen(false); setDestinationsOpen(false) }}
@@ -277,8 +282,8 @@ export function PublicHeader({ user }: PublicHeaderProps) {
             href="/blog"
             className={cn(
               'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
-              pathname.startsWith('/blog') 
-                ? 'text-white bg-white/10' 
+              pathname.startsWith('/blog')
+                ? 'text-white bg-white/10'
                 : 'text-white/70 hover:bg-white/5 hover:text-white'
             )}
             onClick={() => { setCategoriesOpen(false); setDestinationsOpen(false) }}
@@ -395,51 +400,195 @@ export function PublicHeader({ user }: PublicHeaderProps) {
                   </div>
                 </div>
 
-                {/* Treatments */}
-                <div className="px-6 pt-6">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-white/40">
-                    Treatments
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {categories.slice(0, 6).map((category) => (
-                      <Link
-                        key={category.slug}
-                        href={`/${category.slug}`}
-                        className="flex items-center gap-2.5 rounded-lg px-2 py-2.5 transition-colors hover:bg-white/5 group/m"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/m:text-gold group-hover/m:border-gold/30 transition-colors">
-                          <category.icon className="h-3.5 w-3.5" />
-                        </div>
-                        <span className="text-sm font-medium text-white/80 group-hover/m:text-white">
-                          {category.name}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+                {/* Divider */}
+                <div className="mx-6 border-t border-white/5" />
 
-                {/* Destinations */}
-                <div className="px-6 pt-8 pb-6">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-white/40">
-                    Destinations
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {destinations.map((destination) => (
-                      <Link
-                        key={destination.slug}
-                        href={`/destinations/${destination.slug}`}
-                        className="flex items-center gap-3 rounded-lg px-2 py-2.5 transition-colors hover:bg-white/5 group/d"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <div className="w-6 overflow-hidden rounded-sm shadow-sm ring-1 ring-white/10 opacity-80 group-hover/d:opacity-100">
-                          <destination.flag title={destination.name} />
-                        </div>
-                        <span className="text-sm font-medium text-white/80 group-hover/d:text-white">
-                          {destination.name}
-                        </span>
-                      </Link>
-                    ))}
+                {/* Accordion Sections */}
+                <div className="px-4 py-3 space-y-1">
+                  {/* Treatments Accordion */}
+                  <div>
+                    <button
+                      onClick={() => setExpandedMobileSection(expandedMobileSection === 'treatments' ? null : 'treatments')}
+                      className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-white hover:bg-white/5 transition-colors"
+                    >
+                      <span className="flex items-center gap-3">
+                        <Stethoscope className="h-4 w-4 text-gold/70" />
+                        Treatments
+                      </span>
+                      <ChevronDown className={cn('h-4 w-4 text-white/40 transition-transform duration-300', expandedMobileSection === 'treatments' && 'rotate-180 text-gold')} />
+                    </button>
+                    <AnimatePresence>
+                      {expandedMobileSection === 'treatments' && (
+                        <m.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="grid grid-cols-2 gap-1 px-2 pb-2 pt-1">
+                            {categories.map((category) => (
+                              <Link
+                                key={category.slug}
+                                href={`/${category.slug}`}
+                                className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/m"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/m:text-gold group-hover/m:border-gold/30 transition-colors">
+                                  <category.icon className="h-3.5 w-3.5" />
+                                </div>
+                                <span className="text-sm font-medium text-white/80 group-hover/m:text-white">
+                                  {category.name}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="px-2 pb-3">
+                            <Link
+                              href="/procedures"
+                              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gold/80 hover:bg-gold/10 hover:text-gold transition-colors"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              View all procedures
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </div>
+                        </m.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Destinations Accordion */}
+                  <div>
+                    <button
+                      onClick={() => setExpandedMobileSection(expandedMobileSection === 'destinations' ? null : 'destinations')}
+                      className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-white hover:bg-white/5 transition-colors"
+                    >
+                      <span className="flex items-center gap-3">
+                        <Globe2 className="h-4 w-4 text-gold/70" />
+                        Destinations
+                      </span>
+                      <ChevronDown className={cn('h-4 w-4 text-white/40 transition-transform duration-300', expandedMobileSection === 'destinations' && 'rotate-180 text-gold')} />
+                    </button>
+                    <AnimatePresence>
+                      {expandedMobileSection === 'destinations' && (
+                        <m.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="grid grid-cols-2 gap-1 px-2 pb-2 pt-1">
+                            {destinations.map((destination) => (
+                              <Link
+                                key={destination.slug}
+                                href={`/destinations/${destination.slug}`}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/d"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <div className="w-6 overflow-hidden rounded-sm shadow-sm ring-1 ring-white/10 opacity-80 group-hover/d:opacity-100">
+                                  <destination.flag title={destination.name} />
+                                </div>
+                                <span className="text-sm font-medium text-white/80 group-hover/d:text-white">
+                                  {destination.name}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="px-2 pb-3">
+                            <Link
+                              href="/destinations"
+                              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gold/80 hover:bg-gold/10 hover:text-gold transition-colors"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              All global destinations
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </div>
+                        </m.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Resources Accordion */}
+                  <div>
+                    <button
+                      onClick={() => setExpandedMobileSection(expandedMobileSection === 'resources' ? null : 'resources')}
+                      className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-white hover:bg-white/5 transition-colors"
+                    >
+                      <span className="flex items-center gap-3">
+                        <BookOpen className="h-4 w-4 text-gold/70" />
+                        Resources
+                      </span>
+                      <ChevronDown className={cn('h-4 w-4 text-white/40 transition-transform duration-300', expandedMobileSection === 'resources' && 'rotate-180 text-gold')} />
+                    </button>
+                    <AnimatePresence>
+                      {expandedMobileSection === 'resources' && (
+                        <m.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="space-y-1 px-2 pb-3 pt-1">
+                            <Link
+                              href="/blog"
+                              className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/r"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/r:text-gold group-hover/r:border-gold/30 transition-colors">
+                                <Newspaper className="h-3.5 w-3.5" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium text-white/80 group-hover/r:text-white block">Blog</span>
+                                <span className="text-[11px] text-white/40 leading-tight">Expert guides & insights</span>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/about"
+                              className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/r"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/r:text-gold group-hover/r:border-gold/30 transition-colors">
+                                <Info className="h-3.5 w-3.5" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium text-white/80 group-hover/r:text-white block">About Us</span>
+                                <span className="text-[11px] text-white/40 leading-tight">Our mission & team</span>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/faq"
+                              className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/r"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/r:text-gold group-hover/r:border-gold/30 transition-colors">
+                                <BookOpen className="h-3.5 w-3.5" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium text-white/80 group-hover/r:text-white block">FAQ</span>
+                                <span className="text-[11px] text-white/40 leading-tight">Common questions</span>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/contact"
+                              className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 group/r"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="flex h-7 w-7 items-center justify-center rounded border border-white/5 bg-white/5 text-white/50 group-hover/r:text-gold group-hover/r:border-gold/30 transition-colors">
+                                <Phone className="h-3.5 w-3.5" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium text-white/80 group-hover/r:text-white block">Contact Us</span>
+                                <span className="text-[11px] text-white/40 leading-tight">Get in touch</span>
+                              </div>
+                            </Link>
+                          </div>
+                        </m.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 

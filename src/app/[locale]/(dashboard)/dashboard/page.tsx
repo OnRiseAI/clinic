@@ -10,6 +10,7 @@ import {
 } from '@/lib/data/patient-dashboard'
 import { ClinicCard } from '@/components/clinics/clinic-card'
 import { MessageSquare, Heart, Bot, Search, ArrowRight, Clock } from 'lucide-react'
+import { OpenChatWrapper } from '@/components/ui/open-chat-wrapper'
 
 interface DashboardPageProps {
   params: Promise<{ locale: string }>
@@ -165,12 +166,14 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             )}
           </div>
         </Link>
-        <button className="flex items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-primary-200 hover:shadow-md">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-            <Bot className="h-6 w-6 text-purple-600" />
-          </div>
-          <span className="font-medium text-neutral-900">Ask AI</span>
-        </button>
+        <OpenChatWrapper className="w-full">
+          <button className="flex w-full items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-primary-200 hover:shadow-md">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
+              <Bot className="h-6 w-6 text-purple-600" />
+            </div>
+            <span className="font-medium text-neutral-900">Ask AI</span>
+          </button>
+        </OpenChatWrapper>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-2">
@@ -203,9 +206,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                   </div>
                   <div className="text-right">
                     <span
-                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
-                        STATUS_COLORS[enquiry.status]
-                      }`}
+                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${STATUS_COLORS[enquiry.status]
+                        }`}
                     >
                       {STATUS_LABELS[enquiry.status]}
                     </span>
@@ -246,10 +248,12 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 Not finding what you need? Talk to our AI concierge for personalised
                 recommendations based on your needs.
               </p>
-              <Button variant="primary" className="mt-4 bg-purple-600 hover:bg-purple-700">
-                <Bot className="mr-2 h-4 w-4" />
-                Start Conversation
-              </Button>
+              <OpenChatWrapper>
+                <Button variant="primary" className="mt-4 bg-purple-600 hover:bg-purple-700">
+                  <Bot className="mr-2 h-4 w-4" />
+                  Start Conversation
+                </Button>
+              </OpenChatWrapper>
             </div>
           </div>
         </div>

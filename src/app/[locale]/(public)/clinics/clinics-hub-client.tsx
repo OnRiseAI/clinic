@@ -1085,14 +1085,13 @@ function HubClinicCard({
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch gap-4">
-              <button
-                type="button"
-                onClick={() => onContact(clinic)}
+              <a
+                href={`/enquiry/${clinic.slug}`}
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3.5 text-[15px] font-bold tracking-wide text-navy transition-all hover:bg-gold-dark hover:shadow-[0_8px_20px_rgba(198,169,108,0.25)] active:scale-[0.98]"
               >
                 Get Free Quote
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </a>
               <a
                 href={`/clinics/${primaryCategorySlug}/${clinic.slug}`}
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-[15px] font-bold tracking-wide text-navy transition-all hover:border-navy/20 hover:bg-slate-50 active:scale-[0.98] shadow-sm"
