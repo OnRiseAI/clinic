@@ -463,7 +463,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   procedures including tummy tuck and liposuction.
                 </p>
                 <Link
-                  href="/clinics/beauty-hungary"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -488,7 +488,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   contouring procedures.
                 </p>
                 <Link
-                  href="/clinics/szeptest"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -513,7 +513,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   smaller patient volumes for dedicated attention.
                 </p>
                 <Link
-                  href="/clinics/pataki"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -538,7 +538,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   body and facial procedures.
                 </p>
                 <Link
-                  href="/clinics/mona-lisa-centrum"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -563,7 +563,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   pricing.
                 </p>
                 <Link
-                  href="/clinics/dolemed"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -588,7 +588,7 @@ export function TummyTuckHungaryClient({ faqs }: TummyTuckHungaryClientProps) {
                   histories requiring comprehensive pre-op assessment.
                 </p>
                 <Link
-                  href="/clinics/liv-duna"
+                  href="/clinics/cosmetic-surgery/clinic-center"
                   className="mt-4 inline-block text-rose-600 hover:underline"
                 >
                   View Clinic Profile →

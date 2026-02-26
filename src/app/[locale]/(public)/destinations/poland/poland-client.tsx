@@ -1116,7 +1116,7 @@ export function PolandDestinationClient({ faqs }: PolandDestinationClientProps) 
                       Browse Verified Clinics in Poland
                     </Button>
                   </Link>
-                  <Link href="/cosmetic">
+                  <Link href="/cosmetic-surgery">
                     <Button
                       size="lg"
                       className="w-full sm:w-auto bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 rounded-full px-8 text-base backdrop-blur-md"
@@ -1201,7 +1201,7 @@ export function PolandDestinationClient({ faqs }: PolandDestinationClientProps) 
               </Link>
               <span className="text-neutral-300">·</span>
               <Link
-                href="/cosmetic"
+                href="/cosmetic-surgery"
                 className="text-sm text-primary-600 hover:text-primary-800 hover:underline font-medium"
               >
                 Cosmetic Surgery Abroad

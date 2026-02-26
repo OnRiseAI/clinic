@@ -663,7 +663,7 @@ export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
                   patient coordinator. English-speaking specialists.
                 </p>
                 <Link
-                  href="/clinics/centro-medico-teknon"
+                  href="/clinics/dental/hisar-hospital-intercontinental"
                   className="mt-4 inline-block text-amber-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -689,7 +689,7 @@ export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
                   portfolio.
                 </p>
                 <Link
-                  href="/clinics/puyuelo-dental-clinic"
+                  href="/clinics/dental/hisar-hospital-intercontinental"
                   className="mt-4 inline-block text-amber-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -715,7 +715,7 @@ export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
                   experience.
                 </p>
                 <Link
-                  href="/clinics/nart-clinica-dental"
+                  href="/clinics/dental/hisar-hospital-intercontinental"
                   className="mt-4 inline-block text-amber-600 hover:underline"
                 >
                   View Clinic Profile →
@@ -740,7 +740,7 @@ export function VeneersSpainClient({ faqs }: VeneersSpainClientProps) {
                   facilities with the latest dental technology.
                 </p>
                 <Link
-                  href="/clinics/catar-clinica-dental"
+                  href="/clinics/dental/hisar-hospital-intercontinental"
                   className="mt-4 inline-block text-amber-600 hover:underline"
                 >
                   View Clinic Profile →

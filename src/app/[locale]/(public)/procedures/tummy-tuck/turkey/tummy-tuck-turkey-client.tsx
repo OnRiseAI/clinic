@@ -502,7 +502,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     pricing with comprehensive packages.
                   </p>
                   <Link
-                    href="/clinics/acibadem"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -527,7 +527,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     dedicated coordinators.
                   </p>
                   <Link
-                    href="/clinics/memorial"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -552,7 +552,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     mid-range pricing.
                   </p>
                   <Link
-                    href="/clinics/medicana"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -576,7 +576,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     Strong plastic surgery department with experienced surgeons.
                   </p>
                   <Link
-                    href="/clinics/florence-nightingale"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -599,7 +599,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     pricing.
                   </p>
                   <Link
-                    href="/clinics/esteworld"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -622,7 +622,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     packages for UK patients.
                   </p>
                   <Link
-                    href="/clinics/estethica"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -654,7 +654,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     patients.
                   </p>
                   <Link
-                    href="/clinics/akdeniz"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -678,7 +678,7 @@ export function TummyTuckTurkeyClient({ faqs }: TummyTuckTurkeyClientProps) {
                     Antalya holiday destination. Beach-side recovery experience.
                   </p>
                   <Link
-                    href="/clinics/medworld"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →

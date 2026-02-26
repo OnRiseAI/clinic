@@ -776,7 +776,7 @@ export async function getHubInternalLinks(): Promise<{
   // Combo links (popular treatment + destination combos)
   const comboLinks: InternalLink[] = [
     { label: 'Dental Veneers in Turkey', href: '/procedures/veneers/turkey' },
-    { label: 'Hair Transplant in Turkey', href: '/procedures/hair-transplant/turkey' },
+    { label: 'Hair Transplant in Turkey', href: '/hair-transplant' },
     { label: 'Rhinoplasty in Turkey', href: '/procedures/rhinoplasty/turkey' },
     { label: 'Dental Implants in Hungary', href: '/procedures/dental-implants/hungary' },
     { label: 'Breast Augmentation in Turkey', href: '/procedures/breast-augmentation/turkey' },

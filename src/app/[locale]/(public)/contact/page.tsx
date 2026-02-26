@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { Breadcrumb } from '@/components/navigation/breadcrumb'
 import { Button } from '@/components/ui/button'
@@ -6,10 +7,30 @@ interface ContactPageProps {
   params: Promise<{ locale: string }>
 }
 
-export async function generateMetadata() {
+interface ContactMetadataProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
+
+export async function generateMetadata({ searchParams }: ContactMetadataProps): Promise<Metadata> {
+  const query = await searchParams
+  const hasQuery = Object.keys(query || {}).length > 0
+
   return {
     title: 'Contact Us - Get in Touch',
     description: 'Have questions about medical tourism? Contact our team for personalized assistance with finding clinics, planning your trip, or partnership inquiries.',
+    alternates: {
+      canonical: `${SITE_URL}/contact`,
+    },
+    ...(hasQuery
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+          },
+        }
+      : {}),
   }
 }
 

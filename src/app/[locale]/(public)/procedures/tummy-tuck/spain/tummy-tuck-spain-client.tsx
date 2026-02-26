@@ -507,7 +507,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     range of cosmetic procedures. Premium facility.
                   </p>
                   <Link
-                    href="/clinics/centro-medico-teknon"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -532,7 +532,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     International patient coordinator.
                   </p>
                   <Link
-                    href="/clinics/wellness-kliniek"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -557,7 +557,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     Strong international patient programme.
                   </p>
                   <Link
-                    href="/clinics/quironsalud-barcelona"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -589,7 +589,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     Full body contouring services.
                   </p>
                   <Link
-                    href="/clinics/quironsalud-madrid"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -614,7 +614,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     liposuction, and arm lifts.
                   </p>
                   <Link
-                    href="/clinics/clinica-menorca"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -646,7 +646,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     setting. Ideal Mediterranean climate.
                   </p>
                   <Link
-                    href="/clinics/marbella-cosmetic"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -671,7 +671,7 @@ export function TummyTuckSpainClient({ faqs }: TummyTuckSpainClientProps) {
                     Full body contouring services.
                   </p>
                   <Link
-                    href="/clinics/ocean-clinic"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →

@@ -485,7 +485,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     lifts. Modern facility with EU certification standards.
                   </p>
                   <Link
-                    href="/clinics/warsaw-plastic-surgery"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -518,7 +518,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     patients.
                   </p>
                   <Link
-                    href="/clinics/krakow-cosmetic"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -550,7 +550,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     body contouring portfolio with proven track record.
                   </p>
                   <Link
-                    href="/clinics/clinicforyou"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -575,7 +575,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     surgery services.
                   </p>
                   <Link
-                    href="/clinics/coramed"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -608,7 +608,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     department. Accessible from Wrocław airport.
                   </p>
                   <Link
-                    href="/clinics/kcm-clinic"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →
@@ -633,7 +633,7 @@ export function TummyTuckPolandClient({ faqs }: TummyTuckPolandClientProps) {
                     abdominoplasty combination procedures.
                   </p>
                   <Link
-                    href="/clinics/lipoline"
+                    href="/clinics/cosmetic-surgery/clinic-center"
                     className="mt-4 inline-block text-rose-600 hover:underline"
                   >
                     View Clinic Profile →

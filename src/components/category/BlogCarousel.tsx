@@ -28,14 +28,14 @@ const ARTICLES = [
   },
   {
     title: "Medical Tourism in 2026: Where People Are Going",
-    slug: "medical-tourism-costa-del-sol-2026",
+    slug: "medical-tourism-trends-2026",
     imageUrl:
       "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=240&fit=crop&auto=format",
     author: "Meet Your Clinic",
   },
   {
     title: "Guide to Dental Implants in Turkey 2026",
-    slug: "complete-guide-to-dental-implants-in-turkey-2026",
+    slug: "dental-implants-turkey-2026-guide",
     imageUrl:
       "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=400&h=240&fit=crop&auto=format",
     author: "Meet Your Clinic",

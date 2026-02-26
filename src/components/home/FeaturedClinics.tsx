@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation'
 const featuredClinics = [
   {
     name: 'Istanbul Smile Center',
-    slug: 'istanbul-smile-center',
+    slug: 'hisar-hospital-intercontinental',
     category: 'dental',
     location: 'Istanbul, Turkey',
     rating: 4.9,
@@ -18,7 +18,7 @@ const featuredClinics = [
   },
   {
     name: 'Budapest Dental Clinic',
-    slug: 'budapest-dental-clinic',
+    slug: 'hairline-clinic',
     category: 'dental',
     location: 'Budapest, Hungary',
     rating: 4.8,
@@ -29,7 +29,7 @@ const featuredClinics = [
   },
   {
     name: 'Estethica Medical Group',
-    slug: 'estethica-medical-group',
+    slug: 'istanbul-aesthetics-center',
     category: 'cosmetic-surgery',
     location: 'Istanbul, Turkey',
     rating: 4.9,
@@ -40,7 +40,7 @@ const featuredClinics = [
   },
   {
     name: 'KCM Clinic',
-    slug: 'kcm-clinic',
+    slug: 'clinic-center',
     category: 'bariatric-surgery',
     location: 'Warsaw, Poland',
     rating: 4.9,
