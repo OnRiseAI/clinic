@@ -49,13 +49,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!clinic || !config) return {};
 
   const location = [clinic.city, clinic.country].filter(Boolean).join(", ");
+  const title = `${clinic.name} | ${location} ${config.name} Clinic`
+  const ogTitle = `${clinic.name} | ${location}`
+  const description = clinic.description || `${clinic.name} in ${location}. Verified ${config.name.toLowerCase()} clinic.`
 
   return {
-    title: `${clinic.name} — ${location} | Verified ${config.name} Clinic | MeetYourClinic`,
-    description: clinic.description || `${clinic.name} in ${location}. Verified ${config.name.toLowerCase()} clinic.`,
+    title,
+    description,
     openGraph: {
-      title: `${clinic.name} — ${location}`,
-      description: clinic.description || undefined,
+      title: ogTitle,
+      description,
       type: "website",
       images: clinic.photos[0]?.url ? [{ url: clinic.photos[0].url }] : undefined,
     },

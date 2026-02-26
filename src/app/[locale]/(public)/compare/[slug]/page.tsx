@@ -36,14 +36,20 @@ export async function generateMetadata({ params }: ComparePageProps): Promise<Me
     const nameA = slugToName(slugA)
     const nameB = slugToName(slugB)
     return {
-      title: `${nameA} vs ${nameB}: Cost, Recovery & Results Compared | MeetYourClinic`,
+      title: `${nameA} vs ${nameB}: Cost & Recovery Comparison`,
       description: `Compare ${nameA} and ${nameB} side by side. See differences in cost, recovery time, results, and find the best clinics abroad.`,
+      alternates: {
+        canonical: `/compare/${slug}`,
+      },
     }
   }
 
   return {
-    title: `${data.procedureA.name} vs ${data.procedureB.name}: Cost, Recovery & Results Compared | MeetYourClinic`,
+    title: `${data.procedureA.name} vs ${data.procedureB.name}: Cost & Recovery`,
     description: `Compare ${data.procedureA.name} and ${data.procedureB.name} side by side. See differences in UK private costs, recovery time, risk level, and pricing abroad at accredited clinics.`,
+    alternates: {
+      canonical: `/compare/${slug}`,
+    },
     openGraph: {
       title: `${data.procedureA.name} vs ${data.procedureB.name} Compared`,
       description: `Side-by-side comparison of ${data.procedureA.name} and ${data.procedureB.name}: costs, recovery, risk level, and international pricing.`,

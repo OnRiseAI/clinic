@@ -51,8 +51,11 @@ export async function generateMetadata({ params }: CostGuidePageProps): Promise<
       .join(' ')
 
     return {
-      title: `${procedureName} Cost Guide 2026 - Prices by Country | MeetYourClinic`,
+      title: `${procedureName} Cost Guide: Prices by Country`,
       description: `Compare ${procedureName.toLowerCase()} costs across countries. See prices, savings vs UK, and find the best value clinics abroad.`,
+      alternates: {
+        canonical: `/${categorySlug}/${procedureSlug}/cost-guide`,
+      },
     }
   }
 
@@ -62,7 +65,7 @@ export async function generateMetadata({ params }: CostGuidePageProps): Promise<
     : 0
 
   return {
-    title: `${data.procedure.name} Cost Guide 2026 - Prices by Country | MeetYourClinic`,
+    title: `${data.procedure.name} Cost Guide: Prices by Country`,
     description: `${data.procedure.name} costs from ${cheapest ? `£${cheapest.price_min.toLocaleString()}` : 'affordable prices'} abroad vs £${data.uk_private_cost_min.toLocaleString()}-${data.uk_private_cost_max.toLocaleString()} in the UK. Save up to ${maxSavings}%. Compare ${data.destinations.length} countries.`,
     alternates: {
       canonical: `/${categorySlug}/${procedureSlug}/cost-guide`,

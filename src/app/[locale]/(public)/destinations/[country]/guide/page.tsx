@@ -34,17 +34,23 @@ export async function generateMetadata({ params }: CountryGuidePageProps): Promi
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(' ')
     return {
-      title: `Medical Tourism in ${countryName}: Complete Guide 2026 | MeetYourClinic`,
-      description: `Everything you need to know about medical tourism in ${countryName}. Costs, procedures, travel tips, and accredited clinics.`,
+      title: `Medical Tourism in ${countryName}: Guide & Costs`,
+      description: `Guide to medical tourism in ${countryName}: treatment costs, top procedures, travel tips, and accredited clinics.`,
+      alternates: {
+        canonical: `/destinations/${countrySlug}/guide`,
+      },
     }
   }
 
   const { country } = data
   return {
-    title: `Medical Tourism in ${country.name}: Complete Guide 2026 | MeetYourClinic`,
+    title: `Medical Tourism in ${country.name}: Guide & Costs`,
     description:
       country.meta_description ||
       `Complete guide to medical tourism in ${country.name}. Compare ${data.stats.procedure_count} procedures, save up to ${data.stats.avg_savings}% vs UK prices, and find JCI-accredited clinics.`,
+    alternates: {
+      canonical: `/destinations/${country.slug}/guide`,
+    },
   }
 }
 

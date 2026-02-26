@@ -50,14 +50,20 @@ export async function generateMetadata({ params }: DestinationProcedurePageProps
     const countryName = countrySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
     const procedureName = procedureSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
     return {
-      title: `${procedureName} in ${countryName} - Prices, Clinics & Reviews`,
+      title: `${procedureName} in ${countryName}: Prices & Clinics`,
       description: `Get ${procedureName.toLowerCase()} in ${countryName}. Compare prices from top clinics, read patient reviews, and save up to 70%.`,
+      alternates: {
+        canonical: `/destinations/${countrySlug}/${procedureSlug}`,
+      },
     }
   }
 
   return {
-    title: `${procedure.name} in ${destination.country_name} - Prices, Clinics & Reviews`,
+    title: `${procedure.name} in ${destination.country_name}: Prices & Clinics`,
     description: `Get ${procedure.name.toLowerCase()} in ${destination.country_name}. Compare prices from ${destination.country_name}'s top clinics, read patient reviews, and save up to 70% on your treatment.`,
+    alternates: {
+      canonical: `/destinations/${countrySlug}/${procedureSlug}`,
+    },
   }
 }
 
