@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: ProcedurePageProps): Promise<
   return generateProcedureMetadata({
     name: procedure.name,
     slug: procedure.slug,
+    categorySlug: categorySlug,
     description: procedure.description,
     category: procedure.category?.name || null,
     minPrice: prices.length > 0 ? Math.min(...prices) : null,

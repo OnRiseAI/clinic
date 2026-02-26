@@ -4,6 +4,19 @@ const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://meetyourclinic.com'
 const SITE_NAME = 'MeetYourClinic'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.jpg`
 
+const TITLE_MAX = 60
+const DESCRIPTION_MAX = 160
+
+function normalizeText(text: string): string {
+  return text.replace(/\s+/g, ' ').trim()
+}
+
+function truncateText(text: string, maxLength: number): string {
+  const normalized = normalizeText(text)
+  if (normalized.length <= maxLength) return normalized
+  return `${normalized.slice(0, maxLength - 1).trimEnd()}…`
+}
+
 interface BaseMetadataParams {
   title: string
   description: string
@@ -23,16 +36,18 @@ export function generateBaseMetadata({
   noIndex = false,
 }: BaseMetadataParams): Metadata {
   const url = `${SITE_URL}${path}`
+  const safeTitle = truncateText(title, TITLE_MAX)
+  const safeDescription = truncateText(description, DESCRIPTION_MAX)
 
   return {
-    title,
-    description,
+    title: safeTitle,
+    description: safeDescription,
     alternates: {
       canonical: url,
     },
     openGraph: {
-      title,
-      description,
+      title: safeTitle,
+      description: safeDescription,
       url,
       siteName: SITE_NAME,
       type: 'website',
@@ -42,14 +57,14 @@ export function generateBaseMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: safeTitle,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
+      title: safeTitle,
+      description: safeDescription,
       images: [ogImage],
     },
     ...(noIndex && {
@@ -104,6 +119,7 @@ export function generateClinicMetadata(clinic: ClinicMetadataParams): Metadata {
 interface ProcedureMetadataParams {
   name: string
   slug: string
+  categorySlug?: string | null
   description: string | null
   category: string | null
   minPrice: number | null
@@ -125,10 +141,14 @@ export function generateProcedureMetadata(procedure: ProcedureMetadataParams): M
     procedure.description?.slice(0, 155) ||
     `Compare ${procedure.clinicCount}+ clinics offering ${procedure.name} abroad.${priceRange ? ` Prices from ${priceRange}.` : ''} Read reviews, check accreditations, and get free quotes.`
 
+  const canonicalPath = procedure.categorySlug
+    ? `/${procedure.categorySlug}/${procedure.slug}`
+    : `/procedures/${procedure.slug}`
+
   return generateBaseMetadata({
     title,
     description,
-    path: `/procedures/${procedure.slug}`,
+    path: canonicalPath,
   })
 }
 
@@ -198,17 +218,19 @@ interface BlogPostMetadataParams {
 
 export function generateBlogPostMetadata(post: BlogPostMetadataParams): Metadata {
   const title = `${post.title} | MeetYourClinic Blog`
+  const safeTitle = truncateText(title, TITLE_MAX)
+  const safeDescription = truncateText(post.excerpt, DESCRIPTION_MAX)
 
   return {
     ...generateBaseMetadata({
-      title,
-      description: post.excerpt.slice(0, 155),
+      title: safeTitle,
+      description: safeDescription,
       path: `/blog/${post.slug}`,
       ogImage: post.imageUrl || DEFAULT_OG_IMAGE,
     }),
     openGraph: {
-      title,
-      description: post.excerpt.slice(0, 155),
+      title: safeTitle,
+      description: safeDescription,
       url: `${SITE_URL}/blog/${post.slug}`,
       siteName: SITE_NAME,
       type: 'article',
@@ -221,7 +243,7 @@ export function generateBlogPostMetadata(post: BlogPostMetadataParams): Metadata
           url: post.imageUrl || DEFAULT_OG_IMAGE,
           width: 1200,
           height: 630,
-          alt: post.title,
+          alt: safeTitle,
         },
       ],
     },
