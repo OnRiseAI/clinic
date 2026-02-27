@@ -151,6 +151,16 @@ export async function POST(request: Request) {
       )
     }
 
+    if (!enquiry) {
+      return NextResponse.json(
+        {
+          error: 'Failed to create enquiry',
+          detail: 'Enquiry insert returned no data',
+        },
+        { status: 500 }
+      )
+    }
+
     const clinicLeadRecipient = LEAD_TEST_MODE
       ? LEAD_TEST_RECIPIENT_EMAIL || clinic.email
       : clinic.email
