@@ -90,40 +90,9 @@ export async function POST(request: Request) {
       data: { user },
     } = await supabase.auth.getUser()
 
-    let patientUserId = user?.id || null
-
-    // If not logged in, check if user exists by email or create new account
-    if (!patientUserId) {
-      // Check if user exists with this email
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', data.email)
-        .single()
-
-      if (existingUser) {
-        patientUserId = existingUser.id
-      } else {
-        // Create new user account
-        const { data: newUser, error: createUserError } = await supabase
-          .from('users')
-          .insert({
-            email: data.email,
-            full_name: data.fullName,
-            phone: data.phone,
-            role: 'patient',
-          })
-          .select('id')
-          .single()
-
-        if (createUserError) {
-          console.error('Error creating user:', createUserError)
-          // Continue without user account - enquiry can still be submitted
-        } else {
-          patientUserId = newUser.id
-        }
-      }
-    }
+    // Keep anonymous submissions anonymous to avoid RLS violations on users table.
+    // If authenticated, we link the enquiry to the logged-in user id.
+    const patientUserId = user?.id || null
 
     // Get clinic details for notifications
     const { data: clinic, error: clinicError } = await supabase

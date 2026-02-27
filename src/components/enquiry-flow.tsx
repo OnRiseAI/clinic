@@ -183,7 +183,8 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
 
       const responseData = await response.json()
       if (!response.ok) {
-        throw new Error(responseData.error || "Something went wrong. Please try again.")
+        const detail = responseData?.detail ? ` (${responseData.detail})` : ""
+        throw new Error((responseData.error || "Something went wrong. Please try again.") + detail)
       }
 
       setStep(5) // Move to confirmation
