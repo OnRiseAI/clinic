@@ -15,6 +15,44 @@ const LEAD_CC_EMAILS = (process.env.LEAD_CC_EMAILS || 'jon@meetyourclinic.com')
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const getErrorMessage = (error: unknown) =>
+  error && typeof error === 'object' && 'message' in error ? String(error.message) : String(error || '')
+
+const parseMissingColumn = (error: unknown): string | null => {
+  const message = getErrorMessage(error)
+  const match = message.match(/Could not find the '([^']+)' column/i)
+  return match?.[1] || null
+}
+
+async function insertEnquiryAdaptive(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  payload: Record<string, unknown>
+) {
+  let workingPayload = { ...payload }
+
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const { data, error } = await supabase
+      .from('enquiries')
+      .insert(workingPayload)
+      .select('id, created_at')
+      .single()
+
+    if (!error && data) {
+      return { data, error: null }
+    }
+
+    const missingColumn = parseMissingColumn(error)
+    if (missingColumn && missingColumn in workingPayload) {
+      delete workingPayload[missingColumn]
+      continue
+    }
+
+    return { data: null, error }
+  }
+
+  return { data: null, error: new Error('Adaptive enquiry insert exceeded retry attempts') }
+}
+
 async function sendSmsWithRetry(to: string, message: string, attempts = 3) {
   let lastError: unknown = null
   for (let i = 1; i <= attempts; i++) {
@@ -98,29 +136,50 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Clinic not found' }, { status: 404 })
     }
 
-    // Create the enquiry
-    const { data: enquiry, error: enquiryError } = await supabase
-      .from('enquiries')
-      .insert({
-        patient_user_id: patientUserId,
-        clinic_id: data.clinicId,
-        procedure_interest: data.procedureInterest,
-        willing_to_travel: data.willingToTravel,
-        preferred_destinations: data.preferredDestinations,
-        budget_range: data.budgetRange || null,
-        timeline: data.timeline,
-        full_name: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        message: data.message || null,
-        status: 'submitted',
-      })
-      .select('id, created_at')
-      .single()
+    const canonicalPayload = {
+      patient_user_id: patientUserId,
+      clinic_id: data.clinicId,
+      procedure_interest: data.procedureInterest,
+      willing_to_travel: data.willingToTravel,
+      preferred_destinations: data.preferredDestinations,
+      budget_range: data.budgetRange || null,
+      timeline: data.timeline,
+      full_name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      message: data.message || null,
+    }
+
+    const legacyPayload = {
+      patient_user_id: patientUserId,
+      clinic_id: data.clinicId,
+      procedure: data.procedureInterest,
+      timeline: data.timeline,
+      name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      message: data.message || null,
+      type: 'form',
+      intent_level: data.willingToTravel === 'ready' ? 'high' : 'low',
+      source_page: request.headers.get('referer') || null,
+    }
+
+    let enquiryResult = await insertEnquiryAdaptive(supabase, canonicalPayload)
+    if (enquiryResult.error && parseMissingColumn(enquiryResult.error)) {
+      enquiryResult = await insertEnquiryAdaptive(supabase, legacyPayload)
+    }
+    const enquiry = enquiryResult.data
+    const enquiryError = enquiryResult.error
 
     if (enquiryError) {
       console.error('Error creating enquiry:', enquiryError)
-      return NextResponse.json({ error: 'Failed to create enquiry' }, { status: 500 })
+      return NextResponse.json(
+        {
+          error: 'Failed to create enquiry',
+          detail: getErrorMessage(enquiryError),
+        },
+        { status: 500 }
+      )
     }
 
     const clinicLeadRecipient = LEAD_TEST_MODE
