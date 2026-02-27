@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { m, AnimatePresence, LazyMotion, domAnimation } from 'framer-motion'
+import { useConversation } from '@elevenlabs/react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -45,50 +46,47 @@ interface ConciergeWidgetProps {
 // =============================================================================
 
 function useVoiceConversation(agentId: string | undefined) {
-  const [status, setStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected')
-  const [isSpeaking, setIsSpeaking] = useState(false)
-  const [isListening, setIsListening] = useState(false)
   const [transcript, setTranscript] = useState<string>('')
   const [agentMessage, setAgentMessage] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
+  const [micMuted, setMicMuted] = useState(false)
 
-  const connectionRef = useRef<WebSocket | null>(null)
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const mediaStreamRef = useRef<MediaStream | null>(null)
-  const processorRef = useRef<ScriptProcessorNode | null>(null)
-  const audioQueueRef = useRef<ArrayBuffer[]>([])
-  const isPlayingRef = useRef(false)
+  const conversation = useConversation({
+    micMuted,
+    onConnect: () => {
+      setError(null)
+    },
+    onDisconnect: () => {
+      setMicMuted(false)
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onMessage: (message: any) => {
+      const text: string | undefined =
+        typeof message?.message === 'string'
+          ? message.message
+          : typeof message?.text === 'string'
+            ? message.text
+            : typeof message?.transcript === 'string'
+              ? message.transcript
+              : undefined
 
-  // Play audio from queue
-  const playNextAudio = useCallback(async () => {
-    if (isPlayingRef.current || audioQueueRef.current.length === 0) return
+      if (!text) return
 
-    const audioData = audioQueueRef.current.shift()
-    if (!audioData) return
-
-    isPlayingRef.current = true
-    setIsSpeaking(true)
-
-    try {
-      const audioContext = new AudioContext()
-      const audioBuffer = await audioContext.decodeAudioData(audioData)
-      const source = audioContext.createBufferSource()
-      source.buffer = audioBuffer
-      source.connect(audioContext.destination)
-
-      source.onended = () => {
-        isPlayingRef.current = false
-        setIsSpeaking(audioQueueRef.current.length > 0)
-        playNextAudio()
+      const source = String(message?.source || message?.role || message?.type || '').toLowerCase()
+      if (source.includes('user') || source.includes('transcript')) {
+        setTranscript(text)
+        return
       }
 
-      source.start()
-    } catch (e) {
-      console.error('Error playing audio:', e)
-      isPlayingRef.current = false
-      setIsSpeaking(false)
-    }
-  }, [])
+      setAgentMessage((prev) => (prev ? `${prev} ${text}` : text))
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (e: any) => {
+      const message =
+        typeof e?.message === 'string' ? e.message : typeof e === 'string' ? e : 'Connection error. Please try again.'
+      setError(message)
+    },
+  })
 
   const connect = useCallback(async () => {
     if (!agentId) {
@@ -97,159 +95,47 @@ function useVoiceConversation(agentId: string | undefined) {
     }
 
     try {
-      setStatus('connecting')
       setError(null)
+      setTranscript('')
+      setAgentMessage('')
 
-      // Request microphone access
-      const stream = await navigator.mediaDevices.getUserMedia({
+      await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
-          sampleRate: 16000,
-        }
+        },
       })
-      mediaStreamRef.current = stream
 
-      // Create audio context
-      audioContextRef.current = new AudioContext({ sampleRate: 16000 })
-
-      // Connect to ElevenLabs WebSocket
-      const ws = new WebSocket(
-        `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${agentId}`
-      )
-
-      ws.binaryType = 'arraybuffer'
-
-      ws.onopen = () => {
-        setStatus('connected')
-        setIsListening(true)
-
-        // Set up audio processing
-        if (audioContextRef.current && mediaStreamRef.current) {
-          const source = audioContextRef.current.createMediaStreamSource(mediaStreamRef.current)
-          const processor = audioContextRef.current.createScriptProcessor(4096, 1, 1)
-
-          processor.onaudioprocess = (e) => {
-            if (!isListening) return
-
-            const inputData = e.inputBuffer.getChannelData(0)
-            const pcmData = new Int16Array(inputData.length)
-
-            for (let i = 0; i < inputData.length; i++) {
-              pcmData[i] = Math.max(-32768, Math.min(32767, inputData[i] * 32768))
-            }
-
-            if (ws.readyState === WebSocket.OPEN) {
-              const base64 = btoa(String.fromCharCode(...new Uint8Array(pcmData.buffer)))
-              ws.send(JSON.stringify({
-                type: 'audio',
-                audio: base64
-              }))
-            }
-          }
-
-          source.connect(processor)
-          processor.connect(audioContextRef.current.destination)
-          processorRef.current = processor
-        }
-      }
-
-      ws.onmessage = (event) => {
-        // Handle binary audio data
-        if (event.data instanceof ArrayBuffer) {
-          audioQueueRef.current.push(event.data)
-          playNextAudio()
-          return
-        }
-
-        // Handle JSON messages
-        try {
-          const data = JSON.parse(event.data)
-
-          switch (data.type) {
-            case 'user_transcript':
-              setTranscript(data.text || '')
-              break
-            case 'agent_response':
-              setAgentMessage(prev => prev + (data.text || ''))
-              break
-            case 'agent_response_end':
-              // Response complete
-              break
-            case 'interruption':
-              // User interrupted
-              audioQueueRef.current = []
-              setIsSpeaking(false)
-              break
-            case 'error':
-              setError(data.message || 'An error occurred')
-              break
-          }
-        } catch (e) {
-          // Not JSON, might be binary audio
-        }
-      }
-
-      ws.onerror = () => {
-        setError('Connection error. Please try again.')
-        setStatus('disconnected')
-      }
-
-      ws.onclose = () => {
-        setStatus('disconnected')
-        setIsSpeaking(false)
-        setIsListening(false)
-      }
-
-      connectionRef.current = ws
+      await conversation.startSession({
+        agentId,
+        connectionType: 'webrtc',
+      })
     } catch (err) {
       console.error('Error connecting:', err)
       if (err instanceof DOMException && err.name === 'NotAllowedError') {
         setError('Microphone access denied. Please enable microphone permissions.')
       } else {
-        setError('Failed to connect. Please try again.')
+        const message = err instanceof Error ? err.message : 'Failed to connect. Please try again.'
+        setError(message)
       }
-      setStatus('disconnected')
     }
-  }, [agentId, playNextAudio])
+  }, [agentId, conversation])
 
   const disconnect = useCallback(() => {
-    if (connectionRef.current) {
-      connectionRef.current.close()
-      connectionRef.current = null
-    }
-
-    if (processorRef.current) {
-      processorRef.current.disconnect()
-      processorRef.current = null
-    }
-
-    if (audioContextRef.current) {
-      audioContextRef.current.close()
-      audioContextRef.current = null
-    }
-
-    if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach(track => track.stop())
-      mediaStreamRef.current = null
-    }
-
-    audioQueueRef.current = []
-    setStatus('disconnected')
-    setIsSpeaking(false)
-    setIsListening(false)
+    void conversation.endSession()
+    setMicMuted(false)
     setTranscript('')
     setAgentMessage('')
-  }, [])
+  }, [conversation])
 
   const toggleMute = useCallback(() => {
-    setIsListening(prev => !prev)
+    setMicMuted((prev) => !prev)
   }, [])
 
   return {
-    status,
-    isSpeaking,
-    isListening,
+    status: conversation.status as 'disconnected' | 'connecting' | 'connected',
+    isSpeaking: conversation.isSpeaking,
+    isListening: conversation.status === 'connected' && !micMuted,
     transcript,
     agentMessage,
     error,

@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getSupabaseAdmin } from '@/lib/lead-funnel/supabase'
 import { enquirySchema } from '@/lib/validations/enquiry'
 import { sendEmail } from '@/lib/email/resend'
 import { clinicNotificationTemplate, patientConfirmationTemplate } from '@/lib/email/templates'
 import { sendSms, formatClinicNotificationSms } from '@/lib/sms/twilio'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
 const LEAD_TEST_RECIPIENT_EMAIL = process.env.LEAD_TEST_RECIPIENT_EMAIL?.trim() || ''
@@ -25,7 +27,7 @@ const parseMissingColumn = (error: unknown): string | null => {
 }
 
 async function insertEnquiryAdaptive(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: SupabaseClient,
   payload: Record<string, unknown>
 ) {
   let workingPayload = { ...payload }
@@ -84,6 +86,8 @@ export async function POST(request: Request) {
 
     const data = validationResult.data
     const supabase = await createClient()
+    const hasServiceRoleKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY)
+    const supabaseAdmin = getSupabaseAdmin()
 
     // Get current user (if logged in)
     const {
@@ -133,19 +137,25 @@ export async function POST(request: Request) {
       source_page: request.headers.get('referer') || null,
     }
 
-    let enquiryResult = await insertEnquiryAdaptive(supabase, canonicalPayload)
+    let enquiryResult = await insertEnquiryAdaptive(supabaseAdmin, canonicalPayload)
     if (enquiryResult.error && parseMissingColumn(enquiryResult.error)) {
-      enquiryResult = await insertEnquiryAdaptive(supabase, legacyPayload)
+      enquiryResult = await insertEnquiryAdaptive(supabaseAdmin, legacyPayload)
     }
     const enquiry = enquiryResult.data
     const enquiryError = enquiryResult.error
 
     if (enquiryError) {
       console.error('Error creating enquiry:', enquiryError)
+      const detail = getErrorMessage(enquiryError)
+      const isRlsError = detail.toLowerCase().includes('row-level security')
       return NextResponse.json(
         {
           error: 'Failed to create enquiry',
-          detail: getErrorMessage(enquiryError),
+          detail,
+          hint:
+            isRlsError && !hasServiceRoleKey
+              ? 'Set SUPABASE_SERVICE_ROLE_KEY in environment to allow server-side lead inserts.'
+              : undefined,
         },
         { status: 500 }
       )
