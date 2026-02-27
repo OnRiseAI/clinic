@@ -1,6 +1,5 @@
 import { PublicHeader } from '@/components/layout/public-header'
 import { Footer } from '@/components/layout/footer'
-import { ConciergeWidget } from '@/components/concierge'
 import { getUserProfile } from '@/lib/auth/actions'
 
 export default async function PublicLayout({
@@ -15,7 +14,6 @@ export default async function PublicLayout({
       <PublicHeader user={userProfile} />
       <main className="flex-1">{children}</main>
       <Footer />
-      <ConciergeWidget agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
     </>
   )
 }

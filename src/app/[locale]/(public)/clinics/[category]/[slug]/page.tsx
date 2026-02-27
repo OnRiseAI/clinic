@@ -24,6 +24,8 @@ import { getClinicsByCountry } from "@/lib/data/content";
 import { getUser } from "@/lib/auth/actions";
 import { isClinicSaved } from "@/lib/data/patient-dashboard";
 import { LeadFunnel } from "@/components/lead-funnel";
+import { ConciergeWidget } from "@/components/concierge";
+import { OpenChatWrapper } from "@/components/ui/open-chat-wrapper";
 import type { ClinicContactConfig } from "@/lib/lead-funnel/types";
 import {
   generateClinicSchema,
@@ -522,6 +524,14 @@ export default async function ClinicDetailPage({ params }: PageProps) {
                   >
                     Start Your Journey <ArrowRight className="w-5 h-5" />
                   </Link>
+                  <OpenChatWrapper className="mb-6 block">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-teal-300 bg-teal-50 px-6 py-3.5 text-sm font-bold text-teal-700 transition-all hover:bg-teal-100"
+                    >
+                      Talk to Concierge
+                    </button>
+                  </OpenChatWrapper>
                   
                   <div className="space-y-3 border-t border-white/10 pt-6">
                     <div className="flex items-center justify-center gap-2 text-sm text-white/90">
@@ -568,6 +578,7 @@ export default async function ClinicDetailPage({ params }: PageProps) {
           </Link>
         </div>
       </div>
+      <ConciergeWidget agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
     </>
   );
 

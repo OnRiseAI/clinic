@@ -9,8 +9,7 @@ import {
   getRecentSavedClinics,
 } from '@/lib/data/patient-dashboard'
 import { ClinicCard } from '@/components/clinics/clinic-card'
-import { MessageSquare, Heart, Bot, Search, ArrowRight, Clock } from 'lucide-react'
-import { OpenChatWrapper } from '@/components/ui/open-chat-wrapper'
+import { MessageSquare, Heart, Search, ArrowRight, Clock } from 'lucide-react'
 
 interface DashboardPageProps {
   params: Promise<{ locale: string }>
@@ -124,7 +123,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           href="/search"
           className="flex items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-primary-200 hover:shadow-md"
@@ -166,17 +165,9 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             )}
           </div>
         </Link>
-        <OpenChatWrapper className="w-full">
-          <button className="flex w-full items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-primary-200 hover:shadow-md">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-              <Bot className="h-6 w-6 text-purple-600" />
-            </div>
-            <span className="font-medium text-neutral-900">Ask AI</span>
-          </button>
-        </OpenChatWrapper>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-8">
         {/* Recent Enquiries */}
         <div className="rounded-xl border border-neutral-200 bg-white shadow-sm">
           <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4">
@@ -236,27 +227,6 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           )}
         </div>
 
-        {/* AI Concierge Card */}
-        <div className="rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-white p-6 shadow-sm">
-          <div className="flex items-start gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-purple-100">
-              <Bot className="h-7 w-7 text-purple-600" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-neutral-900">AI Concierge</h3>
-              <p className="mt-1 text-neutral-600">
-                Not finding what you need? Talk to our AI concierge for personalised
-                recommendations based on your needs.
-              </p>
-              <OpenChatWrapper>
-                <Button variant="primary" className="mt-4 bg-purple-600 hover:bg-purple-700">
-                  <Bot className="mr-2 h-4 w-4" />
-                  Start Conversation
-                </Button>
-              </OpenChatWrapper>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Saved Clinics Preview */}

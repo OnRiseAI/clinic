@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { OpenChatWrapper } from "@/components/ui/open-chat-wrapper"
 
 interface ClinicProps {
   id: string
@@ -66,6 +67,12 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
   const [showExitWarning, setShowExitWarning] = useState(false)
 
   const supabase = createClient()
+
+  const isMissingColumnError = (dbError: unknown, columnName: string) => {
+    if (!dbError || typeof dbError !== "object") return false
+    const message = String((dbError as { message?: unknown }).message || "").toLowerCase()
+    return message.includes(`'${columnName.toLowerCase()}'`) && message.includes("column")
+  }
 
   // Exit intent for desktop
   useEffect(() => {
@@ -136,7 +143,15 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
       }
 
       if (existingId) {
-        await supabase.from("enquiries").update(payload).eq("id", existingId)
+        const { error: updateError } = await supabase
+          .from("enquiries")
+          .update(payload)
+          .eq("id", existingId)
+
+        if (updateError && isMissingColumnError(updateError, "intent_level")) {
+          const { intent_level, ...fallbackPayload } = payload
+          await supabase.from("enquiries").update(fallbackPayload).eq("id", existingId)
+        }
       } else {
         const { data, error: insertError } = await supabase
           .from("enquiries")
@@ -144,9 +159,18 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
           .select("id")
           .single()
 
-        if (!insertError && data) {
-          setEnquiryId(data.id)
+        if (insertError && isMissingColumnError(insertError, "intent_level")) {
+          const { intent_level, ...fallbackPayload } = payload
+          const { data: fallbackData } = await supabase
+            .from("enquiries")
+            .insert(fallbackPayload)
+            .select("id")
+            .single()
+          if (fallbackData) setEnquiryId(fallbackData.id)
+          return
         }
+
+        if (!insertError && data) setEnquiryId(data.id)
       }
     } catch (e) {
       console.error("Failed partial save", e)
@@ -176,11 +200,32 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
 
       if (enquiryId) {
         const { error } = await supabase.from("enquiries").update(payload).eq("id", enquiryId)
-        if (error) throw error
+        if (error && isMissingColumnError(error, "intent_level")) {
+          const { intent_level, ...fallbackPayload } = payload
+          const { error: fallbackError } = await supabase
+            .from("enquiries")
+            .update(fallbackPayload)
+            .eq("id", enquiryId)
+          if (fallbackError) throw fallbackError
+        } else if (error) {
+          throw error
+        }
       } else {
         const { data, error } = await supabase.from("enquiries").insert(payload).select("id").single()
-        if (error) throw error
-        if (data) setEnquiryId(data.id)
+        if (error && isMissingColumnError(error, "intent_level")) {
+          const { intent_level, ...fallbackPayload } = payload
+          const { data: fallbackData, error: fallbackError } = await supabase
+            .from("enquiries")
+            .insert(fallbackPayload)
+            .select("id")
+            .single()
+          if (fallbackError) throw fallbackError
+          if (fallbackData) setEnquiryId(fallbackData.id)
+        } else if (error) {
+          throw error
+        } else if (data) {
+          setEnquiryId(data.id)
+        }
       }
 
       setStep(5) // Move to confirmation
@@ -453,6 +498,14 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                   >
                     Continue <ArrowRight className="w-5 h-5" />
                   </button>
+                  <OpenChatWrapper className="mt-3 block">
+                    <button
+                      type="button"
+                      className="w-full rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-100"
+                    >
+                      Prefer to speak instead?
+                    </button>
+                  </OpenChatWrapper>
                 </div>
               </motion.div>
             )}
@@ -631,6 +684,14 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                 </div>
 
                 <div className="pt-8 mt-auto">
+                  <OpenChatWrapper className="mb-3 block">
+                    <button
+                      type="button"
+                      className="w-full rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-100"
+                    >
+                      Prefer to speak instead?
+                    </button>
+                  </OpenChatWrapper>
                   <button
                     type="submit"
                     disabled={isSubmitting || !contact.name || !contact.email}

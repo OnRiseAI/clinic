@@ -3,7 +3,6 @@ import { setRequestLocale } from 'next-intl/server'
 import { DashboardSidebar } from '@/components/layout/dashboard-sidebar'
 import { DashboardHeader } from '@/components/layout/dashboard-header'
 import { getUserProfile } from '@/lib/auth/actions'
-import { ConciergeWidget } from '@/components/concierge'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -36,7 +35,6 @@ export default async function DashboardLayout({
         <DashboardHeader />
         <main className="flex-1 p-6 lg:p-8">{children}</main>
       </div>
-      <ConciergeWidget agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
     </div>
   )
 }

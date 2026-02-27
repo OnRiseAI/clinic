@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { getClinicBySlug } from '@/lib/data/clinics'
 import EnquiryFlow from '@/components/enquiry-flow'
+import { ConciergeWidget } from '@/components/concierge'
 
 const defaultMetadata: Metadata = {
   title: 'Get a Free Quote | MeetYourClinic',
@@ -72,6 +73,7 @@ export default async function EnquiryPage({ params }: PageProps) {
         }}
         procedures={uniqueProcedures}
       />
+      <ConciergeWidget agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
     </div>
   )
 }
