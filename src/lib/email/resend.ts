@@ -17,12 +17,13 @@ function getResendClient() {
 
 export interface SendEmailOptions {
   to: string
+  cc?: string | string[]
   subject: string
   html: string
   from?: string
 }
 
-export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
+export async function sendEmail({ to, cc, subject, html, from }: SendEmailOptions) {
   const client = getResendClient()
 
   if (!client) {
@@ -36,6 +37,7 @@ export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
     const { data, error } = await client.emails.send({
       from: fromEmail,
       to,
+      cc,
       subject,
       html,
     })

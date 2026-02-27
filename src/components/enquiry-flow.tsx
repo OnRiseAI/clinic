@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
+import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight, Mic } from "lucide-react"
 import { OpenChatWrapper } from "@/components/ui/open-chat-wrapper"
 
 interface ClinicProps {
@@ -30,6 +29,42 @@ interface EnquiryFlowProps {
   procedures: ProcedureProps[]
 }
 
+function VoiceAssistantPrompt() {
+  return (
+    <OpenChatWrapper className="mt-3 block">
+      <button
+        type="button"
+        className="group w-full rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50 to-white px-4 py-3 text-left shadow-sm transition-all hover:border-teal-300 hover:shadow-md"
+      >
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-12 overflow-hidden rounded-full border border-teal-200 bg-white">
+            <img
+              src="/voice-agent-headshot.png"
+              alt="AI concierge assistant"
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = "none"
+              }}
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+              Faster Option
+            </p>
+            <p className="truncate text-sm font-bold text-slate-900">
+              Talk to our concierge now
+            </p>
+            <p className="text-xs text-slate-600">Get guided help in voice mode</p>
+          </div>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-600 text-white transition-colors group-hover:bg-teal-700">
+            <Mic className="h-4 w-4" />
+          </div>
+        </div>
+      </button>
+    </OpenChatWrapper>
+  )
+}
+
 const steps = [
   "Intent",
   "Treatment",
@@ -45,7 +80,6 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
   const sourcePage = searchParams.get("ref") || ""
 
   const [step, setStep] = useState(0)
-  const [enquiryId, setEnquiryId] = useState<string | null>(null)
   
   // Form State
   const [intentLevel, setIntentLevel] = useState<"high" | "low" | null>(null)
@@ -65,14 +99,6 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showExitWarning, setShowExitWarning] = useState(false)
-
-  const supabase = createClient()
-
-  const isMissingColumnError = (dbError: unknown, columnName: string) => {
-    if (!dbError || typeof dbError !== "object") return false
-    const message = String((dbError as { message?: unknown }).message || "").toLowerCase()
-    return message.includes(`'${columnName.toLowerCase()}'`) && message.includes("column")
-  }
 
   // Exit intent for desktop
   useEffect(() => {
@@ -105,18 +131,8 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
 
   const handleNext = async () => {
     if (step === steps.length - 1) return
-    
-    const nextStep = step + 1
 
-    // Partial Save on reaching Step 3 (Timeline) or Step 4 (Country) if not saved yet
-    if (nextStep >= 2 && !enquiryId) {
-      await savePartialEnquiry()
-    } else if (nextStep >= 2 && enquiryId) {
-      // Update partial if progressing further without full submission
-      await savePartialEnquiry(enquiryId)
-    }
-
-    setStep(nextStep)
+    setStep(step + 1)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
@@ -125,112 +141,54 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
     setStep(step - 1)
   }
 
-  const savePartialEnquiry = async (existingId?: string | null) => {
-    try {
-      const payload = {
-        clinic_id: clinic.id,
-        type: "form" as const,
-        name: contact.name || "Partial Enquiry", // Avoid null constraint
-        email: contact.email || "partial@pending.com", // Avoid null constraint
-        phone: contact.phone || null,
-        country_of_residence: country || "Unknown",
-        message: contact.message || null,
-        procedure: selectedProcedures.join(", "),
-        timeline: timeline || "Unknown",
-        intent_level: intentLevel || "low",
-        source_page: sourcePage || window.location.href,
-        status: "new" as const,
-      }
-
-      if (existingId) {
-        const { error: updateError } = await supabase
-          .from("enquiries")
-          .update(payload)
-          .eq("id", existingId)
-
-        if (updateError && isMissingColumnError(updateError, "intent_level")) {
-          const { intent_level, ...fallbackPayload } = payload
-          await supabase.from("enquiries").update(fallbackPayload).eq("id", existingId)
-        }
-      } else {
-        const { data, error: insertError } = await supabase
-          .from("enquiries")
-          .insert(payload)
-          .select("id")
-          .single()
-
-        if (insertError && isMissingColumnError(insertError, "intent_level")) {
-          const { intent_level, ...fallbackPayload } = payload
-          const { data: fallbackData } = await supabase
-            .from("enquiries")
-            .insert(fallbackPayload)
-            .select("id")
-            .single()
-          if (fallbackData) setEnquiryId(fallbackData.id)
-          return
-        }
-
-        if (!insertError && data) setEnquiryId(data.id)
-      }
-    } catch (e) {
-      console.error("Failed partial save", e)
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError(null)
 
     try {
-      const payload = {
-        clinic_id: clinic.id,
-        type: "form" as const,
-        name: contact.name,
-        email: contact.email,
-        phone: contact.phone || null,
-        country_of_residence: country,
-        message: contact.message || null,
-        procedure: selectedProcedures.join(", "),
-        timeline: timeline,
-        intent_level: intentLevel || "low",
-        source_page: sourcePage || window.location.href,
-        status: "new" as const,
+      const timelineMap: Record<string, "within_1_month" | "1_3_months" | "3_6_months" | "researching"> = {
+        "As soon as possible": "within_1_month",
+        "Within 1–3 months": "1_3_months",
+        "Within 3–6 months": "3_6_months",
+        "I'm just researching for now": "researching",
       }
+      const mappedTimeline = timelineMap[timeline] || "researching"
+      const willingToTravel = intentLevel === "high" ? "ready" : "researching"
+      const normalizedPhone = contact.phone.trim() || "Not provided"
 
-      if (enquiryId) {
-        const { error } = await supabase.from("enquiries").update(payload).eq("id", enquiryId)
-        if (error && isMissingColumnError(error, "intent_level")) {
-          const { intent_level, ...fallbackPayload } = payload
-          const { error: fallbackError } = await supabase
-            .from("enquiries")
-            .update(fallbackPayload)
-            .eq("id", enquiryId)
-          if (fallbackError) throw fallbackError
-        } else if (error) {
-          throw error
-        }
-      } else {
-        const { data, error } = await supabase.from("enquiries").insert(payload).select("id").single()
-        if (error && isMissingColumnError(error, "intent_level")) {
-          const { intent_level, ...fallbackPayload } = payload
-          const { data: fallbackData, error: fallbackError } = await supabase
-            .from("enquiries")
-            .insert(fallbackPayload)
-            .select("id")
-            .single()
-          if (fallbackError) throw fallbackError
-          if (fallbackData) setEnquiryId(fallbackData.id)
-        } else if (error) {
-          throw error
-        } else if (data) {
-          setEnquiryId(data.id)
-        }
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clinicId: clinic.id,
+          procedureInterest: selectedProcedures.join(", "),
+          willingToTravel,
+          preferredDestinations: [],
+          timeline: mappedTimeline,
+          fullName: contact.name,
+          email: contact.email,
+          phone: normalizedPhone,
+          message: [
+            contact.message?.trim() || "",
+            country ? `Country of residence: ${country}` : "",
+            sourcePage ? `Source page: ${sourcePage}` : "",
+          ]
+            .filter(Boolean)
+            .join("\n\n"),
+        }),
+      })
+
+      const responseData = await response.json()
+      if (!response.ok) {
+        throw new Error(responseData.error || "Something went wrong. Please try again.")
       }
 
       setStep(5) // Move to confirmation
-    } catch (e: any) {
-      setError(e.message || "Something went wrong. Please try again.")
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Something went wrong. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -498,14 +456,7 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                   >
                     Continue <ArrowRight className="w-5 h-5" />
                   </button>
-                  <OpenChatWrapper className="mt-3 block">
-                    <button
-                      type="button"
-                      className="w-full rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-100"
-                    >
-                      Prefer to speak instead?
-                    </button>
-                  </OpenChatWrapper>
+                  <VoiceAssistantPrompt />
                 </div>
               </motion.div>
             )}
@@ -684,14 +635,7 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                 </div>
 
                 <div className="pt-8 mt-auto">
-                  <OpenChatWrapper className="mb-3 block">
-                    <button
-                      type="button"
-                      className="w-full rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-100"
-                    >
-                      Prefer to speak instead?
-                    </button>
-                  </OpenChatWrapper>
+                  <VoiceAssistantPrompt />
                   <button
                     type="submit"
                     disabled={isSubmitting || !contact.name || !contact.email}

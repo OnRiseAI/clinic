@@ -36,6 +36,7 @@ interface Message {
 
 interface ConciergeWidgetProps {
   agentId?: string
+  headshotSrc?: string
 }
 
 // =============================================================================
@@ -469,39 +470,62 @@ function WaveformAnimation({ isActive, color = 'primary' }: { isActive: boolean;
   )
 }
 
-function PulseButton({ onClick, isActive }: { onClick: () => void; isActive: boolean }) {
+function PulseButton({
+  onClick,
+  isActive,
+  headshotSrc,
+}: {
+  onClick: () => void
+  isActive: boolean
+  headshotSrc?: string
+}) {
   return (
     <m.button
       onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       className={cn(
-        'relative flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-colors',
+        'relative w-[220px] overflow-hidden rounded-2xl border text-left shadow-xl transition-all',
         isActive
-          ? 'bg-red-500 text-white'
-          : 'bg-accent-500 text-white hover:bg-accent-600'
+          ? 'border-red-300 bg-red-50'
+          : 'border-accent-200 bg-white hover:border-accent-300 hover:shadow-2xl'
       )}
-      aria-label={isActive ? 'Close AI Concierge' : 'Open AI Concierge'}
+      aria-label={isActive ? 'Close AI Concierge' : 'Talk to AI Concierge'}
     >
       {!isActive && (
-        <>
-          <m.span
-            className="absolute inset-0 rounded-full bg-accent-400"
-            animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <m.span
-            className="absolute inset-0 rounded-full bg-accent-400"
-            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-          />
-        </>
+        <m.span
+          className="pointer-events-none absolute inset-0 rounded-2xl ring-2 ring-accent-200"
+          animate={{ opacity: [0.15, 0.45, 0.15] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+        />
       )}
-      {isActive ? (
-        <X className="h-6 w-6 relative z-10" />
-      ) : (
-        <Sparkles className="h-6 w-6 relative z-10" />
-      )}
+      <div className="relative z-10 flex items-center gap-3 p-3">
+        <div className="h-14 w-14 overflow-hidden rounded-xl border border-accent-200 bg-accent-50">
+          {headshotSrc ? (
+            <img
+              src={headshotSrc}
+              alt="AI concierge assistant"
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-accent-700">
+              <Sparkles className="h-6 w-6" />
+            </div>
+          )}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent-700">
+            Instant Help
+          </p>
+          <p className="truncate text-sm font-semibold text-neutral-900">
+            Talk to our AI concierge
+          </p>
+          <p className="text-xs text-neutral-600">Voice-first support</p>
+        </div>
+      </div>
     </m.button>
   )
 }
@@ -510,7 +534,10 @@ function PulseButton({ onClick, isActive }: { onClick: () => void; isActive: boo
 // MAIN COMPONENT
 // =============================================================================
 
-export function ConciergeWidget({ agentId }: ConciergeWidgetProps) {
+export function ConciergeWidget({
+  agentId,
+  headshotSrc = '/voice-agent-headshot.png',
+}: ConciergeWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [mode, setMode] = useState<'voice' | 'text'>(agentId ? 'voice' : 'text')
   const [inputValue, setInputValue] = useState('')
@@ -845,6 +872,7 @@ export function ConciergeWidget({ agentId }: ConciergeWidgetProps) {
             <PulseButton
               onClick={() => setIsOpen(true)}
               isActive={false}
+              headshotSrc={headshotSrc}
             />
           )}
           {isOpen && (

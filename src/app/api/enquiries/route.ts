@@ -6,6 +6,30 @@ import { clinicNotificationTemplate, patientConfirmationTemplate } from '@/lib/e
 import { sendSms, formatClinicNotificationSms } from '@/lib/sms/twilio'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+const LEAD_TEST_RECIPIENT_EMAIL = process.env.LEAD_TEST_RECIPIENT_EMAIL?.trim() || ''
+const LEAD_TEST_MODE = process.env.LEAD_TEST_MODE === 'true'
+const LEAD_CC_EMAILS = (process.env.LEAD_CC_EMAILS || 'jon@meetyourclinic.com')
+  .split(',')
+  .map((email) => email.trim())
+  .filter(Boolean)
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function sendSmsWithRetry(to: string, message: string, attempts = 3) {
+  let lastError: unknown = null
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      await sendSms({ to, message })
+      return
+    } catch (error) {
+      lastError = error
+      if (i < attempts) {
+        await sleep(500 * i)
+      }
+    }
+  }
+  throw lastError
+}
 
 export async function POST(request: Request) {
   try {
@@ -99,13 +123,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create enquiry' }, { status: 500 })
     }
 
-    // Send notifications asynchronously (don't block the response)
-    const notificationPromises: Promise<void>[] = []
+    const clinicLeadRecipient = LEAD_TEST_MODE
+      ? LEAD_TEST_RECIPIENT_EMAIL || clinic.email
+      : clinic.email
 
-    // Email to clinic
-    if (clinic.email) {
-      const clinicEmailPromise = sendEmail({
-        to: clinic.email,
+    // Required delivery channel: clinic email must succeed for a successful submission response.
+    if (!clinicLeadRecipient) {
+      return NextResponse.json(
+        {
+          error: 'Lead saved in portal, but clinic email is not configured',
+          code: 'CLINIC_EMAIL_NOT_CONFIGURED',
+          enquiryId: enquiry.id,
+          leadSavedInPortal: true,
+        },
+        { status: 424 }
+      )
+    }
+
+    try {
+      await sendEmail({
+        to: clinicLeadRecipient,
+        cc: LEAD_CC_EMAILS.length > 0 ? LEAD_CC_EMAILS : undefined,
         subject: `New Patient Enquiry — ${data.procedureInterest} from ${data.fullName}`,
         html: clinicNotificationTemplate({
           patientName: data.fullName,
@@ -121,34 +159,33 @@ export async function POST(request: Request) {
           dashboardUrl: `${BASE_URL}/clinic/enquiries/${enquiry.id}`,
         }),
       })
-        .then(() => {
-          console.log('Clinic notification email sent')
-        })
-        .catch((error) => {
-          console.error('Failed to send clinic notification email:', error)
-        })
-
-      notificationPromises.push(clinicEmailPromise)
+      console.log('Clinic notification email sent')
+    } catch (error) {
+      console.error('Failed to send clinic notification email:', error)
+      return NextResponse.json(
+        {
+          error: 'Lead saved in portal, but clinic email delivery failed',
+          code: 'CLINIC_EMAIL_DELIVERY_FAILED',
+          enquiryId: enquiry.id,
+          leadSavedInPortal: true,
+        },
+        { status: 424 }
+      )
     }
 
-    // SMS to clinic
+    // SMS to clinic is eventual delivery: run async with retries.
     if (clinic.phone) {
-      const smsPromise = sendSms({
-        to: clinic.phone,
-        message: formatClinicNotificationSms(data.fullName, data.procedureInterest),
-      })
+      void sendSmsWithRetry(clinic.phone, formatClinicNotificationSms(data.fullName, data.procedureInterest))
         .then(() => {
           console.log('Clinic SMS notification sent')
         })
         .catch((error) => {
           console.error('Failed to send clinic SMS:', error)
         })
-
-      notificationPromises.push(smsPromise)
     }
 
-    // Confirmation email to patient
-    const patientEmailPromise = sendEmail({
+    // Patient confirmation email remains best-effort and non-blocking.
+    void sendEmail({
       to: data.email,
       subject: `Your enquiry has been sent to ${clinic.name}`,
       html: patientConfirmationTemplate({
@@ -170,11 +207,6 @@ export async function POST(request: Request) {
       .catch((error) => {
         console.error('Failed to send patient confirmation email:', error)
       })
-
-    notificationPromises.push(patientEmailPromise)
-
-    // Don't wait for notifications to complete
-    Promise.all(notificationPromises).catch(console.error)
 
     return NextResponse.json({
       id: enquiry.id,
