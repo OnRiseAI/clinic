@@ -40,6 +40,20 @@ interface ConciergeWidgetProps {
   headshotSrc?: string
 }
 
+interface EnquiryPrefillPayload {
+  fullName?: string
+  email?: string
+  phone?: string
+  procedureInterest?: string
+  timeline?: string
+  message?: string
+  country?: string
+  jumpToContact?: boolean
+}
+
+const EMAIL_REGEX = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i
+const PHONE_REGEX = /(\+?\d[\d\s().-]{7,}\d)/i
+
 // =============================================================================
 // HOOK: useVoiceConversation
 // Uses native WebSocket for ElevenLabs Conversational AI
@@ -50,9 +64,147 @@ function useVoiceConversation(agentId: string | undefined) {
   const [agentMessage, setAgentMessage] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [micMuted, setMicMuted] = useState(false)
+  const [enquiryPrefill, setEnquiryPrefill] = useState<EnquiryPrefillPayload | null>(null)
+  const enquiryPrefillRef = useRef<EnquiryPrefillPayload | null>(null)
+
+  useEffect(() => {
+    enquiryPrefillRef.current = enquiryPrefill
+  }, [enquiryPrefill])
+
+  const normalizePrefillPayload = useCallback((raw: unknown): EnquiryPrefillPayload => {
+    if (!raw || typeof raw !== 'object') return {}
+    const input = raw as Record<string, unknown>
+    const asString = (value: unknown) => (typeof value === 'string' ? value : undefined)
+    const asBool = (value: unknown) => (typeof value === 'boolean' ? value : undefined)
+
+    return {
+      fullName: asString(input.fullName ?? input.full_name ?? input.name),
+      email: asString(input.email),
+      phone: asString(input.phone ?? input.phoneNumber ?? input.phone_number),
+      procedureInterest: asString(input.procedureInterest ?? input.procedure_interest ?? input.procedure),
+      timeline: asString(input.timeline),
+      message: asString(input.message ?? input.notes),
+      country: asString(input.country),
+      jumpToContact: asBool(input.jumpToContact ?? input.jump_to_contact),
+    }
+  }, [])
+
+  const inferPrefillFromText = useCallback((text: string): EnquiryPrefillPayload => {
+    const lower = text.toLowerCase()
+    const inferred: EnquiryPrefillPayload = {}
+
+    const email = text.match(EMAIL_REGEX)?.[0]
+    if (email) inferred.email = email
+
+    const phone = text.match(PHONE_REGEX)?.[0]
+    if (phone) inferred.phone = phone.trim()
+
+    const nameMatch =
+      text.match(/(?:my name is|i am|i'm)\s+([a-z][a-z\s'-]{1,60})/i) ||
+      text.match(/name[:\s]+([a-z][a-z\s'-]{1,60})/i)
+    if (nameMatch?.[1]) {
+      inferred.fullName = nameMatch[1].trim().replace(/\s{2,}/g, ' ')
+    }
+
+    const procedureMatch =
+      text.match(/(?:interested in|looking for|need|want)\s+([a-z][a-z\s-]{2,60})/i) ||
+      text.match(/\b(dental veneers|veneers|implants|hair transplant|rhinoplasty|ivf|bbl|liposuction)\b/i)
+    if (procedureMatch?.[1]) {
+      inferred.procedureInterest = procedureMatch[1].trim()
+    }
+
+    if (/(within\s*1[-–]?\s*3\s*months|1[-–]?\s*3\s*months)/i.test(lower)) {
+      inferred.timeline = '1_3_months'
+    } else if (/(within\s*1\s*month|as soon as possible|urgent)/i.test(lower)) {
+      inferred.timeline = 'within_1_month'
+    } else if (/(3[-–]?\s*6\s*months)/i.test(lower)) {
+      inferred.timeline = '3_6_months'
+    } else if (/(research|just browsing|just exploring)/i.test(lower)) {
+      inferred.timeline = 'researching'
+    }
+
+    return inferred
+  }, [])
+
+  const applyPrefillToForm = useCallback((payload?: EnquiryPrefillPayload) => {
+    const nextPayload = payload || enquiryPrefillRef.current
+    if (!nextPayload) return false
+    window.dispatchEvent(
+      new CustomEvent('prefill-enquiry-form', {
+        detail: {
+          ...nextPayload,
+          jumpToContact: nextPayload.jumpToContact ?? true,
+        },
+      })
+    )
+    return true
+  }, [])
+
+  const handleClientToolCall = useCallback((toolName: string, rawParameters: unknown) => {
+    let parameters: unknown = {}
+
+    if (typeof rawParameters === 'string') {
+      try {
+        parameters = JSON.parse(rawParameters)
+      } catch {
+        parameters = {}
+      }
+    } else {
+      parameters = rawParameters
+    }
+
+    if (toolName === 'prefill_enquiry_form') {
+      const normalized = normalizePrefillPayload(parameters)
+      setEnquiryPrefill((prev) => {
+        const merged: EnquiryPrefillPayload = { ...(prev || {}), ...normalized }
+        enquiryPrefillRef.current = merged
+        return merged
+      })
+      return 'Captured lead details. Ask the user to tap "Apply to form" to continue.'
+    }
+
+    if (toolName === 'apply_enquiry_prefill') {
+      const normalized = normalizePrefillPayload(parameters)
+      const candidate =
+        Object.keys(normalized).length > 0
+          ? { ...(enquiryPrefillRef.current || {}), ...normalized }
+          : enquiryPrefillRef.current || undefined
+      const applied = applyPrefillToForm(candidate)
+      return applied
+        ? 'Applied captured details to the enquiry form.'
+        : 'No captured lead details are available yet.'
+    }
+
+    return `Unknown client tool: ${toolName}`
+  }, [applyPrefillToForm, normalizePrefillPayload])
+
+  const mergePrefill = useCallback((partial: EnquiryPrefillPayload) => {
+    if (Object.keys(partial).length === 0) return
+    setEnquiryPrefill((prev) => {
+      const merged = { ...(prev || {}), ...partial }
+      enquiryPrefillRef.current = merged
+      return merged
+    })
+  }, [])
 
   const conversation = useConversation({
     micMuted,
+    clientTools: {
+      // Tool name should match ElevenLabs agent tool config.
+      prefill_enquiry_form: (parameters: EnquiryPrefillPayload) => {
+        return handleClientToolCall('prefill_enquiry_form', parameters)
+      },
+      // Optional helper tool to let the agent trigger immediate prefill.
+      apply_enquiry_prefill: () => {
+        return handleClientToolCall('apply_enquiry_prefill', {})
+      },
+    },
+    // Defensive fallback: handle tool calls even if ElevenLabs marks them unhandled.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onUnhandledClientToolCall: (toolCall: any) => {
+      const toolName = String(toolCall?.tool_name || toolCall?.name || '')
+      void handleClientToolCall(toolName, toolCall?.parameters)
+    },
     onConnect: () => {
       setError(null)
     },
@@ -74,10 +226,17 @@ function useVoiceConversation(agentId: string | undefined) {
 
       const source = String(message?.source || message?.role || message?.type || '').toLowerCase()
       if (source.includes('user') || source.includes('transcript')) {
+        mergePrefill(inferPrefillFromText(text))
+        if (/(yes|yeah|yep|go ahead|apply|fill( it)?( in)?)/i.test(text)) {
+          void applyPrefillToForm()
+        }
         setTranscript(text)
         return
       }
 
+      if (/(i('|’)ve applied|applied your details|details have been applied)/i.test(text)) {
+        void applyPrefillToForm()
+      }
       setAgentMessage((prev) => (prev ? `${prev} ${text}` : text))
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,6 +257,8 @@ function useVoiceConversation(agentId: string | undefined) {
       setError(null)
       setTranscript('')
       setAgentMessage('')
+      setEnquiryPrefill(null)
+      enquiryPrefillRef.current = null
 
       await navigator.mediaDevices.getUserMedia({
         audio: {
@@ -109,6 +270,13 @@ function useVoiceConversation(agentId: string | undefined) {
       await conversation.startSession({
         agentId,
         connectionType: 'webrtc',
+        // Also pass tools at session start for compatibility across SDK/runtime paths.
+        clientTools: {
+          prefill_enquiry_form: (parameters: EnquiryPrefillPayload) =>
+            handleClientToolCall('prefill_enquiry_form', parameters),
+          apply_enquiry_prefill: () =>
+            handleClientToolCall('apply_enquiry_prefill', {}),
+        },
       })
     } catch (err) {
       console.error('Error connecting:', err)
@@ -119,13 +287,15 @@ function useVoiceConversation(agentId: string | undefined) {
         setError(message)
       }
     }
-  }, [agentId, conversation])
+  }, [agentId, conversation, handleClientToolCall])
 
   const disconnect = useCallback(() => {
     void conversation.endSession()
     setMicMuted(false)
     setTranscript('')
     setAgentMessage('')
+    setEnquiryPrefill(null)
+    enquiryPrefillRef.current = null
   }, [conversation])
 
   const toggleMute = useCallback(() => {
@@ -138,9 +308,11 @@ function useVoiceConversation(agentId: string | undefined) {
     isListening: conversation.status === 'connected' && !micMuted,
     transcript,
     agentMessage,
+    enquiryPrefill,
     error,
     connect,
     disconnect,
+    applyPrefillToForm,
     toggleMute,
   }
 }
@@ -422,7 +594,7 @@ function PulseButton({
 
 export function ConciergeWidget({
   agentId,
-  headshotSrc = '/voice-agent-headshot.png',
+  headshotSrc = '/headshot-example-4-removebg-preview.png',
 }: ConciergeWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [mode, setMode] = useState<'voice' | 'text'>(agentId ? 'voice' : 'text')
@@ -598,6 +770,30 @@ export function ConciergeWidget({
                                 <div className="rounded-lg bg-accent-50 p-3">
                                   <p className="text-xs text-accent-600 font-medium mb-1">Assistant:</p>
                                   <p className="text-sm text-neutral-700">{voice.agentMessage}</p>
+                                </div>
+                              )}
+                              {voice.enquiryPrefill && (
+                                <div className="rounded-lg border border-primary-200 bg-primary-50 p-3 text-left">
+                                  <p className="text-xs font-semibold uppercase tracking-wide text-primary-700">
+                                    Quote Draft Ready
+                                  </p>
+                                  <div className="mt-2 space-y-1 text-xs text-neutral-700">
+                                    {voice.enquiryPrefill.fullName && <p>Name: {voice.enquiryPrefill.fullName}</p>}
+                                    {voice.enquiryPrefill.email && <p>Email: {voice.enquiryPrefill.email}</p>}
+                                    {voice.enquiryPrefill.phone && <p>Phone: {voice.enquiryPrefill.phone}</p>}
+                                    {voice.enquiryPrefill.procedureInterest && <p>Procedure: {voice.enquiryPrefill.procedureInterest}</p>}
+                                    {voice.enquiryPrefill.timeline && <p>Timeline: {voice.enquiryPrefill.timeline}</p>}
+                                  </div>
+                                  <Button
+                                    className="mt-3 w-full"
+                                    size="sm"
+                                    variant="primary"
+                                    onClick={() => {
+                                      voice.applyPrefillToForm()
+                                    }}
+                                  >
+                                    Apply to Form
+                                  </Button>
                                 </div>
                               )}
                             </div>

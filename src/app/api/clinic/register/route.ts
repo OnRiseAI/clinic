@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { clinicRegisterSchema } from '@/lib/validations/clinic'
+import { getClientIp } from '@/lib/security/request'
+import { checkRateLimit } from '@/lib/security/rate-limit'
+import { isDisposableEmail } from '@/lib/security/disposable-email'
+import { logAbuseEvent } from '@/lib/security/audit-log'
+import { verifyTurnstileToken } from '@/lib/security/turnstile'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const validationResult = clinicRegisterSchema.safeParse(body)
+    const { turnstileToken, ...rest } = body
+    const validationResult = clinicRegisterSchema.safeParse(rest)
 
     if (!validationResult.success) {
       return NextResponse.json(
@@ -15,6 +21,34 @@ export async function POST(request: Request) {
     }
 
     const { email, password, fullName, roleInClinic } = validationResult.data
+    const ip = await getClientIp()
+
+    // 1. IP-based sign-up limit (prevent botnets/mass account creation)
+    const ipCheck = await checkRateLimit("auth_signup_ip", ip, {
+      window: 3600, // 1 hour
+      max: 3, // 3 attempts per IP
+    })
+    if (!ipCheck.success) {
+      return NextResponse.json({
+        error: "Too many sign-up attempts from this address. Please try again later."
+      }, { status: 429 })
+    }
+
+    // 2. Disposable Email Check
+    if (isDisposableEmail(email)) {
+      await logAbuseEvent("disposable_email", email, { ip, action: "clinic_register" })
+      return NextResponse.json({
+        error: "Please use a permanent business email address."
+      }, { status: 400 })
+    }
+
+    // 3. Verify Turnstile Token
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip)
+    if (!turnstile.success) {
+      await logAbuseEvent("turnstile_fail", email, { ip, action: "clinic_register" })
+      return NextResponse.json({ error: turnstile.error }, { status: 400 })
+    }
+
     const supabase = await createClient()
 
     // Create user account with Supabase Auth

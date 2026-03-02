@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
+import { getClientIp } from '@/lib/security/request'
+import { checkRateLimit } from '@/lib/security/rate-limit'
+import { isDisposableEmail } from '@/lib/security/disposable-email'
+import { logAbuseEvent } from '@/lib/security/audit-log'
+import { verifyTurnstileToken } from '@/lib/security/turnstile'
+import { CLINIC_CLAIM_LIMIT } from '@/lib/security/limits'
 
 const claimSchema = z.object({
   clinicId: z.string().uuid(),
   token: z.string(),
+  turnstileToken: z.string(),
   email: z.string().email(),
   password: z.string().min(8),
   fullName: z.string().min(2),
@@ -24,8 +31,36 @@ export async function POST(request: Request) {
       )
     }
 
-    const { clinicId, token, email, password, fullName, roleInClinic, verificationMethod } =
+    const { clinicId, token, turnstileToken, email, password, fullName, roleInClinic, verificationMethod } =
       validationResult.data
+
+    const ip = await getClientIp()
+
+    // 1. Check Rate Limit (IP-based)
+    const ipCheck = await checkRateLimit("clinic_claim_ip", ip, {
+      window: CLINIC_CLAIM_LIMIT.WINDOW,
+      max: CLINIC_CLAIM_LIMIT.MAX_ATTEMPTS,
+    })
+    if (!ipCheck.success) {
+      return NextResponse.json({
+        error: "Too many claim attempts. Please try again later."
+      }, { status: 429 })
+    }
+
+    // 2. Disposable Email Check
+    if (isDisposableEmail(email)) {
+      await logAbuseEvent("disposable_email", email, { ip, action: "clinic_claim" })
+      return NextResponse.json({
+        error: "Please use a permanent business email address."
+      }, { status: 400 })
+    }
+
+    // 3. Verify Turnstile Token
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip)
+    if (!turnstile.success) {
+      await logAbuseEvent("turnstile_fail", email, { ip, action: "clinic_claim" })
+      return NextResponse.json({ error: turnstile.error }, { status: 400 })
+    }
 
     const supabase = await createClient()
 

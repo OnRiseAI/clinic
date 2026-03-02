@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight, Mic } from "lucide-react"
-import { OpenChatWrapper } from "@/components/ui/open-chat-wrapper"
+import { ChevronLeft, Check, ShieldCheck, MapPin, Star, AlertCircle, ArrowRight } from "lucide-react"
 
 interface ClinicProps {
   id: string
@@ -29,40 +28,15 @@ interface EnquiryFlowProps {
   procedures: ProcedureProps[]
 }
 
-function VoiceAssistantPrompt() {
-  return (
-    <OpenChatWrapper className="mt-3 block">
-      <button
-        type="button"
-        className="group w-full rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50 to-white px-4 py-3 text-left shadow-sm transition-all hover:border-teal-300 hover:shadow-md"
-      >
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-12 overflow-hidden rounded-full border border-teal-200 bg-white">
-            <img
-              src="/voice-agent-headshot.png"
-              alt="AI concierge assistant"
-              className="h-full w-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = "none"
-              }}
-            />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
-              Faster Option
-            </p>
-            <p className="truncate text-sm font-bold text-slate-900">
-              Talk to our concierge now
-            </p>
-            <p className="text-xs text-slate-600">Get guided help in voice mode</p>
-          </div>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-600 text-white transition-colors group-hover:bg-teal-700">
-            <Mic className="h-4 w-4" />
-          </div>
-        </div>
-      </button>
-    </OpenChatWrapper>
-  )
+interface EnquiryPrefillEventDetail {
+  fullName?: string
+  email?: string
+  phone?: string
+  procedureInterest?: string
+  timeline?: string
+  message?: string
+  country?: string
+  jumpToContact?: boolean
 }
 
 const steps = [
@@ -128,6 +102,57 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
       // ignore
     }
   }, [])
+
+  // Apply data captured in voice chat to the enquiry form.
+  useEffect(() => {
+    const timelineLabelMap: Record<string, string> = {
+      within_1_month: "As soon as possible",
+      "1_3_months": "Within 1–3 months",
+      "3_6_months": "Within 3–6 months",
+      researching: "I'm just researching for now",
+    }
+
+    const handler = (event: Event) => {
+      const customEvent = event as CustomEvent<EnquiryPrefillEventDetail>
+      const payload = customEvent.detail || {}
+
+      if (payload.fullName || payload.email || payload.phone || payload.message) {
+        setContact((prev) => ({
+          name: payload.fullName ?? prev.name,
+          email: payload.email ?? prev.email,
+          phone: payload.phone ?? prev.phone,
+          message: payload.message ?? prev.message,
+        }))
+      }
+
+      if (payload.country) {
+        setCountry(payload.country)
+      }
+
+      if (payload.timeline) {
+        const normalizedTimeline = timelineLabelMap[payload.timeline] || payload.timeline
+        setTimeline(normalizedTimeline)
+      }
+
+      if (payload.procedureInterest) {
+        const lower = payload.procedureInterest.toLowerCase()
+        const matches = procedures
+          .filter((p) => p.name.toLowerCase().includes(lower) || lower.includes(p.name.toLowerCase()))
+          .map((p) => p.slug)
+        if (matches.length > 0) {
+          setSelectedProcedures(matches)
+        }
+      }
+
+      if (payload.jumpToContact !== false) {
+        setStep(4)
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      }
+    }
+
+    window.addEventListener("prefill-enquiry-form", handler as EventListener)
+    return () => window.removeEventListener("prefill-enquiry-form", handler as EventListener)
+  }, [procedures])
 
   const handleNext = async () => {
     if (step === steps.length - 1) return
@@ -457,7 +482,6 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                   >
                     Continue <ArrowRight className="w-5 h-5" />
                   </button>
-                  <VoiceAssistantPrompt />
                 </div>
               </motion.div>
             )}
@@ -636,7 +660,6 @@ export default function EnquiryFlow({ clinic, procedures }: EnquiryFlowProps) {
                 </div>
 
                 <div className="pt-8 mt-auto">
-                  <VoiceAssistantPrompt />
                   <button
                     type="submit"
                     disabled={isSubmitting || !contact.name || !contact.email}

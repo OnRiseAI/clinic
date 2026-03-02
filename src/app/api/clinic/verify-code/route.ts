@@ -12,6 +12,11 @@ const verifyCodeSchema = z.object({
 // In production, use Redis or database
 const verificationCodes = new Map<string, { code: string; expires: number }>()
 
+import { getClientIp } from '@/lib/security/request'
+import { checkRateLimit } from '@/lib/security/rate-limit'
+import { logAbuseEvent } from '@/lib/security/audit-log'
+import { CLINIC_VERIFY_ATTEMPT_LIMIT } from '@/lib/security/limits'
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -22,6 +27,20 @@ export async function POST(request: Request) {
     }
 
     const { clinicId, code, token } = validationResult.data
+    const ip = await getClientIp()
+
+    // 1. Brute-force protection for 6-digit code
+    const rateCheck = await checkRateLimit("clinic_verify_attempt", clinicId, {
+      window: CLINIC_VERIFY_ATTEMPT_LIMIT.WINDOW,
+      max: CLINIC_VERIFY_ATTEMPT_LIMIT.MAX_ATTEMPTS,
+    })
+    if (!rateCheck.success) {
+      await logAbuseEvent("brute_force_attempt", clinicId, { ip, action: "verify_code" })
+      return NextResponse.json({
+        error: "Too many failed attempts. Please try again later."
+      }, { status: 429 })
+    }
+
     const supabase = await createClient()
 
     // Verify the token matches the clinic

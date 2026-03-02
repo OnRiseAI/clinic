@@ -88,10 +88,15 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
                     {featuredPost.excerpt}
                   </p>
                   <p className="mt-6 text-sm text-neutral-500">
-                    {new Date(featuredPost.published_at).toLocaleDateString('en-GB', {
-                      month: 'long',
-                      year: 'numeric',
-                    })}{' '}
+                    {(() => {
+                      const date = new Date(featuredPost.published_at || featuredPost.updated_at);
+                      return isNaN(date.getTime())
+                        ? 'Recent'
+                        : date.toLocaleDateString('en-GB', {
+                          month: 'long',
+                          year: 'numeric',
+                        });
+                    })()}{' '}
                     {featuredPost.reading_time && `• ${featuredPost.reading_time} min read`}
                   </p>
                 </div>
@@ -106,27 +111,27 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
         <div className="flex flex-wrap gap-3">
           <Link
             href="/blog"
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              !category
-                ? 'border-primary-500 bg-primary-50 text-primary-700'
-                : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-500 hover:text-primary-600'
-            }`}
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${!category
+              ? 'border-primary-500 bg-primary-50 text-primary-700'
+              : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-500 hover:text-primary-600'
+              }`}
           >
             All
           </Link>
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/blog?category=${cat.slug}`}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                category === cat.slug
+          {categories
+            .filter((cat) => cat.post_count > 0)
+            .map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/blog?category=${cat.slug}`}
+                className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${category === cat.slug
                   ? 'border-primary-500 bg-primary-50 text-primary-700'
                   : 'border-neutral-200 bg-white text-neutral-700 hover:border-primary-500 hover:text-primary-600'
-              }`}
-            >
-              {cat.name} ({cat.post_count})
-            </Link>
-          ))}
+                  }`}
+              >
+                {cat.name} ({cat.post_count})
+              </Link>
+            ))}
         </div>
       </section>
 
@@ -145,7 +150,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
                 excerpt={post.excerpt}
                 imageUrl={post.image_url}
                 authorName={post.author_name}
-                publishedAt={post.published_at}
+                publishedAt={post.published_at || post.updated_at}
                 readingTime={post.reading_time || undefined}
                 category={post.category || undefined}
               />

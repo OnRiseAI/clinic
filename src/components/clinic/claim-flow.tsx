@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils'
 import { Mail, Phone, Shield, Loader2, Check, ArrowLeft } from 'lucide-react'
 import { CLINIC_ROLE_OPTIONS } from '@/lib/validations/clinic'
 
+import { TurnstileWidget } from '@/components/security/turnstile-widget'
+
 interface ClaimFlowProps {
   clinic: {
     id: string
@@ -32,6 +34,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
   const [codeSent, setCodeSent] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
   // Account creation form
   const [email, setEmail] = useState(clinic.email || '')
@@ -49,6 +52,11 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
       return
     }
 
+    if (!turnstileToken) {
+      setError('Please complete the security check first.')
+      return
+    }
+
     setIsLoading(true)
     setError('')
 
@@ -59,7 +67,8 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
         body: JSON.stringify({
           clinicId: clinic.id,
           method,
-          token,
+          claimToken: token,
+          turnstileToken,
         }),
       })
 
@@ -70,6 +79,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
 
       setVerificationMethod(method)
       setCodeSent(true)
+      setTurnstileToken(null); // Reset for next step
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send code')
     } finally {
@@ -93,7 +103,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
         body: JSON.stringify({
           clinicId: clinic.id,
           code: verificationCode,
-          token,
+          claimToken: token,
         }),
       })
 
@@ -117,6 +127,12 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
 
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.')
+      return
+    }
+
     setIsLoading(true)
     setError('')
 
@@ -132,6 +148,7 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
           fullName,
           roleInClinic,
           verificationMethod,
+          turnstileToken,
         }),
       })
 
@@ -223,6 +240,10 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
                 Choose how you&apos;d like to verify that you&apos;re authorized to manage this clinic.
               </p>
             </div>
+
+            {!codeSent && (
+              <TurnstileWidget onVerify={setTurnstileToken} />
+            )}
 
             {!codeSent ? (
               <div className="mt-6 space-y-3">
@@ -445,6 +466,8 @@ export function ClaimFlow({ clinic, token }: ClaimFlowProps) {
                   </a>
                 </label>
               </div>
+
+              <TurnstileWidget onVerify={setTurnstileToken} />
 
               {error && (
                 <p className="rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">{error}</p>

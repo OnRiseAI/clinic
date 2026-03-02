@@ -71,12 +71,20 @@ async function sendSmsWithRetry(to: string, message: string, attempts = 3) {
   throw lastError
 }
 
+import { getClientIp } from '@/lib/security/request'
+import { checkRateLimit } from '@/lib/security/rate-limit'
+import { isDisposableEmail } from '@/lib/security/disposable-email'
+import { logAbuseEvent } from '@/lib/security/audit-log'
+import { verifyTurnstileToken } from '@/lib/security/turnstile'
+import { ENQUIRY_LIMIT } from '@/lib/security/limits'
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
+    const { turnstileToken, ...rest } = body
 
-    // Validate input
-    const validationResult = enquirySchema.safeParse(body)
+    // 1. Validate input
+    const validationResult = enquirySchema.safeParse(rest)
     if (!validationResult.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: validationResult.error.flatten() },
@@ -85,6 +93,45 @@ export async function POST(request: Request) {
     }
 
     const data = validationResult.data
+    const ip = await getClientIp()
+
+    // 2. IP-based Enquiry Limit
+    const ipCheck = await checkRateLimit("enquiry_ip", ip, {
+      window: ENQUIRY_LIMIT.WINDOW,
+      max: ENQUIRY_LIMIT.MAX_ATTEMPTS,
+    })
+    if (!ipCheck.success) {
+      return NextResponse.json({
+        error: "Too many enquiries. Please try again tomorrow."
+      }, { status: 429 })
+    }
+
+    // 3. Email-based Enquiry Limit
+    const emailCheck = await checkRateLimit("enquiry_email", data.email, {
+      window: ENQUIRY_LIMIT.WINDOW,
+      max: ENQUIRY_LIMIT.MAX_ATTEMPTS,
+    })
+    if (!emailCheck.success) {
+      return NextResponse.json({
+        error: "Too many enquiries for this email. Please try again later."
+      }, { status: 429 })
+    }
+
+    // 4. Disposable Email Check
+    if (isDisposableEmail(data.email)) {
+      await logAbuseEvent("disposable_email", data.email, { ip, action: "enquiry" })
+      return NextResponse.json({
+        error: "Please use a permanent email address for your enquiry."
+      }, { status: 400 })
+    }
+
+    // 5. Verify Turnstile Token
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip)
+    if (!turnstile.success) {
+      await logAbuseEvent("turnstile_fail", data.email, { ip, action: "enquiry" })
+      return NextResponse.json({ error: turnstile.error }, { status: 400 })
+    }
+
     const supabase = await createClient()
     const hasServiceRoleKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY)
     const supabaseAdmin = getSupabaseAdmin()

@@ -26,11 +26,16 @@ export function BlogCard({
   category,
   className,
 }: BlogCardProps) {
-  const formattedDate = new Date(publishedAt).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  const date = new Date(publishedAt);
+  const isValidDate = !isNaN(date.getTime()) && date.getTime() > 0;
+
+  const formattedDate = isValidDate
+    ? date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+    : 'Recent';
 
   return (
     <article

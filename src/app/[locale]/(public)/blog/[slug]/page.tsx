@@ -625,7 +625,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     excerpt={relatedPost.excerpt}
                     imageUrl={relatedPost.image_url}
                     authorName={relatedPost.author_name || 'Medical Team'}
-                    publishedAt={relatedPost.published_at}
+                    publishedAt={relatedPost.published_at || relatedPost.updated_at}
                     readingTime={relatedPost.reading_time || undefined}
                     category={relatedPost.category || undefined}
                   />

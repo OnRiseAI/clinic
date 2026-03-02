@@ -3,11 +3,17 @@ import { createClient } from '@/lib/supabase/server'
 import { sendEmail } from '@/lib/email/resend'
 import { sendSms } from '@/lib/sms/twilio'
 import { z } from 'zod'
+import { getClientIp } from '@/lib/security/request'
+import { checkRateLimit, checkOtpCooldown, trackOtpSent } from '@/lib/security/rate-limit'
+import { logAbuseEvent } from '@/lib/security/audit-log'
+import { verifyTurnstileToken } from '@/lib/security/turnstile'
+import { CLINIC_VERIFY_LIMIT } from '@/lib/security/limits'
 
 const sendVerificationSchema = z.object({
   clinicId: z.string().uuid(),
   method: z.enum(['email', 'phone']),
-  token: z.string(),
+  claimToken: z.string(),
+  turnstileToken: z.string(),
 })
 
 // Store verification codes temporarily (in production, use Redis or database)
@@ -27,10 +33,38 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
     }
 
-    const { clinicId, method, token } = validationResult.data
+    const { clinicId, method, claimToken, turnstileToken } = validationResult.data
+    const ip = await getClientIp()
+
+    // 1. Check Rate Limit (IP-based)
+    const ipCheck = await checkRateLimit("clinic_verify_ip", ip, {
+      window: CLINIC_VERIFY_LIMIT.WINDOW,
+      max: CLINIC_VERIFY_LIMIT.MAX_ATTEMPTS,
+    })
+    if (!ipCheck.success) {
+      return NextResponse.json({
+        error: "Too many attempts. Please try again later."
+      }, { status: 429 })
+    }
+
+    // 2. Check OTP Cooldown (Per Clinic+Method)
+    const cooldownCheck = await checkOtpCooldown(`${clinicId}:${method}`, CLINIC_VERIFY_LIMIT.COOLDOWN)
+    if (!cooldownCheck.allowed) {
+      return NextResponse.json({
+        error: `Please wait ${cooldownCheck.secondsRemaining} seconds before requesting a new code.`
+      }, { status: 429 })
+    }
+
+    // 3. Verify Turnstile Token
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip)
+    if (!turnstile.success) {
+      await logAbuseEvent("turnstile_fail", clinicId, { ip, action: "send_verification" })
+      return NextResponse.json({ error: turnstile.error }, { status: 400 })
+    }
+
     const supabase = await createClient()
 
-    // Verify the token matches the clinic
+    // Verify the claim token matches the clinic
     const { data: clinic, error: clinicError } = await supabase
       .from('clinics')
       .select('id, name, email, phone, claimed, claim_token')
@@ -42,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     // Verify the claim token
-    if (clinic.claim_token !== token) {
+    if (clinic.claim_token !== claimToken) {
       return NextResponse.json({ error: 'Invalid claim token' }, { status: 403 })
     }
 
@@ -93,6 +127,9 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({ error: 'Contact method not available' }, { status: 400 })
     }
+
+    // 4. Track OTP Sent (DB-backed cooldown)
+    await trackOtpSent(`${clinicId}:${method}`)
 
     return NextResponse.json({ success: true, method })
   } catch (error) {

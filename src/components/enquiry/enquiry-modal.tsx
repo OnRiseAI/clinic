@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
+import { TurnstileWidget } from '@/components/security/turnstile-widget'
 import { m, AnimatePresence, LazyMotion, domAnimation } from 'framer-motion'
 import { X, ChevronLeft, Check, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -62,6 +63,7 @@ export function EnquiryModal({ isOpen, onClose, clinic, destinations }: EnquiryM
   const [isComplete, setIsComplete] = useState(false)
   const [submittedEnquiryId, setSubmittedEnquiryId] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
   const [formData, setFormData] = useState<EnquiryFormState>({
     procedureInterest: '',
@@ -180,6 +182,11 @@ export function EnquiryModal({ isOpen, onClose, clinic, destinations }: EnquiryM
   const handleSubmit = async () => {
     if (!validateStep(currentStep)) return
 
+    if (!turnstileToken) {
+      setErrors({ submit: 'Please complete the security check.' })
+      return
+    }
+
     setIsSubmitting(true)
     setErrors({})
 
@@ -200,6 +207,7 @@ export function EnquiryModal({ isOpen, onClose, clinic, destinations }: EnquiryM
           email: formData.email,
           phone: formData.phone,
           message: formData.message || undefined,
+          turnstileToken,
         }),
       })
 
@@ -402,10 +410,15 @@ export function EnquiryModal({ isOpen, onClose, clinic, destinations }: EnquiryM
                     />
                   )}
                   {currentStep === 7 && (
-                    <StepMessage
-                      value={formData.message}
-                      onChange={(value) => updateFormData({ message: value })}
-                    />
+                    <>
+                      <StepMessage
+                        value={formData.message}
+                        onChange={(value) => updateFormData({ message: value })}
+                      />
+                      <div className="mt-4">
+                        <TurnstileWidget onVerify={setTurnstileToken} />
+                      </div>
+                    </>
                   )}
                 </m.div>
               )}

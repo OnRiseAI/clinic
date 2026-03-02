@@ -7,6 +7,8 @@ import { Link } from '@/i18n/navigation'
 import { Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
+import { TurnstileWidget } from '@/components/security/turnstile-widget'
+
 export function SignInForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -15,6 +17,7 @@ export function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,19 +30,30 @@ export function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!turnstileToken) {
+      setError('Please complete the security check.')
+      return
+    }
+
     setIsLoading(true)
     setError(null)
 
     try {
-      const supabase = createClient()
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
+      const response = await fetch('/api/auth/email/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          turnstileToken,
+        }),
       })
 
-      if (signInError) {
-        setError(signInError.message)
+      const result = await response.json()
+
+      if (!response.ok) {
+        setError(result.error || 'Failed to sign in')
         setIsLoading(false)
         return
       }
@@ -53,27 +67,34 @@ export function SignInForm() {
   }
 
   const handleGoogleSignIn = async () => {
+    if (!turnstileToken) {
+      setError('Please complete the security check before using Google login.')
+      return
+    }
+
     setIsGoogleLoading(true)
     setError(null)
 
     try {
-      const supabase = createClient()
-      const origin = window.location.origin
-
-      const { error: oauthError } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-        },
+      const response = await fetch('/api/auth/google/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          next: redirectTo,
+          turnstileToken,
+        }),
       })
 
-      if (oauthError) {
-        setError(oauthError.message)
+      const result = await response.json()
+
+      if (!response.ok) {
+        setError(result.error || 'Failed to start Google login')
         setIsGoogleLoading(false)
+        return
+      }
+
+      if (result.url) {
+        window.location.href = result.url
       }
     } catch {
       setError('An unexpected error occurred')
@@ -130,6 +151,8 @@ export function SignInForm() {
             placeholder="••••••••"
           />
         </div>
+
+        <TurnstileWidget onVerify={setTurnstileToken} />
 
         <button
           type="submit"
